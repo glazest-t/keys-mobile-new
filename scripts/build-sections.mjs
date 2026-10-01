@@ -1,3 +1,4 @@
+import {adaptLightTheme} from './adapt-light-theme.mjs';
 import {adaptFindCollections} from './adapt-find-collections.mjs';
 import {adaptSelectionStyle} from './adapt-selection-style.mjs';
 import {adaptFindSearch} from './adapt-find-search.mjs';
@@ -21,6 +22,7 @@ export async function buildSections(){
  let js=(await transform(await readFile(path.join(stage,'assets/index-C4VobzN0.js'),'utf8'),{minify:false,charset:'utf8'})).code;
  const paymentPath=path.join(stage,'assets/ReservationProcessing-DLNoz2B4.js');
  await writeFile(paymentPath,adaptPaymentSummaries(await adaptPayment(await readFile(paymentPath,'utf8')),await readFile(path.join(root,'src/sections/payment-booking-summary.js'),'utf8')));
+ js=adaptLightTheme(js);
  js=adaptPaymentContact(js);
  js=adaptAdditionalGuest(js,await readFile(path.join(root,'src/sections/additional-guest.js'),'utf8'));
  const successPath=path.join(stage,'assets/ReservationSuccessCard-uN5FuBj0.js');
@@ -77,6 +79,8 @@ export async function buildSections(){
  await cp(path.join(vendor,'dist'),dist,{recursive:true});
  await build({entryPoints:[path.join(stage,'keys-entry.js')],outfile:path.join(dist,'assets/app.js'),bundle:true,format:'iife',target:'es2022',minify:true,legalComments:'eof'});
  let html=await readFile(path.join(dist,'index.html'),'utf8');
+ html=html.replace('<html lang="ru">','<html lang="ru" data-theme="light">');
+ html=html.replace('<head>','<head><meta name="color-scheme" content="light only">');
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
  html=html.replace('</head>','<link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"></head>');
  await writeFile(path.join(dist,'index.html'),html);

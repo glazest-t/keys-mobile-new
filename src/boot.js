@@ -1,3 +1,5 @@
+    document.documentElement.dataset.theme = 'light';
+    document.documentElement.style.colorScheme = 'light only';
     // Do not paint the preserved baseline before the current design and scenario mount.
     document.documentElement.dataset.keysBoot = 'loading';
     const revealPrototype = () => { delete document.documentElement.dataset.keysBoot; };

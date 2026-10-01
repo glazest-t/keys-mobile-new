@@ -1,0 +1,36 @@
+{
+  "scope": "Home nearby entry, themed photo cards, preferences, Leaflet map, place details and external directions",
+  "catalogueCount": 5,
+  "hotelCoordinatesSource": "https://maidenshotel.ru/contacts/",
+  "placeSources": [
+    "https://mosmuseum.ru/en/",
+    "https://usch.ru/",
+    "https://parkgorkogo.ru/",
+    "https://bolshoi.ru/",
+    "https://www.zaryadyepark.ru/"
+  ],
+  "photoSources": "src/home/nearby/photo-sources.json",
+  "map": "Leaflet 1.9.4 (local JS/CSS) + OpenStreetMap tiles with attribution",
+  "preferences": "localStorage keys-nearby-interests-v1; separate nearby interests, initial demo culture/walk/food",
+  "travelTimes": "Illustrative estimates, not a routing API. UI explicitly labels them approximate. Live route opened in Yandex Maps.",
+  "checks": {
+    "automatedTestsPassed": 13,
+    "inlineScriptsPreserved": 67,
+    "desktopListAndMap": true,
+    "hotelAnd5Markers": true,
+    "markerSelection": true,
+    "sameFiltersForListAndMap": true,
+    "emptyResultsAndRecovery": true,
+    "preferencesPersistAfterReload": true,
+    "placeDetailsAndRouteParameters": true,
+    "returnToList": true,
+    "mobileWidths": [
+      320,
+      375
+    ],
+    "horizontalOverflow": false,
+    "localPhotosLoaded": true
+  },
+  "externalDependencies": "Map tiles require internet; photo cards, filters, preferences and detail screens are local. Tile error state provides a route/list fallback.",
+  "deployment": "Not published"
+}

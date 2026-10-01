@@ -1,0 +1,52 @@
+/* Feedback uses the same type scale, surfaces and semantic green as the UI kit. */
+#keysUnifiedPrototype #keysFeedbackFlow{font-family:var(--font-sans)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-phone,#keysUnifiedPrototype #keysFeedbackFlow .kfb-scroll{background:#fff!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-head{align-items:center;gap:12px;margin:8px 0 24px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-title h1,#keysUnifiedPrototype #keysFeedbackFlow .kfb-success h1{font-size:var(--text-20)!important;line-height:1.25!important;font-weight:500!important;letter-spacing:-.35px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-title small,#keysUnifiedPrototype #keysFeedbackFlow .kfb-card small,#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo small,#keysUnifiedPrototype #keysFeedbackFlow .kfb-added{font-size:var(--text-12)!important;line-height:1.5!important;font-weight:400!important;color:var(--color-muted)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-card{border:1px solid var(--color-line)!important;border-radius:20px!important;background:#fff!important;box-shadow:none!important;grid-template-columns:40px 1fr;gap:12px;padding:16px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-card strong,#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo strong{font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-hotel-icon{width:40px;height:40px;border-radius:12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-question{font-size:var(--text-17)!important;line-height:1.4!important;font-weight:500!important;letter-spacing:-.2px!important;margin:32px 0 10px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-help,#keysUnifiedPrototype #keysFeedbackFlow .kfb-success p{font-size:var(--text-14)!important;line-height:1.5!important;font-weight:400!important;color:var(--color-muted)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-stars{display:flex;justify-content:center;gap:8px;background:transparent!important;padding:12px 0!important;margin:20px 0 0!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-star{flex:0 1 48px;width:48px;height:52px;min-width:44px;padding:0!important;color:#88ac94!important;border-radius:12px;background:transparent!important;transition:color .18s,background .18s,transform .18s}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-star svg{width:34px!important;height:34px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.5!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-star.active{color:var(--color-success)!important;background:var(--color-success-bg)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-star.active svg{fill:currentColor!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-star:active{transform:scale(.94)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-label{font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important;margin-top:12px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-reward{margin:28px auto 0!important;padding:16px!important;text-align:center;border-radius:16px;background:var(--color-success-bg)!important;color:var(--color-success)!important;font-size:var(--text-12)!important;line-height:1.6!important;font-weight:400!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-reward strong{font-size:var(--text-14)!important;font-weight:500!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-bottom{background:linear-gradient(0deg,#fff 82%,#fff0)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-primary{height:48px!important;font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important;border-radius:16px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-textarea{font-family:var(--font-sans)!important;font-size:max(16px,var(--text-14))!important;line-height:1.5!important;font-weight:400!important;border:1px solid var(--color-line)!important;border-radius:16px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo{border:1px solid var(--color-line)!important;background:white!important;height:76px!important;border-radius:16px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo small{margin-top:4px}
+#keysUnifiedPrototype #keysFeedbackFlow [data-kfb="details"] .kfb-question{text-align:left!important;margin-top:24px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-mark{width:80px!important;height:80px!important;font-size:36px!important;background:var(--color-success-bg)!important;color:var(--color-success)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-points{font-size:var(--text-12)!important;line-height:1.5!important;font-weight:500!important;background:var(--color-success-bg)!important;color:var(--color-success)!important}
+#keysUnifiedPrototype #keysFeedbackFlow :is(button,textarea):focus-visible{outline:2px solid var(--color-brand)!important;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype #keysFeedbackFlow .kfb-star{transition:none}}
+/* A compact confirmation followed by one self-contained, optional tip card. */
+#keysUnifiedPrototype #keysFeedbackFlow [data-kfb="success"] .kfb-success{height:100%;overflow:auto;padding:32px 16px 112px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-mark{width:56px!important;height:56px!important;font-size:28px!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-success>h1{margin:16px 0 8px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-success>p{max-width:300px;margin:0 auto}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-points{margin-top:16px;padding:8px 12px;border-radius:12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card{margin:24px 0 0;padding:16px;border:1px solid var(--color-line);border-radius:20px;text-align:left;background:var(--color-card)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card[hidden],#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-options[hidden]{display:none!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-heading{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:12px;background:var(--color-success-bg);color:var(--color-success);font-size:24px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card h2{margin:0;font:500 var(--text-17)/1.4 var(--font-sans);letter-spacing:-.2px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card>p{margin:0 0 16px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card button{font-family:var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-amounts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-amounts button{min-height:44px;padding:8px 4px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-card);color:var(--color-ink);font-size:var(--text-14);font-weight:500}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-amounts button[aria-pressed="true"]{border-color:var(--color-brand);background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card .kfb-tip-demo{font-size:var(--text-12)!important;text-align:center;margin:12px 0 0}
+#keysUnifiedPrototype #keysFeedbackFlow [data-kfb="success"]>.kfb-bottom .kfb-primary{background:var(--color-soft)!important;color:var(--color-brand)!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card>.kfb-tip-icon{margin-bottom:12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card>h2{margin-bottom:8px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-tip-card>p:last-child{margin-bottom:0}

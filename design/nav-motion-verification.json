@@ -1,0 +1,35 @@
+{
+  "reference": "Арбана / AH + glass + glass-cap + tab-pop",
+  "files": [
+    "src/arbana/app-nav.css",
+    "src/arbana/app-nav.js"
+  ],
+  "presentation": {
+    "height": 58,
+    "glass": "#f4f6fab8",
+    "cap": "#ffffffeb",
+    "capMotionMs": 380,
+    "iconMotionMs": 420,
+    "pressScale": 0.96
+  },
+  "checks": {
+    "mainBrowserRoutes": [
+      "Поездки → Найти",
+      "Найти → Чаты",
+      "Чаты → Выгоды",
+      "Выгоды → Поездки"
+    ],
+    "computedStyleMatch": true,
+    "intermediateCapTransformObserved": "matrix(1, 0, 0, 1, 12.0487, 0) on return to Trips; target x=0",
+    "mobile375Nav": {
+      "width": 343,
+      "height": 58,
+      "text": 12.6
+    },
+    "browserErrors": 0,
+    "automatedTestsPassed": 10,
+    "originalInlineScriptsPreserved": 67
+  },
+  "reducedMotion": "CSS transitions disabled and JS icon animation skipped",
+  "scope": "Shared nav presentation only; source Arbana unchanged; no publishing"
+}

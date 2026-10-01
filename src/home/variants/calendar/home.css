@@ -1,0 +1,81 @@
+#keysUnifiedPrototype .kh-home{display:grid;gap:12px;padding-top:16px}
+#keysUnifiedPrototype .kh-legacy[hidden]{display:none!important}
+#keysUnifiedPrototype .kh-home button,#keysUnifiedPrototype .kh-overlay button{font:inherit;color:inherit;cursor:pointer}
+#keysUnifiedPrototype .kh-home svg,#keysUnifiedPrototype .kh-overlay svg{width:22px;height:22px;flex:none}
+#keysUnifiedPrototype .kh-chevron{display:flex;color:var(--color-muted);margin-left:auto;flex:none}
+#keysUnifiedPrototype .kh-chevron svg{width:15px;height:15px}
+#keysUnifiedPrototype .kh-hotel{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-bottom:12px;text-align:left}
+#keysUnifiedPrototype .kh-hotel-title{display:grid;justify-items:start;gap:5px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-hotel h1{font-size:19px!important;letter-spacing:-.5px!important;line-height:1.2!important;margin:0}
+#keysUnifiedPrototype .kh-status{font-size:10px;line-height:16px;padding:2px 7px;border-radius:99px;background:var(--color-success-bg);color:var(--color-success)}
+#keysUnifiedPrototype .kh-home .kh-booking-link{display:flex;align-items:center;justify-content:center;gap:5px;flex:none;min-height:44px;padding:9px 10px;border:1px solid var(--color-brand-line);border-radius:12px;background:var(--color-soft);color:var(--color-brand);font-size:11px;font-weight:500}
+#keysUnifiedPrototype .kh-booking-link .kh-chevron{color:inherit}
+#keysUnifiedPrototype .kh-stay-calendar{padding:10px 10px 8px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card)}
+#keysUnifiedPrototype .kh-calendar-caption{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#keysUnifiedPrototype .kh-calendar-caption strong{font-size:12px;line-height:17px;font-weight:500;color:var(--color-ink)}
+#keysUnifiedPrototype .kh-calendar-caption>span{font-size:10px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-calendar-days{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:8px 0 6px;padding:0;list-style:none}
+#keysUnifiedPrototype .kh-calendar-days li{display:grid;place-items:center;justify-self:center;width:28px;height:28px;border-radius:9px;font-size:12px;line-height:16px;font-weight:400;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-calendar-days .past{color:var(--color-ink);background:var(--color-surface)}
+#keysUnifiedPrototype .kh-calendar-days .current{background:var(--color-brand);color:var(--color-on-brand);font-weight:500}
+#keysUnifiedPrototype .kh-calendar-days .departure{border:1px solid var(--color-line);color:var(--color-ink)}
+#keysUnifiedPrototype .kh-calendar-ends{display:flex;justify-content:space-between;font-size:10px;line-height:14px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-key-slot .k3-access{margin:0!important;width:100%}
+#keysUnifiedPrototype .kh-essentials{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#keysUnifiedPrototype .kh-tile{min-width:0;display:flex;flex-direction:column;gap:6px;border:1px solid var(--color-line);border-radius:18px;background:var(--color-card);padding:12px;text-align:left}
+#keysUnifiedPrototype .kh-tile-title{display:flex;width:100%;align-items:center;gap:6px;font-size:12px;font-weight:500}
+#keysUnifiedPrototype .kh-tile-title>svg{width:18px;height:18px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-tile>strong{font-size:25px;line-height:29px;letter-spacing:-.6px;font-weight:500}
+#keysUnifiedPrototype .kh-tile>strong.kh-network{font-size:15px;letter-spacing:-.3px;white-space:nowrap}
+#keysUnifiedPrototype .kh-tile>small{font-size:10px;line-height:14px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-deposit{background:var(--color-soft);border-color:var(--color-brand-line)}
+#keysUnifiedPrototype .kh-breakfast{display:flex;align-items:center;gap:9px;width:100%;border:1px solid var(--color-line);border-radius:18px;background:var(--color-card);padding:13px 12px;text-align:left}
+#keysUnifiedPrototype .kh-icon{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:11px;background:var(--color-fill);color:var(--color-brand)}
+#keysUnifiedPrototype .kh-copy{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}
+#keysUnifiedPrototype .kh-copy strong{font-size:13px;line-height:18px;font-weight:500}
+#keysUnifiedPrototype .kh-copy span{font-size:11px;line-height:15px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-copy small{font-size:10px;line-height:14px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-hours{font-size:12px;line-height:17px;text-align:right;margin-left:auto;font-weight:500;flex:none}
+#keysUnifiedPrototype .kh-hours span{display:block;color:var(--color-muted);font-weight:400}
+#keysUnifiedPrototype .kh-breakfast>.kh-chevron{margin-left:0}
+#keysUnifiedPrototype .kh-actions{border:1px solid var(--color-line);border-radius:18px;overflow:hidden;padding:0 12px}
+#keysUnifiedPrototype .kh-actions>button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;text-align:left;padding:12px 0}
+#keysUnifiedPrototype .kh-actions>button+button{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kh-section-title{display:flex;align-items:center;justify-content:space-between;margin:3px 0 9px}
+#keysUnifiedPrototype .kh-section-title h2{margin:0;font-size:18px;letter-spacing:-.3px}
+#keysUnifiedPrototype .kh-section-title button{display:flex;align-items:center;gap:3px;border:0;background:transparent;padding:10px 0;font-size:11px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-section-title button svg{width:13px;height:13px}
+#keysUnifiedPrototype .kh-nearby-card{display:flex;align-items:center;gap:12px;width:100%;padding:12px;border:0;border-radius:18px;background:var(--color-surface);text-align:left}
+#keysUnifiedPrototype .kh-nearby-art{position:relative;display:grid;place-items:center;flex:none;width:56px;height:66px;overflow:hidden;border-radius:13px;background:repeating-linear-gradient(30deg,transparent 0 17px,#ffffffc0 18px 22px,transparent 23px 38px),var(--color-brand-mist);color:var(--color-brand)}
+#keysUnifiedPrototype .kh-nearby-art svg{width:28px;height:28px;filter:drop-shadow(0 2px 2px #fff)}
+#keysUnifiedPrototype .kh-overlay{position:absolute;inset:0;z-index:30;background:var(--color-card);overflow:auto;padding:20px 16px 32px;box-sizing:border-box;border-radius:inherit}
+#keysUnifiedPrototype .kh-overlay[hidden]{display:none}
+#keysUnifiedPrototype .kh-detail-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+#keysUnifiedPrototype .kh-detail-header small{display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px}
+#keysUnifiedPrototype .kh-detail-header h2{margin:0;font-size:24px;line-height:1.15;letter-spacing:-.6px}
+#keysUnifiedPrototype .kh-back{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:var(--color-fill);flex:none}
+#keysUnifiedPrototype .kh-balance{display:flex;flex-direction:column;gap:9px;padding:22px;border-radius:18px;background:var(--color-soft)}
+#keysUnifiedPrototype .kh-balance strong{font-size:36px;font-weight:500;letter-spacing:-1px}
+#keysUnifiedPrototype .kh-balance small,#keysUnifiedPrototype .kh-balance span{font-size:13px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-detail-content h3{font-size:16px;font-weight:500;margin:24px 0 12px}
+#keysUnifiedPrototype .kh-ledger>div,#keysUnifiedPrototype .kh-credentials>div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--color-line)}
+#keysUnifiedPrototype .kh-ledger strong,#keysUnifiedPrototype .kh-credentials strong{display:block;font-size:14px;font-weight:500;line-height:21px}
+#keysUnifiedPrototype .kh-ledger small,#keysUnifiedPrototype .kh-credentials small{display:block;font-size:11px;color:var(--color-muted);line-height:17px}
+#keysUnifiedPrototype .kh-ledger b{font-size:14px;white-space:nowrap;font-weight:500}
+#keysUnifiedPrototype .kh-total{display:flex;justify-content:space-between;padding:20px 0;font-size:14px}
+#keysUnifiedPrototype .kh-note{font-size:12px;line-height:18px;color:var(--color-muted);margin:16px 0}
+#keysUnifiedPrototype .kh-intro{font-size:14px;line-height:21px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-credentials button{display:grid;place-items:center;min-width:44px;min-height:44px;border:0;background:var(--color-fill);border-radius:12px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-credentials .kh-text-button{font-size:12px;padding:0 10px}
+#keysUnifiedPrototype .kh-copy-status{font-size:12px;line-height:18px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-tags{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}
+#keysUnifiedPrototype .kh-tags span{font-size:11px;line-height:16px;border-radius:99px;background:var(--color-soft);color:var(--color-brand);padding:6px 10px}
+#keysUnifiedPrototype .kh-detail-card{border:1px solid var(--color-line);border-radius:18px;padding:16px;font-size:14px;line-height:21px}
+#keysUnifiedPrototype .kh-detail-card p{margin-top:0;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-fact{display:grid;gap:5px;padding:12px 0}
+#keysUnifiedPrototype .kh-fact+ .kh-fact{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kh-fact span{font-size:12px;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-fact strong{font-size:14px;font-weight:500}
+#keysUnifiedPrototype .kh-primary{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;margin-top:20px;padding:12px;border:0;border-radius:14px;background:var(--color-brand);color:var(--color-on-brand)!important;font-size:14px!important;text-decoration:none;text-align:center;box-sizing:border-box}
+#keysUnifiedPrototype .kh-place-list>button{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--color-line);border-radius:18px;padding:16px 12px;margin:12px 0;background:var(--color-card)}
+@media(max-width:350px){#keysUnifiedPrototype .kh-home{gap:10px}#keysUnifiedPrototype .kh-hotel h1{font-size:17px!important}#keysUnifiedPrototype .kh-tile{padding:10px}#keysUnifiedPrototype .kh-breakfast{gap:6px;padding:12px 9px}#keysUnifiedPrototype .kh-breakfast>.kh-icon{display:none}}

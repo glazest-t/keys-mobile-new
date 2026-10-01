@@ -1,0 +1,83 @@
+{
+  "mode": "demo",
+  "user": null,
+  "csrfToken": "static-demo-token",
+  "personas": [
+    {
+      "id": "alexander",
+      "firstName": "Александр",
+      "lastName": "Иванов",
+      "avatar": {
+        "url": "/images/social/friends.png",
+        "spriteIndex": 1
+      },
+      "description": {
+        "en": "Check-in in 8 days · travelling as a couple",
+        "ru": "Бронь через 8 дней · едет вдвоём"
+      },
+      "scenarioId": "booked"
+    },
+    {
+      "id": "anya",
+      "firstName": "Аня",
+      "lastName": "Соколова",
+      "avatar": {
+        "url": "/images/social/friends.png",
+        "spriteIndex": 0
+      },
+      "description": {
+        "en": "Choosing a hotel · no upcoming trip yet",
+        "ru": "Выбирает отель · поездка ещё не запланирована"
+      },
+      "scenarioId": "search"
+    },
+    {
+      "id": "dima",
+      "firstName": "Дима",
+      "lastName": "Волков",
+      "avatar": {
+        "url": "/images/social/friends.png",
+        "spriteIndex": 1
+      },
+      "description": {
+        "en": "Staying at the hotel · business trip",
+        "ru": "Сейчас в отеле · командировка"
+      },
+      "scenarioId": "stay-business"
+    },
+    {
+      "id": "katya",
+      "firstName": "Катя",
+      "lastName": "Миронова",
+      "avatar": {
+        "url": "/images/social/friends.png",
+        "spriteIndex": 2
+      },
+      "description": {
+        "en": "An upcoming trip · travelling with a child",
+        "ru": "Готовится к поездке · с ребёнком"
+      },
+      "scenarioId": "family"
+    },
+    {
+      "id": "oleg",
+      "firstName": "Олег",
+      "lastName": "Лебедев",
+      "avatar": {
+        "url": "/images/social/friends.png",
+        "spriteIndex": 3
+      },
+      "description": {
+        "en": "Back from a trip · documents and memories",
+        "ru": "Уже вернулся · документы и впечатления"
+      },
+      "scenarioId": "after"
+    }
+  ],
+  "capabilities": {
+    "demoLogin": true,
+    "smsLogin": false,
+    "mfa": true,
+    "hotelContent": false
+  }
+}

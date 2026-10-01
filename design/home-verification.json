@@ -1,0 +1,58 @@
+{
+  "date": "2026-09-29",
+  "screen": "Current stay dashboard",
+  "deposit": {
+    "credited": 10000,
+    "charged": 480,
+    "available": 9520,
+    "currency": "RUB",
+    "userApproved": true
+  },
+  "checks": [
+    "Compact hotel row opens booking details and returns home",
+    "Deposit ledger opens and closes",
+    "Wi-Fi demo password reveal",
+    "Breakfast opens services catalogue",
+    "Problem entry and direct return home",
+    "Nearby preferences list, place detail and two-step back",
+    "Digital key reaches confirmation and lock connection",
+    "Mobile 375x812 visual verification"
+  ],
+  "automated": "10 tests passed; 67 base inline scripts preserved",
+  "browserErrors": [],
+  "build": "Updated home assets and HTML entry; unchanged React bundle and media reused",
+  "published": false,
+  "stayCalendar": {
+    "design": "Dates 12–19 September; current date 13 highlighted; Today day 2 of 7; arrival and departure labelled",
+    "bookingEntry": "Explicit Details of booking button; opens existing booking screen and Back returns home",
+    "mobile": "Visually verified at 375 × 812",
+    "browserErrors": []
+  },
+  "referenceVariant": {
+    "source": "Figma 55eQFTYpNPx5UXWYuv7o8e, page 345:10578",
+    "inspected": [
+      "345:10615",
+      "345:10617",
+      "345:10631",
+      "345:10644",
+      "345:10628",
+      "345:10667"
+    ],
+    "screen": "Unified blue stay pass, circular current-day indicator, quick actions, grouped account and breakfast, nearby card",
+    "browserChecks": [
+      "Key",
+      "Deposit",
+      "Wi-Fi password reveal",
+      "Breakfast",
+      "Services catalogue and back",
+      "Problem and back",
+      "Booking details and back",
+      "Nearby recommendations",
+      "375 × 812 visual check",
+      "Previous variant remains available"
+    ],
+    "tests": "10 passed; 67 original inline scripts preserved",
+    "browserErrors": [],
+    "previousVariant": "/home-calendar.html"
+  }
+}

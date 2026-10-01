@@ -1,0 +1,36 @@
+/* One masthead specification, used by every top-level section in both documents. */
+:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 16px 6px;min-height:58px;color:var(--color-ink);background:var(--color-card);font-family:var(--font-sans)}
+:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header button{box-sizing:border-box;margin:0;border:0;cursor:pointer;font-family:inherit;flex-shrink:0;box-shadow:none;min-width:0}
+:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header .keys-app-logo{display:flex;height:44px;align-items:center;padding:0;background:transparent;color:var(--color-brand);font-size:24px;font-weight:600;line-height:1;letter-spacing:-1px}
+.keys-app-logo>span{transform:translateY(-.1em)}
+.keys-app-actions{display:flex;align-items:center;gap:12px}
+:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header .keys-app-bell{display:grid;place-items:center;position:relative;width:40px;height:40px;padding:0;border-radius:50%;background:var(--color-fill);color:var(--color-ink-2)}
+.keys-app-bell svg{width:22px;height:22px}
+.keys-app-unread{position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--color-brand-solid);box-shadow:0 0 0 2px var(--color-card)}
+.keys-app-unread[hidden]{display:none}
+:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header .keys-app-profile{display:flex;align-items:center;gap:6px;height:40px;padding:0 10px 0 3px;background:var(--color-fill);color:var(--color-ink-2);border-radius:999px}
+.keys-app-initial{display:grid;place-items:center;width:34px;height:34px;background:var(--color-card);border-radius:50%;font-size:14px;line-height:1;font-weight:400}
+.keys-app-profile svg{width:17px;height:17px}
+:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+@media(hover:hover){:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header .keys-app-bell:hover,:is(#keysUnifiedPrototype,.keys-module-screen) .keys-app-header .keys-app-profile:hover{background:var(--color-line)}}
+/* Root page headings follow the same rhythm as Find and Chats. */
+#keysUnifiedPrototype .k3-scroll>.keys-app-header,#keysUnifiedPrototype .kf-scroll>.keys-app-header{margin-inline:-16px}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-status,.kp-status,.kf-status,.ktd-status,.ksd-status,.ksd-detail-status,.ktd-add-status,.kti-status,.kdf-status,.kfb-status){display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-scroll,.kf-scroll,.kp-scroll,.ktd-scroll,.ksd-scroll,.ksd-detail-scroll,.ktd-add-scroll,.kti-view,.kdf-view,.kfb-view){height:100%!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-header,.kf-header){margin:25px 0 21px;align-items:center}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-header,.kf-header) h1{font-size:28px!important;line-height:1.18!important;letter-spacing:-1px!important}
+#keysUnifiedPrototype :is(.k3-header,.kf-header) :is(.k3-avatar,.kf-avatar){display:none!important}
+/* Nested screens use the same surface, typography and round controls as Arbana. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-head,.ktd-head,.ksd-head,.kti-head,.kdf-head,.kfb-head,.ksd-detail-head){align-items:center;gap:10px;margin-top:12px;margin-bottom:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-back,.kf-back,.ktd-back,.kti-back,.kdf-back,.kfb-back,.ksd-back,.ksd-detail-back,.ktd-more,.ksd-more){width:44px;height:44px;flex:none;display:grid;place-items:center;border:0!important;border-radius:50%!important;background:var(--color-fill)!important;color:var(--color-ink-2)!important;padding:0}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-back,.kf-back,.ktd-back,.kti-back,.kdf-back,.kfb-back,.ksd-back,.ksd-detail-back,.ktd-more,.ksd-more) svg{width:20px;height:20px}
+
+/* Secondary stay screens use only their page title; hotel context is on Home. */
+#keysUnifiedPrototype :is(.ksd-head-copy,.ksd-detail-title,.kdf-head-copy)>small,
+#keysUnifiedPrototype .kh-detail-header>div>small,
+#keysUnifiedPrototype [data-page-id="nearby"] .kp-head-title>small{display:none!important}
+#keysUnifiedPrototype :is(.ksd-head-copy,.kdf-head-copy){padding-top:0}
+
+/* Shared portrait, including the isolated Find and Chats document. */
+.keys-app-initial{overflow:hidden;flex-shrink:0}
+.keys-app-initial>img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}

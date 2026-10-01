@@ -1,0 +1,20 @@
+/* One service-card hierarchy across the home, checkout and booking details.
+   Content determines height; headings, metrics, captions and spacing share tokens. */
+#keysUnifiedPrototype :is(.kh-account-row,.kh-meal-row,.kb-late,.kb-row){font-synthesis:none}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-account-row .kh-copy>strong,.kh-meal-title,.kh-account-value>strong,.kh-meal-time,.kb-late strong,.kb-row strong){font-family:var(--font-sans)!important;font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-medium)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-account-row .kh-copy>small,.kh-meal-row .kh-copy>span,.kh-meal-row .kh-copy>small,.kb-late .kb-copy>small,.kb-row .kb-copy>small){font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-normal)!important;letter-spacing:var(--tracking-normal)!important;color:var(--color-muted)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-account-value>small,.kb-action-link){font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-medium)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype :is(.kh-account-row,.kh-meal-row) .kh-copy,#keysUnifiedPrototype .kb-copy{gap:4px}
+#keysUnifiedPrototype :is(.kh-account-value,.kh-meal-time){font-variant-numeric:tabular-nums}
+/* Both home cards begin with icon / title / value on the same baseline. */
+#keysUnifiedPrototype :is(.kh-home,.ka-home) .kh-account-row,#keysUnifiedPrototype .kh-daily .kh-meal-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;column-gap:12px;row-gap:4px;align-items:center;width:100%;padding:16px;border-radius:20px}
+#keysUnifiedPrototype .kh-account-row>.kh-copy,#keysUnifiedPrototype .kh-account-row>.kh-account-value{display:contents}
+#keysUnifiedPrototype .kh-account-row>.kh-round-icon{grid-column:1;grid-row:1}
+#keysUnifiedPrototype .kh-account-row>.kh-copy>strong{grid-column:2;grid-row:1}
+#keysUnifiedPrototype .kh-account-row>.kh-copy>small{grid-column:2;grid-row:2}
+#keysUnifiedPrototype .kh-account-value>strong{grid-column:3;grid-row:1;text-align:right}
+#keysUnifiedPrototype .kh-account-value>small{grid-column:3;grid-row:2;justify-self:end}
+#keysUnifiedPrototype .kh-meal-time{gap:6px;white-space:nowrap}
+#keysUnifiedPrototype .kh-daily :is(.kh-account-row,.kh-meal-row){background:var(--color-card);box-shadow:inset 0 0 0 1px var(--color-line)}
+#keysUnifiedPrototype :is(.kh-home,.ka-home) :is(.kh-account-row,.kh-meal-row)>.kh-round-icon{align-self:center}
+@media(hover:hover){#keysUnifiedPrototype .kh-daily :is(.kh-account-row,.kh-meal-row):hover{background:var(--color-mist);box-shadow:inset 0 0 0 1px var(--color-line)}}

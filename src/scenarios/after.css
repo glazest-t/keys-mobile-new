@@ -1,0 +1,89 @@
+/* Completed trip: compact stay summary, shared account card and quick actions. */
+body[data-keys-scenario="after"] #keysUnifiedPrototype .kh-home{display:none!important}
+#keysUnifiedPrototype .ka-home[hidden]{display:none!important}
+#keysUnifiedPrototype .ka-home{--home-radius:20px;--text-scale:1;--text-12:calc(12px * var(--text-scale));--text-14:calc(14px * var(--text-scale));--text-17:calc(17px * var(--text-scale));--text-20:calc(20px * var(--text-scale));display:grid;gap:12px;padding-top:14px;font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans);color:var(--color-ink);font-synthesis:none}
+#keysUnifiedPrototype .ka-home *{box-sizing:border-box}
+#keysUnifiedPrototype .ka-home button{font:inherit;color:inherit;cursor:pointer}
+#keysUnifiedPrototype .ka-home svg{width:22px;height:22px;flex:none}
+#keysUnifiedPrototype .ka-trip-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#keysUnifiedPrototype .ka-trip-copy{display:grid;gap:4px;min-width:0}
+#keysUnifiedPrototype .ka-trip-photo{display:block;width:64px;height:64px;object-fit:cover;object-position:center;border-radius:14px;flex:none;background:var(--color-fill)}
+#keysUnifiedPrototype .ka-status{display:inline-flex;align-items:center;gap:5px;color:var(--color-success)}
+#keysUnifiedPrototype .ka-status svg,#keysUnifiedPrototype .ka-city svg{width:14px;height:14px}
+#keysUnifiedPrototype .ka-city{display:flex;align-items:center;gap:4px;color:var(--color-muted)}
+#keysUnifiedPrototype .ka-trip-pass{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px}
+#keysUnifiedPrototype .ka-trip-pass>div{display:grid;gap:4px;min-width:0}
+#keysUnifiedPrototype .ka-trip-pass>div:last-child{border-left:1px solid #ffffff35;padding-left:16px}
+#keysUnifiedPrototype .ka-trip-pass :is(small,span){color:#ffffffd9}
+#keysUnifiedPrototype .ka-review{padding:8px 4px 6px}
+#keysUnifiedPrototype .ka-review p{margin:4px 0 8px;color:var(--color-muted)}
+#keysUnifiedPrototype .ka-stars{display:flex;justify-content:space-between;gap:4px;max-width:300px;margin:8px auto}
+#keysUnifiedPrototype .ka-stars button{display:grid;place-items:center;min-width:44px;min-height:44px;padding:6px;border:0;background:transparent;border-radius:12px;cursor:pointer}
+#keysUnifiedPrototype .ka-stars svg{width:30px;height:30px;color:var(--color-success);fill:none;stroke-width:1.5}
+#keysUnifiedPrototype .ka-stars .is-filled svg{fill:var(--color-success)}
+#keysUnifiedPrototype .ka-review .ka-stars{max-width:none;margin:8px 0 0}
+#keysUnifiedPrototype .ka-actions{grid-template-columns:repeat(2,minmax(0,1fr));--home-radius:20px}
+#keysUnifiedPrototype .ka-actions button+button:before{content:"";position:absolute;left:0;top:16px;bottom:16px;border-left:1px solid var(--color-line)}
+#keysUnifiedPrototype .ka-actions button{gap:8px;padding:12px 4px;min-height:80px}
+#keysUnifiedPrototype .ka-actions button>span{width:24px;height:24px}
+#keysUnifiedPrototype .ka-referral-card{--text-scale:1;--text-12:12px;--text-14:14px;--text-17:17px;box-sizing:border-box;font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans);color:var(--color-ink);cursor:pointer;display:block;position:relative;width:100%;padding:16px 16px 0;text-align:left;background:var(--color-card);border:1px solid var(--color-line);border-radius:20px;overflow:hidden}
+#keysUnifiedPrototype .ka-referral-main{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px}
+#keysUnifiedPrototype .ka-referral-copy{display:grid;gap:6px;min-width:0}
+#keysUnifiedPrototype .ka-referral-copy>span{color:var(--color-muted)}
+#keysUnifiedPrototype .ka-invite-art{position:relative;display:block;width:62px;height:68px;flex:none;margin-right:2px}
+#keysUnifiedPrototype .ka-invite-back,#keysUnifiedPrototype .ka-invite-front{position:absolute;inset:6px 3px 6px 9px;border:1px solid var(--color-brand-line);border-radius:12px;background:var(--color-soft);transform:rotate(-12deg)}
+#keysUnifiedPrototype .ka-invite-front{display:grid;place-items:center;inset:10px 0 2px 12px;background:var(--color-brand-solid);border-color:transparent;color:var(--color-on-brand);transform:rotate(8deg)}
+#keysUnifiedPrototype .ka-invite-front svg{width:26px;height:26px}
+#keysUnifiedPrototype .ka-referral-footer{display:flex!important;justify-content:space-between!important;min-height:44px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-home :is(h1,h2,.ka-referral-copy>strong){font-size:var(--text-17)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;margin:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-home :is(.ka-status,.ka-city,.ka-review p,.ka-referral-copy>span,.ka-trip-pass small,.ka-trip-pass span){font-size:var(--text-12)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-home .ka-trip-pass strong{font-size:var(--text-14)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;color:var(--color-on-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-actions strong{font-size:var(--text-12)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype .ka-comment-label{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0 8px;font-size:var(--text-14);font-weight:var(--font-weight-medium)}
+#keysUnifiedPrototype .ka-comment-label span{color:var(--color-muted);font-size:var(--text-12);font-weight:var(--font-weight-normal);align-self:center}
+#keysUnifiedPrototype :is(.ka-comment,.ka-referral-link){display:block;width:100%;box-sizing:border-box;padding:12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans)}
+#keysUnifiedPrototype .ka-comment{resize:vertical;min-height:110px;margin-bottom:16px}
+#keysUnifiedPrototype .ka-rating-label{text-align:center;color:var(--color-success);font-size:var(--text-14);font-weight:var(--font-weight-medium)}
+#keysUnifiedPrototype .ka-review-success{text-align:center;padding:24px 8px}
+#keysUnifiedPrototype .ka-review-success>svg{width:40px;height:40px;color:var(--color-success)}
+#keysUnifiedPrototype .ka-points-detail{display:flex;align-items:center;gap:10px;color:var(--color-success)}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-points-detail strong{font-size:var(--text-17)!important;font-weight:var(--font-weight-medium)!important}
+#keysUnifiedPrototype .ka-referral-intro>svg{color:var(--color-brand);width:32px;height:32px}
+#keysUnifiedPrototype .ka-referral-intro p,#keysUnifiedPrototype .ka-review-success p{font-size:var(--text-14);line-height:var(--leading-normal);color:var(--color-muted)}
+#keysUnifiedPrototype .ka-referral-steps{padding-left:22px;margin:20px 0;font-size:var(--text-14);line-height:var(--leading-normal)}
+#keysUnifiedPrototype .ka-referral-steps li+li{margin-top:10px}
+#keysUnifiedPrototype .ka-referral-link{margin-bottom:16px;font-size:var(--text-12)}
+#keysUnifiedPrototype .ka-copy-feedback{color:var(--color-success);font-size:var(--text-12)}
+#keysUnifiedPrototype :is(.ka-home button,.ka-stars button,.ka-comment,.ka-referral-link):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+@media(hover:hover){#keysUnifiedPrototype .ka-referral-card:hover{background:var(--color-mist)}#keysUnifiedPrototype .ka-stars button:hover{background:var(--color-mist)}}
+@media(max-width:639px){#keysUnifiedPrototype .ka-home{--text-scale:1.05}}
+
+/* One grouped reward message, followed by a clear next-booking action. */
+#keysUnifiedPrototype .ka-home .ka-trip-pass{width:100%;border:0;text-align:left;color:var(--color-on-brand)}
+#keysUnifiedPrototype .ka-trip-pass>div:nth-child(2){border-left:1px solid #ffffff35;padding-left:16px}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-home .ka-trip-pass .ka-stay-details{display:flex;align-items:center;justify-content:space-between;grid-column:1/-1;gap:8px;padding-top:12px;border-top:1px solid #ffffff35;color:var(--color-on-brand);font-weight:var(--font-weight-medium)!important}
+#keysUnifiedPrototype .ka-stay-details svg{width:14px;height:14px}
+/* Earned reward: a compact balance badge beside the benefit. */
+#keysUnifiedPrototype .ka-reward{padding:16px 16px 8px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype .ka-reward-summary{display:grid;grid-template-columns:96px minmax(0,1fr);align-items:center;gap:16px}
+#keysUnifiedPrototype .ka-reward-badge{display:grid;justify-items:center;align-content:center;gap:8px;min-height:112px;padding:12px 8px;box-sizing:border-box;border-radius:16px;background:var(--color-success-bg);color:var(--color-success)}
+#keysUnifiedPrototype .ka-reward-badge>svg{width:22px;height:22px}
+#keysUnifiedPrototype .ka-reward-amount{display:grid;justify-items:center;gap:2px;margin:0;color:var(--color-success)}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-amount strong{font-size:var(--text-20)!important;line-height:var(--leading-tight)!important;font-weight:var(--font-weight-medium)!important;font-variant-numeric:tabular-nums;white-space:nowrap}
+#keysUnifiedPrototype .ka-reward-amount>span{font-size:var(--text-12);line-height:var(--leading-normal)}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-home .ka-reward-description h2{font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;margin:0 0 6px}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-copy{margin:0;color:var(--color-muted);font-size:var(--text-12)!important;font-weight:400;line-height:var(--leading-normal)!important}
+#keysUnifiedPrototype .ka-reward-status{display:flex;align-items:center;gap:4px;margin-top:10px;color:var(--color-success);font-size:var(--text-12);line-height:var(--leading-normal)}
+#keysUnifiedPrototype .ka-reward-status svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype .ka-reward-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+#keysUnifiedPrototype .ka-reward-actions>.kh-detail-link{min-height:44px;padding:0;border:0;background:transparent}
+#keysUnifiedPrototype .ka-home .ka-reward-search{min-height:44px;padding:10px 12px;border:0;border-radius:12px;background:var(--color-brand-solid);color:var(--color-on-brand);font-size:var(--text-12);font-weight:var(--font-weight-medium)}
+@media(max-width:359px){#keysUnifiedPrototype .ka-reward-summary{grid-template-columns:88px minmax(0,1fr);gap:12px}}
+
+/* Referral typography is independent of its host screen. */
+#keysUnifiedPrototype .ka-referral-card *{box-sizing:border-box}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-card .ka-referral-copy>strong{margin:0;color:var(--color-ink);font:var(--font-weight-medium) var(--text-17)/var(--leading-tight) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-card .ka-referral-copy>span{font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-card .ka-referral-footer{align-items:center;gap:6px;color:var(--color-brand);white-space:nowrap;font:var(--font-weight-medium) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype .ka-referral-footer svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype .ka-referral-card:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}

@@ -1,0 +1,77 @@
+{
+  "scenario": "after",
+  "stay": {
+    "hotel": "Maidens Hotel",
+    "city": "Москва",
+    "arrival": "2026-09-12",
+    "departure": "2026-09-19",
+    "nights": 7
+  },
+  "demo": {
+    "earnedPoints": 1120,
+    "referralBonus": 500,
+    "referralUrl": "https://keys.example/r/tatyana",
+    "reviewStorage": "keys-completed-trip-review-v1",
+    "externalSubmission": false
+  },
+  "photo": {
+    "sourcePage": "https://maidenshotel.ru/about/",
+    "sourceImage": "https://maidenshotel.ru/upload/resize_cache/iblock/4ee/480_360_2619711fa078991f0a23d032687646b21/z9mi60eqbbos7tm4gzaccv42rpqbombg.jpg",
+    "localAsset": "src/scenarios/maidens-hotel.jpg"
+  },
+  "verification": {
+    "mobileWidths": [
+      320,
+      375
+    ],
+    "horizontalOverflow": false,
+    "reviewSelectionAndSave": true,
+    "documentsAndReturn": true,
+    "hotelChatOpened": true,
+    "referralCopy": true,
+    "scenarioSwitchAndCheckoutDocuments": true,
+    "existingTestsPassed": 21
+  },
+  "designRevision": {
+    "name": "completed-redesign-2",
+    "references": [
+      "https://dribbble.com/shots/27008781-Hotel-Booking-Mobile-App-Design",
+      "https://dribbble.com/shots/26714743-Mobile-App-Design-Travel-Reviews-AI-Insights-iOS-Figma"
+    ],
+    "reusedStyles": [
+      "kh-room-pass",
+      "kh-account-row and shared service-card typography",
+      "kh-quick-actions",
+      "kh-detail-link"
+    ],
+    "verified": [
+      "320px and 375px layout",
+      "points details",
+      "documents open and return",
+      "rating preselection",
+      "referral open and return"
+    ]
+  },
+  "detailsAndRewards": {
+    "entry": "Детали проживания — кликабельный синий блок итогов",
+    "details": [
+      "guest",
+      "room",
+      "dates",
+      "nights",
+      "tariff",
+      "trip expenses",
+      "documents",
+      "hotel contact"
+    ],
+    "serviceManagement": false,
+    "rewards": "Grouped earned points, future discount explanation, hotel search CTA; no unconfirmed conversion rate",
+    "verified": [
+      "document navigation and return",
+      "hotel search CTA",
+      "active stay still offers late checkout",
+      "320 and 375 px without horizontal overflow",
+      "21 existing tests pass"
+    ]
+  }
+}

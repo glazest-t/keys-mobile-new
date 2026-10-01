@@ -1,0 +1,32 @@
+{
+  "version": "home-unified-design-3",
+  "date": "2026-09-30",
+  "references": [
+    "https://dribbble.com/shots/27771538-Dashboard-Design-Project-Recap",
+    "https://dribbble.com/shots/25678435-sandow-v3-AI-Fitness-Nutrition-App-Workout-Library-UIUX"
+  ],
+  "approach": "White canvas, unified neutral card surfaces, 20px corners, grouped quick actions, one blue digital-key accent, consistent icons and interaction feedback. Existing Arbana typography and palette retained.",
+  "scope": "Home presentation only; original routes and scenario handlers retained.",
+  "checks": {
+    "tests": 13,
+    "originalScriptsPreserved": 67,
+    "mobileWidths": [
+      320,
+      375
+    ],
+    "horizontalOverflow": false,
+    "buttonTargetsMinHeight": 44,
+    "browserEntries": [
+      "booking",
+      "digital key",
+      "hotel services",
+      "wifi",
+      "report problem",
+      "deposit",
+      "breakfast",
+      "nearby"
+    ]
+  },
+  "backup": "backups/home-before-unified-2026-09-30",
+  "published": false
+}

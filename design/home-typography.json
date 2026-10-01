@@ -1,0 +1,36 @@
+{
+  "font": "Golos Text Variable",
+  "roles": {
+    "caption": {
+      "size": 12,
+      "weight": 400,
+      "lineHeight": 1.5
+    },
+    "link_and_compact_action": {
+      "size": 12,
+      "weight": 500,
+      "lineHeight": 1.5
+    },
+    "primary_action": {
+      "size": 14,
+      "weight": 500,
+      "lineHeight": 1.5
+    },
+    "card_title_and_key_value": {
+      "size": 17,
+      "weight": 500,
+      "lineHeight": 1.25
+    },
+    "room_number": {
+      "size": 36,
+      "weight": 500,
+      "lineHeight": 1.25
+    }
+  },
+  "mobileScale": 1.05,
+  "preserved": [
+    "24px compact wordmark",
+    "shared header controls",
+    "Arbana bottom navigation"
+  ]
+}

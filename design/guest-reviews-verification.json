@@ -1,0 +1,24 @@
+{
+  "scenario": "after",
+  "entry": "Документы поездки / Связаться с отелем / Оставить отзыв",
+  "features": [
+    "1–5 stars",
+    "single-page optional text and photos",
+    "up to five photos with preview/removal and local persistence",
+    "editable submitted review",
+    "optional demo tips after five-star submission",
+    "same form from homepage and notifications"
+  ],
+  "storage": "localStorage; no server publishing or real payments",
+  "browserChecks": [
+    "320 px: stars, text, photos and submit on same form; no horizontal overflow",
+    "Hotel summary and step counter hidden",
+    "No private message field",
+    "Real upload produces preview",
+    "Direct submission opens success; five stars offer tips; four stars do not",
+    "Home entry returns home; notification entry returns notification history"
+  ],
+  "automatedTests": "23 passed; 67 original scripts preserved",
+  "flow": "Shared two-step flow: stars → impressions and photos → success, optional tips for five stars. No hotel summary, dates or nights. No private message.",
+  "privateMessage": "Removed from the UI; previously saved data preserved."
+}

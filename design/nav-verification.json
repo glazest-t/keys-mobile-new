@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-29",
+  "scope": "Unified bottom navigation",
+  "build": "Interface bundle built from the integrated source; existing local media reused after interrupting slow redundant asset copying.",
+  "tests": "npm test: 10 passed; 67 base inline scripts preserved",
+  "browser": {
+    "sections": [
+      "Поездки",
+      "Найти",
+      "Чаты",
+      "Выгоды"
+    ],
+    "nested": "Hotel services navigation verified",
+    "mobile": {
+      "width": 375,
+      "height": 812,
+      "nav": {
+        "top": 738,
+        "bottom": 798,
+        "width": 343,
+        "height": 60
+      },
+      "font": "500 12px / 15px Golos Text Variable",
+      "outerScrollY": 0
+    },
+    "errors": []
+  },
+  "published": false
+}

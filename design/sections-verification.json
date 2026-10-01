@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "automated": {
+    "integration": 10,
+    "upstream": 58,
+    "baseInlineScriptsPreserved": 67
+  },
+  "browserChecks": [
+    "Find: original catalogue, date and guest controls visible",
+    "Results: filter SPA and sort by price, 30 → 22 hotels",
+    "Offline map opens with filtered results and original price markers",
+    "Hotel details, rooms and tariffs",
+    "Favorite saved; price watch created",
+    "Discovery assistant sends request and returns hotel cards and refinements",
+    "Chats: current Maidens trip, correct breakfast response, staff handoff",
+    "New hotel chat and message at 375 × 812",
+    "Current booking link opens original Tani booking, room 412 and bill 480 ₽",
+    "Demo reservation payment → confirmation → host home card → open new booking",
+    "Trips navigation returns to original home",
+    "375 × 812: complete bottom navigation, search and chat composer fit",
+    "Reload → search results → hotel details → internal Back checked after isolating browser history"
+  ],
+  "limitations": [
+    "Original local prototype: simulated answers, authentication and payments, schematic offline map",
+    "Account data is local; reducer session resets on reload as in the source",
+    "Exhaustive combinations of all original screens and states were not visually tested"
+  ],
+  "architecture": "Original Arbana React components, reducer and providers bundled locally in one persistent isolated frame; host owns main tabs and original trip screens.",
+  "upstreamSourceSha256": "23be66231076e8c3cba04318bcad6df682bb613f5250e27533ca4bc0a69ffcd4"
+}

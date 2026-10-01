@@ -1,0 +1,13 @@
+node_modules/
+/dist/
+/tmp/
+/output/
+/backups/
+.DS_Store
+**/.DS_Store
+vendor/arbana/.build/
+vendor/arbana/dist/
+.env
+.env.*
+!.env.example
+*.log

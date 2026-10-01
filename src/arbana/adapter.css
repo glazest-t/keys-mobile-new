@@ -1,0 +1,112 @@
+/* Arbana visual adapter. Layout, content, data attributes and event handlers are retained. */
+:root{color-scheme:light only;--text-scale:1;--gutter:16px}
+html{background:var(--color-canvas)!important}
+body{background:var(--color-canvas)!important;color:var(--color-ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;padding:24px 12px}
+#keysUnifiedPrototype,#keysUnifiedPrototype *{font-family:var(--font-sans)!important}
+#keysUnifiedPrototype :is(button,input,select,textarea){font-family:var(--font-sans)!important}
+#keysUnifiedPrototype svg{stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+#keysUnifiedPrototype :is(button,a,input,select,textarea):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysUnifiedPrototype button:disabled{opacity:.45;cursor:default}
+#keysUnifiedPrototype button{transition:background-color .15s ease,color .15s ease,border-color .15s ease}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.kp-phone,.kf-phone,.ktd-phone,.kti-phone,.kdf-phone,.kfb-phone,.ksd-phone){background:var(--color-card)!important;border:1px solid var(--color-line)!important;box-shadow:0 16px 60px #1c284112!important;border-radius:30px!important;color:var(--color-ink)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(h1,h2,h3,h4){font-weight:500!important}
+#keysUnifiedPrototype#keysUnifiedPrototype h1{letter-spacing:-.8px!important;line-height:1.17!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-status,.kp-status,.kf-status,.ktd-status,.kti-status,.kdf-status,.kfb-status,.ksd-status){color:var(--color-ink);font-size:11px!important;font-weight:500!important}
+/* White app surface, light blue-gray secondary surfaces and thin separators. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-stay,.k3-services,.k3-route,.kp-hotel,.kp-place,.kp-detail-card,.kf-card,.ktd-event-card,.ktd-file-card,.kti-card,.kdf-card,.kfb-card,.ksd-card,.ksd-flow-card,.ksd-service-card,.ksd-other-card,.ksd-room-page-card,.ksd-hotel-entry-card,.ksd-included-services-card){border:1px solid var(--color-line)!important;border-radius:var(--radius-card)!important;background-color:var(--color-card)!important;box-shadow:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-service-icon,.k3-feedback-icon){background:var(--color-surface)!important;color:var(--color-ink-3)!important;border-radius:15px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-feedback,.k3-missing){background:var(--color-surface)!important;border:1px solid var(--color-line)!important;border-radius:16px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-feedback small{color:var(--color-muted)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-header{align-items:center;margin-top:10px;margin-bottom:24px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-header h1{font-size:var(--text-29)!important;font-weight:500!important;letter-spacing:-1px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-header small{font-size:var(--text-12)!important;color:var(--color-muted)!important;line-height:1.5;margin-bottom:6px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-avatar{flex-shrink:0;margin-left:8px;background:var(--color-fill)!important;color:var(--color-ink-2)!important;font-weight:500!important;font-size:14px!important;border:3px solid var(--color-card)!important;box-shadow:0 0 0 1px var(--color-line)}
+/* Digital key: Arbana's flat blue surface and white action. */
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access{background:var(--color-brand-solid)!important;box-shadow:none!important;border-radius:15px!important;padding:18px!important;color:var(--color-on-brand)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:after{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top{font-size:12px!important;font-weight:400!important;color:var(--color-on-brand)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-room{border-radius:999px;background:#ffffff20!important;font-weight:500}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main{background:var(--color-on-brand)!important;color:var(--color-brand-solid)!important;border-radius:13px;padding:12px;gap:12px;margin-top:18px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access strong{font-size:14px!important;font-weight:500!important;color:var(--color-brand-solid)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main small{font-size:11px!important;color:var(--color-brand-solid)!important;opacity:.75;line-height:1.5}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-key-icon{background:transparent!important;color:var(--color-brand-solid)!important;width:28px;height:32px;border-radius:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-key-icon svg{width:24px;height:24px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-stay{margin-top:16px;padding:16px 14px 10px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-stay-head strong{font-size:16px!important;font-weight:500!important;line-height:1.35}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-stay-head small{font-size:11px!important;line-height:1.55}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-live{font-size:11px!important;font-weight:500!important;color:var(--color-success)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-services{padding:0 14px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-service{min-height:82px;padding:14px 0!important;gap:10px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-service-copy strong{font-weight:500!important;font-size:14px!important;line-height:1.4!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-service-copy small{font-size:12px!important;line-height:1.45!important;color:var(--color-muted)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-section-head h2{font-size:18px!important;font-weight:500!important;letter-spacing:-.35px}
+/* Shared control shapes match H / n3 / RI in the Arbana kit. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-service-cta,.kp-primary,.kf-primary,.kti-primary,.kdf-primary,.kfb-primary,.ksd-primary,.ksd-flow-primary,.ksd-door-primary,.ktd-add-primary,.kp-detail-cta){min-height:49px!important;height:auto!important;padding:12px 16px!important;background:var(--color-brand-solid)!important;color:var(--color-on-brand)!important;border:1px solid transparent!important;border-radius:13px!important;font-size:14px!important;line-height:1.4!important;font-weight:500!important;box-shadow:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-secondary,.kf-secondary,.kti-secondary,.kdf-secondary,.ksd-flow-secondary,.ksd-other-secondary){min-height:47px!important;height:auto!important;padding:12px 16px!important;border:1px solid var(--color-edge-3)!important;border-radius:13px!important;background:var(--color-card)!important;color:var(--color-brand)!important;font-size:13px!important;line-height:1.4!important;font-weight:400!important;box-shadow:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-back,.kf-back,.ktd-back,.kti-back,.kdf-back,.kfb-back,.ksd-back,.ktd-add-back,.ksd-detail-back,.ktd-compose-back,.ksd-booking-compose-back){border:1px solid var(--color-line)!important;border-radius:999px!important;background:var(--color-card)!important;color:var(--color-ink)!important;box-shadow:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select){background-color:var(--color-card)!important;border-color:var(--color-edge-3)!important;border-radius:12px!important;color:var(--color-ink)!important;font-weight:400!important;box-shadow:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kti-input,.ktd-share-input,.ktd-add-input,.ksd-booking-share-input,.kf-fields input,.kp-search-form input){min-height:49px;font-size:16px!important;line-height:1.5!important}
+#keysUnifiedPrototype :is(input,textarea)::placeholder{color:var(--color-ink-5)!important}
+#keysUnifiedPrototype :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:var(--color-brand-solid)}
+/* Floating navigation: equal items, outline icons, selected light-blue pill. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-nav,.kp-nav,.kf-nav,.ktd-nav,.ksd-nav){height:68px!important;padding:6px!important;left:10px!important;right:10px!important;bottom:10px!important;border:1px solid #ffffffb3!important;border-radius:999px!important;background:#f4f6faeb!important;box-shadow:inset 0 0 0 1px #ffffff8c,0 6px 22px #1c284117!important;backdrop-filter:blur(30px) saturate(1.5)!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-tab,.kp-tab,.kf-tab,.ktd-tab,.ksd-tab){display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:3px!important;padding:3px 0!important;margin:0!important;min-height:50px!important;background:transparent!important;border:0!important;border-radius:999px!important;font-size:12px!important;line-height:1.2!important;font-weight:500!important;color:var(--color-ink)!important;transform:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-tab,.kp-tab,.kf-tab,.ktd-tab,.ksd-tab)[aria-current=page],#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-tab,.ktd-tab,.ksd-tab).active{background:var(--color-soft)!important;color:var(--color-brand)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-tab,.kp-tab,.kf-tab,.ktd-tab,.ksd-tab)>svg{width:24px!important;height:24px!important;stroke-width:1.65!important}
+/* Dialogs, feedback layers and toasts keep their existing opening/closing logic. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-sheet,.kp-sheet,.kf-sheet,.ktd-sheet,.ksd-sheet){background:var(--color-card)!important;color:var(--color-ink)!important;border:1px solid var(--color-line)!important;border-radius:24px 24px 0 0!important;box-shadow:0 -8px 40px #1c28411c!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-toast,.kp-toast,.kf-toast,.kti-toast,.kdf-toast,.ktd-toast,.ksd-toast){background:var(--color-toast)!important;color:var(--color-on-brand)!important;border-radius:13px!important;font-size:12px!important;line-height:1.5!important;box-shadow:0 6px 16px #20385d26!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kf-ai-hero,.kf-benefit-hero){background:var(--color-brand-solid)!important;color:var(--color-on-brand)!important;box-shadow:none!important;border-radius:18px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kf-ai-hero,.kf-benefit-hero) :is(p,small){color:#ffffffcc!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-ai-hero .kf-primary{background:var(--color-on-brand)!important;color:var(--color-brand-solid)!important}
+@media(hover:hover){#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-service-cta,.kp-primary,.kf-primary,.kti-primary,.kdf-primary,.kfb-primary,.ksd-primary,.ksd-flow-primary):hover{background:var(--color-brand-dark)!important}#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-service,.kf-row,.ksd-row,.ktd-event-card):hover{background-color:var(--color-mist)!important}}
+@media(max-width:520px){body{padding:0!important}#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.kp-phone,.kf-phone,.ktd-phone,.kti-phone,.kdf-phone,.kfb-phone,.ksd-phone){border-radius:0!important;border:0!important;box-shadow:none!important}}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype *{scroll-behavior:auto!important;transition-duration:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+:root{--arbana-shadow-card:0 3px 16px #20385d15}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-pill,.kf-chip,.ksd-food-tab){border-radius:999px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-pill.active,.ksd-food-tab.active){background:var(--color-soft)!important;color:var(--color-brand)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kp-detail-reason{background:var(--color-soft)!important;border-color:var(--color-brand-line)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-ai-hero .kf-ai-label{color:#ffffffcc!important;font-weight:500!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-benefit-hero:after{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-offer{border:1px solid var(--color-line)!important;border-radius:18px!important;box-shadow:none!important}
+/* Fit the prototype to an actual mobile viewport, with scrolling inside each screen. */
+@media(max-width:520px){
+ #keysUnifiedPrototype>.ku-section>div{padding-top:0!important;padding-bottom:0!important}
+ #keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.kp-phone,.kf-phone,.ktd-phone,.kti-phone,.kdf-phone,.kfb-phone,.ksd-phone){height:100vh!important;height:100dvh!important;max-width:100%!important}
+ #keysUnifiedPrototype#keysUnifiedPrototype :is(.kp-scroll,.ktd-scroll,.ksd-scroll,.ksd-detail-scroll,.kti-view,.kdf-view,.kfb-view){height:calc(100% - 45px)!important}
+}
+/* Home key card: room identity, availability and a single clear action. */
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access{padding:20px!important;background:var(--color-soft)!important;border:1px solid var(--color-brand-line)!important;border-radius:24px!important;color:var(--color-ink)!important;isolation:isolate}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top{display:block;position:static;color:var(--color-ink)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top>span:first-child{position:absolute;right:18px;top:20px;display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;background:var(--color-success-bg);color:var(--color-success);font-size:10px!important;line-height:1.3;font-weight:500!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top>span:first-child:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--color-live);flex:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-room{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:0!important;background:transparent!important;color:var(--color-ink)!important;border-radius:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-room-label{font-size:12px;line-height:1.5;font-weight:400;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-room-number{font-size:var(--text-40);line-height:1;letter-spacing:-1.6px;font-weight:500;color:var(--color-ink);font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main{position:static!important;display:flex!important;align-items:center!important;justify-content:center!important;margin-top:18px!important;padding:11px 38px 11px 14px!important;min-height:58px;background:var(--color-brand-solid)!important;border-radius:13px!important;color:var(--color-on-brand)!important;text-align:left}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main>span:last-child{width:100%}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main strong{font-size:14px!important;line-height:1.4!important;font-weight:500!important;color:var(--color-on-brand)!important;margin:0 0 2px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main small{font-size:11px!important;line-height:1.4!important;color:var(--color-on-brand)!important;opacity:.8}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main:after{content:"";position:absolute;right:39px;bottom:44px;width:8px;height:8px;border-top:1.65px solid var(--color-on-brand);border-right:1.65px solid var(--color-on-brand);transform:rotate(45deg)}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-key-icon{position:absolute;right:23px;top:49px;width:44px!important;height:44px!important;display:grid;place-items:center;border:1px solid var(--color-brand-line);border-radius:50%!important;background:var(--color-card)!important;color:var(--color-brand-solid)!important;transform:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-key-icon svg{width:26px!important;height:26px!important}
+@media(hover:hover){#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:hover .k3-access-main{background:var(--color-brand-dark)!important}}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:active .k3-access-main{background:var(--color-brand-dark-2)!important}
+/* Compact key variant, following the original Tatyana card composition. */
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access{padding:16px!important;background:var(--color-brand-solid)!important;border:0!important;border-radius:18px!important;color:var(--color-on-brand)!important;overflow:hidden}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:before{content:"";position:absolute;width:154px;height:154px;right:-42px;top:-65px;border:26px solid color-mix(in srgb,var(--color-on-brand) 7%,transparent);border-radius:50%;pointer-events:none;z-index:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:after{content:"";display:block!important;position:absolute;width:110px;height:110px;right:-48px;top:43px;border:18px solid color-mix(in srgb,var(--color-on-brand) 6%,transparent);border-radius:50%;pointer-events:none;z-index:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top{position:relative!important;display:flex!important;align-items:center;justify-content:space-between;gap:8px;z-index:1;color:var(--color-on-brand)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top>span:first-child{position:static!important;padding:0!important;background:transparent!important;color:var(--color-on-brand)!important;font-size:11px!important;font-weight:400!important;line-height:1.4!important;gap:6px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-top>span:first-child:before{background:var(--color-on-brand)!important;opacity:.75;width:4px;height:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-room{display:flex!important;flex-direction:row!important;align-items:center!important;gap:4px!important;padding:5px 8px!important;background:color-mix(in srgb,var(--color-on-brand) 12%,transparent)!important;border-radius:8px!important;color:var(--color-on-brand)!important;white-space:nowrap}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-room-label,#keysUnifiedPrototype#keysUnifiedPrototype .k3-room-number{font-size:11px!important;line-height:1.3!important;letter-spacing:0!important;color:var(--color-on-brand)!important;font-weight:500!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main{position:relative!important;display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;margin-top:15px!important;padding:0 17px 0 0!important;min-height:42px!important;background:transparent!important;border-radius:0!important;z-index:1}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-key-icon{position:static!important;width:42px!important;height:42px!important;flex:0 0 42px!important;border:0!important;border-radius:12px!important;background:var(--color-on-brand)!important;color:var(--color-brand-solid)!important;transform:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-key-icon svg{width:24px!important;height:24px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main>span:last-child{width:auto!important;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main strong{font-size:var(--text-18)!important;line-height:1.3!important;letter-spacing:-.25px!important;margin-bottom:3px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main small{font-size:11px!important;line-height:1.4!important;opacity:.8}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access-main:after{right:2px!important;top:17px!important;bottom:auto!important;width:6px!important;height:6px!important;opacity:.8}
+@media(hover:hover){#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:hover{background:var(--color-brand-dark-2)!important}#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:hover .k3-access-main{background:transparent!important}}
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-access:active .k3-access-main{background:transparent!important}

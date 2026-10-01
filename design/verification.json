@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "sourcePreservedExceptApprovedPresentationAndChatAlias": true,
+  "originalInlineScriptsPreserved": 67,
+  "backup": "tests/fixtures/base",
+  "sourceSha256": "3760a700acc84edc5762535f5812ab4c43300e5dead8a7db91fa48069c466a49",
+  "palette": "#2c5deb",
+  "font": "Golos Text Variable",
+  "navigation": [
+    "Поездки",
+    "Найти",
+    "Чаты",
+    "Выгоды"
+  ],
+  "historicalBaselineBrowserChecks": [
+    "Digital key: ready → Face ID → connection → success → home",
+    "Hotel services: catalogue → food → cart → order accepted",
+    "Search: results → hotel details; fixed CTA clears bottom navigation",
+    "Chats: original assistant screen → prompt → send feedback",
+    "Benefits: rules sheet opens, scrolls and closes",
+    "Profile accessible through home avatar",
+    "Ticket: manual input → found → saved notification",
+    "Feedback: five stars → details → submitted → home",
+    "Trip timeline and share menu open",
+    "375 × 812: no horizontal overflow, navigation visible, forms reachable"
+  ],
+  "scope": "Base prototype preservation check. Find and Chats are replaced at runtime by the Arbana module; see tests/sections.test.mjs and design/sections-verification.json for current integration checks."
+}

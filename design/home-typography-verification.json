@@ -1,0 +1,51 @@
+{
+  "page": "http://127.0.0.1:8765/?v=stay-type-kit-1",
+  "scope": "Current home and its deposit, Wi-Fi, breakfast and nearby overlays; shared header and navigation inspected",
+  "kit": "../Арбана/arbana-ui-kit",
+  "font": "Golos Text Variable",
+  "weights": [
+    400,
+    500
+  ],
+  "sizeTokens": [
+    11,
+    12,
+    13,
+    14,
+    16,
+    17,
+    20,
+    22,
+    24,
+    36,
+    40
+  ],
+  "leading": {
+    "body": 1.5,
+    "headings": 1.25
+  },
+  "mobileScale": {
+    "maxWidth": 639,
+    "factor": 1.05,
+    "scope": "home and home overlays"
+  },
+  "fixes": [
+    "Removed raw home text sizes and custom tracking",
+    "44 px room number replaced by text-40",
+    "Unified section headings on text-20 and balance on text-24",
+    "Isolated home text from legacy global small/p important rules",
+    "Removed obsolete calendar-variant media rules"
+  ],
+  "checks": {
+    "desktopVisual": true,
+    "mobileWidths": [
+      375,
+      320
+    ],
+    "mobileFontsLoaded": true,
+    "mobileHorizontalOverflow": false,
+    "overlayTokenSizesVerified": true,
+    "automatedTestsPassed": 10,
+    "preservedInlineScripts": 67
+  }
+}

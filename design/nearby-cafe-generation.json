@@ -1,0 +1,7 @@
+{
+  "mode": "built-in image_gen",
+  "prompt": "Use case: photorealistic-natural. Asset type: small photographic thumbnail for a premium Russian hotel guest mobile app, nearby places card. Generate a single beautiful, natural editorial travel photograph, portrait aspect ratio 4:5. Scene: a quiet charming city street cafe in a historic central Moscow-style neighborhood in late spring, pale ivory stone facade, tall blue-gray window and subtle blue cafe awning, one small outdoor bistro table with two wooden chairs, leafy green potted plant, clean pale paving. Focus on a simple inviting cafe entrance and seating, not a wide city panorama. Natural soft morning sunlight, airy bright whites, restrained sky-blue accents and fresh green foliage, warm but not yellow. Authentic photographed materials and realistic detail, understated premium travel editorial feeling. Composition: easy-to-read central subject, framed to work at only 56 by 70 pixels, generous simple shapes, no tiny busy details. No autumn foliage, no forest, no text, no logos, no watermarks, no UI, no map, no border, no collage. Fictional generic cafe, not a representation of a named real business.",
+  "asset": "src/home/nearby/nearby-cafe-generated.jpg",
+  "original": "output/imagegen/nearby-cafe-generated.png",
+  "description": "Generated fictional cafe photograph used only as decorative imagery on the home nearby card, not as a photograph of a specific catalogue location."
+}

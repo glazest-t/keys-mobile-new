@@ -1,0 +1,8 @@
+{
+  "backup": "tests/fixtures/sections",
+  "source": "vendor/arbana",
+  "scope": [
+    "find",
+    "chats"
+  ]
+}

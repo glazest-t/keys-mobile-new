@@ -1,0 +1,269 @@
+/* Pre-arrival composition uses the established home cards and typography. */
+body[data-keys-scenario="booked"] #keysUnifiedPrototype .kh-home{display:none!important}
+#keysUnifiedPrototype .kpa-home{padding-top:14px;gap:12px}
+/* Photo identifies the hotel; the shared blue pass groups booking facts. */
+#keysUnifiedPrototype .kpa-reservation{overflow:hidden;border-radius:26px;background:var(--color-soft)}
+#keysUnifiedPrototype .kpa-hotel-visual{position:relative;isolation:isolate;margin:0 6px;overflow:hidden;border-radius:20px 20px 0 0}
+#keysUnifiedPrototype .kpa-hotel-visual:after{content:"";position:absolute;inset:35% 0 0;z-index:0;background:linear-gradient(transparent,rgba(13,25,43,.8));pointer-events:none}
+#keysUnifiedPrototype .kpa-hotel-photo{display:block;width:100%;height:184px;object-fit:cover;object-position:center 46%;background:var(--color-fill)}
+#keysUnifiedPrototype .kpa-hotel-heading{position:absolute;z-index:1;left:16px;right:16px;bottom:14px;display:grid;gap:4px;color:var(--color-on-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-heading h1{font-size:var(--text-17)!important;line-height:1.3!important;color:inherit!important}
+#keysUnifiedPrototype .kpa-hotel-heading>span{display:flex;align-items:center;gap:4px;font-size:var(--text-12);line-height:1.5;color:inherit}
+#keysUnifiedPrototype .kpa-hotel-heading svg{width:14px;height:14px}
+#keysUnifiedPrototype .kpa-reservation-body{margin:0 6px 6px;padding:14px 16px;border-radius:0 0 20px 20px}
+#keysUnifiedPrototype .kpa-stay-overview{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-stay-overview strong,#keysUnifiedPrototype#keysUnifiedPrototype .kpa-total>strong{font-size:var(--text-17)!important;line-height:1.4;font-weight:var(--font-weight-medium);color:inherit;font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype .kpa-stay-overview span{white-space:nowrap;font-size:var(--text-12);line-height:1.5;color:#ffffffd9}
+#keysUnifiedPrototype .kpa-trip-schedule{display:grid;grid-template-columns:minmax(0,1fr) 58px;align-items:center;gap:12px;margin-top:14px}
+#keysUnifiedPrototype .kpa-schedule-stops{position:relative;display:grid;gap:10px}
+#keysUnifiedPrototype .kpa-schedule-stops:before{content:"";position:absolute;left:3px;top:12px;bottom:29px;border-left:1px solid #ffffff55}
+#keysUnifiedPrototype .kpa-schedule-stop{display:flex;align-items:flex-start;gap:10px}
+#keysUnifiedPrototype .kpa-stop-dot{position:relative;flex:none;box-sizing:border-box;width:7px;height:7px;margin-top:6px;border:1.5px solid var(--color-on-brand);border-radius:50%;background:var(--color-brand-solid)}
+#keysUnifiedPrototype .kpa-schedule-stop>div{min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop>div>span{font:400 var(--text-12)/1.5 var(--font-sans)!important;color:#ffffffc9}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop p{display:flex;align-items:baseline;flex-wrap:wrap;gap:3px 8px;margin:1px 0 0;padding:0;color:var(--color-on-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop time{font:var(--font-weight-medium) var(--text-14)/1.5 var(--font-sans)!important;color:inherit}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop small{font:400 var(--text-12)/1.5 var(--font-sans)!important;color:#ffffffd9}
+#keysUnifiedPrototype .kpa-duration-count{display:grid;justify-items:center;gap:2px;padding:10px 6px;border-radius:14px;background:rgba(255,255,255,.14);color:var(--color-on-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-duration-count strong{font:var(--font-weight-medium) var(--text-24)/1.15 var(--font-sans)!important;color:inherit}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-duration-count span{font:400 var(--text-12)/1.5 var(--font-sans)!important;color:inherit}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-trip-schedule{grid-template-columns:minmax(0,1fr) 48px;gap:8px}#keysUnifiedPrototype .kpa-schedule-stop{gap:7px}#keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop p{column-gap:5px}}
+#keysUnifiedPrototype .kpa-payment{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+#keysUnifiedPrototype .kpa-total{display:grid;gap:3px;flex:none}
+#keysUnifiedPrototype .kpa-total>span{font-size:var(--text-12);line-height:1.5;color:#ffffffd9}
+#keysUnifiedPrototype .kpa-payment-status{display:grid;gap:3px;text-align:right;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-status strong{display:flex;align-items:center;justify-content:flex-end;gap:5px;font-size:var(--text-12)!important;font-weight:var(--font-weight-medium);line-height:1.5;color:var(--color-on-brand)}
+#keysUnifiedPrototype .kpa-payment-status strong svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype .kpa-payment-status>span{font-size:var(--text-12);line-height:1.5;color:#ffffffd9}
+#keysUnifiedPrototype .kpa-status{display:flex;align-items:center;gap:5px;font-size:var(--text-12);line-height:1.5;color:var(--color-success)}
+#keysUnifiedPrototype .kpa-status svg{width:14px;height:14px}
+#keysUnifiedPrototype .kpa-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+#keysUnifiedPrototype .kpa-actions button{padding:12px 6px;min-height:80px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-manage{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 16px;width:100%;border:0;border-radius:14px;background:var(--color-soft);color:var(--color-brand)!important;font:var(--font-weight-medium) var(--text-14)/var(--leading-normal) var(--font-sans);text-align:center;cursor:pointer;transition:background-color .18s ease}
+#keysUnifiedPrototype .kpa-manage>svg{width:20px;height:20px;flex:none}
+#keysUnifiedPrototype .kpa-manage:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+@media(hover:hover){#keysUnifiedPrototype#keysUnifiedPrototype .kpa-manage:hover{background:color-mix(in srgb,var(--color-soft) 88%,var(--color-brand))}}
+/* Compact service rows, grouped with a catalogue footer. */
+#keysUnifiedPrototype .kpa-preparation{border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);padding:4px 16px}
+#keysUnifiedPrototype .kpa-services{display:grid}
+#keysUnifiedPrototype .kpa-service{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr) auto 14px;align-items:center;gap:10px;min-width:0;min-height:56px;width:100%;padding:12px 0;border:0;border-radius:0;background:transparent;text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kpa-service+.kpa-service::before{content:"";position:absolute;left:34px;right:0;top:0;height:1px;background:var(--color-line)}
+#keysUnifiedPrototype .kpa-service-icon{display:grid;place-items:center;width:24px;height:24px;color:var(--color-brand)}
+#keysUnifiedPrototype .kpa-service-icon svg{width:22px;height:22px;stroke-width:1.65}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service>strong{font-size:var(--text-14)!important;line-height:1.5!important;font-weight:var(--font-weight-medium)!important;color:var(--color-ink)}
+#keysUnifiedPrototype .kpa-service-status{max-width:100px;font-size:var(--text-12);line-height:1.5;color:var(--color-muted);text-align:right}
+#keysUnifiedPrototype .kpa-service-link{color:inherit}
+#keysUnifiedPrototype .kpa-service-chevron{display:flex;color:var(--color-muted)}
+#keysUnifiedPrototype .kpa-service-chevron svg{width:14px;height:14px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;width:100%;padding:12px 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;color:var(--color-brand)!important;font:var(--font-weight-medium) var(--text-14)/1.5 var(--font-sans);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kpa-services-all svg{width:14px;height:14px}
+#keysUnifiedPrototype .kpa-service:focus-visible,#keysUnifiedPrototype .kpa-services-all:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:8px}
+@media(hover:hover){#keysUnifiedPrototype .kpa-service:hover .kpa-service-chevron{color:var(--color-brand)}#keysUnifiedPrototype .kpa-services-all:hover{color:var(--color-ink)!important}}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-preparation{padding:4px 12px}#keysUnifiedPrototype .kpa-service{gap:8px}#keysUnifiedPrototype .kpa-service+.kpa-service::before{left:32px}}
+#keysUnifiedPrototype .kpa-share{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;width:100%;padding:10px 12px;background:transparent;border:0;border-radius:12px;color:var(--color-brand)!important;font:500 var(--text-14)/1.5 var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kpa-share svg{width:20px;height:20px}
+#keysUnifiedPrototype .kpa-home :is(button,input):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysUnifiedPrototype .kpa-form{display:grid;gap:16px;margin-top:20px}
+#keysUnifiedPrototype .kpa-form label{display:grid;gap:8px;font:500 var(--text-14)/1.5 var(--font-sans);min-width:0}
+#keysUnifiedPrototype .kpa-form label>span{color:var(--color-muted);font-size:var(--text-12);font-weight:400}
+#keysUnifiedPrototype .kpa-form-dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#keysUnifiedPrototype .kpa-form :is(input,select,textarea),#keysUnifiedPrototype .kpa-share-text{box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:12px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-card);color:var(--color-ink);font:400 16px/1.5 var(--font-sans)}
+#keysUnifiedPrototype .kpa-form textarea{resize:vertical}
+#keysUnifiedPrototype .kpa-share-text{height:156px;resize:none}
+#keysUnifiedPrototype .kpa-error{margin:0;color:var(--color-danger-solid);font-size:var(--text-12)}
+#keysUnifiedPrototype .kpa-error:empty{display:none}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-reservation-body{padding:14px}#keysUnifiedPrototype .kpa-form-dates{grid-template-columns:1fr}}
+
+/* Before check-in there is no active in-stay order or deposit bill. */
+body[data-keys-scenario="booked"] #keysStayDetails .ksd-detail-content>:is(.ksd-active-title,.ksd-active-service,.ksd-services-bill){display:none!important}
+
+/* Booking-owned share action and pre-arrival detail page. */
+#keysUnifiedPrototype .kpa-hero-share{position:absolute;right:12px;top:12px;z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:14px;background:var(--color-card);color:var(--color-brand)!important;cursor:pointer}
+#keysUnifiedPrototype .kpa-hero-share svg{width:22px;height:22px}
+/* Confirmation document: stable label/value columns and consistent sections. */
+#keysUnifiedPrototype .kpa-booking-details{display:grid;gap:12px;font:400 var(--text-14)/var(--leading-normal) var(--font-sans);text-align:left}
+#keysUnifiedPrototype .kpa-confirmation-sheet{padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-details p{margin:8px 0 0;font-size:var(--text-14)!important;line-height:1.5!important;font-weight:400!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-details h3{margin:0 0 8px;font-size:var(--text-17)!important;line-height:1.4!important;font-weight:var(--font-weight-medium)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .kpa-sheet-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:12px}
+#keysUnifiedPrototype .kpa-booking-reference{font-size:var(--text-14);font-weight:var(--font-weight-medium);line-height:1.5}
+#keysUnifiedPrototype .kpa-state-badge{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;padding:3px 6px;border-radius:8px;background:var(--color-success-bg);color:var(--color-success);font-size:var(--text-12);font-weight:var(--font-weight-medium);line-height:1.5}
+#keysUnifiedPrototype .kpa-state-badge svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype .kpa-state-badge.is-partial{background:var(--color-soft);color:var(--color-ink)}
+#keysUnifiedPrototype .kpa-confirmed{color:var(--color-success)}
+#keysUnifiedPrototype .kpa-secondary{color:var(--color-muted)}
+#keysUnifiedPrototype .kpa-voucher-section{padding-top:12px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kpa-voucher-section+.kpa-voucher-section{margin-top:12px}
+#keysUnifiedPrototype .kpa-voucher-facts{display:grid;gap:10px;margin:0}
+#keysUnifiedPrototype .kpa-voucher-facts>div{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:12px;align-items:baseline}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-voucher-facts :is(dt,dd){margin:0;font-size:var(--text-14)!important;line-height:1.5!important;font-weight:400!important;letter-spacing:0!important;text-align:left;overflow-wrap:break-word}
+#keysUnifiedPrototype .kpa-voucher-facts dt,#keysUnifiedPrototype .kpa-field-hint{color:var(--color-muted)}
+#keysUnifiedPrototype .kpa-field-hint{display:block;margin-top:2px}
+#keysUnifiedPrototype .kpa-voucher-payment dd{font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype .kpa-download{margin-top:0;cursor:pointer}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-overlay:has(.kpa-booking-details) .kh-detail-header h2{font-size:var(--text-20)!important;line-height:var(--leading-tight)!important}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-booking-details) .kh-detail-header{margin-bottom:16px}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-confirmation-sheet{padding:12px}}
+
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-voucher-facts dt{text-align:left;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-voucher-facts dd{text-align:right;color:var(--color-ink)}
+
+#keysUnifiedPrototype .kpa-payment-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-title h3{margin:0;min-width:0}
+#keysUnifiedPrototype .kpa-payment-title .kpa-state-badge{flex:none}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-booking-reference{font-size:var(--text-12)}#keysUnifiedPrototype .kpa-sheet-header{gap:6px}}
+
+/* Travel documents: compact rows matching the shared service-card typography. */
+#keysUnifiedPrototype .kpa-documents{display:grid;gap:16px}
+#keysUnifiedPrototype .kpa-document-list{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .kpa-document-row{display:flex;align-items:center;gap:12px;width:100%;min-height:80px;padding:16px;border:0;border-radius:0;background:transparent;text-align:left;color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .kpa-document-row+.kpa-document-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kpa-document-icon{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:12px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype .kpa-document-icon svg{width:20px;height:20px}
+#keysUnifiedPrototype .kpa-document-copy{display:grid;gap:4px;flex:1;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-document-copy strong{font:var(--font-weight-medium) var(--text-14)/1.5 var(--font-sans);letter-spacing:0;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-document-copy small{font:400 var(--text-12)/1.5 var(--font-sans);letter-spacing:0;color:var(--color-muted)}
+#keysUnifiedPrototype .kpa-document-download{display:flex;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .kpa-document-download svg,#keysUnifiedPrototype .kpa-save-documents svg{width:20px;height:20px;flex:none}
+#keysUnifiedPrototype .kpa-save-documents{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:0;cursor:pointer}
+#keysUnifiedPrototype .kpa-document-row:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-overlay:has(.kpa-documents) .kh-detail-header h2{font-size:var(--text-20)!important;line-height:var(--leading-tight)!important}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-documents) .kh-detail-header{margin-bottom:16px}
+@media(hover:hover){#keysUnifiedPrototype .kpa-document-row:hover{background:var(--color-mist)}}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-document-row{padding:12px;gap:8px}}
+
+/* A soft heading and inset blue pass mirror the card used during the stay. */
+#keysUnifiedPrototype .kpa-welcome-ribbon{display:flex;align-items:center;gap:8px;min-height:48px;box-sizing:border-box;padding:14px 16px;background:var(--color-soft);color:var(--color-ink)}
+#keysUnifiedPrototype .kpa-welcome-ribbon svg{width:18px;height:18px;flex:none;color:var(--color-brand);fill:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-welcome-ribbon p{margin:0;padding:0;font:var(--font-weight-medium) var(--text-14)/1.5 var(--font-sans)!important;letter-spacing:0;color:var(--color-ink)!important}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-welcome-ribbon{padding-inline:12px;gap:6px}}
+
+/* Emphasize the remaining days without adding another row. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown{display:flex;align-items:baseline;gap:6px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown b{font:var(--font-weight-medium) var(--text-24)/1.15 var(--font-sans)!important;letter-spacing:0;color:var(--color-on-brand);font-variant-numeric:tabular-nums}
+
+#keysUnifiedPrototype .kpa-change-layer{position:absolute;inset:0;z-index:100;background:var(--color-card);overflow:hidden;border-radius:inherit}
+#keysUnifiedPrototype .kpa-change-layer iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;background:var(--color-card)}
+#keysUnifiedPrototype .kpa-change-loading{position:relative;z-index:2;padding:24px 16px;background:var(--color-card);font:400 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .kpa-change-cancel{position:relative;z-index:2;margin:0 16px;padding:12px;border:0;border-radius:12px;background:var(--color-soft);color:var(--color-brand)}
+
+/* Three days before arrival: primary registration and one compact action group. */
+#keysUnifiedPrototype .kpa-checkin{margin:0;min-height:48px;width:100%}
+#keysUnifiedPrototype .kpa-home [hidden]{display:none!important}
+#keysUnifiedPrototype .kpa-actions-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+#keysUnifiedPrototype .kpa-actions-three button{padding:12px 6px;min-width:0}
+#keysUnifiedPrototype .kpa-form select{width:100%;min-height:48px;padding:12px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-card);color:var(--color-ink);font:400 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .kpa-form .kpa-consent{display:flex;align-items:flex-start;gap:10px;font-weight:400}
+#keysUnifiedPrototype .kpa-consent input{width:18px;height:18px;min-height:0;flex:none;margin:2px 0;accent-color:var(--color-brand)}
+#keysUnifiedPrototype .kpa-form .kpa-consent>span{font-size:var(--text-14);color:var(--color-ink);line-height:1.5}
+
+#keysUnifiedPrototype .kpa-actions-three button{display:grid;grid-template-rows:24px 1fr;justify-items:center;align-content:stretch;gap:8px}
+#keysUnifiedPrototype .kpa-actions-three button>strong{display:flex;align-items:center;justify-content:center;text-align:center;line-height:18px}
+
+/* Equal secondary actions directly below the booking pass. */
+#keysUnifiedPrototype .kpa-booking-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-buttons>.kpa-manage{box-sizing:border-box;min-width:0;min-height:48px;height:auto;margin:0;padding:10px 12px;line-height:var(--leading-normal)}
+#keysUnifiedPrototype .kpa-booking-buttons>.kpa-manage>svg{display:none}
+
+/* Arrival instructions use the shared card, type and spacing system. */
+#keysUnifiedPrototype .kh-overlay:has(.kpa-instruction) .kh-detail-header{align-items:flex-start;margin-bottom:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-overlay:has(.kpa-instruction) .kh-detail-header h2{font-size:var(--text-20)!important;line-height:1.3!important;padding-top:8px}
+#keysUnifiedPrototype .kpa-instruction{display:grid;gap:12px}
+#keysUnifiedPrototype .kpa-instruction-card{display:grid;gap:8px;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-instruction h3{margin:0;padding:0;font:var(--font-weight-medium) var(--text-16)/1.4 var(--font-sans)!important;letter-spacing:0;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-instruction p{margin:0;padding:0;font:400 var(--text-14)/1.5 var(--font-sans)!important;letter-spacing:0;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-instruction .kpa-instruction-address{color:var(--color-ink)}
+#keysUnifiedPrototype .kpa-instruction-arrival{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px 12px;margin-bottom:8px;padding:10px 12px;border-radius:12px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-instruction-arrival :is(span,strong){font:var(--font-weight-medium) var(--text-14)/1.5 var(--font-sans)!important;color:inherit;letter-spacing:0}
+#keysUnifiedPrototype .kpa-instruction-documents{display:grid;gap:8px;margin-top:8px;padding-top:16px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kpa-instruction>.kpa-manage{margin:4px 0 0}
+
+/* Shared typography roles for both pre-arrival home states. */
+#keysUnifiedPrototype .kpa-home{font-family:var(--font-sans);font-weight:var(--font-weight-normal);font-synthesis:none;letter-spacing:var(--tracking-normal)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-hotel-heading h1,.kh-nearby-heading h2,.kpa-total>strong,.kpa-arrival-countdown){font:var(--font-weight-medium) var(--text-17)/var(--leading-tight) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-arrival-countdown b,.kpa-duration-count strong){font:var(--font-weight-medium) var(--text-24)/var(--leading-tight) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important;font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-manage,.kpa-manage span,.kpa-service>strong,.kpa-services-all,.kpa-schedule-stop time){font:var(--font-weight-medium) var(--text-14)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home .kpa-welcome-ribbon p{font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-hotel-heading>span,.kpa-schedule-stop>div>span,.kpa-schedule-stop small,.kpa-duration-count span,.kpa-service-status,.kpa-service-link,.kh-nearby-heading p,.kh-nearby-count){font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-actions strong,.kpa-payment-status strong,.kh-detail-link){font:var(--font-weight-medium) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+
+#keysUnifiedPrototype .kpa-route{text-decoration:none}
+#keysUnifiedPrototype .kpa-route:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+
+#keysUnifiedPrototype .kpa-stay-overview[hidden]+.kpa-trip-schedule{margin-top:0}
+
+/* Route app chooser uses the shared overlay as a bottom sheet. */
+#keysUnifiedPrototype .kh-overlay:has(.kpa-route-chooser):not([hidden]){display:flex;flex-direction:column;justify-content:flex-end;padding:0;background:rgba(20,29,45,.32)}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-route-chooser) .kh-detail-header{margin:0;padding:20px 16px 8px;border-radius:24px 24px 0 0;background:var(--color-card)}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-route-chooser) .kh-detail-content{padding:0 16px 24px;background:var(--color-card)}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-route-chooser) .kh-copy-status{display:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-overlay:has(:is(.kpa-route-chooser,.kpa-go-preview)) .kh-detail-header h2{font:500 var(--text-20)/1.3 var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-route-chooser>p{margin:0 0 12px;font:400 var(--text-14)/1.5 var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kpa-route-option{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 0;border:0;border-bottom:1px solid var(--color-line);background:transparent;color:var(--color-ink);text-decoration:none;text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kpa-route-option:last-child{border-bottom:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-route-option strong{flex:1;font:500 var(--text-14)/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype .kpa-route-option>svg{width:16px;height:16px;color:var(--color-muted)}
+#keysUnifiedPrototype .kpa-route-app{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:12px}
+#keysUnifiedPrototype .kpa-route-maps{background:#fff0ed;color:#e64b3b}
+#keysUnifiedPrototype .kpa-route-maps svg{width:24px;height:24px}
+#keysUnifiedPrototype .kpa-route-go{background:#ffdb4d;color:#171717;font:600 18px/1 var(--font-sans)}
+#keysUnifiedPrototype .kpa-route-option:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:12px}
+/* Local visual simulation: no location request or taxi order is sent. */
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview){padding:0;background:#eeede8}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-detail-header{margin:0;padding:16px;background:white}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-copy-status{display:none}
+#keysUnifiedPrototype .kpa-go-map{height:300px;position:relative;overflow:hidden}
+#keysUnifiedPrototype .kpa-go-map>svg{width:100%;height:100%;display:block}
+#keysUnifiedPrototype .kpa-go-wordmark{position:absolute;top:16px;left:16px;background:white;border-radius:14px;padding:10px 12px;font:500 17px/1.25 var(--font-sans);color:#171717}
+#keysUnifiedPrototype .kpa-go-wordmark b{background:#ffdb4d;border-radius:6px;padding:2px 4px;color:#171717}
+#keysUnifiedPrototype .kpa-go-hotel-label{position:absolute;top:116px;right:16px;border-radius:8px;padding:7px 10px;background:#fff;box-shadow:0 2px 8px #0001;font:500 12px/1.5 var(--font-sans);color:#171717}
+#keysUnifiedPrototype .kpa-go-panel{position:relative;margin-top:-18px;padding:12px 20px 24px;border-radius:24px 24px 0 0;background:white}
+#keysUnifiedPrototype .kpa-go-handle{display:block;width:36px;height:4px;background:#ddd;border-radius:10px;margin:0 auto 20px}
+#keysUnifiedPrototype .kpa-go-endpoint{display:flex;gap:12px;padding:0 0 16px;align-items:flex-start;color:#171717}
+#keysUnifiedPrototype .kpa-go-endpoint+.kpa-go-endpoint{padding-top:16px;border-top:1px solid #eee}
+#keysUnifiedPrototype .kpa-go-point{width:12px;height:12px;flex:none;margin-top:6px;background:#222;border:3px solid #eee;border-radius:50%;box-sizing:border-box}
+#keysUnifiedPrototype .kpa-go-point.is-hotel{background:#ffcc00;border:0;border-radius:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-endpoint small{display:block;margin-bottom:4px;font:400 var(--text-12)/1.5 var(--font-sans)!important;color:#777}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-endpoint strong{font:500 var(--text-16)/1.4 var(--font-sans)!important;color:#171717}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-endpoint p{margin:4px 0 0;font:400 var(--text-14)/1.5 var(--font-sans)!important;color:#777}
+#keysUnifiedPrototype .kpa-go-return{width:100%;min-height:48px;margin-top:8px;border:0;border-radius:14px;background:#ffdb4d;color:#171717;font:500 var(--text-14)/1.5 var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kpa-go-return:focus-visible{outline:2px solid #171717;outline-offset:3px}
+
+/* Visible application handoff, followed by a separate Go visual language. */
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-launch){padding:0;background:#fff}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-launch) .kh-detail-header{position:absolute;top:12px;left:16px;right:16px;margin:0}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-launch) .kh-detail-header h2{display:none}
+#keysUnifiedPrototype .kpa-go-launch{min-height:650px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#171717;font-family:Arial,sans-serif}
+#keysUnifiedPrototype .kpa-go-launch-icon{display:grid;place-items:center;width:88px;height:88px;border-radius:24px;background:#ffdb4d;color:#171717;font:700 42px/1 Arial,sans-serif;letter-spacing:-3px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-launch h3{margin:20px 0 8px;font:600 24px/1.2 Arial,sans-serif!important;color:#171717}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-launch p{margin:0;font:400 14px/1.5 Arial,sans-serif!important;color:#777}
+#keysUnifiedPrototype .kpa-go-launch-progress{width:36px;height:4px;margin-top:24px;background:#ffdb4d;border-radius:4px;animation:kpaGoPulse .7s ease-in-out infinite alternate}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview):not([hidden]){display:flex;flex-direction:column;background:#fff;animation:kpaGoEnter .28s ease-out}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-detail-header{padding:8px 14px;margin:0;gap:12px;background:#fff;min-height:44px;border-bottom:1px solid #eee}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-back{display:inline-flex;align-items:center;justify-content:flex-start;width:auto;min-width:80px;gap:3px;background:transparent;border-radius:0;font:400 13px/1 Arial,sans-serif;color:#171717}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-back:after{content:'Ключи'}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-back svg{width:16px;height:16px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-detail-header h2{font:600 17px/1.3 Arial,sans-serif!important;color:#171717}
+#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview) .kh-detail-content{flex:1;display:flex;min-height:0}
+#keysUnifiedPrototype .kpa-go-preview{display:flex;flex-direction:column;width:100%;flex:1;min-height:660px;background:#f5f4f2;font-family:Arial,sans-serif}
+#keysUnifiedPrototype .kpa-go-map{flex:1;min-height:260px;height:auto}
+#keysUnifiedPrototype .kpa-go-map>svg{position:absolute;inset:0}
+#keysUnifiedPrototype .kpa-go-wordmark{background:#ffdb4d;border-radius:14px;font:700 26px/1 Arial,sans-serif;padding:12px;letter-spacing:-1px}
+#keysUnifiedPrototype .kpa-go-panel{padding:10px 16px 20px;border-radius:28px 28px 0 0;box-shadow:0 -4px 20px #00000008}
+#keysUnifiedPrototype .kpa-go-handle{margin-bottom:16px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-endpoint strong{font:600 16px/1.35 Arial,sans-serif!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-endpoint :is(p,small){font-family:Arial,sans-serif!important}
+#keysUnifiedPrototype .kpa-go-tariffs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+#keysUnifiedPrototype .kpa-go-tariffs button{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:90px;padding:8px 4px;border:2px solid transparent;background:#f5f4f2;border-radius:16px;color:#171717;cursor:pointer;font:400 13px/1.4 Arial,sans-serif}
+#keysUnifiedPrototype .kpa-go-tariffs button[aria-pressed="true"]{border-color:#f1cc31;background:#fffbea}
+#keysUnifiedPrototype .kpa-go-tariffs svg{width:80px;max-width:100%;height:40px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-go-panel .kpa-go-ready{margin:16px 0 0;padding:14px 8px;background:#ffdb4d;border-radius:16px;text-align:center;color:#171717;font:600 16px/1.3 Arial,sans-serif!important}
+@keyframes kpaGoEnter{from{opacity:.5;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes kpaGoPulse{to{opacity:.35}}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .kpa-go-launch-progress,#keysUnifiedPrototype .kh-overlay:has(.kpa-go-preview){animation:none}}
+
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-buttons>.kpa-checkin.is-complete{display:flex;flex-direction:column;gap:2px;padding:8px 12px;background:var(--color-success-bg);color:var(--color-ink)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home .kpa-checkin .kpa-checkin-status{display:flex;align-items:center;gap:4px;font:500 var(--text-12)/1.5 var(--font-sans)!important;color:var(--color-success)}
+#keysUnifiedPrototype .kpa-checkin-status svg{width:14px;height:14px;flex:none}
+/* The original share sheet floats above the current booking card. */
+#keysUnifiedPrototype .kpa-change-layer.kpa-share-layer,#keysUnifiedPrototype .kpa-share-layer iframe{background:transparent}

@@ -1,0 +1,55 @@
+{
+  "purpose": "Compact details for a guest already staying in the hotel",
+  "kept": [
+    "guest, room category and tariff",
+    "accommodation payment",
+    "included fitness",
+    "late checkout",
+    "reception and entrance instructions"
+  ],
+  "removedFromOverview": [
+    "cover gallery",
+    "stay progress and dates",
+    "digital key",
+    "current bill",
+    "breakfast offer",
+    "services catalogue",
+    "Wi-Fi details",
+    "nearby recommendations",
+    "share button",
+    "visible section captions"
+  ],
+  "verification": {
+    "unitTests": 13,
+    "preservedInlineScripts": 67,
+    "browser": [
+      "booking page: no Share or section headings; guest inside card",
+      "entrance detail: hotel subtitle hidden",
+      "Wi-Fi overlay: only page title",
+      "prior functional checks retained in conversation history"
+    ]
+  },
+  "implementation": "src/booking; existing scenario handlers and hidden routing anchors preserved",
+  "layout": "Guest as compact 14px data row inside reservation card; no hotel subtitle on secondary screen headers; no visible group titles",
+  "references": [
+    "https://valmax.agency/insights/april-2026-in-ui-ux-design-10-dribbble-shots-that-show-how-we-work/",
+    "https://design.google/library/expressive-material-design-google-research"
+  ],
+  "typography": {
+    "font": "Golos Text Variable",
+    "title": "20px / 1.25 / 500",
+    "body": "14px / 1.5 / 400",
+    "emphasisAndButtons": "14px / 1.5 / 500",
+    "caption": "12px / 1.5 / 400",
+    "mobileScale": 1.05,
+    "checkedSheets": [
+      "late checkout",
+      "reception"
+    ],
+    "viewportChecks": [
+      320,
+      375
+    ],
+    "textOverflow": false
+  }
+}

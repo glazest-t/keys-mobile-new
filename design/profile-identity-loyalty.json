@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-01",
+  "scope": "Profile identity, avatar upload and loyalty summary",
+  "reference": "https://dribbble.com/shots/26534106-Fintech-Mobile-App-User-Profile-Management",
+  "data": {
+    "phone": "Prototype placeholder: +7 (900) 123-45-67",
+    "email": "Existing prototype example: t.glazyrina@example.ru",
+    "loyalty": "Existing benefits: Silver, 2400 points, 18/25 nights"
+  },
+  "checks": {
+    "browser": "Visual review at 390px; no horizontal overflow; loyalty opens Benefits; back returns to origin",
+    "uploadHandler": "Isolated execution with browser API stubs: center crop, persistence, restore, invalid type, oversize, decode error and storage quota error",
+    "nativeFilePicker": "Not exercised with an actual local file in browser automation",
+    "preservation": "67 original inline scripts preserved"
+  },
+  "storage": "Avatar only, localStorage keys-profile-avatar-v1; no server upload"
+}

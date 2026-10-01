@@ -1,0 +1,130 @@
+/* Shared geometry and type roles. Loaded last in the host and embedded sections.
+   Full buttons, card-footer links and inline hints deliberately keep separate roles. */
+:root{
+ --text-scale:1!important;
+ --ui-card-radius:20px;
+ --ui-card-padding:16px;
+ --ui-section-gap:16px;
+ --ui-control-height:48px;
+ --ui-link-height:44px;
+ --ui-control-radius:14px;
+ --ui-row-height:72px;
+ --ui-caption-size:12px;
+ --ui-body-size:14px;
+ --ui-card-title-size:17px;
+ --ui-page-title-size:20px;
+}
+/* The iframe's narrow viewport must not enlarge text relative to the host. */
+#keysUnifiedPrototype :is(.kh-home,.kh-overlay,.ka-home,.kse-home,.kb-details,.ksd-head,.ksd-sheet,.kb-late-block,.kb-problem-page){--text-scale:1!important}
+
+/* Secondary actions: common type, icon and baseline in every host section. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-link,.ka-referral-footer,.kse-card-action,.kpa-services-all,.kb-action-link,.kn-card-actions a,.kn-card-actions button){
+ box-sizing:border-box;font:500 var(--ui-caption-size)/1.5 var(--font-sans)!important;
+ letter-spacing:0!important;color:var(--color-brand);gap:6px;text-decoration:none;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-link,.ka-referral-footer,.kse-card-action,.kpa-services-all,.kb-action-link,.kn-card-actions a,.kn-card-actions button) svg{width:14px;height:14px;flex:none}
+/* A footer is a 44 px row, without an extra inset beneath it. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-referral-footer,.kse-card-action,.kpa-services-all,.kh-nearby-actions button,.kn-card-actions a,.kn-card-actions button){
+ display:flex;align-items:center;min-height:var(--ui-link-height);padding:0;border-radius:0;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-referral-footer,.kse-card-action,.kpa-services-all){justify-content:space-between;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kse-benefits,.kh-nearby-v2){padding-bottom:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kn-card-actions{padding-block:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-nearby-actions{border-color:var(--color-line)}
+@media(hover:hover){#keysUnifiedPrototype .kse-benefits:hover .kse-card-action>span{text-decoration:none}}
+
+/* Filled and outlined standalone actions use the same 48 / 14 / 14 geometry. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-primary,.kn-primary,.kpa-manage,.kse-find,.kh-open-door,.kfb-primary,.ksd-sheet-action,.ksd-close,.kp-primary,.kf-primary,.kti-primary,.kdf-primary,.ksd-primary,.ksd-flow-primary,.ksd-door-primary,.ktd-add-primary,.kp-detail-cta,.kp-secondary,.kf-secondary,.kti-secondary,.kdf-secondary,.ksd-flow-secondary,.ksd-other-secondary){
+ box-sizing:border-box;min-height:var(--ui-control-height)!important;height:auto!important;
+ padding:12px 16px!important;border-radius:var(--ui-control-radius)!important;
+ font:500 var(--ui-body-size)/1.5 var(--font-sans)!important;letter-spacing:0!important;
+ text-align:center;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-buttons>.kpa-manage{padding-inline:12px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-buttons>.kpa-checkin.is-complete{padding-block:8px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-primary,.kn-primary,.kpa-manage,.kse-find)>svg{width:18px;height:18px;flex:none}
+/* Compact reward CTA stays compact, aligned with the neighbouring text action. */
+#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-search{box-sizing:border-box;min-height:44px;padding:10px 12px;font:500 12px/1.5 var(--font-sans);border-radius:12px}
+
+/* Secondary page headers share the profile/booking title size. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-header h2,.keys-profile-header h1,.ksd-head h1,.ksd-detail-title h1,.kfb-title h1,.kfb-success h1,.ksd-sheet h3,.ksd-sheet h4){
+ font:500 var(--ui-page-title-size)/1.25 var(--font-sans)!important;letter-spacing:0!important;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-header,.keys-profile-header,.ksd-detail-head,.kfb-head){gap:12px;align-items:center}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-back,.keys-profile-back,.ksd-detail-back,.kfb-back){box-sizing:border-box;width:44px;height:44px;min-width:44px;padding:0;flex:none;border-radius:50%}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-back,.keys-profile-back,.ksd-detail-back,.kfb-back) svg{width:20px;height:20px}
+
+/* Shared white cards and information rows. Branded hero layouts remain distinct. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-home,.kpa-home,.ka-home,.kse-home,.kb-details,.keys-benefits){gap:var(--ui-section-gap)}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-card,.keys-passport-card,.kb-card,.kpa-confirmation-sheet,.kpa-instruction-card,.kn-interests){padding:var(--ui-card-padding);border-radius:var(--ui-card-radius)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-card{border-color:var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kse-benefits-heading>strong,.kh-detail-content h3,.kn-card-body>strong,.kfb-question,.kfb-tip-card h2){font:500 var(--ui-card-title-size)/1.25 var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-quick-actions button,.ka-actions button,.kb-completed-links button){box-sizing:border-box;min-height:80px;padding:12px 4px;gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-quick-actions strong{font:500 12px/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-row,.kb-document-row,.kpa-document-row){box-sizing:border-box;min-height:var(--ui-row-height);gap:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-document-row,.kpa-document-row){padding:16px}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-copy,.kpa-document-copy,.kh-copy,.ka-referral-copy){gap:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-document-row,.kpa-document-row) strong{font:500 14px/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-document-row,.kpa-document-row) small{font:400 12px/1.5 var(--font-sans)!important;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-document-icon{width:24px;height:24px;background:transparent;border-radius:0;color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-document-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-ledger small,.kh-credentials small){font:400 12px/1.5 var(--font-sans)!important}
+
+/* Original Arbana controls receive semantic hooks in the integration build. */
+#root [data-keys-button]:is([data-keys-button="primary"],[data-keys-button="secondary"],[data-keys-button="danger"]){
+ box-sizing:border-box;min-height:var(--ui-control-height);padding:12px 16px;
+ border-radius:var(--ui-control-radius);font:500 var(--ui-body-size)/1.5 var(--font-sans);letter-spacing:0;
+}
+#root [data-keys-button="text"]{min-height:var(--ui-link-height);font:500 var(--ui-caption-size)/1.5 var(--font-sans);gap:6px}
+#root [data-keys-button="text"] svg{width:14px;height:14px}
+#root .keys-ui-row{box-sizing:border-box;min-height:var(--ui-row-height);padding-block:12px;gap:12px}
+#root .keys-ui-row strong{font:500 var(--ui-body-size)/1.5 var(--font-sans)}
+#root .keys-ui-row .text-12{font:400 var(--ui-caption-size)/1.5 var(--font-sans)}
+#root .keys-ui-row>svg:first-child{width:22px;height:22px}
+#root .keys-ui-row>svg:last-child{width:14px;height:14px}
+#root :is([data-screen-type="notifications"],[data-screen-type="notification-settings"],[data-screen-type="change-booking"],[data-screen-type="checkin"],[data-screen-type="guest-documents"]) h1{font:500 var(--ui-page-title-size)/1.25 var(--font-sans);letter-spacing:0}
+#root .keys-notice-item{padding:16px;margin-bottom:12px;border-radius:var(--ui-card-radius)}
+#root .keys-notice-heading strong{font:500 var(--ui-body-size)/1.5 var(--font-sans)}
+#root .keys-notice-body{margin-top:4px;font:400 var(--ui-caption-size)/1.5 var(--font-sans)}
+#root .keys-notice-meta{margin-top:12px}
+#root .keys-trip-share-option{padding:16px}
+#root .keys-trip-share-hotel strong{font:500 var(--ui-card-title-size)/1.25 var(--font-sans)}
+
+/* Find uses the same segmented-control geometry and type as Nearby. */
+:root{--ui-segment-fill:#f1f4fa;--ui-segment-shadow:0 1px 4px #20385d15}
+#keysUnifiedPrototype .kn-switch,
+[aria-label="Способ поиска"]{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;
+ padding:4px;border:0;border-radius:14px;background:var(--ui-segment-fill);
+}
+#keysUnifiedPrototype .kn-switch>button,
+[aria-label="Способ поиска"]>button{
+ box-sizing:border-box;min-height:42px;padding:8px;border:0;border-radius:10px;
+ font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:21px;
+ letter-spacing:0;color:var(--color-muted);background:transparent;
+}
+#keysUnifiedPrototype .kn-switch>button[aria-pressed="true"],
+[aria-label="Способ поиска"]>button[aria-pressed="true"]{color:var(--color-brand)}
+#keysUnifiedPrototype .kn-switch>button[aria-pressed="true"],
+[aria-label="Способ поиска"]>span[aria-hidden="true"]{
+ background:var(--color-card);border-radius:10px;box-shadow:var(--ui-segment-shadow);
+}
+[aria-label="Способ поиска"]{background:var(--color-soft)}
+@media(prefers-reduced-motion:reduce){[aria-label="Способ поиска"]>span[aria-hidden="true"]{transition:none}}
+
+/* Find landing: the shared 20 / 17 / 14 / 12 hierarchy, Regular and Medium. */
+#root main:has(> [aria-label="Способ поиска"]){
+ font-family:var(--font-sans);font-size:var(--ui-body-size);font-weight:400;
+ line-height:1.5;letter-spacing:0;font-synthesis:none;
+}
+#root main:has(> [aria-label="Способ поиска"]) :is(button,input){font-family:var(--font-sans);letter-spacing:0}
+#root main:has(> [aria-label="Способ поиска"])>h1{font:500 var(--ui-page-title-size)/1.25 var(--font-sans);letter-spacing:0}
+#root main:has(> [aria-label="Способ поиска"]) h2{font:500 var(--ui-card-title-size)/1.25 var(--font-sans);letter-spacing:0}
+#root main:has(> [aria-label="Способ поиска"]) :is(.keys-find-history-city strong,.keys-find-saved-title strong,.keys-find-recent-track button>strong),
+#root main:has(> [aria-label="Способ поиска"])>button strong{font:500 var(--ui-body-size)/1.5 var(--font-sans);letter-spacing:0}
+#root main:has(> [aria-label="Способ поиска"]) :is(.keys-find-history-dates,.keys-find-history-guests,.keys-find-history-preferences,.keys-find-saved-caption),
+#root main:has(> [aria-label="Способ поиска"])>button .text-12{font:400 var(--ui-caption-size)/1.5 var(--font-sans);letter-spacing:0}
+#root main:has(> [aria-label="Способ поиска"]) :is(.keys-find-saved-count,.keys-find-recent-track .text-11){font:500 var(--ui-caption-size)/1.5 var(--font-sans);letter-spacing:0}
+#root main:has(> [aria-label="Способ поиска"])>form .text-12{font:400 var(--ui-body-size)/1.5 var(--font-sans);letter-spacing:0}
+/* Keep text inputs at 16 px to prevent mobile browsers zooming on focus. */
+#root main:has(> [aria-label="Способ поиска"]) input{font:400 16px/1.5 var(--font-sans)}

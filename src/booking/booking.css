@@ -1,0 +1,120 @@
+/* In-stay information architecture: guest → conditions → action → help. */
+#keysUnifiedPrototype #keysStayDetails .kb-legacy[hidden]{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-phone{background:var(--color-card)!important}
+#keysUnifiedPrototype #keysStayDetails .kb-scroll{padding-top:4px}
+#keysUnifiedPrototype #keysStayDetails :is(.kb-details,.ksd-head,.ksd-sheet){
+ --text-scale:1;--text-12:calc(12px * var(--text-scale));--text-14:calc(14px * var(--text-scale));--text-16:calc(16px * var(--text-scale));--text-17:calc(17px * var(--text-scale));--text-20:calc(20px * var(--text-scale));
+}
+#keysUnifiedPrototype #keysStayDetails .kb-details{
+ display:grid;gap:16px;font-family:var(--font-sans);font-size:var(--text-14);font-weight:400;line-height:var(--leading-normal);letter-spacing:var(--tracking-normal);font-synthesis:none;
+}
+@media(max-width:639px){#keysUnifiedPrototype #keysStayDetails :is(.kb-details,.ksd-head,.ksd-sheet){--text-scale:1.05}}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-head h1{font-size:var(--text-20)!important;line-height:var(--leading-tight)!important;font-weight:500!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-head small{font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:400!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-details,.kb-late-block) :is(dt,small,.kb-hint){display:block;font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:400!important;letter-spacing:0!important;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kb-details,.kb-late-block) :is(dd,.kb-guest strong,.kb-room strong,.kb-included strong,.kb-row strong,.kb-late strong){margin:0;font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:500!important;letter-spacing:0!important}
+#keysUnifiedPrototype .kb-guest{display:flex;align-items:center;gap:12px;padding:0 0 14px;margin-bottom:14px;border-bottom:1px solid var(--color-line)}
+#keysUnifiedPrototype .kb-guest>div{display:grid;gap:4px}
+#keysUnifiedPrototype .kb-guest-icon{display:grid;place-items:center;width:24px;height:24px;color:var(--color-brand);flex:none}
+#keysUnifiedPrototype .kb-guest-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype #keysStayDetails .kb-card{padding:16px;border-radius:20px;background:var(--color-card);box-shadow:inset 0 0 0 1px var(--color-line);overflow:hidden}
+#keysUnifiedPrototype .kb-room{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+#keysUnifiedPrototype .kb-room small{margin-top:2px}
+#keysUnifiedPrototype .kb-facts{margin:0;display:grid;gap:8px}
+#keysUnifiedPrototype .kb-facts>div{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+#keysUnifiedPrototype .kb-facts dd{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+#keysUnifiedPrototype .kb-paid{display:flex;align-items:center;gap:5px;margin-top:10px;color:var(--color-success);font-size:var(--text-12);font-weight:500;line-height:var(--leading-normal)}
+#keysUnifiedPrototype .kb-paid svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype .kb-included{display:flex;gap:12px;align-items:center;padding-top:14px;margin-top:14px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kb-included-label{margin-bottom:3px}
+#keysUnifiedPrototype .kb-included strong+small{margin-top:2px}
+#keysUnifiedPrototype .kb-icon{display:grid;place-items:center;width:24px;height:24px;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .kb-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype .kb-arrow{margin-left:auto;display:flex;color:var(--color-muted);flex:none}
+#keysUnifiedPrototype .kb-arrow svg{width:14px;height:14px}
+#keysUnifiedPrototype .kb-late-block .kb-late{display:flex;align-items:flex-start;gap:12px;width:100%;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);text-align:left;font:inherit;color:var(--color-ink);cursor:pointer;transition:background-color .18s ease}
+#keysUnifiedPrototype .kb-action-link{display:flex;align-items:center;gap:5px;margin-top:4px;font-size:var(--text-12);font-weight:500;color:var(--color-brand)}
+#keysUnifiedPrototype .kb-action-link svg{width:14px;height:14px}
+#keysUnifiedPrototype .kb-hint{margin:8px 2px 0}
+#keysUnifiedPrototype .kb-contacts{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype #keysStayDetails .kb-row{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:14px 0;border:0;border-bottom:1px solid var(--color-line);border-radius:0;background:transparent;text-align:left;font:inherit;color:var(--color-ink);cursor:pointer;transition:background-color .18s ease}
+#keysUnifiedPrototype .kb-copy{display:grid;gap:3px;min-width:0}
+#keysUnifiedPrototype :is(.kb-row,.kb-late):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysUnifiedPrototype :is(.kb-row,.kb-late):active{background:var(--color-soft)}
+@media(hover:hover){#keysUnifiedPrototype :is(.kb-row,.kb-late):hover{background:var(--color-soft)}}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype :is(.kb-row,.kb-late){transition:none}}
+/* Sheets cover the floating navigation, including their Close button. */
+#keysUnifiedPrototype #keysStayDetails .ksd-sheet-layer{z-index:60!important}
+
+/* Bottom-sheet type roles match the booking page and Arbana UI kit. */
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-sheet,
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-sheet :is(p,button,input,span){font-family:var(--font-sans)!important;font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-normal)!important;letter-spacing:var(--tracking-normal)!important;font-synthesis:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-sheet :is(h3,h4){font-size:var(--text-20)!important;line-height:var(--leading-tight)!important;font-weight:var(--font-weight-medium)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-sheet :is(strong,b,button){font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-medium)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-sheet :is(small,.ksd-sheet-copyline>span){font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-normal)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-sheet input{font-size:var(--text-16)!important}
+#keysUnifiedPrototype #keysStayDetails .ksd-sheet :is(.ksd-sheet-choice,.ksd-sheet-copyline) {font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype #keysStayDetails .ksd-sheet :is(.ksd-sheet-action,.ksd-close){min-height:44px;height:auto}
+
+/* Shared late-checkout block used by booking details and the checkout dashboard. */
+#keysUnifiedPrototype .kb-late-block{--text-scale:1;--text-12:calc(12px * var(--text-scale));--text-14:calc(14px * var(--text-scale));font-family:var(--font-sans);font-size:var(--text-14);line-height:var(--leading-normal);letter-spacing:var(--tracking-normal)}
+@media(max-width:639px){#keysUnifiedPrototype .kb-late-block{--text-scale:1.05}}
+/* Documents belong to the checkout booking, alongside its other actions. */
+#keysUnifiedPrototype .kb-documents-section{display:none}
+body[data-keys-stay-day="checkout"] #keysUnifiedPrototype .kb-documents-section{display:block}
+#keysUnifiedPrototype #keysStayDetails .kb-row.kb-documents-entry{padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype #keysStayDetails .kb-documents-view{z-index:60}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-documents-view .kh-detail-header h2{font-size:var(--text-20)!important;line-height:var(--leading-tight)!important}
+#keysUnifiedPrototype .kb-document-list{border:1px solid var(--color-line);border-radius:20px;overflow:hidden}
+#keysUnifiedPrototype .kb-document-row{display:flex;align-items:center;gap:12px;width:100%;padding:16px;text-align:left;border:0;background:var(--color-card)}
+#keysUnifiedPrototype .kb-document-row+.kb-document-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-document-row strong{font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:500!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-document-row small{font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:400!important;color:var(--color-muted)}
+#keysUnifiedPrototype .kb-document-row .kb-copy{flex:1}
+#keysUnifiedPrototype .kb-document-row .kb-arrow svg{width:14px;height:14px}
+@media(hover:hover){#keysUnifiedPrototype .kb-document-row:hover,#keysUnifiedPrototype #keysStayDetails .kb-documents-entry:hover{background:var(--color-soft)}}
+
+/* Completed stays share the booking card hierarchy, with read-only trip facts. */
+#keysUnifiedPrototype #keysStayDetails .kb-details[hidden]{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-completed-bill h2{font-size:var(--text-17)!important;line-height:var(--leading-tight)!important;font-weight:var(--font-weight-medium)!important;margin:0 0 16px!important}
+#keysUnifiedPrototype .kb-completed-details .kb-facts>div{align-items:flex-start}
+#keysUnifiedPrototype .kb-completed-details .kb-facts dd{white-space:normal}
+#keysUnifiedPrototype .kb-completed-total{border-top:1px solid var(--color-line);padding-top:12px;margin-top:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-completed-total dt{color:var(--color-ink)!important;font-size:var(--text-14)!important;font-weight:var(--font-weight-medium)!important}
+
+#keysUnifiedPrototype .kb-completed-links{grid-template-columns:repeat(2,minmax(0,1fr));--home-radius:20px}
+#keysUnifiedPrototype .kb-completed-links button{min-height:80px;padding:12px 6px;font-family:var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kb-completed-links svg{width:22px;height:22px}
+#keysUnifiedPrototype .kb-completed-links button:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+
+/* Problem reporting follows the same page, field and card roles as feedback. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page{background:var(--color-card)!important;font-family:var(--font-sans);--text-scale:1;--text-12:calc(12px * var(--text-scale));--text-14:calc(14px * var(--text-scale));--text-20:calc(20px * var(--text-scale))}
+#keysUnifiedPrototype .kb-problem-page .ksd-detail-scroll{background:var(--color-card);padding:8px 16px 116px;scroll-padding-bottom:100px}
+#keysUnifiedPrototype .kb-problem-page .ksd-detail-head{display:flex;align-items:center;gap:12px;margin:0 0 24px}
+#keysUnifiedPrototype .kb-problem-page .ksd-detail-title{min-width:0}
+#keysUnifiedPrototype .kb-problem-page .ksd-detail-title small{display:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page h1{margin:0;font-size:var(--text-20)!important;line-height:1.25!important;font-weight:500!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-detail-back{width:44px;height:44px;min-width:44px;flex:none;border:0!important;background:var(--color-mist)!important;color:var(--color-ink)!important}
+#keysUnifiedPrototype .kb-problem-page .ksd-detail-back svg{width:20px;height:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-other-lead{margin:0 0 24px!important;font-size:var(--text-14)!important;line-height:1.5!important;font-weight:400!important;color:var(--color-muted)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page :is(h2,.ksd-other-photo-label){display:block;margin:24px 0 10px!important;font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important;letter-spacing:0!important}
+#keysUnifiedPrototype .kb-problem-page .ksd-problem-types{gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-problem-type{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;min-height:88px;padding:12px;border:1px solid var(--color-line);border-radius:16px;background:var(--color-card);color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-problem-type.active{border-color:var(--color-brand);background:var(--color-soft)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page :is(.ksd-problem-type strong,.ksd-problem-urgency strong,.ksd-other-photo-copy strong,.ksd-request-status strong){font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page :is(.ksd-problem-type small,.ksd-problem-urgency small,.ksd-other-photo-copy small,.ksd-request-status small){margin:0;font-size:var(--text-12)!important;line-height:1.5!important;font-weight:400!important;color:var(--color-muted)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-other-text{display:block;width:100%;height:120px;min-height:120px;padding:12px;border:1px solid var(--color-line)!important;border-radius:16px!important;background:var(--color-card)!important;font-size:16px!important;line-height:1.5!important;font-weight:400!important;resize:vertical;box-sizing:border-box}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-other-photo-add{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:auto;min-height:48px;padding:12px 16px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-brand);font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important}
+#keysUnifiedPrototype .kb-problem-page .ksd-other-photo-add svg{width:22px;height:22px}
+#keysUnifiedPrototype .kb-problem-page .ksd-other-photo-add.added{justify-content:flex-start}
+#keysUnifiedPrototype .kb-problem-page .ksd-other-thumb{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--color-success-bg);color:var(--color-success)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-problem-urgency{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;min-height:72px;margin-top:24px;padding:14px 0;border:0;border-top:1px solid var(--color-line);border-bottom:1px solid var(--color-line);border-radius:0;background:var(--color-card)}
+#keysUnifiedPrototype .kb-problem-page .ksd-problem-urgency>span:first-child{display:grid;gap:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-urgency-value{font-size:var(--text-12)!important;line-height:1.5!important;font-weight:500!important;color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-flow-primary{height:auto;min-height:48px;margin-top:24px;padding:12px 16px!important;border-radius:14px!important;font-size:var(--text-14)!important;line-height:1.5!important;font-weight:500!important}
+#keysUnifiedPrototype .kb-problem-page .ksd-request-status{box-shadow:none;display:flex;align-items:flex-start;gap:12px;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype .kb-problem-page .ksd-request-status>div{display:grid;gap:4px;min-width:0;flex:1}
+#keysUnifiedPrototype .kb-problem-page .ksd-status-dot{background:var(--color-success);margin-top:7px;flex:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-now-state{padding:4px 8px;border-radius:8px;background:var(--color-success-bg);color:var(--color-success);font-size:var(--text-12)!important;line-height:1.5!important;font-weight:500!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-flow-note{margin-top:16px;padding:0;background:transparent;font-size:var(--text-14)!important;line-height:1.5!important;color:var(--color-muted)}
+@media(max-width:639px){#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page{--text-scale:1.05}}

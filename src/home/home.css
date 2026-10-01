@@ -1,0 +1,260 @@
+/* White canvas with airy blue surfaces from the Arbana palette. */
+#keysUnifiedPrototype#keysUnifiedPrototype .k3-phone{background:var(--color-card)!important}
+#keysUnifiedPrototype .k3-scroll>.keys-app-header{background:var(--color-card)}
+#keysUnifiedPrototype .kh-home{--home-radius:20px;display:grid;gap:12px;padding-top:14px}
+#keysUnifiedPrototype .kh-legacy[hidden]{display:none!important}
+#keysUnifiedPrototype .kh-home button,#keysUnifiedPrototype .kh-overlay button{font:inherit;color:inherit;cursor:pointer}
+#keysUnifiedPrototype .kh-home svg,#keysUnifiedPrototype .kh-overlay svg{width:22px;height:22px;flex:none}
+#keysUnifiedPrototype .kh-chevron{display:flex;color:var(--color-muted);flex:none}
+#keysUnifiedPrototype .kh-chevron svg{width:14px;height:14px}
+#keysUnifiedPrototype .kh-stay-card{padding:6px;border-radius:calc(var(--home-radius) + 6px);background:var(--color-soft)}
+#keysUnifiedPrototype .kh-stay-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 10px 14px}
+#keysUnifiedPrototype .kh-hotel-summary{display:grid;gap:5px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-heading h1{margin:0}
+#keysUnifiedPrototype .kh-live{display:flex;align-items:center;gap:5px;color:var(--color-muted);}
+#keysUnifiedPrototype .kh-live i{width:5px;height:5px;border-radius:50%;background:var(--color-success)}
+#keysUnifiedPrototype .kh-home .kh-booking-link{flex:none}
+#keysUnifiedPrototype .kh-booking-link .kh-chevron{color:inherit}
+#keysUnifiedPrototype .kh-room-pass{position:relative;isolation:isolate;overflow:hidden;padding:16px;border-radius:var(--home-radius);color:var(--color-on-brand);background:var(--color-brand-solid)}
+#keysUnifiedPrototype .kh-room-pass:before{content:"";position:absolute;z-index:-1;right:-65px;top:-95px;width:230px;height:330px;border:1px solid #ffffff18;border-radius:120px;transform:rotate(30deg);box-shadow:0 0 0 26px #ffffff05,0 0 0 52px #ffffff05;pointer-events:none}
+/* Compact room information followed by an explicit stay timeline. */
+#keysUnifiedPrototype .kh-pass-room{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:0}
+#keysUnifiedPrototype .kh-pass-room-id{display:flex;flex-direction:column;gap:2px}
+#keysUnifiedPrototype .kh-pass-room-meta{display:flex;flex-direction:column;gap:5px;margin-top:16px;padding-left:16px;border-left:1px solid #ffffff30}
+#keysUnifiedPrototype .kh-pass-room-id>span,#keysUnifiedPrototype .kh-pass-room-meta>span{color:#ffffffd9}
+#keysUnifiedPrototype .kh-pass-stay{padding:0 0 14px}
+#keysUnifiedPrototype .kh-pass-today{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none}
+#keysUnifiedPrototype .kh-pass-today strong>span{color:#ffffffd9}
+#keysUnifiedPrototype .kh-pass-today>time{color:#ffffffd9;white-space:nowrap}
+#keysUnifiedPrototype .kh-pass-progress{height:3px;margin:12px 0;border-radius:99px;background:#ffffff35}
+#keysUnifiedPrototype .kh-pass-progress>span{position:relative;display:block;width:14.285714%;height:100%;border-radius:inherit;background:var(--color-on-brand)}
+#keysUnifiedPrototype .kh-pass-progress>span:after{content:"";position:absolute;right:-3px;top:-2px;width:7px;height:7px;border-radius:50%;background:var(--color-on-brand)}
+#keysUnifiedPrototype .kh-pass-endpoints{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#keysUnifiedPrototype .kh-pass-endpoints>div{display:grid;gap:3px}
+#keysUnifiedPrototype .kh-pass-endpoints>div:last-child{text-align:right}
+#keysUnifiedPrototype .kh-pass-endpoints span{color:#ffffffd9}
+#keysUnifiedPrototype .kh-pass-endpoints time{white-space:nowrap}
+#keysUnifiedPrototype .kh-home .kh-open-door{width:100%;min-height:46px;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border:0;border-radius:14px;background:var(--color-on-brand);color:var(--color-brand);}
+#keysUnifiedPrototype .kh-open-door .kh-chevron{margin-left:auto;color:inherit}
+#keysUnifiedPrototype .kh-open-door>span:not(.kh-chevron){margin-right:auto}
+#keysUnifiedPrototype .kh-quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:6px;background:var(--color-card);border-radius:var(--home-radius);box-shadow:inset 0 0 0 1px var(--color-edge-1)}
+#keysUnifiedPrototype .kh-quick-actions button{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;border:0;border-radius:14px;background:transparent;padding:10px 2px;min-width:0;min-height:72px}
+#keysUnifiedPrototype .kh-quick-actions button>span{display:grid;place-items:center;width:24px;height:24px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-quick-actions strong{color:var(--color-ink)}
+#keysUnifiedPrototype .kh-daily{display:grid;gap:12px}
+#keysUnifiedPrototype .kh-daily>button{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:var(--home-radius);background:var(--color-soft);text-align:left;padding:16px}
+#keysUnifiedPrototype .kh-daily .kh-meal-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;column-gap:12px;row-gap:6px;align-items:center}
+#keysUnifiedPrototype .kh-round-icon{display:grid;place-items:center;flex:none;width:24px;height:24px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-round-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype .kh-copy{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}
+#keysUnifiedPrototype .kh-copy span{color:var(--color-muted)}
+#keysUnifiedPrototype .kh-copy small{color:var(--color-muted)}
+#keysUnifiedPrototype .kh-account-value{display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-left:auto}
+#keysUnifiedPrototype .kh-account-value strong{white-space:nowrap}
+#keysUnifiedPrototype .kh-account-value small{display:flex;align-items:center;gap:3px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-account-value small svg{width:11px;height:11px}
+#keysUnifiedPrototype .kh-meal-time{display:flex;align-items:center;gap:6px;margin-left:auto;flex:none;color:var(--color-ink)}
+#keysUnifiedPrototype .kh-meal-time>span:not(.kh-chevron){color:var(--color-muted)}
+#keysUnifiedPrototype .kh-meal-time .kh-chevron{display:flex;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-nearby-v2{padding:16px 16px 4px;border-radius:var(--home-radius);background:var(--color-soft);overflow:hidden}
+#keysUnifiedPrototype .kh-nearby-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+#keysUnifiedPrototype .kh-nearby-heading h2{margin:0}
+#keysUnifiedPrototype .kh-nearby-heading p{color:var(--color-muted);margin:4px 0 0}
+#keysUnifiedPrototype .kh-nearby-heading .kh-chevron{color:inherit}
+#keysUnifiedPrototype .kh-home .kh-discover{display:flex;gap:12px;align-items:center;min-height:142px;padding:16px;border:0;width:100%;border-radius:var(--home-radius);overflow:hidden;background:var(--color-soft);text-align:left}
+#keysUnifiedPrototype .kh-map-art{position:relative;display:block;flex:none;width:88px;height:88px;overflow:hidden;background:var(--color-soft-4);border-radius:16px;transform:rotate(6deg);margin:0 3px 0 0}
+#keysUnifiedPrototype .kh-map-grid{position:absolute;inset:-20px;transform:rotate(-25deg);background:repeating-linear-gradient(0deg,transparent 0 27px,#ffffffd0 28px 33px,transparent 34px 57px),repeating-linear-gradient(90deg,transparent 0 36px,#ffffffd0 37px 42px,transparent 43px 79px)}
+#keysUnifiedPrototype .kh-map-pin{position:absolute;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--color-brand);color:var(--color-on-brand);box-shadow:0 4px 9px #2c5deb20}
+#keysUnifiedPrototype .kh-map-pin svg{width:18px;height:18px}
+#keysUnifiedPrototype .kh-map-pin.one{left:12px;top:12px}
+#keysUnifiedPrototype .kh-map-pin.two{right:10px;bottom:10px;background:var(--color-card);color:var(--color-brand)}
+#keysUnifiedPrototype .kh-map-label{position:absolute;bottom:12px;left:12px;color:var(--color-brand);background:var(--color-card);padding:4px 8px;border-radius:99px}
+#keysUnifiedPrototype .kh-discover-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:8px;padding:0}
+#keysUnifiedPrototype .kh-discover-copy>span{color:var(--color-muted)}
+#keysUnifiedPrototype .kh-discover-copy .kh-discover-link{display:flex;align-items:center;gap:3px;color:var(--color-brand);margin-top:3px}
+#keysUnifiedPrototype .kh-discover-link svg{width:12px;height:12px}
+#keysUnifiedPrototype .kh-icon{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:11px;background:var(--color-fill);color:var(--color-brand)}
+#keysUnifiedPrototype .kh-overlay{position:absolute;inset:0;z-index:30;background:var(--color-card);overflow:auto;padding:20px 16px 32px;box-sizing:border-box;border-radius:inherit}
+#keysUnifiedPrototype .kh-overlay[hidden]{display:none}
+#keysUnifiedPrototype .kh-detail-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+#keysUnifiedPrototype .kh-detail-header small{display:block;color:var(--color-muted);margin-bottom:4px}
+#keysUnifiedPrototype .kh-detail-header h2{margin:0;}
+#keysUnifiedPrototype .kh-back{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:var(--color-fill);flex:none}
+#keysUnifiedPrototype .kh-balance{display:flex;flex-direction:column;gap:9px;padding:22px;border-radius:18px;background:var(--color-soft)}
+#keysUnifiedPrototype .kh-balance small,#keysUnifiedPrototype .kh-balance span{color:var(--color-muted)}
+#keysUnifiedPrototype .kh-detail-content h3{margin:24px 0 12px}
+#keysUnifiedPrototype .kh-ledger>div,#keysUnifiedPrototype .kh-credentials>div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--color-line)}
+#keysUnifiedPrototype .kh-ledger strong,#keysUnifiedPrototype .kh-credentials strong{display:block;}
+#keysUnifiedPrototype .kh-ledger small,#keysUnifiedPrototype .kh-credentials small{display:block;color:var(--color-muted);}
+#keysUnifiedPrototype .kh-ledger b{white-space:nowrap;}
+#keysUnifiedPrototype .kh-total{display:flex;justify-content:space-between;padding:20px 0;}
+#keysUnifiedPrototype .kh-note{color:var(--color-muted);margin:16px 0}
+#keysUnifiedPrototype .kh-intro{color:var(--color-muted)}
+#keysUnifiedPrototype .kh-credentials button{display:grid;place-items:center;min-width:44px;min-height:44px;border:0;background:var(--color-fill);border-radius:12px;color:var(--color-brand)}
+#keysUnifiedPrototype .kh-credentials .kh-text-button{padding:0 10px}
+#keysUnifiedPrototype .kh-copy-status{color:var(--color-brand)}
+#keysUnifiedPrototype .kh-tags{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}
+#keysUnifiedPrototype .kh-tags span{border-radius:99px;background:var(--color-soft);color:var(--color-brand);padding:6px 10px}
+#keysUnifiedPrototype .kh-detail-card{border:1px solid var(--color-line);border-radius:18px;padding:16px;}
+#keysUnifiedPrototype .kh-detail-card p{margin-top:0;color:var(--color-muted)}
+#keysUnifiedPrototype .kh-fact{display:grid;gap:5px;padding:12px 0}
+#keysUnifiedPrototype .kh-fact+ .kh-fact{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kh-fact span{color:var(--color-muted)}
+#keysUnifiedPrototype .kh-primary{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;margin-top:20px;padding:12px;border:0;border-radius:14px;background:var(--color-brand);color:var(--color-on-brand)!important;text-decoration:none;text-align:center;box-sizing:border-box}
+#keysUnifiedPrototype .kh-place-list>button{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--color-line);border-radius:18px;padding:16px 12px;margin:12px 0;background:var(--color-card)}
+
+/* Arbana typography: token scale, regular body / medium emphasis.
+   Scope the mobile scale and rebind its size tokens here so the legacy theme's
+   root scale cannot disable it. Important declarations only isolate typography
+   from the old prototype's global small/p and heading rules. */
+#keysUnifiedPrototype :is(.kh-home,.kh-overlay){
+  --text-scale:1;
+  --text-11:calc(11px * var(--text-scale,1));
+  --text-12:calc(12px * var(--text-scale,1));
+  --text-13:calc(13px * var(--text-scale,1));
+  --text-14:calc(14px * var(--text-scale,1));
+  --text-16:calc(16px * var(--text-scale,1));
+  --text-17:calc(17px * var(--text-scale,1));
+  --text-20:calc(20px * var(--text-scale,1));
+  --text-22:calc(22px * var(--text-scale,1));
+  --text-24:calc(24px * var(--text-scale,1));
+  --text-36:calc(36px * var(--text-scale,1));
+  --text-40:calc(40px * var(--text-scale,1));
+  font-family:var(--font-sans);
+  font-size:var(--text-14);line-height:var(--leading-normal);
+  font-weight:var(--font-weight-normal);letter-spacing:var(--tracking-normal);
+}
+@media(max-width:639px){#keysUnifiedPrototype :is(.kh-home,.kh-overlay){--text-scale:1.05}}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-heading h1,#keysUnifiedPrototype#keysUnifiedPrototype .kh-nearby-heading h2{font-size:var(--text-17)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-live,#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-top,#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-tag,#keysUnifiedPrototype#keysUnifiedPrototype .kh-room-number small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-progress>span,#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-dates,#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-dates small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-day-ring small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-quick-actions strong,#keysUnifiedPrototype#keysUnifiedPrototype .kh-copy span,#keysUnifiedPrototype#keysUnifiedPrototype .kh-copy small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-map-label,#keysUnifiedPrototype#keysUnifiedPrototype .kh-discover-copy>span{font-size:var(--text-12)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-header small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-ledger small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-credentials small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-tags span{font-size:var(--text-11)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-booking-link,#keysUnifiedPrototype#keysUnifiedPrototype .kh-account-value small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-nearby-heading button,#keysUnifiedPrototype#keysUnifiedPrototype .kh-discover-copy .kh-discover-link{font-size:var(--text-12)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-room-number{font-size:var(--text-40)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-day-ring b{font-size:var(--text-22)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-open-door,#keysUnifiedPrototype#keysUnifiedPrototype .kh-ledger strong,#keysUnifiedPrototype#keysUnifiedPrototype .kh-credentials strong,#keysUnifiedPrototype#keysUnifiedPrototype .kh-ledger b,#keysUnifiedPrototype#keysUnifiedPrototype .kh-fact strong,#keysUnifiedPrototype#keysUnifiedPrototype .kh-primary,#keysUnifiedPrototype#keysUnifiedPrototype .kh-total strong,#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-card>strong{font-size:var(--text-14)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-account-value strong{font-size:var(--text-17)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-meal-time{font-size:var(--text-12)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-meal-time>span:not(.kh-chevron){font-size:var(--text-12)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-nearby-heading p{font-size:var(--text-12)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-discover-copy strong{font-size:var(--text-17)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-header h2{font-size:var(--text-24)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-balance strong{font-size:var(--text-36)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-balance small,#keysUnifiedPrototype#keysUnifiedPrototype .kh-balance span{font-size:var(--text-13)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-content h3{font-size:var(--text-16)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-total,#keysUnifiedPrototype#keysUnifiedPrototype .kh-intro,#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-card,#keysUnifiedPrototype#keysUnifiedPrototype .kh-detail-card p{font-size:var(--text-14)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-note,#keysUnifiedPrototype#keysUnifiedPrototype .kh-credentials .kh-text-button,#keysUnifiedPrototype#keysUnifiedPrototype .kh-copy-status,#keysUnifiedPrototype#keysUnifiedPrototype .kh-fact span{font-size:var(--text-12)!important;font-weight:var(--font-weight-normal)!important;line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;}
+#keysUnifiedPrototype .kh-day-ring small{white-space:nowrap}
+#keysUnifiedPrototype .kh-pass-dates>span:not(.kh-dates-line){white-space:nowrap}
+@media(max-width:350px){#keysUnifiedPrototype .kh-pass-dates small{display:block;margin-left:0}#keysUnifiedPrototype .kh-stay-progress{gap:6px}#keysUnifiedPrototype .kh-stay-progress>span{width:72px}#keysUnifiedPrototype .kh-daily>button{padding:14px;gap:8px}#keysUnifiedPrototype .kh-map-art{width:82px;min-width:82px}}
+
+/* One secondary-action treatment. Card links share the visual language;
+   standalone buttons retain a 44 px target, while card rows remain clickable. */
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-home,.ka-home,.kn-interests) .kh-detail-link{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  color:var(--color-brand);white-space:nowrap;
+  font-size:var(--text-12)!important;font-weight:var(--font-weight-medium)!important;
+  line-height:var(--leading-normal)!important;letter-spacing:var(--tracking-normal)!important;
+}
+#keysUnifiedPrototype :is(.kh-home,.kpa-home) button.kh-detail-link{
+  min-height:44px;padding:8px 0;margin-right:0;flex:none;
+  border:0;border-radius:10px;background:transparent;
+  transition:background-color .15s ease,color .15s ease;
+}
+#keysUnifiedPrototype :is(.kh-home,.ka-home,.kn-interests) .kh-detail-link svg{width:14px;height:14px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-home .kh-discover-link{justify-content:flex-start}
+@media(hover:hover){
+  #keysUnifiedPrototype :is(.kh-home,.kpa-home) button.kh-detail-link:hover{background:var(--color-soft)}
+  #keysUnifiedPrototype .kh-home button:hover .kh-detail-link{color:var(--color-brand-dark)}
+}
+#keysUnifiedPrototype :is(.kh-home,.kpa-home) button.kh-detail-link:active{background:var(--color-soft);color:var(--color-brand-dark)}
+#keysUnifiedPrototype :is(.kh-home,.kpa-home) button.kh-detail-link:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+
+@media(hover:hover){
+ #keysUnifiedPrototype .kh-quick-actions button:hover{background:var(--color-soft)}
+ #keysUnifiedPrototype .kh-home :is(.kh-discover,.kh-daily>button):hover{background:var(--color-soft-hover)}
+}
+
+/* Shared home surfaces: a single panel language, with visible interaction feedback. */
+#keysUnifiedPrototype .kh-quick-actions button+button:before{content:"";position:absolute;left:0;top:17px;bottom:17px;width:1px;background:var(--color-edge-1)}
+#keysUnifiedPrototype .kh-meal-row>.kh-copy{grid-column:2 / -1;grid-row:2}
+#keysUnifiedPrototype .kh-meal-row>.kh-round-icon{grid-column:1;grid-row:1}
+#keysUnifiedPrototype .kh-meal-row>.kh-meal-title{grid-column:2;grid-row:1}
+#keysUnifiedPrototype .kh-meal-row>.kh-meal-time{grid-column:3;grid-row:1}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-meal-title,#keysUnifiedPrototype#keysUnifiedPrototype .kh-copy strong{font-size:var(--text-17)!important;font-weight:var(--font-weight-medium)!important;line-height:var(--leading-tight)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-quick-actions strong{font-size:var(--text-12)!important;font-weight:var(--font-weight-medium)!important}
+#keysUnifiedPrototype .kh-home button{transition:background-color .18s ease,transform .18s ease}
+#keysUnifiedPrototype .kh-home button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysUnifiedPrototype .kh-home :is(.kh-quick-actions button,.kh-daily>button,.kh-discover,.kh-open-door):active{transform:scale(.985)}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .kh-home button{transition:none}#keysUnifiedPrototype .kh-home button:active{transform:none}}
+
+@media(max-width:350px){
+
+ #keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-heading h1{font-size:var(--text-17)!important}
+}
+
+#keysUnifiedPrototype .kh-stay-progress time{white-space:nowrap}
+
+/* The hotel summary and digital key form one compact stay card. */
+#keysUnifiedPrototype .kh-stay-heading .kh-booking-link{align-self:stretch;min-height:44px}
+#keysUnifiedPrototype .kh-stay-heading .kh-live{gap:6px}
+@media(max-width:350px){
+ #keysUnifiedPrototype .kh-stay-card .kh-room-pass{padding:14px}
+ #keysUnifiedPrototype .kh-stay-card .kh-pass-main{gap:10px}
+ #keysUnifiedPrototype .kh-stay-heading{padding:8px 8px 12px;gap:6px}
+}
+
+/* One nearby card: its heading, recommendation context and both entry points
+   share a surface, so the title no longer interrupts the home card rhythm. */
+#keysUnifiedPrototype .kh-nearby-summary{min-width:0}
+#keysUnifiedPrototype .kh-nearby-heading p{margin:6px 0 0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-nearby-count{display:block;margin-top:6px;color:var(--color-muted);font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-normal)!important}
+#keysUnifiedPrototype .kh-nearby-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--color-edge-1)}
+#keysUnifiedPrototype .kh-nearby-actions button{min-height:48px}
+@media(max-width:350px){#keysUnifiedPrototype .kh-nearby-heading{gap:8px}#keysUnifiedPrototype .kh-nearby-v2 .kh-map-art{width:76px;min-width:76px;height:84px}}
+
+/* White utility cards keep the home surface clean and preserve its geometry. */
+#keysUnifiedPrototype .kh-daily :is(.kh-meal-row,.kh-account-row){background:var(--color-card);box-shadow:inset 0 0 0 1px var(--color-edge-1)}
+#keysUnifiedPrototype .kh-nearby-v2{background:var(--color-card);box-shadow:inset 0 0 0 1px var(--color-edge-1)}
+#keysUnifiedPrototype .kh-nearby-v2 .kh-map-art{background:var(--color-brand-mist)}
+@media(hover:hover){#keysUnifiedPrototype .kh-daily .kh-meal-row:hover{background:var(--color-soft)}}
+
+@media(hover:hover){#keysUnifiedPrototype .kh-daily .kh-account-row:hover{background:var(--color-card);box-shadow:inset 0 0 0 1px var(--color-brand-line)}}
+
+/* A photo and illustrated map echo Find's compact card stack; the footprint stays
+   the same as the original 88 px map illustration. */
+#keysUnifiedPrototype .kh-nearby-visual{position:relative;display:block;flex:none;width:88px;height:88px;margin:0 3px 0 0}
+#keysUnifiedPrototype .kh-nearby-photo{position:absolute;display:block;width:56px;height:70px;object-fit:cover;border:2px solid var(--color-card);border-radius:11px;box-shadow:0 3px 9px #1c28411a}
+#keysUnifiedPrototype .kh-nearby-map{position:absolute;right:1px;top:3px;display:block;width:60px;height:70px;overflow:hidden;border:2px solid var(--color-card);border-radius:11px;background:var(--color-brand-mist);box-shadow:0 3px 9px #1c284115;transform:rotate(10deg)}
+#keysUnifiedPrototype .kh-nearby-map .kh-map-grid{inset:-12px;background:repeating-linear-gradient(0deg,transparent 0 21px,#ffffffeb 22px 26px,transparent 27px 46px),repeating-linear-gradient(90deg,transparent 0 25px,#ffffffeb 26px 30px,transparent 31px 54px)}
+#keysUnifiedPrototype .kh-nearby-photo-front{left:2px;top:15px;transform:rotate(-8deg);object-position:50% 58%}
+#keysUnifiedPrototype .kh-nearby-map-pin{position:absolute;right:5px;top:8px;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--color-brand);color:var(--color-on-brand)}
+#keysUnifiedPrototype .kh-nearby-map-pin svg{width:11px;height:11px}
+@media(max-width:350px){#keysUnifiedPrototype .kh-nearby-visual{width:76px;height:84px}#keysUnifiedPrototype .kh-nearby-photo-front{left:0;top:13px;width:52px;height:66px}}
+
+/* Arbana type tokens for the room and stay hierarchy. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-room-line>strong{font-size:var(--text-36)!important;line-height:var(--leading-tight)!important;font-weight:var(--font-weight-medium)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-room-line>span{font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-medium)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-today>strong{font-size:var(--text-17)!important;line-height:var(--leading-tight)!important;font-weight:var(--font-weight-medium)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-pass-today strong>span,.kh-pass-endpoints time){font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-pass-room-id>span,.kh-pass-room-id>small,.kh-pass-today>span,.kh-pass-today>time,.kh-pass-endpoints span){font-size:var(--text-12)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-normal)!important}
+
+#keysUnifiedPrototype .kh-pass-room-line{display:flex;align-items:center;gap:9px}
+#keysUnifiedPrototype .kh-pass-room-line>span{padding:4px 7px;border-radius:8px;background:#ffffff14;white-space:nowrap}
+#keysUnifiedPrototype .kh-pass-room-id>small,#keysUnifiedPrototype .kh-pass-today>span{color:#ffffffd9}
+@media(max-width:350px){#keysUnifiedPrototype .kh-pass-room{gap:8px}#keysUnifiedPrototype .kh-pass-room-line{gap:6px}#keysUnifiedPrototype .kh-pass-room-line>span{padding:4px 5px}}
+
+/* The card opens the list; footer actions remain independent controls. */
+#keysUnifiedPrototype .kh-nearby-v2{position:relative;isolation:isolate}
+#keysUnifiedPrototype :is(.kh-home,.kpa-home) .kh-nearby-card-link{position:absolute;inset:0;z-index:1;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:inherit;background:transparent;box-shadow:none}
+#keysUnifiedPrototype :is(.kh-home,.kpa-home) .kh-nearby-card-link:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+#keysUnifiedPrototype .kh-nearby-actions{position:relative;z-index:2}
+@media(hover:hover){#keysUnifiedPrototype .kh-nearby-card-link:hover{background:color-mix(in srgb,var(--color-brand) 3%,transparent)}}
+#keysUnifiedPrototype .kh-nearby-card-link:active{background:color-mix(in srgb,var(--color-brand) 5%,transparent)}
+
+/* Home type roles: 12 metadata / 14 primary action / 17 heading / 36 room.
+   All sizes retain the UI kit's mobile scale of 1.05. */
+#keysUnifiedPrototype .kh-home{font-synthesis:none}
+#keysUnifiedPrototype .kh-home :is(time,.kh-account-value>strong,.kh-pass-room-line>strong){font-variant-numeric:tabular-nums}
+@media(max-width:350px){
+ #keysUnifiedPrototype .kh-quick-actions strong{display:flex;align-items:center;justify-content:center;min-height:calc(var(--text-12) * 3);text-align:center}
+}

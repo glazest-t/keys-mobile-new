@@ -1,0 +1,3 @@
+Generator: built-in image_gen
+Asset: src/sections/profile-avatar.jpg (default fictional profile photo; user upload takes priority)
+Prompt: Use case: photorealistic-natural. Asset type: square profile avatar photo for a modern travel mobile app, displayed in a small circular crop. Primary request: portrait of a fictional friendly young adult woman, age around 28, with a warm natural smile, medium brown shoulder-length hair, simple light blue casual top. Head and shoulders, face centered and clearly legible at 64 pixels, relaxed candid expression, soft daylight, subtle warm pale neutral blurred background. Natural skin texture, contemporary understated lifestyle photography. Square image, no text, no watermark, no UI, no border.

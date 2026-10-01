@@ -1,0 +1,29 @@
+{
+  "scenario": "search",
+  "scope": "No upcoming bookings: Trips home. Existing Find, Chats and Benefits reused.",
+  "layout": [
+    "Trips heading and empty-state message",
+    "Brand-blue invitation with two photographic postcards and contrasting hotel-search CTA",
+    "Compact loyalty explanation linking to Benefits"
+  ],
+  "references": [
+    "https://dribbble.com/shots/26397053-Lodge-Booking-App-UI-Nature-Retreats-Cabins",
+    "https://dribbble.com/shots/27008781-Hotel-Booking-Mobile-App-Design"
+  ],
+  "asset": "Existing project photo: sections/images/services/pool.jpg, copied as scenarios/next-trip.jpg",
+  "verification": [
+    "Screenshot reviewed in prototype",
+    "Search CTA opens existing Find",
+    "Benefits link opens existing Benefits",
+    "Chats and return to Trips work",
+    "Switch stay → search restores correct home",
+    "20px heading, Golos Text Variable, 48px primary button",
+    "No horizontal overflow in prototype",
+    "67 original inline scripts preserved"
+  ],
+  "assets": [
+    "scenarios/next-trip.jpg",
+    "home/nearby/nearby-cafe-generated.jpg"
+  ],
+  "revision": "Photographic postcards, expressive brand card, concise travel invitation; 48px CTA and shared navigation."
+}

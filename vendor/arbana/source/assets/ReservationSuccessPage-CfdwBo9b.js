@@ -1,0 +1,1 @@
+import{u as a,j as s,cG as n,ct as r}from"./index-C4VobzN0.js";import{R as i}from"./ReservationSuccessCard-uN5FuBj0.js";function d(){const{state:t}=a(),o=t.reservation,e=t.booking;return e.cancellation&&o?.bookedId===e.id?s.jsx(n,{}):o?.status!=="confirmed"||o.bookedId!==e.id?s.jsx(r,{}):s.jsx(i,{draft:o,booking:e})}export{d as ReservationSuccessPage};

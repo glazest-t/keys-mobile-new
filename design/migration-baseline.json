@@ -1,0 +1,5 @@
+{
+  "backup": "tests/fixtures/base",
+  "sourceSha256": "8a20e61872e3fda528ac81f85dd6f170782a2942455110043127e283644b5c1d",
+  "buildSha256": "cef0b165f85b979533713b061145b19f5600b7df2d1c1a39fbd9ac7888596e1b"
+}

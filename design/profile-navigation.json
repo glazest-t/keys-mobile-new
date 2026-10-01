@@ -1,0 +1,29 @@
+{
+  "change": "Profile uses a secondary-page header and preserves the originating host section or embedded runtime screen.",
+  "design": {
+    "header": "44px round back control, 20px title",
+    "rows": "14px medium title, 12px regular description, 22px outline icons",
+    "cards": "20px radius, shared border, white surface",
+    "navigation": "No bottom tabs on profile; original profile actions preserved"
+  },
+  "verification": [
+    "Trips → Profile → Back returns to Trips",
+    "Find → Profile → Back retains search parameters",
+    "Chats → Profile → Back retains chat list",
+    "Benefits → Profile → Back returns to Benefits",
+    "Profile screenshot inspected",
+    "Enter animation observed in browser",
+    "Back restores Trips after exit animation",
+    "Animation styles and disabled back state cleared after transition"
+  ],
+  "files": [
+    "src/sections/host.js",
+    "src/sections/host.css"
+  ],
+  "motion": {
+    "enter": "40px from right, opacity 0→1, 280ms ease-out",
+    "exit": "32px to right, opacity 1→0, 160ms; then restore origin",
+    "accessibility": "No motion with prefers-reduced-motion; focus restored; repeated back disabled during exit",
+    "cancellation": "Pending transitions cancelled on section or scenario changes"
+  }
+}

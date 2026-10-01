@@ -1,0 +1,269 @@
+{
+  "scenario": "booked",
+  "arrivalDay": {
+    "version": "arrival-day-route-1",
+    "date": "2026-09-12",
+    "slogan": "Ждём вас сегодня",
+    "countdown": "Заезд сегодня",
+    "primaryRow": [
+      "Построить маршрут",
+      "Онлайн-регистрация"
+    ],
+    "route": "Choice of external Yandex Maps or local Yandex Go simulation",
+    "preserved": "Registration, booking/documents, chat, instructions, hotel services and nearby",
+    "verification": [
+      "Direct arrival URL and screenshot",
+      "Switch to day-3 restores original slogan, countdown and modify-booking action",
+      "Switch back to arrival works"
+    ]
+  },
+  "demoDate": "2026-09-04",
+  "booking": {
+    "hotel": "Maidens Hotel",
+    "city": "Москва",
+    "arrival": "2026-09-12",
+    "departure": "2026-09-19",
+    "nights": 7,
+    "total": 56000,
+    "paid": 56000,
+    "breakfast": "Шведский стол, не включён, LEA, 3 этаж, 07:00–12:00, 680 ₽ с Silver"
+  },
+  "reused": [
+    "Header and navigation",
+    "Existing hotel photo, typography tokens, card radius and border colors",
+    "Horizontal document/chat actions",
+    "Existing early-arrival flow with unified service card",
+    "Existing breakfast detail view with unified service card",
+    "Existing nearby recommendation list, map and preferences engine",
+    "Shared home detail overlay"
+  ],
+  "newFlows": [
+    "Booking document picker with individual HTML downloads and all-documents ZIP",
+    "Hotel chat entry",
+    "Arbana booking-change flow: date calendar, party controls, quote review, optional payment, refund, confirmation and host summary/document updates",
+    "Early arrival time selection and demo confirmation",
+    "Booking summary copy and optional native share picker"
+  ],
+  "scope": "Only day-8 is implemented. day-3 and arrival remain empty. Booking changes reuse Arbana calendar, party, quote, payment/refund and confirmation logic in an isolated runtime; confirmed changes update this pre-arrival scenario in memory.",
+  "verification": [
+    "24 automated tests pass; 67 baseline scripts preserved",
+    "375 and 320 px no horizontal overflow",
+    "Voucher data checked",
+    "Invalid dates rejected; valid change preview and request checked",
+    "Early arrival 09:00 request checked",
+    "Breakfast list/details checked",
+    "Nearby cards and map opened",
+    "Share preview and copy entry checked",
+    "Day-3 remains empty; stay and after scenario switching checked",
+    "Visual inspection: existing nearby styles reused including whole-card link and footer actions"
+  ],
+  "references": [
+    "https://dribbble.com/search/hotel-reservation"
+  ],
+  "reservationDesign": {
+    "version": "before-arrival-essential-1",
+    "composition": "Reduced home summary to hotel photo/name/city, arrival countdown and check-in time, date-range timeline with nights, total and payment state. Room category, guest count and checkout time are available in booking details and the voucher. Removed redundant price label and collapsed full-payment status into one line. Partial payment keeps amount paid and remaining balance.",
+    "verification": [
+      "Visual inspection of simplified card",
+      "Voucher opened: room, guest, dates/times, total and payment retained",
+      "JavaScript syntax check passed"
+    ],
+    "welcome": "Same compact ribbon between photo and booking facts, now tonal brand blue with subtle translucent gradient, white 14px text and pale mint heart. White background and vertical borders removed to preserve a unified blue card.",
+    "welcomeReference": "https://dribbble.com/shots/26397053-Lodge-Booking-App-UI-Nature-Retreats-Cabins",
+    "countdown": "8 дней до заезда; number 8 emphasized with 24px medium type aligned on the baseline with 17px label, retaining check-in time on the right.",
+    "timeline": "Two vertical timeline stops on the left: each label followed by date and adjacent time. Duration on the right in a translucent narrow tile with 24px 7 and 12px ночей. Arrival countdown remains separate above."
+  },
+  "serviceDesign": {
+    "version": "before-arrival-service-rows-1",
+    "composition": "Two compact 56px service rows in a single white card. Icon and service name on the left, status and chevron on the right. A 48px catalogue footer replaces the separate header. Shared type, icon and border tokens retained.",
+    "verification": [
+      "320px and 375px visual inspection",
+      "Catalogue entry opened successfully",
+      "JavaScript syntax check passed"
+    ]
+  },
+  "bookingDetailsDesign": {
+    "version": "booking-documents-picker-1",
+    "composition": "Confirmation document with visible status and booking ID, then four consistent sections: stay dates/time/duration, room and named guest, tariff/inclusions/breakfast, and total/paid/payment status. Every label/value row uses the same left-aligned columns and 14px type; section headings use 17px. Voucher and editing flows retained. No hotel-name repetition, check-in advice, decorative new icons or hidden content.",
+    "research": [
+      {
+        "source": "https://help.ostrovok.ru/ru/articles/8943166",
+        "finding": "Details include dates, party, cost, payment, reference IDs; voucher is accessed from booking details.",
+        "application": "Explicit booking reference and clearly labelled dates/party/payment fields."
+      },
+      {
+        "source": "https://help.ostrovok.ru/ru/articles/10744094",
+        "finding": "Booking confirmation and payment confirmation are separate documents.",
+        "application": "Do not confuse confirmation status with payment status; show both distinctly."
+      },
+      {
+        "source": "https://www.agoda.com/info/what-happens-when-my-reservation-is-placed.html",
+        "finding": "Confirmed online reservations receive a hotel voucher.",
+        "application": "Retain voucher access as a distinct action."
+      },
+      {
+        "source": "https://www.airbnb.com/help/article/2491",
+        "finding": "Receipts can be retrieved from reservation details for completed trips.",
+        "application": "Keep document access attached to the reservation; do not fabricate a receipt for this demo."
+      }
+    ],
+    "dataLimits": "Cancellation fees/deadlines, transaction reference and payment method are not specified in this scenario and were not invented. Existing hotel/address information stays in voucher; removed check-in advice is not restored.",
+    "verification": [
+      "24 automated tests pass; 67 baseline scripts preserved",
+      "320px and 375px visual inspection",
+      "Both individual download buttons and save-all clicked; back restores booking details",
+      "ZIP validated with Python zipfile: two UTF-8 entries, contents and CRC"
+    ],
+    "statusDesign": "Full Бронь подтверждена badge beside booking reference. Payment badge moved beside Оплата проживания heading, removed from paid amount row; total and paid values share consistent alignment. Partial-payment branch retained.",
+    "tariffDesign": "Tariff name is the section heading. Each service has its own row, name on the left and inclusion on the right: Wi-Fi included, fitness studio included, breakfast not included. Same wording and alignment for all statuses.",
+    "rowStyle": "One shared label/value row style across all sections, including tariff and payment: muted left label, ink right-aligned value, 14px regular, 10px row spacing. Inline success badges preserved; secondary room description stays muted. Removed tariff-specific alignment and color inversion and payment-specific bold values.",
+    "documentAction": "Скачать документы opens a booking-owned Документы поездки overlay based on Arbana: two compact rows for Чек на проживание and Подтверждение брони, each downloads an HTML file. Сохранить все документы saves both files in one ZIP. Back restores booking details and scroll. No redundant hotel subtitle or demo toast."
+  },
+  "prototypeCopy": {
+    "version": "clean-prototype-copy-1",
+    "change": "Removed in-app demo-only explanatory notes from booking requests, voucher download, deposits/Wi-Fi, checkout, rewards/referral, documents, reviews and tips. Removed demo suffixes from submit buttons. Preserved action states and errors. Existing download file keeps its sample-document footer; only app UI cleaned.",
+    "verification": [
+      "24 tests pass; 67 baseline scripts preserved",
+      "Voucher download handler works with no extra status message",
+      "No demo copy in imported section runtime bundle"
+    ]
+  },
+  "bookingChange": {
+    "version": "booking-change-flow-1",
+    "source": "Arbana Oq, Lq, gh, Iq and BOOKING_CHANGE/BOOKING_CHANGE_CONFIRM reducer",
+    "integration": "Dedicated same-origin iframe and storage namespace; source Arbana and original 67 inline scripts unchanged. Both home and booking-details entries open the same flow. Back/cancel preserves current confirmed booking.",
+    "pricing": "Prototype rate calibrated to current Maidens booking: 56,000 ₽ / 7 nights = 8,000 ₽ per night. Original Arbana extra-guest/pet charges and validation retained. This is a local prototype calculation, not live hotel availability or payment.",
+    "verification": [
+      "28 tests pass; original 67 inline scripts preserved",
+      "Quote preview does not mutate confirmed dates",
+      "Additional night: 8,000 ₽ payment; shorter stay: 8,000 ₽ refund; same-price guest edit",
+      "Past/invalid dates and missing child ages blocked",
+      "Duplicate confirmation is idempotent",
+      "Browser: main entry → calendar +1 night → quote 64,000 ₽ → 8,000 ₽ payment → updated host details",
+      "Browser: details entry uses updated dates; editing guests then cancelling returns to details with confirmed party unchanged",
+      "Visual inspection at 320px and 375px"
+    ],
+    "reviewNavigation": {
+      "version": "booking-review-back-1",
+      "label": "Вернуться к изменениям",
+      "presentation": "Secondary text button with left arrow, 44px touch target; retains draft dates and guests",
+      "priceBreakdown": "Removed from review",
+      "verified": "Browser: review → back retains two adults, booking unchanged"
+    },
+    "completion": {
+      "version": "booking-change-success-1",
+      "destination": "Главная страница",
+      "notice": "Бронь успешно изменена",
+      "durationMs": 5000,
+      "verified": "Browser: entered through booking details, changed guests to two, confirmed; details and change layers closed, home shown at top with success toast."
+    }
+  },
+  "threeDaysBeforeArrival": {
+    "version": "before-arrival-day3-2",
+    "date": "2026-09-09",
+    "reuse": "Same booking, documents, services and nearby layout as day-8",
+    "additions": [
+      "Primary Онлайн-регистрация below booking card",
+      "Third quick action Инструкция по заселению"
+    ],
+    "registration": "Guest name, estimated arrival time, explicit consent; completion status saved for current prototype session; booking changes reset it",
+    "instruction": "Hotel address and entrance, arrival time, reception and documents, hotel chat",
+    "verification": [
+      "Direct day-3 URL renders 3 days countdown",
+      "Registration completes and opens instructions",
+      "Switch day-3 to day-8 closes overlay and hides both new actions",
+      "320px mobile layout inspected",
+      "28 tests pass; 67 baseline scripts preserved"
+    ]
+  },
+  "homeTypography": {
+    "version": "arrival-home-type-1",
+    "font": "Golos Text Variable",
+    "weights": [
+      400,
+      500
+    ],
+    "roles": {
+      "caption": "12/18 regular",
+      "compactAction": "12/18 medium",
+      "body": "14/21 regular",
+      "action": "14/21 medium",
+      "headingAndValue": "17/21.25 medium",
+      "counter": "24/30 medium"
+    },
+    "scope": "Shared pre-arrival home, day-8 and day-3",
+    "verification": "Computed browser styles checked for hotel heading, countdown, nights, total, buttons, welcome, service titles, quick actions and nearby heading; screenshot reviewed."
+  },
+  "buttonSizes": {
+    "version": "arrival-button-sizes-1",
+    "secondary": {
+      "height": 48,
+      "padding": "10px 12px",
+      "radius": 14,
+      "gap": 8,
+      "previousHeight": 64
+    },
+    "verifiedHeights": {
+      "share": 44,
+      "nearbyLinks": 44,
+      "allServices": 48,
+      "serviceRows": 56,
+      "quickActionTiles": 92
+    },
+    "wrapping": "Automatic height for multiline labels; equal widths and stretched row height",
+    "verification": "Browser computed geometry and screenshot"
+  },
+  "taxiRoute": {
+    "version": "go-app-handoff-1",
+    "flow": [
+      "Построить маршрут → bottom sheet with Яндекс Карты / Яндекс Go",
+      "Maps → external map route",
+      "Go → local simulated app screen with schematic map",
+      "Back → chooser; return to Keys → home"
+    ],
+    "origin": "Ваше местоположение",
+    "destination": "Maidens Hotel · Москва, Зубовская площадь, 3, стр. 1",
+    "geolocation": "Not requested in this simulated flow",
+    "verification": "Browser: launcher, resulting origin and hotel fields, tariff controls and visual screenshot inspected",
+    "reference": "https://benchmarkee.ru/mobile/transport/yandex-go",
+    "referenceObserved": "Public screen 10/10, taxi categories, white panels, yellow accents; gallery image dated 18 September 2024",
+    "handoff": "900ms Go launch screen followed by a separate Go-style screen; top system-style Keys return closes preview"
+  },
+  "onlineCheckin": {
+    "version": "checkin-style-1",
+    "source": "Original Arbana Mq, Sq and CHECKIN_COMPLETE reducer, isolated runtime instance",
+    "changes": [
+      "Removed hotel / date / adult count intro",
+      "Current host guest, dates and registration state",
+      "Arrival time starts at 14:00",
+      "Success and instruction links use current hotel context",
+      "Guest document entry does not claim a saved passport when list is empty",
+      "Numbered step indicator with blue active step and green completion check",
+      "Removed employee help action",
+      "Shared typography, spacing and success card; compact completed registration button on home"
+    ],
+    "host": "Shared booking flow transport, registration update without booking revision change; existing check-in status restored on reopen",
+    "verified": [
+      "Browser form → documents → back → consent → success → home status",
+      "33 automated tests pass",
+      "67 original scripts preserved",
+      "Browser: styled steps, consent → success → home completion status"
+    ]
+  },
+  "tripSharing": {
+    "version": "share-access-options-1",
+    "source": "Arbana sheet shell with a focused access selector",
+    "content": [
+      "Hotel and stay dates",
+      "Read-only / manage-trip radio options",
+      "One Share button"
+    ],
+    "flow": "Native share; clipboard fallback when unavailable. Read link opens public trip information; manage link offers adding a local trip and existing booking modification flow.",
+    "verification": [
+      "Radio options switch exclusively",
+      "Read-only view has no management action",
+      "Manage link → Add trip → host booking with Modify booking action"
+    ],
+    "limitation": "Local prototype access flags demonstrate UX; production authorization and cross-account synchronization are not implemented."
+  }
+}

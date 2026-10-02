@@ -34,6 +34,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          KEYS_2GIS_API_KEY: ${{ secrets.KEYS_2GIS_API_KEY }}
+          KEYS_2GIS_STYLE_ID: ${{ vars.KEYS_2GIS_STYLE_ID }}
         run: npm run build
 
       - name: Test

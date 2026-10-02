@@ -11,16 +11,16 @@
   {id:'zaryadye',summary:'Городские пейзажи и виды с Парящего моста.',name:'Парк «Зарядье»',theme:'walk',tag:'Парк · виды на город',lat:55.7510,lng:37.6287,address:'Улица Варварка, 6',walk:48,transit:30,car:20,mode:'transit',visit:'1–2 часа',description:'Городские пейзажи, ландшафтные зоны и прогулка к Парящему мосту. Хороший повод посмотреть на центр Москвы с другого ракурса.',why:'Вы выбираете прогулки и городские виды',site:'https://www.zaryadyepark.ru/',credit:'Фото: Wikimedia Commons',photoSource:'https://commons.wikimedia.org/wiki/File:Zaryadye25.jpg'}
  ];
  const modes={walk:'Пешком',transit:'Транспорт',car:'На машине'};
- const route=(p,mode=p.mode)=>'https://yandex.ru/maps/?'+new URLSearchParams({rtext:`${hotel.lat},${hotel.lng}~${p.lat},${p.lng}`,rtt:{walk:'pd',transit:'mt',car:'auto'}[mode]});
+ const route=(p,mode=p.mode)=>window.KeysMaps.routeURL({from:[hotel.lng,hotel.lat],to:[p.lng,p.lat],mode});
  const select=(state)=>places.filter(p=>(state.filter==='all'||(state.filter==='for-you'?state.interests.includes(p.theme):p.theme===state.filter))&&(!state.shortWalk||p.walk<=20)).sort((a,b)=>a.walk-b.walk);
  function create({open,overlay,dashboard,icon}){
   let saved;try{saved=JSON.parse(localStorage.getItem('keys-nearby-interests-v1'));}catch{}
   const state={view:'list',filter:'for-you',shortWalk:false,interests:Array.isArray(saved)?saved.filter(t=>themes[t]):Object.keys(themes),selected:null,scroll:0};
-  let map=null,mapView=null,draft=[],markers=new Map(),placeOrigin='list',focusId=null;
+  let map=null,mapView=null,draft=[],markers=new Map(),placeOrigin='list',focusId=null,mapRevision=0;
   const content=overlay.querySelector('.kh-detail-content');
   const photo=p=>`<img src="./home/nearby/${p.id}.${p.id==='museum'?'png':'jpg'}" alt="${p.name}" loading="lazy" width="640" height="360">`;
   const travel=p=>`≈ ${p[p.mode]} мин · ${modes[p.mode].toLowerCase()}`;
-  function dispose(){if(map){mapView={center:map.getCenter(),zoom:map.getZoom()};map.remove();map=null;markers.clear();}}
+  function dispose(){mapRevision++;if(map){mapView={center:map.getCenter(),zoom:map.getZoom()};map.remove();map=null;markers.clear();}}
   function remember(){if(state.view==='list'&&content.querySelector('.kn-cards'))state.scroll=overlay.scrollTop;}
   function updateHome(){
    const list=select({...state,filter:'for-you',shortWalk:false});
@@ -39,7 +39,37 @@
   function card(p){return `<article class="kn-card"><button class="kn-card-open" data-kn-place="${p.id}" aria-label="Подробнее: ${p.name}"><span class="kn-card-media">${photo(p)}<span class="kn-card-theme">${themes[p.theme]}</span></span><span class="kn-card-body"><strong>${p.name}</strong><span class="kn-description">${p.summary}</span><span class="kn-card-facts"><span class="kn-card-fact">${factIcon(p.mode==='walk'?'walk':'transit')}<span><strong>≈ ${p[p.mode]} мин</strong><small>${p.mode==='walk'?'пешком':p.mode==='car'?'на машине':'транспортом'} от отеля</small></span></span><span class="kn-card-fact">${factIcon('clock')}<span><strong>${p.visit.replace(' на спектакль','').replace('часа','ч').replace('минут','мин')}</strong><small>${p.id==='theatre'?'на спектакль':'на посещение'}</small></span></span></span></span></button>${actions(p)}</article>`;}
   function selectedCard(p){return `<article class="kn-selected"><button class="kn-selected-open" data-kn-place="${p.id}">${photo(p)}<span><small>${themes[p.theme]}</small><strong>${p.name}</strong><span>${travel(p)}</span><small>На посещение: ${p.visit}</small></span></button>${actions(p)}</article>`;}
   function updateSelected(p){state.selected=p.id;content.querySelector('[data-kn-selection]').innerHTML=selectedCard(p);markers.forEach((m,id)=>{const el=m.getElement();if(el){el.classList.toggle('kn-pin-selected',id===p.id);el.setAttribute('aria-pressed',String(id===p.id));}});}
+  async function mount2gis(list){
+   const revision=++mapRevision,target=content.querySelector('.kn-map'),status=content.querySelector('.kn-map-status');
+   if(!target)return;
+   try{
+    const api=await window.KeysMaps.load();
+    if(revision!==mapRevision||!target.isConnected)return;
+    const native=window.KeysMaps.create(target,{center:[hotel.lng,hotel.lat],zoom:13,scrollZoom:false});
+    const owned=[];let timer;
+    map={getCenter:()=>{const [lng,lat]=native.getCenter();return {lat,lng};},getZoom:()=>native.getZoom(),
+     setView:(point,zoom)=>{native.setCenter(Array.isArray(point)?[point[1],point[0]]:[point.lng,point.lat]);native.setZoom(zoom);},
+     fitBounds:(points,options)=>window.KeysMaps.fit(native,points.map(p=>[p[1],p[0]]),{maxZoom:options?.maxZoom??15,topLeft:[34,34],bottomRight:[34,80]}),
+     invalidateSize:()=>native.invalidateSize(),remove:()=>{clearTimeout(timer);owned.forEach(marker=>marker.destroy());native.destroy();}};
+    const fail=()=>{if(revision!==mapRevision)return;status.hidden=false;status.textContent='Карта не загрузилась. Места и маршруты доступны в списке.';};
+    timer=setTimeout(fail,15000);
+    native.on('idle',()=>{clearTimeout(timer);if(revision===mapRevision)status.hidden=true;});native.on('styleloaderror',()=>{clearTimeout(timer);fail();});
+    const pin=(coordinates,className,label,text,onClick)=>{
+     const button=document.createElement('button');button.type='button';button.className=className;button.setAttribute('aria-label',label);button.title=label;button.innerHTML='<span></span>';button.firstChild.textContent=text;button.style.cssText='width:36px;height:36px;padding:0';
+     if(onClick)button.addEventListener('click',onClick);
+     const marker=new api.HtmlMarker(native,{coordinates,html:button,anchor:[18,18],interactive:true,preventMapInteractions:true});owned.push(marker);
+     return {getElement:()=>button};
+    };
+    pin([hotel.lng,hotel.lat],'kn-hotel-pin','Maidens Hotel — ваш отель','H');
+    list.forEach((p,i)=>markers.set(p.id,pin([p.lng,p.lat],'kn-place-pin',p.name,String(i+1),()=>updateSelected(p))));
+    if(focusId){const p=places.find(p=>p.id===focusId);if(p){map.setView([p.lat,p.lng],14);state.selected=p.id;}focusId=null;}
+    else if(mapView)map.setView(mapView.center,mapView.zoom);
+    else map.fitBounds([[hotel.lat,hotel.lng],...list.map(p=>[p.lat,p.lng])],{maxZoom:15});
+    if(list.length)updateSelected(list.find(p=>p.id===state.selected)||list[0]);
+   }catch(error){if(revision!==mapRevision)return;status.hidden=false;status.textContent='Карта не загрузилась. Места и маршруты доступны в списке.';}
+  }
   function mountMap(list){
+   if(window.KeysMaps?.enabled())return mount2gis(list);
    const target=content.querySelector('.kn-map');if(!target)return;
    if(!window.L){target.innerHTML='<div class="kn-empty">Карта недоступна. Места и маршруты доступны в списке.</div>';return;}
    map=L.map(target,{zoomControl:false,scrollWheelZoom:false}).setView([hotel.lat,hotel.lng],13);

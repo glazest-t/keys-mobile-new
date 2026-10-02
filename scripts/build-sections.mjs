@@ -1,3 +1,4 @@
+import {adapt2gis,adapt2gisRuntime} from './adapt-2gis.mjs';
 import {adaptLightTheme} from './adapt-light-theme.mjs';
 import {adaptFindCollections} from './adapt-find-collections.mjs';
 import {adaptSelectionStyle} from './adapt-selection-style.mjs';
@@ -23,6 +24,7 @@ export async function buildSections(){
  const paymentPath=path.join(stage,'assets/ReservationProcessing-DLNoz2B4.js');
  await writeFile(paymentPath,adaptPaymentSummaries(await adaptPayment(await readFile(paymentPath,'utf8')),await readFile(path.join(root,'src/sections/payment-booking-summary.js'),'utf8')));
  js=adaptLightTheme(js);
+ js=adapt2gis(js);
  js=adaptPaymentContact(js);
  js=adaptAdditionalGuest(js,await readFile(path.join(root,'src/sections/additional-guest.js'),'utf8'));
  const successPath=path.join(stage,'assets/ReservationSuccessCard-uN5FuBj0.js');
@@ -65,7 +67,7 @@ export async function buildSections(){
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
- let runtime=await readFile(path.join(stage,'runtime.js'),'utf8');
+ let runtime=adapt2gisRuntime(await readFile(path.join(stage,'runtime.js'),'utf8'));
  runtime=runtime.replace("const key = 'pora-static-data-v1';","const key = new URLSearchParams(location.search).has('keysBookingChange') ? 'keys-arbana-booking-change-v1' : 'keys-arbana-sections-v1';");
  runtime=runtime.replace("if(p==='notifications')return {items:a.notifications,unread:a.notifications.filter(n=>!n.readAt).length,nextCursor:null};", "if(p==='notifications'){const items=keysEnsureStayFeedbackNotification(a,save,globalThis.PoraDemo.keysStayDay??'day-2');return {items,unread:items.filter(n=>!n.readAt).length,nextCursor:null};}");
  runtime=runtime.replace("a.notifications.forEach(n=>{if(id==='read'||n.id===id)", "keysEnsureStayFeedbackNotification(a,save,globalThis.PoraDemo.keysStayDay??'day-2').forEach(n=>{if(id==='read'||n.id===id)");
@@ -82,6 +84,8 @@ export async function buildSections(){
  html=html.replace('<html lang="ru">','<html lang="ru" data-theme="light">');
  html=html.replace('<head>','<head><meta name="color-scheme" content="light only">');
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
+ html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script>');
+ html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");
  html=html.replace('</head>','<link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"></head>');
  await writeFile(path.join(dist,'index.html'),html);
  await cp(path.join(root,'src/sections/collections'),path.join(dist,'collections'),{recursive:true});

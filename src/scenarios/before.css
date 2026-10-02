@@ -267,3 +267,6 @@ body[data-keys-scenario="booked"] #keysStayDetails .ksd-detail-content>:is(.ksd-
 #keysUnifiedPrototype .kpa-checkin-status svg{width:14px;height:14px;flex:none}
 /* The original share sheet floats above the current booking card. */
 #keysUnifiedPrototype .kpa-change-layer.kpa-share-layer,#keysUnifiedPrototype .kpa-share-layer iframe{background:transparent}
+
+/* Keep provider attribution above the taxi preview panel. */
+#keysUnifiedPrototype .kpa-go-map-live{height:282px;margin-bottom:18px}

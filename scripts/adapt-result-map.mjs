@@ -11,5 +11,6 @@ export async function adaptResultMap(source) {
  replace('Math.abs(u[0] - d[0]) < 136 && Math.abs(u[1] - d[1]) < 52', 'Math.abs(u[0] - d[0]) < (compact ? 86 : 136) && Math.abs(u[1] - d[1]) < (compact ? 30 : 52)');
  replace('D = d ? 128 : 112', 'D = compact ? 82 : d ? 128 : 112');
  replace('height: 42, left: -D / 2, top: -21', 'height: compact ? 28 : 42, left: -D / 2, top: compact ? -14 : -21');
+ js=js.replace('Не удалось загрузить подложку карты. Возможно, исчерпан суточный лимит Яндекс Карт.','Карта не загрузилась. Проверьте подключение к интернету. Отели доступны в списке.');
  return js;
 }

@@ -99,3 +99,8 @@
 #keysUnifiedPrototype#keysUnifiedPrototype .kn-card-fact strong{font-size:var(--text-14)!important;line-height:var(--leading-normal)!important;font-weight:var(--font-weight-medium)!important;color:var(--color-ink)}
 #keysUnifiedPrototype .kn-card-fact small{color:var(--color-muted)}
 #keysUnifiedPrototype .kn-card-open:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px;border-radius:18px}
+
+/* HTML markers are buttons in MapGL; keep the existing marker colours over shared button resets. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kn-map button:is(.kn-place-pin,.kn-hotel-pin){display:grid;place-items:center;min-height:36px;border:2px solid var(--color-brand);border-radius:50%;background:var(--color-card);color:var(--color-brand);box-shadow:0 2px 8px #20385d33;font:var(--font-weight-medium) var(--text-14)/1 var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kn-map button.kn-hotel-pin{background:var(--color-ink);color:var(--color-card);border-color:var(--color-card);border-radius:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kn-map button.kn-pin-selected{background:var(--color-brand);color:var(--color-on-brand);box-shadow:0 0 0 4px #2c5deb30}

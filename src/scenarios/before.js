@@ -135,7 +135,7 @@
 
  function taxiRoute(){
   detailsSession=true;
-  show('Построить маршрут',`<div class="kpa-route-chooser"><p>Выберите приложение</p><a class="kpa-route-option" href="https://yandex.ru/maps/?rtext=~55.737954%2C37.585621&amp;rtt=auto" target="_blank" rel="noopener noreferrer"><span class="kpa-route-app kpa-route-maps">${icons.pin}</span><strong>Открыть Яндекс Карты</strong>${icons.arrow}</a><button type="button" class="kpa-route-option" data-before="route-go"><span class="kpa-route-app kpa-route-go">Go</span><strong>Открыть Яндекс Go</strong>${icons.arrow}</button></div>`,'route-choice');
+  show('Построить маршрут',`<div class="kpa-route-chooser"><p>Выберите приложение</p><a class="kpa-route-option" href="https://2gis.ru/directions/tab/car/points/|37.585621,55.737954" target="_blank" rel="noopener noreferrer"><span class="kpa-route-app kpa-route-maps">${icons.pin}</span><strong>Открыть 2ГИС</strong>${icons.arrow}</a><button type="button" class="kpa-route-option" data-before="route-go"><span class="kpa-route-app kpa-route-go">Go</span><strong>Открыть Яндекс Go</strong>${icons.arrow}</button></div>`,'route-choice');
  }
  function launchTaxi(){
   const previous=currentBefore;
@@ -147,7 +147,26 @@
  function taxiPreview(){
   show('Яндекс Go',`<div class="kpa-go-preview"><div class="kpa-go-map" role="img" aria-label="Схема маршрута от вашего местоположения до Maidens Hotel"><svg viewBox="0 0 360 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="360" height="300" fill="#eeeDE8"/><g fill="#e1e2d9"><rect x="15" y="20" width="75" height="60" rx="10"/><rect x="110" y="20" width="82" height="60" rx="10"/><rect x="213" y="18" width="125" height="66" rx="10"/><rect x="15" y="111" width="71" height="65" rx="10"/><rect x="115" y="110" width="81" height="65" rx="10"/><rect x="216" y="113" width="124" height="64" rx="10"/><rect x="112" y="205" width="85" height="77" rx="10"/><rect x="215" y="207" width="123" height="75" rx="10"/></g><path d="M-20 260Q80 175 72 330" fill="none" stroke="#bedfe7" stroke-width="38"/><g fill="none" stroke="white" stroke-width="14"><path d="M0 96H360M0 190H360M101 0V230M204 0V300"/></g><path d="M101 228V190H204V96H276" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M101 228V190H204V96H276" fill="none" stroke="#f4bd13" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="101" cy="228" r="10" fill="#fff"/><circle cx="101" cy="228" r="6" fill="#222"/><circle cx="276" cy="96" r="13" fill="#222"/><circle cx="276" cy="96" r="5" fill="#ffdb4d"/></svg><span class="kpa-go-hotel-label">Maidens Hotel</span><span class="kpa-go-wordmark">Go</span></div><section class="kpa-go-panel" aria-label="Маршрут поездки"><span class="kpa-go-handle" aria-hidden="true"></span><div class="kpa-go-endpoint"><span class="kpa-go-point" aria-hidden="true"></span><div><small>Откуда</small><strong>Ваше местоположение</strong></div></div><div class="kpa-go-endpoint"><span class="kpa-go-point is-hotel" aria-hidden="true"></span><div><small>Куда</small><strong>Maidens Hotel</strong><p>Москва, Зубовская площадь, 3, стр. 1</p></div></div><div class="kpa-go-tariffs" aria-label="Тарифы такси">${['Эконом','Комфорт','Комфорт+'].map((name,i)=>`<button type="button" data-before="go-tariff" aria-pressed="${i===0}"><svg viewBox="0 0 100 48" aria-hidden="true"><path d="m14 29 8-15h45l14 14 11 4v9H8V32Z" fill="${i===0?'#ffcf27':i===1?'#ccd1d4':'#41464b'}"/><path d="m29 17-5 11h48L62 17Z" fill="#35434e"/><path d="M47 17v12" stroke="white" stroke-width="2"/><circle cx="25" cy="39" r="7" fill="#26282c"/><circle cx="77" cy="39" r="7" fill="#26282c"/><circle cx="25" cy="39" r="3" fill="#eee"/><circle cx="77" cy="39" r="3" fill="#eee"/></svg><span>${name}</span></button>`).join('')}</div><p class="kpa-go-ready" role="status">Маршрут в Яндекс Go</p></section></div>`,'route-go');
   const back=home.querySelector('.kh-overlay .kh-back');back.setAttribute('aria-label','Вернуться в Ключи');
+  mountTaxiMap();
 
+ }
+ // This remains a taxi-app preview; its geographic background uses the shared map provider.
+ function mountTaxiMap(){
+  if(!window.KeysMaps?.enabled())return;
+  const overlay=home.querySelector('.kh-overlay'),target=overlay.querySelector('.kpa-go-map');
+  if(!target)return;
+  let native,marker,disposed=false;
+  const observer=new MutationObserver(()=>{if(!target.isConnected||overlay.hidden)dispose();});
+  const dispose=()=>{if(disposed)return;disposed=true;observer.disconnect();marker?.destroy();native?.destroy();};
+  observer.observe(overlay,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
+  window.KeysMaps.load().then(api=>{
+   if(disposed||!target.isConnected||overlay.hidden){dispose();return;}
+   target.replaceChildren();target.removeAttribute('role');target.setAttribute('aria-label','Расположение Maidens Hotel на карте 2ГИС');
+   target.classList.add('kpa-go-map-live');
+   native=window.KeysMaps.create(target,{center:[37.585621,55.737954],zoom:15,controls:false,scrollZoom:false});
+   const label=document.createElement('div');label.textContent='Maidens Hotel';label.style.cssText='background:white;color:#171717;border-radius:10px;padding:8px 12px;font:500 13px/1.5 var(--font-sans);box-shadow:0 2px 10px #0002;transform:translate(-50%,-100%)';
+   marker=new api.HtmlMarker(native,{coordinates:[37.585621,55.737954],html:label,anchor:[0,0]});
+  }).catch(()=>{dispose();if(target.isConnected){target.textContent='Карта не загрузилась. Адрес отеля указан ниже.';target.removeAttribute('role');}});
  }
  function instruction(){
   show('Инструкция по заселению',`<div class="kpa-instruction">

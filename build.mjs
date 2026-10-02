@@ -1,3 +1,4 @@
+import {buildMaps} from './scripts/build-maps.mjs';
 import { cp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { stampAssets } from "./scripts/stamp-assets.mjs";
@@ -15,6 +16,8 @@ const document = `<!doctype html>
   <meta name="description" content="Интерактивный прототип мобильного приложения «Ключи» для путешественников.">
   <title>Ключи — интерактивный прототип</title>
   <script src="./boot.js"></script>
+  <script src="./maps/config.js"></script>
+  <script src="./maps/2gis.js"></script>
   <style>html[data-keys-boot="loading"] body { visibility: hidden !important; }</style>
   <link rel="stylesheet" href="./arbana/tokens.css">
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
@@ -119,6 +122,7 @@ await cp(new URL("./src/feedback/", import.meta.url), new URL("./dist/feedback/"
 await cp(new URL("./src/scenarios/", import.meta.url), new URL("./dist/scenarios/", import.meta.url), { recursive: true });
 await cp(new URL("./src/arbana/service-cards.css", import.meta.url), new URL("./dist/arbana/service-cards.css", import.meta.url));
 await cp(new URL("./src/boot.js", import.meta.url), new URL("./dist/boot.js", import.meta.url));
+await buildMaps();
 await buildSections();
 await stampAssets(fileURLToPath(new URL("./dist/", import.meta.url)));
 

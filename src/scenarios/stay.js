@@ -12,9 +12,8 @@
   <div data-checkout-actions-slot></div>
   <aside class="ksc-reminder">${icons.bag}<div><strong>Всё с собой?</strong><p>Проверьте шкаф, сейф и ванную. Не забудьте документы и зарядные устройства.</p></div></aside>`;
  // Late checkout belongs to the checkout home, not booking details.
- checkout.querySelector('[data-late-checkout-slot]').outerHTML=`<section class="kb-section kb-late-block" aria-label="Поздний выезд">
-    <button type="button" class="kb-late" data-stay-action="late"><span class="kb-icon">${icons.clock}</span><span class="kb-copy"><strong>Поздний выезд</strong><small>Нужно больше времени в номере?</small><span class="kb-action-link">Выбрать время ${icons.arrow}</span></span></button>
-    <p class="kb-hint">Возможность и стоимость подтвердит отель.</p>
+ checkout.querySelector('[data-late-checkout-slot]').outerHTML=`<section class="ksc-service-card" aria-label="Поздний выезд">
+    <button type="button" class="kpa-service" data-stay-service="late"><span class="kpa-service-icon">${icons.clock}</span><span class="kpa-service-copy"><strong>Поздний выезд</strong><small class="kpa-service-status">Не включён в бронь</small></span><span class="kpa-service-action"><span class="kpa-service-link">Добавить</span></span></button>
    </section>`;
  checkout.querySelector('[data-checkout-actions-slot]').replaceWith(dashboard.querySelector('.kh-quick-actions').cloneNode(true));
  const deposit=dashboard.querySelector('.kh-account-row').cloneNode(true);

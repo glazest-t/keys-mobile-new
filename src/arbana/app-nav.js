@@ -46,8 +46,7 @@
       const index=buttons.findIndex(b=>b.getAttribute('aria-current')==='page'||b.classList.contains('active'));
       const visible=!!nav.getClientRects().length && (!window.frameElement || !!window.frameElement.getClientRects().length);
       const previous=records.get(nav);
-      const viewport=window.parent!==window && window.parent.KeysAppNav?window.parent:window;
-      nav.style.setProperty('--keys-nav-text',viewport.matchMedia('(max-width:639px)').matches?'12.6px':'12px');
+      nav.style.setProperty('--keys-nav-text','12px');
       if(!visible){if(previous)previous.visible=false;return;}
       if(previous?.visible&&previous.index===index&&previous.count===buttons.length&&previous.revision===shared.revision)return;
       const recent=Date.now()-shared.at<1000 && shared.index===index;

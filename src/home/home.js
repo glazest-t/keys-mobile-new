@@ -40,8 +40,25 @@
  let origin=null,detail=null,problemFromHome=false,returnFromBreakfast=null;
  const close=()=>{overlay.hidden=true;scroll.inert=false;scroll.removeAttribute("aria-hidden");phone.querySelector('nav').inert=false;phone.querySelector('nav').removeAttribute("aria-hidden");origin?.focus({preventScroll:true});detail=null;const onReturn=returnFromBreakfast;returnFromBreakfast=null;onReturn?.();};
  const open=(title,html,type,trigger)=>{origin=trigger??origin;detail=type;overlay.querySelector('h2').textContent=title;overlay.querySelector('.kh-detail-content').innerHTML=html;overlay.querySelector('.kh-copy-status').textContent='';overlay.hidden=false;overlay.scrollTop=0;scroll.inert=true;phone.querySelector('nav').inert=true;overlay.querySelector('.kh-back').focus({preventScroll:true});scroll.setAttribute('aria-hidden','true');phone.querySelector('nav').setAttribute('aria-hidden','true');};
- const openBreakfast=(button,onReturn=null)=>{returnFromBreakfast=onReturn;open('Завтрак',`<div class="kh-tags"><span>Шведский стол</span><span>Ежедневно</span></div><section class="kh-detail-card"><div class="kh-fact"><span>Где</span><strong>Ресторан LEA · 3 этаж</strong></div><div class="kh-fact"><span>Время</span><strong>07:00–12:00</strong></div><div class="kh-fact"><span>Ваш тариф</span><strong>Завтрак не включён</strong></div><div class="kh-fact"><span>С уровнем Silver</span><strong>680 ₽ / сутки</strong></div></section><button class="kh-primary" data-home-breakfast-services>Перейти к услугам отеля</button>`,'breakfast',button);};
- window.KeysHomeViews={open,close,openBreakfast};
+ const breakfastStorageKey='keys-breakfast-MD-120926-v1';
+ let breakfastAdded=false;
+ try{breakfastAdded=localStorage.getItem(breakfastStorageKey)==='added';}catch{}
+ const isBreakfastAdded=()=>breakfastAdded;
+ const syncBreakfast=()=>{dashboard.querySelector('.kh-meal-row .kh-copy small').textContent=breakfastAdded?'Добавлен за доплату · 680 ₽ / сутки':'Не включён · 680 ₽ с Silver';};
+ const openBreakfast=(button,onReturn=null)=>{
+  returnFromBreakfast=onReturn;
+  open('Завтрак',`<div class="kh-tags"><span>Шведский стол</span><span>Ежедневно</span></div><section class="kh-detail-card"><div class="kh-fact"><span>Где</span><strong>Ресторан LEA · 3 этаж</strong></div><div class="kh-fact"><span>Время</span><strong>07:00–12:00</strong></div><div class="kh-fact"><span>${breakfastAdded?'Ваша услуга':'Ваш тариф'}</span><strong>${breakfastAdded?'Добавлен за доплату':'Завтрак не включён'}</strong></div><div class="kh-fact"><span>С уровнем Silver</span><strong>680 ₽ / сутки</strong></div></section>${breakfastAdded?'<p class="kh-note">Завтрак добавлен к проживанию и оплачивается отдельно.</p>':''}<button type="button" class="kh-primary${breakfastAdded?' kh-breakfast-remove':''}" ${breakfastAdded?'data-home-breakfast-remove':'data-home-breakfast-add'}>${breakfastAdded?'Убрать завтрак':'Добавить услугу'}</button>`,'breakfast',button);
+ };
+ const notifyService=message=>{
+  const section=root.querySelector(':scope>.ku-section:not([hidden])');
+  const toast=section?.querySelector('.k3-toast,.ksd-toast');
+  if(!toast)return;
+  const owner=toast.closest('#keysHomeVariantThree,#keysStayDetails');
+  clearTimeout(owner._t);toast.textContent=message;toast.setAttribute('role','status');toast.hidden=false;
+  owner._t=setTimeout(()=>toast.hidden=true,4000);
+ };
+ window.KeysHomeViews={open,close,openBreakfast,isBreakfastAdded,notifyService};
+ syncBreakfast();
  const nearby=window.KeysNearby.create({open,overlay,dashboard,icon});
  const showNearby=trigger=>nearby.show(trigger,trigger.dataset.nearbyView);
  home.addEventListener('click',event=>{
@@ -60,7 +77,15 @@
    root.querySelector('#keysStayDetails [data-problem-entry]').click();problemFromHome=true;
   }
  });
- overlay.addEventListener('click',event=>{if(event.target.closest('[data-home-breakfast-services]')){close();dashboard.querySelector('[data-info="services"]').click();}});
+ overlay.addEventListener('click',event=>{
+  if(event.target.closest('[data-home-breakfast-add],[data-home-breakfast-remove]')){
+   breakfastAdded=!!event.target.closest('[data-home-breakfast-add]');
+   try{if(breakfastAdded)localStorage.setItem(breakfastStorageKey,'added');else localStorage.removeItem(breakfastStorageKey);}catch{}
+   syncBreakfast();root.dispatchEvent(new CustomEvent('keys-breakfast-change'));
+   close();
+   notifyService(breakfastAdded?'Услуга добавлена':'Завтрак убран из поездки');
+  }
+ });
  overlay.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!nearby.back(detail))close();}if(event.key==='Tab'){const nodes=[...overlay.querySelectorAll('button,a[href],input,[tabindex="0"]')];const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
  // Returning from a problem opened on the dashboard returns directly to its origin.
  document.addEventListener('click',event=>{

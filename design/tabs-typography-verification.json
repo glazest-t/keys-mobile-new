@@ -1,0 +1,316 @@
+{
+  "date": "2026-10-02",
+  "component": "Content tabs and segmented controls",
+  "typography": {
+    "family": "Golos Text Variable",
+    "size": 14,
+    "weight": 500,
+    "lineHeight": 21,
+    "sameInActiveAndInactiveState": true
+  },
+  "sourceHook": "data-keys-tabs",
+  "sharedHostSelectors": [
+    ".kn-switch > button",
+    ".ksd-menu-tab",
+    ".ksd-food-tab",
+    ".kti-tab"
+  ],
+  "checks": [
+    {
+      "width": 375,
+      "name": "Find",
+      "buttons": [
+        {
+          "text": "Знаю, что ищу",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "true"
+        },
+        {
+          "text": "Нужен совет",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "Filter sorting",
+      "buttons": [
+        {
+          "text": "По рекомендации",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "true"
+        },
+        {
+          "text": "Сначала дешевле",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "Filter sorting switched",
+      "buttons": [
+        {
+          "text": "По рекомендации",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "false"
+        },
+        {
+          "text": "Сначала дешевле",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "true"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "Nearby",
+      "buttons": [
+        {
+          "text": "Список",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "true"
+        },
+        {
+          "text": "Карта",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 167.5,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "Service orders",
+      "buttons": [
+        {
+          "text": "Активные · 3",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 150.5,
+          "pressed": "true"
+        },
+        {
+          "text": "Выполненные · 2",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 150.5,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "Service orders switched",
+      "buttons": [
+        {
+          "text": "Активные · 3",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 150.5,
+          "pressed": "false"
+        },
+        {
+          "text": "Выполненные · 2",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 150.5,
+          "pressed": "true"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "Find",
+      "buttons": [
+        {
+          "text": "Знаю, что ищу",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "true"
+        },
+        {
+          "text": "Нужен совет",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "Filter sorting",
+      "buttons": [
+        {
+          "text": "По рекомендации",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "true"
+        },
+        {
+          "text": "Сначала дешевле",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "Filter sorting switched",
+      "buttons": [
+        {
+          "text": "По рекомендации",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "false"
+        },
+        {
+          "text": "Сначала дешевле",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "true"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "Nearby",
+      "buttons": [
+        {
+          "text": "Список",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "true"
+        },
+        {
+          "text": "Карта",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 140,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "Service orders",
+      "buttons": [
+        {
+          "text": "Активные · 3",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 127,
+          "pressed": "true"
+        },
+        {
+          "text": "Выполненные · 2",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 127,
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "name": "Service orders switched",
+      "buttons": [
+        {
+          "text": "Активные · 3",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 127,
+          "pressed": "false"
+        },
+        {
+          "text": "Выполненные · 2",
+          "font": "14px",
+          "weight": "500",
+          "line": "21px",
+          "height": 42,
+          "width": 127,
+          "pressed": "true"
+        }
+      ]
+    }
+  ],
+  "testsPassed": 49,
+  "testsFailed": 0,
+  "geometry": {
+    "itemHeight": 42,
+    "paddingInline": 8,
+    "paddingInlineBelow360": 4,
+    "labelWrappingInVerifiedViews": false
+  }
+}

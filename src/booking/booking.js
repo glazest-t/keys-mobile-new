@@ -58,6 +58,13 @@
   ['font-size','font-weight','line-height','letter-spacing'].forEach(property=>element.style.removeProperty(property));
  });
  install();
+ // Keep the original problem flow reachable even when the old hotel/help
+ // sections are replaced by the current booking layout.
+ if(!root.querySelector('[data-problem-entry]')){
+  const entry=document.createElement('button');
+  entry.type='button';entry.hidden=true;entry.dataset.problemEntry='';
+  entry.textContent='Сообщить о проблеме';root.append(entry);
+ }
 })();
 
 /* Booking-owned document navigation: details → list → document → list → details. */

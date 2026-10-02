@@ -1,0 +1,164 @@
+{
+  "version": "keys-current-2026-10-02",
+  "source": "src/arbana/ui-standards.css",
+  "theme": "light",
+  "fontFamily": "Golos Text Variable",
+  "fontWeights": {
+    "regular": 400,
+    "medium": 500
+  },
+  "typography": {
+    "caption": {
+      "size": 12,
+      "lineHeight": 18,
+      "weight": 400
+    },
+    "captionMedium": {
+      "size": 12,
+      "lineHeight": 18,
+      "weight": 500
+    },
+    "body": {
+      "size": 14,
+      "lineHeight": 21,
+      "weight": 400
+    },
+    "label": {
+      "size": 14,
+      "lineHeight": 21,
+      "weight": 500
+    },
+    "field": {
+      "size": 16,
+      "lineHeight": 24,
+      "weight": 400
+    },
+    "section": {
+      "size": 17,
+      "lineHeight": 24,
+      "weight": 500
+    },
+    "title": {
+      "size": 20,
+      "lineHeight": 26,
+      "weight": 500
+    },
+    "display": {
+      "size": 28,
+      "lineHeight": 34,
+      "weight": 500
+    },
+    "navigation": {
+      "size": 12,
+      "lineHeight": 15,
+      "weight": 500
+    },
+    "metric": {
+      "size": 24,
+      "lineHeight": 30,
+      "weight": 500
+    },
+    "balance": {
+      "size": 36,
+      "lineHeight": 45,
+      "weight": 500
+    }
+  },
+  "components": {
+    "button": {
+      "minHeight": 48,
+      "radius": 14,
+      "padding": [
+        12,
+        16
+      ],
+      "textRole": "label",
+      "multiline": "grow"
+    },
+    "footerLink": {
+      "minHeight": 44,
+      "textRole": "captionMedium"
+    },
+    "serviceAction": {
+      "minHeight": 36,
+      "radius": 10,
+      "textRole": "captionMedium",
+      "hitArea": "whole service row"
+    },
+    "serviceRow": {
+      "minHeight": 76,
+      "iconContainer": 24,
+      "iconContainerRadius": 0
+    },
+    "card": {
+      "radius": 20,
+      "padding": 16
+    },
+    "sheet": {
+      "topRadius": 24,
+      "titleRole": "title"
+    },
+    "field": {
+      "radius": 14,
+      "textRole": "field"
+    },
+    "backButton": {
+      "size": 44,
+      "iconSize": 20,
+      "radius": "circle"
+    },
+    "segment": {
+      "padding": 4,
+      "radius": 14,
+      "itemMinHeight": 42,
+      "itemRadius": 10,
+      "textRole": "label",
+      "fontSize": 14,
+      "fontWeight": 500,
+      "lineHeight": 21,
+      "activeTypography": "same as inactive",
+      "sourceHook": "data-keys-tabs (pill / line)",
+      "paddingInlineBelow360": 4
+    },
+    "filterChip": {
+      "minHeight": 40,
+      "radius": "pill"
+    },
+    "icon": {
+      "strokeWidth": 1.65,
+      "control": 20,
+      "row": 22,
+      "small": 14,
+      "navigation": 24,
+      "background": "transparent",
+      "containerRadius": 0,
+      "containerSize": 24,
+      "style": "outline",
+      "rule": "Semantic icons in cards, rows, pages and sheets have no background, border or shadow. Button surfaces, status badges, avatars, illustrations and map markers are separate components."
+    }
+  },
+  "colorTokens": {
+    "brand": "--color-brand",
+    "text": "--color-ink",
+    "secondaryText": "--color-muted",
+    "card": "--color-card",
+    "border": "--color-line",
+    "soft": "--color-soft",
+    "positive": "--color-success",
+    "positiveSurface": "--color-success-bg"
+  },
+  "intentionalExceptions": [
+    "Brand wordmark: 24 px / 600. Room number and detail balance use the balance role; countdown uses metric; loyalty total uses display.",
+    "Compact service actions have a larger clickable parent; primary buttons grow for multiline labels.",
+    "Photo discovery, map labels, external-app previews and decorative illustrations retain their own visual roles."
+  ],
+  "spacingScale": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32
+  ]
+}

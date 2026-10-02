@@ -112,7 +112,7 @@
 [aria-label="Способ поиска"]{background:var(--color-soft)}
 @media(prefers-reduced-motion:reduce){[aria-label="Способ поиска"]>span[aria-hidden="true"]{transition:none}}
 
-/* Find landing: the shared 20 / 17 / 14 / 12 hierarchy, Regular and Medium. */
+/* Find landing: shared text roles, Regular and Medium. Root titles use display below. */
 #root main:has(> [aria-label="Способ поиска"]){
  font-family:var(--font-sans);font-size:var(--ui-body-size);font-weight:400;
  line-height:1.5;letter-spacing:0;font-synthesis:none;
@@ -128,3 +128,135 @@
 #root main:has(> [aria-label="Способ поиска"])>form .text-12{font:400 var(--ui-body-size)/1.5 var(--font-sans);letter-spacing:0}
 /* Keep text inputs at 16 px to prevent mobile browsers zooming on focus. */
 #root main:has(> [aria-label="Способ поиска"]) input{font:400 16px/1.5 var(--font-sans)}
+
+/* Current Keys foundations, shared by the host and every embedded screen.
+   These semantic roles are the source for the next UI-kit extraction. */
+:root{
+ --ui-display-size:28px;
+ --ui-field-size:16px;
+ --ui-font-caption:400 var(--ui-caption-size)/18px var(--font-sans);
+ --ui-font-caption-medium:500 var(--ui-caption-size)/18px var(--font-sans);
+ --ui-font-body:400 var(--ui-body-size)/21px var(--font-sans);
+ --ui-font-label:500 var(--ui-body-size)/21px var(--font-sans);
+ --ui-font-section:500 var(--ui-card-title-size)/24px var(--font-sans);
+ --ui-font-title:500 var(--ui-page-title-size)/26px var(--font-sans);
+ --ui-font-display:500 var(--ui-display-size)/34px var(--font-sans);
+ --ui-font-field:400 var(--ui-field-size)/24px var(--font-sans);
+ --ui-icon-control:20px;
+ --ui-icon-row:22px;
+ --ui-icon-small:14px;
+ --ui-field-radius:14px;
+ --ui-sheet-radius:24px;
+ --ui-chip-height:40px;
+}
+
+/* Labels must not inherit the legacy responsive 1.05 text multiplier or
+   different span line heights in host and iframe navigation. */
+:is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav :is(.keys-bottom-tab,.keys-bottom-label){
+ font:500 12px/15px var(--font-sans)!important;letter-spacing:0!important;
+}
+
+/* Host copy that used to fall through to the base prototype's 13 px paragraph. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kse-inspiration-copy>p,.keys-passport-intro,.keys-passport-card>p:not(.keys-passport-formats),.kf-sheet>p,.ksd-sheet>p,.k3-sheet>p,.kp-sheet>p,.ktd-sheet>p){font:var(--ui-font-body)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-tags span,.kh-balance small,.kh-balance>span,.ksc-note,.ksc-reminder p,.keys-passport-formats,.keys-passport-message,.keys-benefits-intro>p,.keys-benefits-conversion,.keys-benefits-reveal p,.keys-points-empty){font:var(--ui-font-caption)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-header h2,.keys-profile-header h1,.ksd-head h1,.ksd-detail-title h1,.kfb-title h1,.kfb-success h1,.kf-sheet h3,.ksd-sheet h3,.k3-sheet h3,.kp-sheet h3,.ktd-sheet h3){font:var(--ui-font-title)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-content h3,.ksvc-page h2,.ksvc-secondary h2,.ksvc-secondary h3,.kn-card-body>strong,.kfb-question,.kfb-tip-card h2,.kpa-preparation-heading h2){font:var(--ui-font-section)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.keys-benefits-intro h1,.kse-heading h1){font:var(--ui-font-display)!important;letter-spacing:-.5px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kf-card,.ksd-flow-card,.ksd-other-card){border-radius:var(--ui-card-radius)!important;border-color:var(--color-line)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kf-sheet,.ksd-sheet,.k3-sheet,.kp-sheet,.ktd-sheet){border-radius:var(--ui-sheet-radius) var(--ui-sheet-radius) 0 0!important}
+
+/* Text-entry controls retain 16 px type on mobile to avoid zoom on focus.
+   Checkboxes, calendar controls, numeric steppers and photo pickers keep their geometry. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),textarea,select){font:var(--ui-font-field)!important;letter-spacing:0!important;border-radius:var(--ui-field-radius)!important}
+#root :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),textarea,select){font-size:var(--ui-field-size)!important;line-height:24px;font-family:var(--font-sans);letter-spacing:0}
+
+/* Shared Arbana utility roles still used in chats, reviews, selectors and sheets.
+   Normalize the role itself so newly opened views follow the same scale. */
+#root :is(.text-10,.text-11){font-size:var(--ui-caption-size);line-height:18px;letter-spacing:0}
+#root :is(.text-13,.text-15){font-size:var(--ui-body-size);line-height:21px;letter-spacing:0}
+#root .text-13.text-muted{font-size:var(--ui-caption-size);line-height:18px}
+#root .text-12{line-height:18px}
+#root .text-14{line-height:21px}
+#root :is(.text-17,.text-18){font-size:var(--ui-card-title-size);line-height:24px;letter-spacing:0}
+#root :is(.font-semibold,.font-bold,.font-extrabold){font-weight:500}
+#root .text-16:is(.font-medium,.font-semibold){font-size:var(--ui-body-size);line-height:21px;letter-spacing:0}
+#root :is(.text-28,.text-29){font-size:var(--ui-display-size);line-height:34px;letter-spacing:-.5px}
+#root .keys-module-screen:not([data-screen-type="root"]):not([data-screen-type="discovery"]):not([data-screen-type="story"]):not([data-screen-type="stories"]):not([data-screen-type="swipe"]):not([data-screen-type="shared-swipe"]) h1,
+#root dialog :is(h1,h2){font:var(--ui-font-title);letter-spacing:0}
+#root :is([data-screen-type="root"],[data-screen-type="discovery"]) h1{font:var(--ui-font-display);letter-spacing:-.5px}
+#root .keys-find-heading h1{font:var(--ui-font-display);letter-spacing:-.5px}
+#root [data-keys-button]:is([data-keys-button="primary"],[data-keys-button="secondary"],[data-keys-button="danger"]){font:var(--ui-font-label)}
+#root :is([data-screen-type="hotel-reviews"],[data-screen-type="guest-reviews"]) button.text-11{min-height:var(--ui-chip-height);padding:8px 12px;border-radius:999px}
+#root .keys-room-selection [role="radiogroup"] button{font-family:var(--font-sans)}
+#root button.size-10.rounded-full{min-width:44px;min-height:44px}
+#root :is(button,a,input,textarea,select,summary):focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+
+/* The same title role is used for a card regardless of its parent screen. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-hotel-summary h1,.kh-nearby-heading h2,.kh-pass-today>strong,.kpa-hotel-heading h1,.kpa-arrival-countdown,.kpa-total>strong,.ka-trip-copy h1,.ka-referral-copy>strong,.kse-benefits-heading>strong,.ksvc-orders-heading h2,.ksvc-orders-bill strong){font:var(--ui-font-section)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-reward-amount strong,.ksvc-bill-summary>strong){font:var(--ui-font-title)!important;letter-spacing:0!important}
+#root :is(.keys-result-hotel-name,.keys-results-city,.keys-hotel-about h2){font:var(--ui-font-section);letter-spacing:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-chevron{display:grid;place-items:center;flex:none;width:14px;height:14px;min-width:14px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-chevron svg{width:14px;height:14px;stroke-width:1.65}
+
+#root [aria-label="Способ поиска"]>button{line-height:21px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-amount strong{font:var(--ui-font-display)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-guide>h2{font:var(--ui-font-label)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kfb-reward{font:var(--ui-font-caption)!important;border-radius:var(--ui-card-radius)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kfb-reward strong{font:var(--ui-font-label)!important}
+
+/* Plain outline icons are the current Keys standard. Icon slots are not cards
+   or badges: no fill, outline, shadow or rounded tile behind the glyph.
+   Controls, status badges, avatars, map markers and illustrations have their
+   own surfaces; this rule does not remove their meaning or tap targets. */
+:root{--ui-icon-background:transparent;--ui-icon-radius:0px;--ui-icon-slot:24px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(
+ .kh-icon,.kh-round-icon,.kb-icon,.kb-guest-icon,.ksc-icon,
+ .kpa-service-icon,.kpa-document-icon,.ksvc-order-icon,
+ .ksd-flow-icon,.ksd-action-icon,.ksd-booking-share-icon,.ksd-hotel-contact-icon,.ksd-icon,.ksd-place-row-icon,
+ .k3-alert-icon,.k3-feedback-icon,.k3-service-icon,.kdf-icon,.kf-icon,
+ .ktd-add-icon,.ktd-alert-icon,.ktd-share-icon,.kti-icon,.kti-provider-icon,
+ .kfb-hotel-icon,.kfb-tip-icon,.kse-benefits-icon,.keys-benefits-guide-icon
+){
+ display:grid;place-items:center;flex:none;box-sizing:border-box;
+ width:var(--ui-icon-slot)!important;height:var(--ui-icon-slot)!important;min-width:var(--ui-icon-slot)!important;
+ padding:0!important;border:0!important;border-radius:var(--ui-icon-radius)!important;
+ background:var(--ui-icon-background)!important;box-shadow:none!important;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(
+ .kh-icon,.kh-round-icon,.kb-icon,.kb-guest-icon,.ksc-icon,.kpa-service-icon,.kpa-document-icon,
+ .ksvc-order-icon,.ksd-flow-icon,.ksd-action-icon,.ksd-booking-share-icon,.ksd-hotel-contact-icon,
+ .ksd-icon,.ksd-place-row-icon,.k3-alert-icon,.k3-feedback-icon,.k3-service-icon,.kdf-icon,.kf-icon,
+ .ktd-add-icon,.ktd-alert-icon,.ktd-share-icon,.kti-icon,.kti-provider-icon,.kfb-hotel-icon,.kfb-tip-icon
+)>svg{width:var(--ui-icon-row)!important;height:var(--ui-icon-row)!important;stroke-width:1.65}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-key-icon,.ksd-door-icon){background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;color:var(--color-on-brand)!important}
+
+/* Use the same 24 px icon column in home, catalogue, order history and bill. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-service,.ksvc-bill-row){grid-template-columns:24px minmax(0,1fr) auto;gap:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ksvc-order{grid-template-columns:24px minmax(0,1fr);gap:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service+.kpa-service::before{left:36px}
+
+/* Embedded Find / Chats: named icons and the original module's decorative
+   row/empty-state icon slots, never interactive controls or status indicators. */
+#root :is(.keys-notice-icon,.keys-checkin-success-icon,.keys-find-saved-icon,.keys-hotel-location-icon),
+#root :is(span,div).grid.place-items-center:is(.shrink-0,.mb-4,.mb-5):has(>svg:only-child):not(.absolute):not([role]):not([class*="size-5"]):not([class*="size-[18px]"]):not([class*="size-[19px]"]):not([class*="size-[22px]"]):not(label *):not([role="radio"] *):not([role="checkbox"] *){
+ width:var(--ui-icon-slot);height:var(--ui-icon-slot);min-width:var(--ui-icon-slot);flex:none;
+ padding:0;border:0;border-radius:var(--ui-icon-radius);background:var(--ui-icon-background)!important;box-shadow:none!important;
+}
+#root :is(.keys-notice-icon,.keys-checkin-success-icon,.keys-find-saved-icon,.keys-hotel-location-icon)>svg{width:var(--ui-icon-row);height:var(--ui-icon-row);stroke-width:1.65}
+#root :is(span,div).grid.place-items-center.shrink-0.text-on-brand:has(>svg:only-child):not(.absolute):not([role]):not([class*="size-5"]):not([class*="size-[18px]"]):not([class*="size-[19px]"]):not([class*="size-[22px]"]):not(label *):not([role="radio"] *):not([role="checkbox"] *){color:var(--color-brand)}
+
+/* One label role for every content tab, including dynamically opened filters.
+   Active state changes colour and indicator, never font size or weight. */
+#root [data-keys-tabs]>button,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kn-switch>button,.ksd-menu-tab,.ksd-food-tab,.kti-tab){
+ font:var(--ui-font-label)!important;letter-spacing:0!important;
+}
+#root [data-keys-tabs="pill"]{gap:0;padding:4px;border:0;border-radius:14px;background:var(--ui-segment-fill)}
+#root [data-keys-tabs="pill"]>button{min-height:42px;padding:8px;border-radius:10px;color:var(--color-muted)}
+#root [data-keys-tabs="pill"]>button[aria-pressed="true"]{color:var(--color-brand)}
+#root [data-keys-tabs="pill"]>span[aria-hidden="true"]{border-radius:10px;background:var(--color-card);box-shadow:var(--ui-segment-shadow)}
+#root [data-keys-tabs="pill"][aria-label="Способ поиска"]{background:var(--color-soft)}
+@media(max-width:359px){
+ #root [data-keys-tabs="pill"]>button,
+ #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kn-switch>button{padding-inline:4px}
+}

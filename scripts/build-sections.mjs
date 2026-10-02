@@ -47,6 +47,8 @@ export async function buildSections(){
  const mount='GC.createRoot(document.getElementById("root")).render(n.jsx(HC.StrictMode, { children: n.jsx(TX, {}) }));';
  replace(mount,'GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));');
  // Shared semantic hooks let the host apply the same control geometry in the iframe.
+ replace('n.jsxs("div", { ref: c, "aria-label": l, className: F("relative", r === "line"',
+  'n.jsxs("div", { ref: c, "data-keys-tabs": r, "aria-label": l, className: F("relative", r === "line"');
  replace('return n.jsxs("button", { type: l, className: F("inline-flex items-center gap-2 transition-colors disabled:opacity-45",',
   'return n.jsxs("button", { "data-keys-button": e, type: l, className: F("inline-flex items-center gap-2 transition-colors disabled:opacity-45",');
  replace('const f = F("flex min-h-[65px] w-full items-center gap-3 border-b border-line py-[11px] text-left",',

@@ -44,22 +44,30 @@ body[data-keys-scenario="booked"] #keysUnifiedPrototype .kh-home{display:none!im
 #keysUnifiedPrototype .kpa-manage:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 @media(hover:hover){#keysUnifiedPrototype#keysUnifiedPrototype .kpa-manage:hover{background:color-mix(in srgb,var(--color-soft) 88%,var(--color-brand))}}
 /* Compact service rows, grouped with a catalogue footer. */
-#keysUnifiedPrototype .kpa-preparation{border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);padding:4px 16px}
+/* One card: booking status on the left, an explicit next action on the right. */
+#keysUnifiedPrototype .kpa-preparation{border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);padding:16px 16px 0}
+#keysUnifiedPrototype .kpa-preparation-heading{margin-bottom:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-preparation-heading h2{margin:0;font:var(--font-weight-medium) var(--text-17)/var(--leading-tight) var(--font-sans)!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-preparation-heading p{margin:4px 0 0;font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important;color:var(--color-muted)}
 #keysUnifiedPrototype .kpa-services{display:grid}
-#keysUnifiedPrototype .kpa-service{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr) auto 14px;align-items:center;gap:10px;min-width:0;min-height:56px;width:100%;padding:12px 0;border:0;border-radius:0;background:transparent;text-align:left;cursor:pointer}
-#keysUnifiedPrototype .kpa-service+.kpa-service::before{content:"";position:absolute;left:34px;right:0;top:0;height:1px;background:var(--color-line)}
-#keysUnifiedPrototype .kpa-service-icon{display:grid;place-items:center;width:24px;height:24px;color:var(--color-brand)}
-#keysUnifiedPrototype .kpa-service-icon svg{width:22px;height:22px;stroke-width:1.65}
-#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service>strong{font-size:var(--text-14)!important;line-height:1.5!important;font-weight:var(--font-weight-medium)!important;color:var(--color-ink)}
-#keysUnifiedPrototype .kpa-service-status{max-width:100px;font-size:var(--text-12);line-height:1.5;color:var(--color-muted);text-align:right}
-#keysUnifiedPrototype .kpa-service-link{color:inherit}
-#keysUnifiedPrototype .kpa-service-chevron{display:flex;color:var(--color-muted)}
-#keysUnifiedPrototype .kpa-service-chevron svg{width:14px;height:14px}
+#keysUnifiedPrototype .kpa-service{position:relative;display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0;min-height:76px;width:100%;padding:14px 0;border:0;border-radius:0;background:transparent;text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kpa-service+.kpa-service::before{content:"";position:absolute;left:42px;right:0;top:0;height:1px;background:var(--color-line)}
+#keysUnifiedPrototype .kpa-service-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype .kpa-service-icon svg{width:20px;height:20px;stroke-width:1.65}
+#keysUnifiedPrototype .kpa-service-copy{display:grid;gap:3px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service-copy>strong{font:var(--font-weight-medium) var(--text-14)/var(--leading-normal) var(--font-sans)!important;color:var(--color-ink)}
+#keysUnifiedPrototype .kpa-service-status{font-size:var(--text-12);line-height:var(--leading-normal);color:var(--color-muted);text-align:left}
+#keysUnifiedPrototype .kpa-service-action{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:36px;padding:0 8px;border-radius:10px;background:var(--color-soft);color:var(--color-brand);white-space:nowrap}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service-link{color:inherit;font:var(--font-weight-medium) var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype .kpa-service-action svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype .kpa-service.is-requested .kpa-service-status{color:var(--color-brand)}
+#keysUnifiedPrototype .kpa-service.is-added .kpa-service-status{color:var(--color-success)}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;width:100%;padding:12px 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;color:var(--color-brand)!important;font:var(--font-weight-medium) var(--text-14)/1.5 var(--font-sans);text-align:left;cursor:pointer}
 #keysUnifiedPrototype .kpa-services-all svg{width:14px;height:14px}
 #keysUnifiedPrototype .kpa-service:focus-visible,#keysUnifiedPrototype .kpa-services-all:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:8px}
-@media(hover:hover){#keysUnifiedPrototype .kpa-service:hover .kpa-service-chevron{color:var(--color-brand)}#keysUnifiedPrototype .kpa-services-all:hover{color:var(--color-ink)!important}}
-@media(max-width:359px){#keysUnifiedPrototype .kpa-preparation{padding:4px 12px}#keysUnifiedPrototype .kpa-service{gap:8px}#keysUnifiedPrototype .kpa-service+.kpa-service::before{left:32px}}
+@media(hover:hover){#keysUnifiedPrototype .kpa-service:hover .kpa-service-action{background:var(--color-soft-hover)}#keysUnifiedPrototype .kpa-services-all:hover{color:var(--color-ink)!important}}
+@media(max-width:359px){#keysUnifiedPrototype .kpa-preparation{padding:14px 12px 0}#keysUnifiedPrototype .kpa-service{grid-template-columns:28px minmax(0,1fr) auto;gap:8px}#keysUnifiedPrototype .kpa-service-icon{width:28px;height:28px}#keysUnifiedPrototype .kpa-service-action{padding:0 6px}#keysUnifiedPrototype .kpa-service+.kpa-service::before{left:36px}}
+
 #keysUnifiedPrototype .kpa-share{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;width:100%;padding:10px 12px;background:transparent;border:0;border-radius:12px;color:var(--color-brand)!important;font:500 var(--text-14)/1.5 var(--font-sans);cursor:pointer}
 #keysUnifiedPrototype .kpa-share svg{width:20px;height:20px}
 #keysUnifiedPrototype .kpa-home :is(button,input):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
@@ -182,9 +190,9 @@ body[data-keys-scenario="booked"] #keysStayDetails .ksd-detail-content>:is(.ksd-
 #keysUnifiedPrototype .kpa-home{font-family:var(--font-sans);font-weight:var(--font-weight-normal);font-synthesis:none;letter-spacing:var(--tracking-normal)}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-hotel-heading h1,.kh-nearby-heading h2,.kpa-total>strong,.kpa-arrival-countdown){font:var(--font-weight-medium) var(--text-17)/var(--leading-tight) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-arrival-countdown b,.kpa-duration-count strong){font:var(--font-weight-medium) var(--text-24)/var(--leading-tight) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important;font-variant-numeric:tabular-nums}
-#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-manage,.kpa-manage span,.kpa-service>strong,.kpa-services-all,.kpa-schedule-stop time){font:var(--font-weight-medium) var(--text-14)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-manage,.kpa-manage span,.kpa-service-copy>strong,.kpa-services-all,.kpa-schedule-stop time){font:var(--font-weight-medium) var(--text-14)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home .kpa-welcome-ribbon p{font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
-#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-hotel-heading>span,.kpa-schedule-stop>div>span,.kpa-schedule-stop small,.kpa-duration-count span,.kpa-service-status,.kpa-service-link,.kh-nearby-heading p,.kh-nearby-count){font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-hotel-heading>span,.kpa-schedule-stop>div>span,.kpa-schedule-stop small,.kpa-duration-count span,.kpa-service-status,.kh-nearby-heading p,.kh-nearby-count){font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home :is(.kpa-actions strong,.kpa-payment-status strong,.kh-detail-link){font:var(--font-weight-medium) var(--text-12)/var(--leading-normal) var(--font-sans)!important;letter-spacing:var(--tracking-normal)!important}
 
 #keysUnifiedPrototype .kpa-route{text-decoration:none}
@@ -270,3 +278,7 @@ body[data-keys-scenario="booked"] #keysStayDetails .ksd-detail-content>:is(.ksd-
 
 /* Keep provider attribution above the taxi preview panel. */
 #keysUnifiedPrototype .kpa-go-map-live{height:282px;margin-bottom:18px}
+
+/* Shared service typography must also override the legacy catalogue small/button rules. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service{font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service .kpa-service-status{font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important}

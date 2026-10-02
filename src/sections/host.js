@@ -30,7 +30,7 @@
       cancelProfileMotion();complete();
     });
   };
-  const notificationDay=()=>document.body.dataset.keysScenario==='after'?'after':document.body.dataset.keysScenario==='booked'?'day-1':(document.body.dataset.keysStayDay??'day-2');
+  const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day??'day-2'):'day-1';
   const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
   const show=(tab,hotelId,screen)=>{
     cancelProfileMotion();
@@ -254,7 +254,7 @@
   },true);
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
-    const day=event.detail.scenario==='after'?'after':event.detail.scenario==='booked'?'day-1':event.detail.stayDay;if(!day)return;
+    const day=notificationDay(event.detail.scenario,event.detail.stayDay);
     if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=stay-scenarios-1&stayDay='+encodeURIComponent(day);
     else if(ready)frame.contentWindow.postMessage({source:'keys-host',stayDay:day},location.protocol==='file:'?'*':location.origin);
   });

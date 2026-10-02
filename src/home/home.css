@@ -258,3 +258,6 @@
 @media(max-width:350px){
  #keysUnifiedPrototype .kh-quick-actions strong{display:flex;align-items:center;justify-content:center;min-height:calc(var(--text-12) * 3);text-align:center}
 }
+
+/* Breakfast removal follows the shared secondary button treatment. */
+#keysUnifiedPrototype .kh-primary.kh-breakfast-remove{margin-top:20px;background:var(--color-soft);color:var(--color-brand)!important}

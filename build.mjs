@@ -98,16 +98,19 @@ ${fragment}
 <script src="./scenarios/search.js"></script>
 <script src="./scenarios/scenarios.js?v=arrival-day-route-1"></script>
 <link rel="stylesheet" href="./arbana/service-cards.css?v=completed-redesign-1">
-<link rel="stylesheet" href="./arbana/ui-standards.css">
 <link rel="stylesheet" href="./booking/services.css">
 <script src="./booking/services.js"></script>
+<link rel="stylesheet" href="./booking/active-services.css">
+<script src="./booking/active-services.js"></script>
 <link rel="stylesheet" href="./booking/breakfast-gallery.css">
 <script src="./booking/breakfast-gallery.js"></script>
+<link rel="stylesheet" href="./arbana/ui-standards.css">
+<script src="./arbana/ui-standards.js"></script>
 </body>
 </html>
 `;
 
-await rm(new URL("./dist/", import.meta.url), {recursive:true,force:true});
+await rm(new URL("./dist/", import.meta.url), {recursive:true,force:true,maxRetries:3,retryDelay:100});
 await mkdir(new URL("./dist/", import.meta.url), { recursive: true });
 await buildArbanaTheme(fragment, document.slice(0, document.indexOf("<body>")));
 await writeFile(new URL("./dist/index.html", import.meta.url), document);

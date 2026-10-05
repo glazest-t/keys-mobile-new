@@ -160,7 +160,7 @@ function EV() {
     (index===0||day(items[index-1].createdAt)!==day(item.createdAt))&&n.jsx('h2',{className:'keys-notice-date',children:day(item.createdAt)}),
     n.jsxs('button',{type:'button',className:'keys-notice-item','data-kind':['stay-feedback','checkout-feedback'].includes(item.target)?'review':item.category,'data-unread':!item.readAt,disabled:busy,onClick:()=>run(async()=>{await api('notifications/'+item.id+'/read','POST');setExtra(list=>list.map(other=>other.id===item.id?{...other,readAt:new Date().toISOString()}:other));await resource?.refresh();if(item.target!=='notifications')open({type:item.target});}),children:[
      n.jsx('span',{className:'keys-notice-icon','aria-hidden':true,children:icon(['stay-feedback','checkout-feedback'].includes(item.target)?'star':item.category==='account'?'shield':'bell')}),
-     n.jsxs('span',{className:'keys-notice-copy',children:[n.jsxs('span',{className:'keys-notice-heading',children:[n.jsx('strong',{children:item.title}),!item.readAt&&n.jsx('span',{className:'keys-notice-dot','aria-label':'Не прочитано'})]}),n.jsx('span',{className:'keys-notice-body',children:item.body}),n.jsxs('span',{className:'keys-notice-meta',children:[n.jsx('time',{dateTime:item.createdAt,children:new Date(item.createdAt).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow'})}),['stay-feedback','checkout-feedback'].includes(item.target)&&n.jsx('span',{className:'keys-notice-link',children:'Оставить отзыв →'})]})]})
+     n.jsxs('span',{className:'keys-notice-copy',children:[n.jsxs('span',{className:'keys-notice-heading',children:[n.jsx('strong',{children:item.title}),!item.readAt&&n.jsx('span',{className:'keys-notice-dot','aria-label':'Не прочитано'})]}),n.jsx('span',{className:'keys-notice-body',children:item.body}),n.jsxs('span',{className:'keys-notice-meta',children:[n.jsx('time',{dateTime:item.createdAt,children:new Date(item.createdAt).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow'})}),['stay-feedback','checkout-feedback'].includes(item.target)&&n.jsx('span',{className:'keys-notice-link',children:['Оставить отзыв',n.jsx('svg',{viewBox:'0 0 24 24',width:14,height:14,fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:n.jsx('path',{d:'m9 5 7 7-7 7'})})]})]})]})
     ]})
    ]},item.id))}):!resource?.error&&n.jsx('p',{className:'keys-notice-empty',children:'Новых уведомлений пока нет.'}),
    (error||resource?.error)&&n.jsxs('div',{children:[n.jsx('p',{role:'alert',className:'text-12 text-danger',children:error||'Не удалось загрузить уведомления.'}),n.jsx(H,{variant:'text',onClick:()=>resource?.refresh(),children:'Повторить'})]}),
@@ -293,7 +293,7 @@ function Ae(props) {
  },[]);
  if(!desktop)return n.jsx(KeysMobileScreenHeader,props);
  return n.jsxs('header',{className:'keys-desktop-screen-header',children:[
-  n.jsxs('button',{type:'button',className:'keys-desktop-back',onClick:props.onBack??back,children:[n.jsx(D,{name:'back',className:'size-5'}),n.jsx('span',{children:'Назад'})]}),
+  n.jsxs('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:[n.jsx(D,{name:'back',className:'size-5'}),n.jsx('span',{children:'Назад'})]}),
   n.jsx(props.overPhoto?'p':'h1',{className:'keys-desktop-screen-title',children:props.overPhoto?'Об отеле':props.title}),
   props.action&&n.jsx('div',{className:'keys-desktop-screen-actions',children:props.action})
  ]});

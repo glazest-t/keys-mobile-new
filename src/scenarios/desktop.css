@@ -404,6 +404,16 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 /* Desktop secondary actions use the same 14/21 medium role as controls. */
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-link,.kpa-service-link,.kpa-services-all,.kh-nearby-actions button,.kd-text-link,.kd-feature-link){font:var(--ui-font-label)!important;letter-spacing:0!important}
 
+/* Shared hotel hero geometry across prearrival, stay and completed trips.
+   Keep the photo/details seam straight and round only the outside edges. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-reservation,.kh-stay-card,.ka-trip){--kd-trip-radius:24px;--kd-trip-panel-radius:18px;border-radius:var(--kd-trip-radius);background:var(--color-soft);overflow:hidden}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-hotel-visual,.kd-stay-photo,.ka-trip-photo){border-radius:var(--kd-trip-panel-radius) 0 0 var(--kd-trip-panel-radius);overflow:hidden}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-reservation-body,.kh-stay-card>.kh-room-pass,.ka-trip-pass){border-radius:0 var(--kd-trip-panel-radius) var(--kd-trip-panel-radius) 0}
+@media(max-width:1100px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-hotel-visual,.kd-stay-photo,.ka-trip-photo){border-radius:var(--kd-trip-panel-radius) var(--kd-trip-panel-radius) 0 0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-reservation-body,.kh-stay-card>.kh-room-pass,.ka-trip-pass){border-radius:0 0 var(--kd-trip-panel-radius) var(--kd-trip-panel-radius)}
+}
+
 /* Arrival instructions belong with booking actions; registration starts at day 3. */
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-checkin[hidden]{display:none!important}
 @media(min-width:1101px){

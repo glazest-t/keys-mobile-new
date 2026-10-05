@@ -1,0 +1,60 @@
+/* In-stay desktop home shares the web shell and the actual mobile components. */
+body[data-keys-desktop-home="true"][data-keys-scenario="stay"] #keysUnifiedPrototype .kh-home{display:grid;grid-template-columns:minmax(0,1fr) 352px;gap:16px 24px;align-items:start;padding:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-stay-card{grid-column:1;grid-row:1;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);padding:0;overflow:hidden;border-radius:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-heading{grid-column:1/-1;padding:16px 20px;min-height:72px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-hotel-summary{display:grid;gap:4px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-heading .kh-booking-link{display:inline-flex!important;align-self:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-photo{position:relative;min-width:0;min-height:280px;align-self:stretch;overflow:hidden}
+#keysUnifiedPrototype .kd-stay-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-card>.kh-room-pass{display:flex;flex-direction:column;justify-content:space-between;min-width:0;gap:20px;padding:24px;border-radius:0;min-height:280px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-pass-stay{padding:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-pass-progress{margin:0 0 14px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home .kh-open-door{min-height:48px;margin:0;padding:12px 16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-actions{grid-template-columns:1fr}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-actions button{min-height:104px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-daily{grid-column:1;grid-row:3;gap:0;border:1px solid var(--color-line);border-radius:20px;overflow:hidden}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-daily>button{padding:20px;min-height:88px;border-radius:0;box-shadow:none;background:var(--color-card)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-daily>button+button{border-top:1px solid var(--color-line)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-quick-actions{grid-column:1;grid-row:2;display:grid!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-quick-actions button{flex-direction:row;gap:12px;min-height:72px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-side{display:flex!important;flex-direction:column;gap:16px;grid-column:2;grid-row:1/4;min-width:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.ksc-checkout{grid-column:1;grid-row:3}
+body[data-keys-desktop-home="true"][data-keys-stay-day="checkout"] #keysUnifiedPrototype .kd-stay-side>.kh-nearby-v2{display:none}
+body[data-keys-desktop-home="true"][data-keys-stay-day="checkout"] #keysUnifiedPrototype .ksc-deadline{padding:0 0 16px;margin:0;gap:4px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ksc-service-card{padding:0 20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ksc-deposit .kh-account-row{padding:20px;min-height:88px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ksc-note{margin:0 20px;padding-bottom:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ksc-reminder{padding:8px 4px}
+/* Same type roles as the pre-arrival desktop, without changing mobile typography. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-stay-heading h1,.kh-pass-today>strong,.ksc-deadline>strong){font:var(--ui-font-title)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-room-line>strong{font:var(--kd-font-metric)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-account-value>strong,.kh-meal-time,.kh-account-row .kh-copy>strong,.kh-meal-title,.kh-quick-actions strong,.kh-open-door,.kh-open-door>span,.kh-pass-room-line>span,.ksc-reminder strong){font:var(--ui-font-label)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-pass-room-id>span,.kh-pass-room-id>small,.kh-pass-today>span,.kh-pass-today>time,.kh-pass-today strong>span,.kh-pass-endpoints span,.kh-pass-endpoints time,.kh-live,.kh-copy>small,.kh-copy>span,.ksc-note,.ksc-reminder p,.ksc-deadline>span){font:var(--ui-font-caption)!important;letter-spacing:0!important}
+@media(min-width:800px) and (max-width:1100px){
+ body[data-keys-desktop-home="true"][data-keys-scenario="stay"] #keysUnifiedPrototype .kh-home{grid-template-columns:minmax(0,1fr) 300px;gap:16px 20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-stay-card{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-photo{min-height:180px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-card>.kh-room-pass{min-height:260px;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-quick-actions button{flex-direction:column;gap:8px}
+}
+@media(max-width:799px){
+ body[data-keys-desktop-home="true"][data-keys-scenario="stay"] #keysUnifiedPrototype .kh-home{display:flex;flex-direction:column;padding:0 16px;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>*{width:100%;min-width:0;box-sizing:border-box}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-stay-card{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-photo{min-height:200px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-card>.kh-room-pass{min-height:260px;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-actions{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-actions button{min-height:72px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-quick-actions button{flex-direction:column;gap:8px}
+}
+
+body[data-keys-desktop-home="true"][data-keys-stay-day="checkout"] #keysUnifiedPrototype .kd-stay-side{grid-row:1/4}
+
+/* The same quick actions remain directly below the pass on checkout day. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ksc-checkout>.kh-quick-actions{display:none!important}
+@media(max-width:799px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-stay-card{order:0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>.kh-quick-actions{order:1}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>:is(.ksc-checkout,.kh-daily){order:2}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-side{order:3}
+}

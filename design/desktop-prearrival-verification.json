@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "Responsive widths 1440, 1024, 800, 768, 375",
+    "About hotel opens current hotel details",
+    "Header booking → documents → booking → home",
+    "All three themed collections reach correctly filtered results; weekend = 2 nights",
+    "Header search submits city",
+    "Photo selection opens existing photo flow",
+    "Advice opens existing selection mode",
+    "No top navigation; header points focuses inline wallet; points rules expand on home",
+    "Online check-in available from day-8, using shared flow",
+    "Primary action tiles open booking documents, Maidens chat and booking change",
+    "Early arrival opens; breakfast adds/removes with shared state preserved in mobile",
+    "Final 1024px layout uses compact split card; mobile has no horizontal overflow"
+  ],
+  "errors": [],
+  "date": "2026-10-02",
+  "version": "dashboard-v3",
+  "regression": {
+    "tests": 52,
+    "passed": 52,
+    "failed": 0,
+    "originalInlineScriptsPreserved": 67
+  },
+  "scope": "Desktop pre-arrival home. Existing mobile screens, navigation and service state retained."
+}

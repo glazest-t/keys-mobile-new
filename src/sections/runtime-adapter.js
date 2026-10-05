@@ -23,13 +23,14 @@ function keysRouteToHost(action) {
 }
 function KeysBridge() {
   const {state,dispatch} = J();
+  const searchRef=E.useRef(state.search);searchRef.current=state.search;
   const notifications=Qg(),refresh=E.useRef(null);refresh.current=notifications?.refresh;
   E.useEffect(()=>keysPost('header',{unread:!!notifications?.page?.unread}),[notifications?.page?.unread]);
   E.useEffect(() => {
     const receive = event => {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
-      const {tab,hotelId,screen,stayDay} = event.data;
+      const {tab,hotelId,screen,stayDay,discovery} = event.data;
       if(['day-1','day-2','checkout','after'].includes(stayDay)){
         const changed=globalThis.PoraDemo.keysStayDay!==stayDay;
         globalThis.PoraDemo.keysStayDay=stayDay;
@@ -39,6 +40,16 @@ function KeysBridge() {
       dispatch({type:'NAV_TAB',tab});
       if(['booking','notifications'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
+      if(tab==='find'&&discovery){
+        if(['deals','weekend','anywhere'].includes(discovery.collection)) keysOpenCollection(dispatch,searchRef.current,discovery.collection);
+        else if(discovery.mode==='photo') dispatch({type:'OPEN',screen:{type:'swipe'}});
+        else if(discovery.mode==='advice') dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});
+        else if(typeof discovery.city==='string'&&discovery.city.trim()){
+          const city=discovery.city.trim().slice(0,120);
+          dispatch({type:'SEARCH_PATCH',patch:{city,keysCollection:null,intent:'known',results:false}});
+          dispatch({type:'SEARCH_SUBMIT',city});
+        }
+      }
     };
     window.addEventListener('message',receive); keysPost('ready',{});
     return () => window.removeEventListener('message',receive);

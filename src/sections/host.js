@@ -32,10 +32,10 @@
   };
   const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day??'day-2'):'day-1';
   const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
-  const show=(tab,hotelId,screen)=>{
+  const show=(tab,hotelId,screen,discovery)=>{
     cancelProfileMotion();
     root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
-    pending={tab,hotelId,screen};
+    pending={tab,hotelId,screen,discovery};
     if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=stay-scenarios-1&stayDay='+encodeURIComponent(notificationDay());
     send();
   };
@@ -265,7 +265,7 @@
   });
   root.addEventListener('keys-open-hotel-chat',()=>show('chats','maidens'));
   root.addEventListener('keys-open-stay-details',()=>go('stay-details'));
-  root.addEventListener('keys-open-hotel-search',()=>show('find'));
+  root.addEventListener('keys-open-hotel-search',event=>show('find',null,null,event.detail));
   // Catch internal legacy links into Find/Assistant as well as the bottom navigation.
   new MutationObserver(()=>{
     const search=root.querySelector('[data-unified-section="search"]');

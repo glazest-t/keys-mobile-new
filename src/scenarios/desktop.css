@@ -1,0 +1,414 @@
+/* First web scenario: pre-arrival Trips. Shared components/state, desktop layout. */
+.kd-booking-column,.kd-planning-column{display:contents}
+.kd-page-heading{display:none}
+#keysScenarioControls{width:840px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;align-items:center}
+.kd-view-switch{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--color-line);border-radius:999px;background:#fff}
+.kd-view-switch button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:30px;padding:4px 10px;border:0;border-radius:999px;background:transparent;color:var(--color-muted);font:500 12px/18px var(--font-sans);cursor:pointer;transition:background .18s,color .18s}
+.kd-view-switch button[aria-pressed="true"]{background:var(--color-soft);color:var(--color-brand)}
+.kd-view-switch button:disabled{opacity:.45;cursor:default}
+.kd-view-switch button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+html:has(body[data-keys-desktop-home="true"]){background:#fff!important}
+body[data-keys-desktop-home="true"]{padding:16px 24px 48px;background:#fff!important}
+body[data-keys-desktop-home="true"] #keysScenarioControls{width:1160px;grid-template-columns:272px 230px auto;justify-content:start;margin-bottom:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype #keysHomeVariantThree{display:block;max-width:1160px;margin:auto;padding:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .k3-phone{width:100%!important;max-width:none!important;height:auto!important;min-height:calc(100vh - 100px);border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible;background:#fff!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .k3-status,
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .k3-nav{display:none!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .k3-scroll{height:auto!important;overflow:visible;padding:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{height:84px;min-height:84px;margin:0 0 32px!important;padding:0!important;border-bottom:1px solid var(--color-line);border-radius:0;background:#fff;display:flex;align-items:center;gap:40px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-logo{margin-right:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-actions{margin-left:auto}
+body[data-keys-desktop-home="true"] .kd-page-heading{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin:0 0 24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kd-page-heading h1{margin:0;font:500 28px/34px var(--font-sans)!important;letter-spacing:-.5px!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-page-heading p{margin:0;color:var(--color-muted);font:400 14px/21px var(--font-sans)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-home{display:grid;grid-template-columns:minmax(0,1fr) 360px;align-items:start;gap:24px;padding:0}
+body[data-keys-desktop-home="true"] .kd-booking-column,
+body[data-keys-desktop-home="true"] .kd-planning-column{display:flex;flex-direction:column;gap:16px;min-width:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation{border-radius:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-welcome-ribbon{min-height:48px;padding:14px 24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-photo{height:280px;object-position:50% 50%}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-heading{left:24px;bottom:24px;gap:6px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-heading h1{font:500 28px/34px var(--font-sans)!important;letter-spacing:-.5px!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-heading>span{font:400 14px/21px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hero-share{top:16px;right:16px;width:44px;height:44px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{display:grid;grid-template-columns:170px minmax(0,1fr);column-gap:24px;padding:24px;background:var(--color-brand);border-radius:0 0 20px 20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-stay-overview{align-items:center;justify-content:flex-start}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown{display:block;font:400 14px/21px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown b{display:block;font:500 36px/45px var(--font-sans)!important;margin-bottom:2px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{margin:0;gap:20px;grid-template-columns:minmax(0,1fr) 64px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops{gap:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-payment{grid-column:1/-1;margin:20px 0 0;padding-top:20px;border-top:1px solid #ffffff30}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-total>strong{font:500 20px/26px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-status strong{font:500 14px/21px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-actions{margin:0;min-height:96px;border:1px solid var(--color-line);border-radius:20px;padding:8px;background:#fff}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-actions button{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;min-height:76px;padding:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-actions strong{font:500 14px/21px var(--font-sans)!important;max-width:145px;text-align:left}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-booking-column>.kpa-manage{margin:0;width:100%;min-height:48px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{padding:24px 24px 0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{margin-bottom:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service{min-height:88px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-nearby-v2{margin:0;padding:24px 24px 0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-nearby-heading{min-height:148px;padding:0;align-items:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-nearby-actions{margin-top:16px;padding:0;min-height:60px}
+/* Existing secondary flows remain the same, opening as a focused web dialog. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-overlay:not([hidden]){position:fixed;z-index:150;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:520px;max-width:calc(100vw - 32px);height:calc(100dvh - 120px);max-height:820px;border:1px solid var(--color-line);border-radius:24px;box-shadow:0 0 0 100vmax #1c284155,0 24px 80px #1c284126;background:#fff;animation:kd-dialog-in .2s ease-out}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-change-layer:not([hidden]){position:fixed;z-index:160;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:440px;height:min(844px,calc(100dvh - 64px));border-radius:24px;overflow:hidden;box-shadow:0 0 0 100vmax #1c284155}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .k3-toast{position:fixed;z-index:180;left:50%;right:auto;bottom:24px;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 32px)}
+@keyframes kd-dialog-in{from{opacity:0;margin-top:10px}to{opacity:1;margin-top:0}}
+@media(min-width:800px) and (max-width:1100px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-home{grid-template-columns:minmax(0,1fr) 320px;gap:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{grid-template-columns:110px minmax(0,1fr);gap:16px;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{gap:10px;grid-template-columns:minmax(0,1fr) 48px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop p{display:grid;gap:0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{gap:16px}
+ .kd-page-heading p{display:none}
+}
+@media(max-width:799px){
+ #keysScenarioControls,body[data-keys-desktop-home="true"] #keysScenarioControls{width:100%;height:auto;min-height:122px;padding:12px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:8px;justify-content:stretch}
+ .kd-view-switch{grid-column:1/-1;justify-self:center}
+ body[data-keys-desktop-home="true"]{padding:0 0 24px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{padding:0 16px!important;height:72px;min-height:72px;margin-bottom:20px!important;gap:12px;flex-wrap:wrap}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{height:124px;min-height:124px}
+ body[data-keys-desktop-home="true"] .kd-page-heading{padding:0 16px}
+ body[data-keys-desktop-home="true"] .kd-page-heading p{display:none}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-home{display:flex;padding:0 16px;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{display:block;padding:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{margin-top:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-photo{height:230px}
+}
+@media(max-width:520px){body[data-keys-view="mobile"][data-keys-scenario] #keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.kp-phone,.kf-phone,.ktd-phone,.kti-phone,.kdf-phone,.kfb-phone,.ksd-phone,#keysSectionsFrame){height:calc(100dvh - 122px)!important}}
+@media(prefers-reduced-motion:reduce){.kd-view-switch button{transition:none}body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-overlay:not([hidden]){animation:none}}
+
+@media(min-width:1101px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops{grid-template-columns:1fr 1fr;gap:24px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops:before{display:none}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop{gap:8px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop p{display:grid;gap:4px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop time{white-space:nowrap}
+}
+
+/* Complete travel dashboard: compact reservation, preparation rail, discovery. */
+.kd-web-only{display:none!important}
+body[data-keys-desktop-home="true"] .kd-web-only{display:block!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{gap:16px;height:80px;min-height:80px;margin-bottom:24px!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-logo{margin-right:12px;flex:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-actions{gap:10px;margin-left:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-profile{width:auto;min-width:44px;padding-right:12px;gap:8px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-profile-name{font:500 14px/21px var(--font-sans);color:var(--color-ink)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-search{display:grid!important;grid-template-columns:1fr 36px;column-gap:8px;align-items:center;flex:1;min-width:150px;height:48px;padding:5px 6px 5px 14px;background:var(--color-soft);border:1px solid transparent;border-radius:14px;box-sizing:border-box}
+#keysUnifiedPrototype .kd-header-search:focus-within{border-color:var(--color-brand)}
+#keysUnifiedPrototype .kd-search-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+#keysUnifiedPrototype .kd-header-search input{width:100%;min-width:0;padding:0;border:0;background:transparent;font:400 12px/18px var(--font-sans);color:var(--color-ink);outline:none}
+#keysUnifiedPrototype .kd-header-search input::placeholder{color:var(--color-muted)}
+#keysUnifiedPrototype .kd-header-search button{grid-column:2;grid-row:1;display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:10px;background:var(--color-brand);color:#fff;cursor:pointer}
+#keysUnifiedPrototype .kd-header-search svg{width:20px;height:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-hotel{display:flex!important;align-items:center;gap:10px;flex:none;padding:8px 12px 8px 8px;border:1px solid var(--color-line);border-radius:16px;background:#fff;color:var(--color-ink);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kd-header-hotel img{width:38px;height:38px;border-radius:10px;object-fit:cover}
+#keysUnifiedPrototype .kd-header-hotel span{display:grid;gap:2px}
+#keysUnifiedPrototype .kd-header-hotel strong{font:500 14px/21px var(--font-sans)}
+#keysUnifiedPrototype .kd-header-hotel small{font:400 12px/18px var(--font-sans);color:var(--color-brand)}
+#keysUnifiedPrototype .kd-header-hotel>svg{width:14px;height:14px;color:var(--color-muted)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-points{display:flex!important;align-items:center;gap:8px;min-height:44px;padding:10px 12px;border:0;border-radius:14px;background:var(--color-soft);color:var(--color-ink);cursor:pointer;white-space:nowrap}
+#keysUnifiedPrototype .kd-header-points svg{width:20px;height:20px;color:var(--color-brand)}
+#keysUnifiedPrototype .kd-header-points strong{font:500 14px/21px var(--font-sans)}
+body[data-keys-desktop-home="true"] .kd-page-heading{align-items:center;margin-bottom:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home{grid-template-columns:minmax(0,1fr) 352px;gap:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-photo{height:232px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-heading{bottom:20px;left:24px;right:150px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-about-hotel{display:flex!important;position:absolute;bottom:20px;right:20px;z-index:2;align-items:center;gap:10px;min-height:40px;padding:9px 14px;border:0;border-radius:12px;background:#fff;color:var(--color-ink);font:500 14px/21px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kd-about-hotel svg{width:16px;height:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{grid-template-columns:128px minmax(0,1fr);column-gap:24px;padding:20px 24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{grid-template-columns:minmax(0,1fr) 58px;gap:20px;align-items:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops:before{display:block;position:absolute;left:4px;right:4px;top:5px;bottom:auto;height:1px;background:#ffffff55;border:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop{display:flex;flex-direction:column;gap:8px;position:relative}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop:last-child{align-items:flex-end;text-align:right}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-stop-dot{width:10px;height:10px;margin:0;border:2px solid #fff;background:var(--color-brand);z-index:1}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop p{display:grid;gap:0;margin-top:2px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-duration-count{background:transparent;padding:4px 0;border-radius:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-payment{margin-top:16px;padding-top:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-actions,
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-booking-buttons,
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-booking-column>.kpa-manage{display:none!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));padding:6px;border:1px solid var(--color-line);border-radius:20px;background:#fff}
+#keysUnifiedPrototype .kd-trip-actions button{display:flex;align-items:center;gap:10px;min-width:0;min-height:76px;padding:12px 14px;border:0;border-radius:14px;background:transparent;color:var(--color-ink);cursor:pointer;text-align:left}
+#keysUnifiedPrototype .kd-trip-actions button[hidden]{display:none}
+#keysUnifiedPrototype .kd-trip-actions button+button:not([hidden]){border-left:1px solid var(--color-line);border-radius:0}
+#keysUnifiedPrototype .kd-trip-actions button>svg:first-child{width:20px;height:20px;color:var(--color-brand);flex:none}
+#keysUnifiedPrototype .kd-trip-actions button>svg:last-child{width:14px;height:14px;color:var(--color-muted);margin-left:auto;flex:none}
+#keysUnifiedPrototype .kd-trip-actions span{display:grid;gap:4px;min-width:0}
+#keysUnifiedPrototype .kd-trip-actions strong{font:500 14px/21px var(--font-sans)}
+#keysUnifiedPrototype .kd-trip-actions small{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{padding:20px 24px 0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{margin-bottom:8px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-template-columns:1fr 1fr;gap:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service{min-height:84px;border:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service+.kpa-service:before{display:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services-all{min-height:48px}
+#keysUnifiedPrototype .kd-checkin{padding:20px;border:1px solid var(--color-line);border-radius:20px;background:#fff}
+#keysUnifiedPrototype .kd-checkin header{display:flex;align-items:center;gap:12px}
+#keysUnifiedPrototype .kd-checkin header>svg{width:24px;height:24px;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kd-checkin h2{margin:0;font:500 17px/24px var(--font-sans)!important}
+#keysUnifiedPrototype .kd-checkin header span{display:block;margin-top:2px;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kd-checkin p{margin:12px 0 16px;font:400 14px/21px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kd-primary{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px;border:0;border-radius:14px;background:var(--color-brand);color:#fff;font:500 14px/21px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kd-primary svg{width:16px;height:16px}
+#keysUnifiedPrototype .kd-text-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 0;border:0;background:transparent;color:var(--color-brand);font:500 14px/21px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kd-text-link svg{width:14px;height:14px}
+#keysUnifiedPrototype .kd-text-link[hidden]{display:none}
+#keysUnifiedPrototype .kd-checkin>.kd-text-link{width:100%;margin-bottom:-8px}
+#keysUnifiedPrototype .kd-checkin.is-complete header span{color:var(--color-success)}
+#keysUnifiedPrototype .kd-checkin.is-complete .kd-primary{background:var(--color-success-bg);color:var(--color-success)}
+#keysUnifiedPrototype .kd-wallet .keys-benefits-wallet{padding:20px;border-radius:20px}
+#keysUnifiedPrototype .kd-wallet .keys-benefits-amount{margin-top:16px}
+#keysUnifiedPrototype .kd-wallet .keys-benefits-progress-label{margin-top:16px}
+#keysUnifiedPrototype .kd-wallet .keys-benefits-level-details{margin-bottom:0!important}
+#keysUnifiedPrototype .kd-wallet-link{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;padding:8px 0 0;border:0;border-top:1px solid #ffffff33;background:transparent;color:#fff;font:500 12px/18px var(--font-sans);cursor:pointer;text-align:left}
+#keysUnifiedPrototype .kd-wallet-link svg{width:14px;height:14px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-nearby-v2{padding:20px 20px 0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-nearby-heading{min-height:108px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-nearby-actions{min-height:52px;margin-top:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-discovery{margin:36px 0 0;padding:28px 0 0;border-top:0}
+#keysUnifiedPrototype .kd-discovery>header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kd-discovery h2{margin:0;font:500 20px/26px var(--font-sans)!important}
+#keysUnifiedPrototype .kd-discovery header p{margin:6px 0 0;font:400 14px/21px var(--font-sans);color:var(--color-muted)}
+.kd-discovery-features{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+#keysUnifiedPrototype .kd-discovery-features>button{display:flex;align-items:center;gap:28px;min-width:0;min-height:190px;padding:24px;border:0;border-radius:20px;text-align:left;cursor:pointer;color:var(--color-ink);background:var(--color-soft)}
+#keysUnifiedPrototype .kd-discovery-features .kd-photo-pick{background:#1c2841;color:#fff}
+#keysUnifiedPrototype .kd-discovery-features strong{display:block;font:500 20px/26px var(--font-sans)}
+#keysUnifiedPrototype .kd-discovery-features small{display:block;max-width:300px;margin-top:8px;font:400 14px/21px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kd-photo-pick small{color:#ffffffbf}
+#keysUnifiedPrototype .kd-feature-link{display:flex;align-items:center;gap:8px;margin-top:20px;font:500 14px/21px var(--font-sans);color:var(--color-brand)}
+#keysUnifiedPrototype .kd-photo-pick .kd-feature-link{color:#fff}
+#keysUnifiedPrototype .kd-feature-link svg{width:16px;height:16px}
+#keysUnifiedPrototype .kd-photo-stack{position:relative;display:block;width:150px;height:140px;flex:none}
+#keysUnifiedPrototype .kd-photo-stack img{position:absolute;width:100px;height:126px;border:3px solid #fff;border-radius:14px;object-fit:cover;top:6px;left:4px;transform:rotate(-9deg)}
+#keysUnifiedPrototype .kd-photo-stack img+img{left:45px;top:5px;transform:rotate(9deg)}
+#keysUnifiedPrototype .kd-advice-pick>img{width:134px;height:134px;object-fit:contain;margin-left:auto}
+.kd-theme-collections{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:20px}
+#keysUnifiedPrototype .kd-theme-collections button{position:relative;display:flex;align-items:center;gap:12px;min-height:144px;min-width:0;padding:20px;border:1px solid var(--color-line);border-radius:20px;background:#fff;text-align:left;cursor:pointer;color:var(--color-ink);overflow:hidden}
+#keysUnifiedPrototype .kd-theme-collections span{position:relative;z-index:1;flex:1}
+#keysUnifiedPrototype .kd-theme-collections strong{display:block;font:500 17px/24px var(--font-sans)}
+#keysUnifiedPrototype .kd-theme-collections small{display:block;max-width:170px;margin-top:6px;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kd-theme-collections img{width:110px;height:110px;object-fit:contain;flex:none}
+#keysUnifiedPrototype .kd-theme-collections svg{width:14px;height:14px;color:var(--color-muted);flex:none}
+#keysUnifiedPrototype .kd-hotel-about{display:grid;gap:16px}
+#keysUnifiedPrototype .kd-hotel-about>img{width:100%;height:220px;object-fit:cover;border-radius:20px}
+#keysUnifiedPrototype .kd-hotel-about h3{margin:0;font:500 20px/26px var(--font-sans)}
+#keysUnifiedPrototype .kd-hotel-about p{margin:0;font:400 14px/21px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kd-hotel-about .kh-detail-card{display:grid;gap:12px;margin:0}
+@media(hover:hover){#keysUnifiedPrototype .kd-trip-actions button:hover,#keysUnifiedPrototype .kd-theme-collections button:hover,#keysUnifiedPrototype .kd-header-hotel:hover{background:var(--color-soft)}#keysUnifiedPrototype .kd-primary:hover{background:var(--color-brand-hover)}#keysUnifiedPrototype .kd-discovery-features>button:hover{filter:brightness(.97)}}
+@media(min-width:800px) and (max-width:1100px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{gap:10px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-profile-name{display:none!important}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home{grid-template-columns:minmax(0,1fr) 312px;gap:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{grid-template-columns:88px minmax(0,1fr);gap:16px;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{gap:12px;grid-template-columns:minmax(0,1fr) 42px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops{gap:12px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-template-columns:1fr;gap:0}
+ #keysUnifiedPrototype .kd-trip-actions button{flex-wrap:wrap;align-content:center;gap:6px;padding:12px}
+ #keysUnifiedPrototype .kd-trip-actions button>svg:last-child{display:none}
+ #keysUnifiedPrototype .kd-trip-actions button span{flex-basis:100%}
+ #keysUnifiedPrototype .kd-photo-stack{width:105px}
+ #keysUnifiedPrototype .kd-photo-stack img{width:76px;height:112px;top:14px}
+ #keysUnifiedPrototype .kd-photo-stack img+img{left:26px;top:14px}
+ #keysUnifiedPrototype .kd-discovery-features>button{gap:20px;padding:20px}
+ #keysUnifiedPrototype .kd-advice-pick>img{width:96px;height:96px}
+ #keysUnifiedPrototype .kd-theme-collections img{width:80px;height:90px}
+ #keysUnifiedPrototype .kd-theme-collections button{padding:16px;gap:6px}
+}
+@media(max-width:799px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{height:auto;min-height:0;padding:12px 16px!important;gap:12px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-logo{margin-right:auto}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-search{order:3;flex-basis:100%}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-hotel{order:4;flex:1}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-points{order:5}
+ body[data-keys-desktop-home="true"] .kd-page-heading{align-items:flex-start;flex-direction:column;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-home{display:flex;flex-direction:column}
+ body[data-keys-desktop-home="true"] .kd-booking-column,body[data-keys-desktop-home="true"] .kd-planning-column{width:100%}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{display:block;padding:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-arrival-countdown b{display:inline;font-size:24px!important;margin:0 4px 0 0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-heading{right:16px;bottom:70px;left:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-about-hotel{right:16px;bottom:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-template-columns:1fr;gap:0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions{grid-template-columns:1fr}
+ #keysUnifiedPrototype .kd-trip-actions button+button:not([hidden]){border-left:0;border-top:1px solid var(--color-line)}
+ #keysUnifiedPrototype .kd-trip-actions button{min-height:64px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-discovery{margin:24px 16px 0;padding-top:24px}
+ #keysUnifiedPrototype .kd-discovery>header{align-items:flex-start;flex-direction:column;gap:8px}
+ .kd-discovery-features,.kd-theme-collections{grid-template-columns:1fr;gap:12px}
+ #keysUnifiedPrototype .kd-discovery-features>button{padding:20px;gap:16px}
+ #keysUnifiedPrototype .kd-photo-stack{width:105px}
+ #keysUnifiedPrototype .kd-photo-stack img{width:76px;height:112px;top:14px}
+ #keysUnifiedPrototype .kd-photo-stack img+img{left:26px;top:14px}
+ #keysUnifiedPrototype .kd-advice-pick>img{width:85px;height:100px}
+ #keysUnifiedPrototype .kd-theme-collections button{min-height:120px}
+}
+/* Keep the native field and primary action within the approved token roles. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-header-search input{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;height:24px!important;min-height:0!important;font:400 16px/24px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kd-checkin .kd-primary,
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kd-checkin .kd-primary :is(span,svg){color:#fff!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kd-checkin.is-complete .kd-primary,
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kd-checkin.is-complete .kd-primary :is(span,svg){color:var(--color-success)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet{padding:0;margin:0}
+
+/* Web home: one workspace, a compact travel pass and distinct booking actions. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);overflow:hidden}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-welcome-ribbon{grid-column:1/-1;min-height:44px;padding:12px 20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-visual{min-width:0;height:268px;border-radius:18px 0 0 18px;overflow:hidden}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-photo{width:100%;height:100%;object-position:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-heading{left:20px;right:16px;bottom:76px;gap:4px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-heading h1{font:500 24px/30px var(--font-sans)!important;letter-spacing:-.3px!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-about-hotel{left:20px;right:auto;bottom:20px;min-height:40px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hero-share{right:12px;top:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:20px;border-radius:0 18px 18px 0;min-width:0;margin:0;min-height:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown{display:flex;align-items:baseline;gap:6px;font:400 14px/21px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown b{display:inline;margin:0;font:500 28px/34px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{position:relative;display:block;margin:0;padding-top:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops{gap:32px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops:before{top:8px;left:5px;right:5px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-stop-dot{margin-top:4px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop{gap:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-duration-count{position:absolute;left:50%;top:-3px;transform:translateX(-50%);display:flex;align-items:baseline;gap:4px;padding:0 8px;background:var(--color-brand);border:0;min-width:0;width:max-content}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-duration-count :is(strong,span){font:400 12px/21px var(--font-sans)!important;color:#fff}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-payment{margin:0;padding-top:16px;align-items:center;gap:8px;flex-wrap:wrap}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-status strong{font:500 12px/18px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions{border:0;border-radius:0;padding:0;gap:12px;background:transparent}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button{position:relative;display:grid;grid-template-columns:1fr auto;align-content:start;align-items:start;gap:12px;min-height:122px;padding:16px;border:1px solid #dce5fc;border-radius:18px;background:var(--color-soft);transition:background .18s,border-color .18s}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button[hidden]{display:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button>svg:first-child{width:22px;height:22px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button>svg:last-child{grid-column:2;grid-row:1;display:block;width:16px;height:16px;color:var(--color-brand);align-self:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button span{grid-column:1/-1;gap:3px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions strong{color:var(--color-brand)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{position:relative;padding:20px;border-radius:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{margin:0 0 16px;padding-right:150px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px 12px;padding:16px;min-height:124px;border:1px solid var(--color-line);border-radius:16px;background:#fff;align-content:start}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-copy{gap:3px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-icon{align-self:start}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-action{grid-column:2;justify-self:start;min-height:32px;padding:4px 10px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{position:absolute;right:16px;top:10px;display:flex;align-items:center;justify-content:flex-end;width:auto;min-height:44px;padding:8px 4px;border:0;background:transparent;gap:6px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-level-details:last-child{margin-bottom:0}
+@media(hover:hover){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button:hover{background:var(--color-soft-hover);border-color:#b9caf7}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service:hover{border-color:#b9caf7}
+}
+@media(min-width:800px) and (max-width:999px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-visual{height:180px;border-radius:18px 18px 0 0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{border-radius:0 0 18px 18px;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-heading{bottom:20px;right:140px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-about-hotel{left:auto;right:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions{gap:8px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button{padding:12px;min-height:142px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{padding:0;margin-bottom:12px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service{grid-template-columns:24px minmax(0,1fr) auto;min-height:76px;padding:12px;gap:10px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-action{grid-column:3}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{position:static;justify-content:flex-start;margin:8px 0 -8px}
+}
+@media(max-width:799px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-visual{height:220px;border-radius:18px 18px 0 0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{border-radius:0 0 18px 18px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button{grid-template-columns:24px minmax(0,1fr) 16px;min-height:72px;gap:12px;align-items:center;align-content:center}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button span{grid-column:2;grid-row:1}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions button>svg:last-child{grid-column:3}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{padding:0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{position:static;justify-content:flex-start;margin:8px 0 -8px}
+}
+
+/* Quiet loyalty wallet and a single outlined service group, matching mobile. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-wallet{background:var(--color-card);color:var(--color-ink);border:1px solid var(--color-line);border-radius:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-wallet:before{display:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-membership{color:var(--color-muted)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-tier-badge{background:var(--color-soft);border-color:transparent;color:var(--color-ink)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-amount{margin-top:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-wallet .keys-benefits-amount strong{font:500 24px/30px var(--font-sans)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet :is(.keys-benefits-amount>span,.keys-benefits-conversion,.keys-benefits-progress-label>span,.keys-benefits-reveal){color:var(--color-muted)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-progress-label{margin-top:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-progress{background:var(--color-line)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-progress>i{background:var(--color-brand)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet .keys-benefits-level-details{border-top-color:var(--color-line)!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet :is(.keys-benefits-level-details>summary,.keys-benefits-perks strong){color:var(--color-ink)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet summary>svg{color:var(--color-muted)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-wallet summary:focus-visible{outline-color:var(--color-brand)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{display:grid;grid-template-columns:180px minmax(0,1fr);gap:0 24px;padding:20px;border:1px solid var(--color-line);background:var(--color-card);align-items:start}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{margin:0;padding:4px 0 0;grid-column:1;grid-row:1}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading p{max-width:165px;margin-top:6px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-column:2;grid-row:1/3;grid-template-columns:1fr;gap:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service{grid-template-columns:24px minmax(0,1fr) auto;align-items:center;align-content:center;gap:12px;min-height:76px;padding:12px 0;border:0;border-radius:0;background:transparent}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-service+.kpa-service{border-top:1px solid var(--color-line)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-icon{align-self:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-action{grid-column:3;grid-row:1;justify-self:end;min-height:36px;padding:4px 10px;background:var(--color-soft);border-radius:10px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{position:static;grid-column:1;grid-row:2;align-self:end;justify-content:flex-start;width:max-content;max-width:100%;margin:12px 0 0;padding:8px 0;min-height:44px;border:0;background:transparent}
+@media(hover:hover){body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service:hover .kpa-service-action{background:var(--color-soft-hover);box-shadow:none}}
+@media(max-width:1100px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{grid-template-columns:1fr;gap:0;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{grid-column:1;grid-row:1;padding:0;margin-bottom:8px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading p{max-width:none}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-column:1;grid-row:2}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{grid-column:1;grid-row:3;margin:0 0 -8px}
+}
+@media(prefers-reduced-motion:reduce){body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-action{transition:none}}
+
+/* A single control height throughout the desktop masthead. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header{--kd-header-control-height:48px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header :is(.kd-header-search,.kd-header-hotel,.kd-header-points,.keys-app-bell,.keys-app-profile,.keys-app-logo){height:var(--kd-header-control-height);min-height:var(--kd-header-control-height);box-sizing:border-box;align-self:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header .kd-header-hotel{padding:4px 12px 4px 6px;border-radius:14px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-hotel img{width:34px;height:34px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-hotel span{gap:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-hotel strong{line-height:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-header-hotel small{line-height:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header .kd-header-points{padding:0 12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header .keys-app-bell{width:var(--kd-header-control-height);padding:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header .keys-app-profile{padding:0 12px 0 7px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header .keys-app-unread{top:10px;right:11px}
+
+/* Restore the split travel card with a seamless photo-to-details join. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation{gap:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-visual{margin:0}
+
+/* Services below a shared heading row, with the catalogue action on the right. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{grid-template-columns:minmax(0,1fr) auto;column-gap:20px;row-gap:8px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading{grid-column:1;grid-row:1;margin:0;padding:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading p{max-width:none;margin-top:4px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{grid-column:1/-1;grid-row:2;grid-template-columns:1fr}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{grid-column:2;grid-row:1;align-self:start;justify-self:end;justify-content:flex-end;margin:-10px 0 0;padding:10px 0;min-height:44px;white-space:nowrap}
+@media(max-width:479px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{column-gap:12px;padding:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation-heading p{max-width:175px}
+}
+
+/* Desktop typography follows the shared Keys semantic roles.
+   Display 28, title 20, card 17, body/control/link 14, caption 12, field 16.
+   Numeric highlights share the existing 24px metric scale. */
+body[data-keys-desktop-home="true"] #keysHomeVariantThree{--kd-font-metric:500 var(--text-24)/30px var(--font-sans);font-family:var(--font-sans);font-synthesis:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-page-heading h1{font:var(--ui-font-display)!important;letter-spacing:-.5px!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-hotel-heading h1,.kd-discovery>header h2){font:var(--ui-font-title)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-preparation-heading h2,.kd-checkin h2,.kh-nearby-heading h2,.kd-discovery-features strong,.kd-theme-collections strong){font:var(--ui-font-section)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-checkin>p,.kd-discovery-features small,.kpa-welcome-ribbon p,.kpa-hotel-heading>span,.kpa-arrival-countdown){font:var(--ui-font-body)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-header-hotel strong,.kd-header-points strong,.kd-profile-name,.kd-trip-actions strong,.kpa-service-copy>strong,.kpa-schedule-stop time,.kd-wallet summary,.kd-wallet summary>span,.kd-wallet .keys-benefits-perks strong,.kd-primary,.kd-primary>span,.kd-about-hotel){font:var(--ui-font-label)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-header-hotel small,.kd-trip-actions small,.kpa-preparation-heading p,.kpa-service-status,.kd-checkin header span,.kh-nearby-heading p,.kh-nearby-count,.kd-theme-collections small,.kd-discovery>header p,.kpa-schedule-stop>div>span,.kpa-schedule-stop small,.kpa-duration-count strong,.kpa-duration-count span,.kpa-payment-status>span,.kd-wallet .keys-benefits-membership>span:not(.keys-benefits-tier-badge),.kd-wallet .keys-benefits-amount>span,.kd-wallet .keys-benefits-conversion,.kd-wallet .keys-benefits-progress-label>span,.kd-wallet .keys-benefits-reveal,.kd-wallet .keys-benefits-reveal p,.kd-wallet .keys-benefits-reveal li>span){font:var(--ui-font-caption)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-payment-status strong,.kd-wallet .keys-benefits-tier-badge,.kd-wallet .keys-benefits-progress-label strong){font:var(--ui-font-caption-medium)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-arrival-countdown b,.kpa-total>strong,.kd-wallet .keys-benefits-amount strong){font:var(--kd-font-metric)!important;letter-spacing:0!important;font-variant-numeric:tabular-nums}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-header-search input{font:var(--ui-font-field)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-app-header .kd-header-hotel{padding-block:3px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-about-hotel{min-height:var(--ui-link-height);padding:10px 14px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-primary{min-height:var(--ui-control-height)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-service-action{min-height:36px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-checkin header>svg{width:var(--ui-icon-row);height:var(--ui-icon-row)}
+
+/* Desktop secondary actions use the same 14/21 medium role as controls. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-detail-link,.kpa-service-link,.kpa-services-all,.kh-nearby-actions button,.kd-text-link,.kd-feature-link){font:var(--ui-font-label)!important;letter-spacing:0!important}
+
+/* Arrival instructions belong with booking actions; registration starts at day 3. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-checkin[hidden]{display:none!important}
+@media(min-width:1101px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions.has-instruction{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(min-width:800px) and (max-width:1100px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-trip-actions.has-instruction{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

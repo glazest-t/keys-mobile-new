@@ -106,6 +106,9 @@ ${fragment}
 <script src="./booking/breakfast-gallery.js"></script>
 <link rel="stylesheet" href="./arbana/ui-standards.css">
 <script src="./arbana/ui-standards.js"></script>
+<link rel="stylesheet" href="./scenarios/desktop.css">
+<link rel="stylesheet" href="./scenarios/desktop-stay.css">
+<script src="./scenarios/desktop.js"></script>
 </body>
 </html>
 `;

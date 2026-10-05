@@ -68,6 +68,9 @@
  const nearby=base.querySelector('.kh-nearby-v2').cloneNode(true);nearby.id='kpa-nearby';nearby.setAttribute('aria-labelledby','kpa-nearby-title');nearby.querySelector('h2').id='kpa-nearby-title';screen.querySelector('[data-nearby-slot]').replaceWith(nearby);
  // The same recommendation engine handles the cloned entry and keeps its summary current.
  new MutationObserver(()=>{nearby.querySelector('.kh-nearby-heading p').textContent=base.querySelector('.kh-nearby-heading p').textContent;nearby.querySelector('[data-nearby-count]').textContent=base.querySelector('[data-nearby-count]').textContent;}).observe(base.querySelector('.kh-nearby-summary'),{subtree:true,childList:true,characterData:true});
+ function hotelAbout(){
+  show('Об отеле',`<div class="kd-hotel-about"><img src="./scenarios/maidens-hotel.jpg" alt="Фасад Maidens Hotel"><h3>Maidens Hotel</h3><p>Москва · Хамовники</p><section class="kh-detail-card"><div class="kh-fact"><span>Адрес</span><strong>Зубовская площадь, 3, стр. 1</strong></div><div class="kh-fact"><span>Заезд / выезд</span><strong>С 14:00 / до 12:00</strong></div></section><section class="kh-detail-card"><h3>В отеле</h3><p>Ресторан LEA, фитнес-студия и Wi-Fi. Условия питания и дополнительных услуг — в вашей брони.</p></section><button type="button" class="kh-primary" data-before="route">Построить маршрут</button><button type="button" class="kpa-manage" data-before="chat">Чат с отелем</button></div>`,'hotel');
+ }
  function bookingDetails(){
   const detailRow=(label,value,hint='')=>`<div><dt>${label}</dt><dd>${escape(value)}${hint?`<span class="kpa-field-hint">${escape(hint)}</span>`:''}</dd></div>`;
   show('Бронь и документы',`<div class="kpa-booking-details">
@@ -206,8 +209,9 @@
  }
  home.addEventListener('click',async event=>{
   const button=event.target.closest('[data-before]');if(!button)return;event.preventDefault();event.stopPropagation();const action=button.dataset.before;
-  if(screen.contains(button)){origin=button;detailsSession=action==='details';beforeHistory.length=0;currentBefore=null;}
+  if(screen.contains(button)||button.closest('.keys-app-header')){origin=button;detailsSession=action==='details';beforeHistory.length=0;currentBefore=null;}
   if(action==='details')bookingDetails();
+  if(action==='hotel')hotelAbout();
   if(action==='checkin')checkin(button);
   if(action==='instruction')instruction();
   if(action==='route')taxiRoute();
@@ -234,7 +238,7 @@
    screen.setAttribute('aria-label',arriving?'День заезда':soon?'За 3 дня до заезда':'За 8 дней до заезда');
    screen.querySelector('.kpa-welcome-ribbon p').textContent=arriving?'Ждем вам':'Готовимся к вашему приезду';
    screen.querySelector('.kpa-stay-overview').hidden=false;
-   const buttons=screen.querySelector('.kpa-booking-buttons'),manageButton=screen.querySelector('[data-before="manage"]');
+   const buttons=screen.querySelector('.kpa-booking-buttons'),manageButton=screen.querySelector('.kpa-manage[data-before="manage"]');
    buttons.hidden=!soon;
    manageButton.hidden=arriving;
    screen.querySelector('.kpa-route').hidden=!arriving;

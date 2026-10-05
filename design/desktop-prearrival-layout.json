@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-02",
+  "scope": "Web Trips home for pre-arrival: day-8, day-3, arrival",
+  "reference": {
+    "project": "Arbana / pora-static (read only)",
+    "screen": "http://localhost:4174/?scenario=booked&view=desktop",
+    "source": "source/assets/DesktopApp-DR7F9ePm.js",
+    "observed": [
+      "1200px maximum content container",
+      "Navigation and account controls in a wide top bar",
+      "Large hotel image and booking timeline in the main column",
+      "Preparation and supporting content in a narrower right column",
+      "Quick access to booking and hotel chat below the hotel card"
+    ]
+  },
+  "keysAdaptation": [
+    "1160px content width with two columns",
+    "Existing light-blue welcome strip, hotel image and blue booking pass",
+    "Existing document/chat and booking actions",
+    "Service inclusion states and add/edit flows shared with mobile",
+    "Nearby places in the right column",
+    "Web dialogs reuse existing secondary flows",
+    "No new booking or service data store"
+  ],
+  "implementation": [
+    "src/scenarios/desktop.js",
+    "src/scenarios/desktop.css",
+    "build.mjs"
+  ],
+  "viewState": "view=desktop or view=mobile in the URL; desktop enabled for scenario=booked",
+  "responsive": "Two columns from 800px, stacked below 800px. Mobile prototype remains available separately.",
+  "outOfScope": "Other main sections and other trip scenarios keep their existing mobile presentation. No publication performed.",
+  "webDashboardV2": {
+    "header": [
+      "destination search",
+      "current booking",
+      "2400 points from Benefits",
+      "authenticated Tatyana profile",
+      "notifications"
+    ],
+    "booking": "Hotel photo with About action, connected arrival/departure timeline, compact shared actions",
+    "preparation": [
+      "online check-in from day-8 in desktop",
+      "existing services",
+      "existing Benefits wallet",
+      "nearby places"
+    ],
+    "discovery": [
+      "photo selection",
+      "advice",
+      "deals",
+      "weekend",
+      "anywhere"
+    ],
+    "references": [
+      "https://dribbble.com/shots/15709298-Travel-booking-dashboard",
+      "https://dribbble.com/shots/25707162-Expinova-Sleek-Travel-Booking-Dashboard"
+    ],
+    "integration": "Discovery messages pass through the existing origin-checked bridge and use the same search collection filtering as Find."
+  },
+  "webDashboardV3": {
+    "navigation": "No section menu on desktop home. Header points focuses the inline wallet; earning/redemption rules expand in place.",
+    "booking": "Side-by-side hotel photo and compact blue timeline from 1000px; 313px combined card at 1440px instead of 466px. Connected dates with nights in the timeline.",
+    "actions": "Three soft-blue full-card actions: documents, hotel chat, booking change (route on arrival day).",
+    "services": "Two compact outlined tiles with status and add/edit action grouped together; all services link in the block header.",
+    "mobile": "Original mobile layout and shared service state retained."
+  },
+  "webDashboardV4": {
+    "date": "2026-10-05",
+    "loyalty": "White wallet, dark 24px balance, subtle tier badge and blue progress line; disclosure content stays readable.",
+    "services": "One soft surface without nested outlines. Heading/all-services link on the left; compact service rows and white actions on the right. Stacks below 1100px.",
+    "validation": "Visual review of closed/expanded wallet; no horizontal overflow at 1440, 1024, 800 and 375px. Mobile layout remains scoped separately."
+  },
+  "photoReservation": {
+    "date": "2026-10-05",
+    "layout": "Restored side-by-side hotel photo and blue stay details; removed image margins so both panels meet without a gap.",
+    "responsive": "Photo above blue details below 1000px; original mobile styling unchanged."
+  }
+}

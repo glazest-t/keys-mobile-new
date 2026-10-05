@@ -1,0 +1,10 @@
+Mode: built-in imagegen
+
+Use case: stylized-concept.
+Asset type: a compact standalone 3D illustration for the “Нужен совет?” AI hotel matching card in the Keys travel app. This illustration replaces a generic globe. The feature asks a couple of questions about a traveller's preferences and finds fitting hotels.
+Primary request: convey a friendly conversation that leads to a personalized hotel match.
+Subject and composition: one coherent compact floating group: two slightly fanned rounded hotel selection cards, the front card containing a charming miniature boutique hotel with a few blue windows and a small mint tree; a clearly readable rounded blue conversation bubble with three white dots overlaps the upper left; a small mint circular check mark overlaps the front card corner, signalling a good match. Keep the hotel and conversation bubble as the two main elements. Square centered composition with modest 8% transparent margins, full objects visible.
+Style: refined soft 3D editorial illustration for a premium modern travel app, gently rounded geometry, matte porcelain and frosted pastel materials, subtle soft contact shadows. Friendly, calm, thoughtfully simplified and recognizable at 134 by 134 CSS pixels.
+Palette: cobalt #2C5DEB, pale periwinkle #DCE5FF, porcelain white, mint #B8E1CC, tiny dark blue details. It will sit on pale #F0F4FF, so keep clear edge contrast.
+Background: genuinely transparent alpha background, no rectangular backdrop, no floor plane.
+Constraints: no text, no letters, no logos, no watermark, no globe, no airplane, no robot mascot, no hands or people, no unrelated floating decorations, no heavy glossy plastic, no photorealistic landscape, no full app screenshot. Generate a clean production-ready bitmap illustration.

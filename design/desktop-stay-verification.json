@@ -1,0 +1,37 @@
+{
+  "checks": [
+    "Digital key and return to desktop",
+    "Deposit details and back",
+    "Breakfast add/remove and shared mobile/desktop state; nearby restores position",
+    "Wi-Fi credentials",
+    "Nearby places",
+    "In-stay booking details",
+    "Checkout booking documents",
+    "Hotel services catalogue",
+    "Report problem",
+    "Late checkout request/remove",
+    "Current hotel chat",
+    "Live switching prearrival/stay/checkout without duplicate wallet",
+    "Mobile checkout preserved"
+  ],
+  "errors": [],
+  "scenarios": [
+    "stay/day-1",
+    "stay/day-2",
+    "stay/checkout"
+  ],
+  "responsiveWidths": [
+    1440,
+    1024,
+    800,
+    375
+  ],
+  "automatedTestsPassed": 52,
+  "originalInlineScriptsPreserved": 67,
+  "screenshots": [
+    "tmp/desktop/stay-day-1.png",
+    "tmp/desktop/stay-day-2.png",
+    "tmp/desktop/stay-checkout.png",
+    "tmp/desktop/stay-mobile-checkout.png"
+  ]
+}

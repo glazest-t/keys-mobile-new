@@ -1,0 +1,340 @@
+{
+  "date": "2026-10-05",
+  "scope": "Desktop pre-arrival home, scoped to data-keys-desktop-home=true",
+  "font": "Golos Text Variable",
+  "roles": {
+    "display": "28/34 medium",
+    "title": "20/26 medium",
+    "cardHeading": "17/24 medium",
+    "body": "14/21 regular",
+    "label": "14/21 medium",
+    "caption": "12/18 regular",
+    "secondaryAction": "12/18 medium",
+    "field": "16/24 regular",
+    "metric": "24/30 medium"
+  },
+  "exceptions": [
+    "Brand wordmark retains 24px/600 brand typography",
+    "Visually hidden field label is not part of the visible type scale"
+  ],
+  "checks": [
+    "Verified computed size, weight and line height of matching component roles",
+    "Visual review at 1440 and 1024px",
+    "No horizontal overflow at 1440, 1024, 800 and 375px",
+    "Original mobile header height preserved"
+  ],
+  "changedElements": [
+    {
+      "text": "Maidens Hotel",
+      "before": [
+        "14px",
+        "20px",
+        "500"
+      ],
+      "after": [
+        "14px",
+        "21px",
+        "500"
+      ]
+    },
+    {
+      "text": "8 дней до заезда",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Maidens Hotel",
+      "before": [
+        "24px",
+        "30px",
+        "500"
+      ],
+      "after": [
+        "20px",
+        "26px",
+        "500"
+      ]
+    },
+    {
+      "text": "8",
+      "before": [
+        "28px",
+        "34px",
+        "500"
+      ],
+      "after": [
+        "24px",
+        "30px",
+        "500"
+      ]
+    },
+    {
+      "text": "7",
+      "before": [
+        "12px",
+        "21px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "ночей",
+      "before": [
+        "12px",
+        "21px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "56 000 ₽",
+      "before": [
+        "20px",
+        "26px",
+        "500"
+      ],
+      "after": [
+        "24px",
+        "30px",
+        "500"
+      ]
+    },
+    {
+      "text": "Чек и подтверждение",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Вопросы о поездке",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Даты и гости",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Онлайн-регистрация",
+      "before": [
+        "17px",
+        "21.25px",
+        "500"
+      ],
+      "after": [
+        "17px",
+        "24px",
+        "500"
+      ]
+    },
+    {
+      "text": "Заполните данные заранее. В отеле останется только получить ключ.",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "14px",
+        "21px",
+        "400"
+      ]
+    },
+    {
+      "text": "Пройти онлайн-регистрацию",
+      "before": [
+        "14px",
+        "21px",
+        "400"
+      ],
+      "after": [
+        "14px",
+        "21px",
+        "500"
+      ]
+    },
+    {
+      "text": "Пока ждёте эту поездку — найдите следующую",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Перейти к поиску",
+      "before": [
+        "14px",
+        "21px",
+        "500"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "500"
+      ]
+    },
+    {
+      "text": "Подбор по фото",
+      "before": [
+        "20px",
+        "26px",
+        "500"
+      ],
+      "after": [
+        "17px",
+        "24px",
+        "500"
+      ]
+    },
+    {
+      "text": "Листайте отели и сохраняйте то, что нравится",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "14px",
+        "21px",
+        "400"
+      ]
+    },
+    {
+      "text": "Найти свой отель",
+      "before": [
+        "14px",
+        "21px",
+        "500"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "500"
+      ]
+    },
+    {
+      "text": "Нужен совет?",
+      "before": [
+        "20px",
+        "26px",
+        "500"
+      ],
+      "after": [
+        "17px",
+        "24px",
+        "500"
+      ]
+    },
+    {
+      "text": "Расскажите, какой отдых хотите. Подберём подходящие отели.",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "14px",
+        "21px",
+        "400"
+      ]
+    },
+    {
+      "text": "Подобрать отель",
+      "before": [
+        "14px",
+        "21px",
+        "500"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "500"
+      ]
+    },
+    {
+      "text": "Выгоднее прямо сейчас",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Маленькая перезагрузка",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    },
+    {
+      "text": "Главное — новые впечатления",
+      "before": [
+        "13px",
+        "16px",
+        "400"
+      ],
+      "after": [
+        "12px",
+        "18px",
+        "400"
+      ]
+    }
+  ]
+}

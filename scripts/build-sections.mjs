@@ -37,6 +37,7 @@ export async function buildSections(){
  replace('FE = (e, t, a = 0) => Math.round(Rg(e, a) * BE(t))','FE = (e, t, a = 0) => e.keysNightly ?? Math.round(Rg(e, a) * BE(t))');
  replace('function CH({ compact: e = false }) {','function OriginalArbanaHeader({ compact: e = false }) {');
  replace('function EV() {','function OriginalArbanaNotifications() {');
+ replace('function Ae({ title: e, onBack: t, action: a, overPhoto: r = false }) {','function KeysMobileScreenHeader({ title: e, onBack: t, action: a, overPhoto: r = false }) {');
  replace('function AH() {','function OriginalArbanaNav() {');
  replace('function PH({ children: e }) {','function OriginalArbanaLayout({ children: e }) {');
  replace('f ? G0(c.current, e) : b8(e, null, Date.now())','G0(c.current, e)');
@@ -88,10 +89,11 @@ export async function buildSections(){
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
  html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script>');
  html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");
- html=html.replace('</head>','<link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"></head>');
+ html=html.replace('</head>','<link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"></head>');
  await writeFile(path.join(dist,'index.html'),html);
  await cp(path.join(root,'src/sections/collections'),path.join(dist,'collections'),{recursive:true});
  await cp(path.join(root,'src/sections/frame.css'),path.join(dist,'frame.css'));
+ await cp(path.join(root,'src/sections/desktop-find.css'),path.join(dist,'desktop-find.css'));
  await cp(path.join(root,'src/sections/host.js'),path.join(dist,'host.js'));
  await cp(path.join(root,'src/sections/host.css'),path.join(dist,'host.css'));
  await cp(path.join(root,'src/sections/profile-avatar.jpg'),path.join(dist,'profile-avatar.jpg'));

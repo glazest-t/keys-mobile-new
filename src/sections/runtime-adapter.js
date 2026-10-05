@@ -31,6 +31,9 @@ function KeysBridge() {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
       const {tab,hotelId,screen,stayDay,discovery} = event.data;
+      if(event.data.openNotification){dispatch({type:'OPEN',screen:{type:'notifications'}});return;}
+      if(typeof event.data.desktopAccount==='boolean')document.documentElement.dataset.desktopAccount=String(event.data.desktopAccount);
+      if(Number.isFinite(event.data.desktopHeight))document.documentElement.style.setProperty('--keys-desktop-height',Math.max(560,event.data.desktopHeight)+'px');
       if(['day-1','day-2','checkout','after'].includes(stayDay)){
         const changed=globalThis.PoraDemo.keysStayDay!==stayDay;
         globalThis.PoraDemo.keysStayDay=stayDay;
@@ -55,7 +58,14 @@ function KeysBridge() {
     return () => window.removeEventListener('message',receive);
   }, [dispatch]);
   E.useEffect(()=>{if(state.reservation?.status==='confirmed'&&state.reservation.bookedId===state.booking.id){keysPost('reservation',{booking:{id:state.booking.id,hotel:eHotelName(state.booking.hotelId),arrival:state.booking.arrival,departure:state.booking.departure}});}},[state.reservation?.status,state.booking.id]);
-  E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null}); },[state.navigation]);
+  E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null}); },[state.navigation,state.search.results,state.search.intent]);
+  E.useEffect(()=>{
+    const page=document.querySelector('.keys-module-screen main');if(!page)return;
+    const report=()=>{if(document.documentElement.dataset.desktopAccount==='true'&&(state.navigation.tab==='find'||['notifications','notification-settings'].includes(state.navigation.screen?.type)))keysPost('account-height',{height:Math.ceil((state.navigation.tab==='find'?page.closest('.keys-module-screen'):page).getBoundingClientRect().height)+32});};
+    const resize=new ResizeObserver(report);resize.observe(page);
+    const attributes=new MutationObserver(report);attributes.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});report();
+    return()=>{resize.disconnect();attributes.disconnect();};
+  },[state.navigation.tab,state.navigation.screen?.type,state.search.intent,state.search.results]);
   return null;
 }
 function PH({children}) {
@@ -66,10 +76,10 @@ function PH({children}) {
   const discovery=!screen && state.navigation.tab==='find' && state.search.intent==='discover';
   const conversation=screen?.type==='chat'||screen?.type==='describe'||discovery;
   const full=['hotel-map','story','stories','friend-stories','swipe','shared-swipe'].includes(screen?.type);
-  E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;},[state.navigation.tab,screen?.type,screen?.rooms,state.search.results]);
+  E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,state.search.results]);
   E.useLayoutEffect(()=>{document.documentElement.classList.toggle('keys-share-sheet',!!state.keysShareSession&&screen?.type==='keys-trip-share');},[state.keysShareSession,screen?.type]);
   const results=!screen && state.navigation.tab==='find' && state.search.results && state.search.intent==='known';
-  return n.jsxs('div',{'data-testid':'app-screen','data-screen-type':screen?.type??(discovery?'discovery':'root'),className:'keys-module-screen bg-card',children:[
+  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(results?'results':discovery?'advice':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??(discovery?'discovery':'root'),className:'keys-module-screen bg-card',children:[
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&!discovery&&n.jsx(CH,{}),
@@ -266,5 +276,25 @@ function KeysFavorites(){
   resource.error&&n.jsxs('div',{role:'alert',children:[n.jsx('p',{children:'Не удалось обновить сохранённые отели.'}),n.jsx(H,{variant:'secondary',onClick:()=>resource.reload(),children:'Повторить'})]}),
   n.jsx('div',{className:'keys-favorites-list',children:visibleHotels.map(hotel=>n.jsx(jx,{hotelId:hotel.id,summary:hotel.summary??undefined},hotel.id))}),
   !ids.length&&n.jsxs('div',{className:'keys-favorites-empty',children:[n.jsx(D,{name:'heart'}),n.jsx('h2',{children:'Сохраняйте отели, которые нравятся'}),n.jsx('p',{children:'Они будут здесь — вернитесь к ним, когда будете готовы к поездке.'}),n.jsx(H,{onClick:()=>{dispatch({type:'NAV_TAB',tab:'find'});dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});},children:'Найти отель'})]})
+ ]});
+}
+
+
+// Preserve each screen's own back handler and reducer history. On desktop the
+// header occupies its own row, so galleries cannot cover its controls.
+function Ae(props) {
+ const {back}=J();
+ const [desktop,setDesktop]=E.useState(()=>document.documentElement.dataset.desktopAccount==='true');
+ E.useEffect(()=>{
+  const sync=()=>setDesktop(document.documentElement.dataset.desktopAccount==='true');
+  const observer=new MutationObserver(sync);
+  observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});
+  sync();return()=>observer.disconnect();
+ },[]);
+ if(!desktop)return n.jsx(KeysMobileScreenHeader,props);
+ return n.jsxs('header',{className:'keys-desktop-screen-header',children:[
+  n.jsxs('button',{type:'button',className:'keys-desktop-back',onClick:props.onBack??back,children:[n.jsx(D,{name:'back',className:'size-5'}),n.jsx('span',{children:'Назад'})]}),
+  n.jsx(props.overPhoto?'p':'h1',{className:'keys-desktop-screen-title',children:props.overPhoto?'Об отеле':props.title}),
+  props.action&&n.jsx('div',{className:'keys-desktop-screen-actions',children:props.action})
  ]});
 }

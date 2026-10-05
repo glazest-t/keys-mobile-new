@@ -1,0 +1,649 @@
+{
+  "date": "2026-10-02T13:14:36.885Z",
+  "views": [
+    {
+      "width": 1440,
+      "hash": "overview",
+      "overflow": false,
+      "heading": "UI kit Key",
+      "badImages": []
+    },
+    {
+      "width": 1440,
+      "hash": "foundations",
+      "overflow": false,
+      "heading": "Основы системы",
+      "badImages": []
+    },
+    {
+      "width": 1440,
+      "hash": "components",
+      "overflow": false,
+      "heading": "Компоненты",
+      "badImages": []
+    },
+    {
+      "width": 1440,
+      "hash": "icons",
+      "overflow": false,
+      "heading": "Иконки без подложек",
+      "badImages": []
+    },
+    {
+      "width": 1440,
+      "hash": "motion",
+      "overflow": false,
+      "heading": "Движение со смыслом",
+      "badImages": []
+    },
+    {
+      "width": 1440,
+      "hash": "handoff",
+      "overflow": false,
+      "heading": "От кита к приложению",
+      "badImages": []
+    },
+    {
+      "width": 375,
+      "hash": "overview",
+      "overflow": false,
+      "heading": "UI kit Key",
+      "badImages": []
+    },
+    {
+      "width": 375,
+      "hash": "foundations",
+      "overflow": false,
+      "heading": "Основы системы",
+      "badImages": []
+    },
+    {
+      "width": 375,
+      "hash": "components",
+      "overflow": false,
+      "heading": "Компоненты",
+      "badImages": []
+    },
+    {
+      "width": 375,
+      "hash": "icons",
+      "overflow": false,
+      "heading": "Иконки без подложек",
+      "badImages": []
+    },
+    {
+      "width": 375,
+      "hash": "motion",
+      "overflow": false,
+      "heading": "Движение со смыслом",
+      "badImages": []
+    },
+    {
+      "width": 375,
+      "hash": "handoff",
+      "overflow": false,
+      "heading": "От кита к приложению",
+      "badImages": []
+    },
+    {
+      "width": 320,
+      "hash": "overview",
+      "overflow": false,
+      "heading": "UI kit Key",
+      "badImages": []
+    },
+    {
+      "width": 320,
+      "hash": "foundations",
+      "overflow": false,
+      "heading": "Основы системы",
+      "badImages": []
+    },
+    {
+      "width": 320,
+      "hash": "components",
+      "overflow": false,
+      "heading": "Компоненты",
+      "badImages": []
+    },
+    {
+      "width": 320,
+      "hash": "icons",
+      "overflow": false,
+      "heading": "Иконки без подложек",
+      "badImages": []
+    },
+    {
+      "width": 320,
+      "hash": "motion",
+      "overflow": false,
+      "heading": "Движение со смыслом",
+      "badImages": []
+    },
+    {
+      "width": 320,
+      "hash": "handoff",
+      "overflow": false,
+      "heading": "От кита к приложению",
+      "badImages": []
+    }
+  ],
+  "components": 60,
+  "filtered": 1,
+  "tabKeyboard": "true",
+  "type": {
+    "size": "14px",
+    "line": "21px",
+    "weight": "500",
+    "height": 42
+  },
+  "dialogOpen": true,
+  "focusReturn": true,
+  "galleryNext": "2 / 3",
+  "tips": true,
+  "added": "added",
+  "removed": "available",
+  "scenarioChecks": [
+    {
+      "id": "search",
+      "actual": "search",
+      "text": "Брони ещё нет\nДень проживания\nключи\nРады видеть вас, Татьяна\nКуда отправимся?\n\nБроней пока нет — начнём с выбора отеля.\n\nЗа новыми впечатлениями\nБлиже к морю\nБе"
+    },
+    {
+      "id": "booked-8",
+      "actual": "booked",
+      "text": "Гость ещё не заехал\nЗа 8 дней до заезда\nключи\n\nГотовимся к вашему приезду\n\nMaidens Hotel\nМосква\n8\nдней до заезда\nЗаезд\n\n12 сентября\nс 14:00\n\nВыезд\n\n19 сентября\n"
+    },
+    {
+      "id": "booked-3",
+      "actual": "booked",
+      "text": "Гость ещё не заехал\nЗа 3 дня до заезда\nключи\n\nГотовимся к вашему приезду\n\nMaidens Hotel\nМосква\n3\nдня до заезда\nЗаезд\n\n12 сентября\nс 14:00\n\nВыезд\n\n19 сентября\nдо"
+    },
+    {
+      "id": "arrival",
+      "actual": "booked",
+      "text": "Гость ещё не заехал\nДень заезда\nключи\n\nЖдем вам\n\nMaidens Hotel\nМосква\nЗаезд сегодня\nЗаезд\n\n12 сентября\nс 14:00\n\nВыезд\n\n19 сентября\nдо 12:00\n\n7\nночей\n56 000 ₽\nОп"
+    },
+    {
+      "id": "stay-1",
+      "actual": "stay",
+      "text": "Гость живёт в отеле\nПроживание 1 день\nключи\nПроживание\nMaidens Hotel\nДетали брони\nВаш номер\n412\n4 этаж\nПремиум Кинг\nСегодня\nДень 1 из 7\n12 сентября\nЗаезд\n12 сен"
+    },
+    {
+      "id": "stay-2",
+      "actual": "stay",
+      "text": "Гость живёт в отеле\nПроживание 2 день\nключи\nПроживание\nMaidens Hotel\nДетали брони\nВаш номер\n412\n4 этаж\nПремиум Кинг\nСегодня\nДень 2 из 7\n13 сентября\nЗаезд\n12 сен"
+    },
+    {
+      "id": "checkout",
+      "actual": "stay",
+      "text": "Гость живёт в отеле\nДень выезда\nключи\nПроживание\nMaidens Hotel\nДетали брони\n19 сентября · день выезда\nВыезд сегодня до 12:00\nВаш номер\n412\n4 этаж\nПремиум Кинг\nО"
+    },
+    {
+      "id": "after",
+      "actual": "after",
+      "text": "Поездка завершена\nДень проживания\nключи\nПоездка завершена\nMaidens Hotel\nМосква\nПроживание · 2026\n12–19 сентября\nДлительность\n7 ночей\nДетали проживания\n\n+2 240\nб"
+    }
+  ],
+  "standalone": [
+    {
+      "label": "Список",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    },
+    {
+      "label": "Карта",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    },
+    {
+      "label": "Для вас",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    },
+    {
+      "label": "Дешевле",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    },
+    {
+      "label": "Рейтинг",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    },
+    {
+      "label": "Активные",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    },
+    {
+      "label": "Выполненные",
+      "size": "14px",
+      "line": "21px",
+      "weight": "500",
+      "overflow": false
+    }
+  ],
+  "reduced": "0s",
+  "errors": [],
+  "failed": [],
+  "scope": "60 standalone examples at 320 px; 18 catalogue/viewport combinations at 320/375/1440; all 8 scenario roots; representative controls, keyboard, focus return, upload preview/removal, gallery gestures and reduced motion. Not exhaustive backend or accessibility certification.",
+  "sourceReferenceCaptures": 14,
+  "prototypePreservation": {
+    "originalInlineScripts": 67,
+    "appTestsPassed": 49
+  },
+  "standaloneExamples": [
+    {
+      "id": "button",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "link",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "icon-button",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "field",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "textarea",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "select",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "checkbox",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "radio",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "switch",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "stepper",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "tabs",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "chips",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "calendar",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "uploader",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "rating",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "header",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "subheader",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "bottom-nav",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "card",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "data-rows",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "status",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "accordion",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "booking-hero",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "stay-hero",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "completed-hero",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "search-empty",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "service-row",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "service-detail",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "orders",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "bill",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "breakfast",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "wifi",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "problem",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "gallery",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "hotel-card",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "hotel-details",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "room-card",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "search-form",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "history",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "photo-search",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "collections",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "nearby",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "map",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "reviews",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "payment",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "booking-documents",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "document-picker",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "change-booking",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "checkin",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "share",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "route",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "loyalty",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "referral",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "profile",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "notifications",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "feedback",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "chat",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "sheet",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "toast",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    },
+    {
+      "id": "empty-state",
+      "overflow": false,
+      "unlabelledButtons": 0,
+      "brokenImages": 0
+    }
+  ],
+  "uploadPreviewAndRemoval": {
+    "preview": true,
+    "remove": true
+  },
+  "primaryLinkContrast": {
+    "color": "rgb(255, 255, 255)",
+    "background": "rgb(44, 93, 235)"
+  },
+  "catalogOriginalReferencePanels": 13,
+  "buildTestsPassed": 52,
+  "finalBrowserErrors": [],
+  "gallerySwipe": {
+    "result": "2 / 3",
+    "fix": "Disabled native image dragging; kept horizontal pointer gestures and accessible previous/next controls."
+  },
+  "contrastPairs": [
+    {
+      "foreground": "text",
+      "background": "card",
+      "ratio": 14.69
+    },
+    {
+      "foreground": "brand",
+      "background": "card",
+      "ratio": 5.42
+    },
+    {
+      "foreground": "positive",
+      "background": "positiveSurface",
+      "ratio": 5.24
+    },
+    {
+      "foreground": "muted",
+      "background": "card",
+      "ratio": 4.49,
+      "note": "Literal approved prototype value retained; slightly below 4.5 for ordinary text. Review contrast in production; no global WCAG claim."
+    }
+  ],
+  "updatedAt": "2026-10-02T13:23:57.240575+00:00"
+}

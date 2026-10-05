@@ -1,0 +1,87 @@
+/* No booking / completed trip: shared desktop shell, original functional cards. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kd-page-heading,.kd-header-hotel)[hidden]{display:none!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kse-home,.ka-home:not(.kpa-home)):not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) 352px;gap:24px;padding:0;align-items:start}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kd-scenario-main,.kd-scenario-side){display:flex;flex-direction:column;gap:16px;min-width:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kd-scenario-main,.kd-scenario-side)>*{min-width:0;margin:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-scenario-main>.ka-referral-card{margin-top:0}
+/* Welcome and inspiration share a horizontal composition, keeping the search primary. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-heading{padding:0 0 8px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-heading p{max-width:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:12px;min-height:284px;padding:28px;border-radius:24px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-top{grid-column:1;grid-row:1;padding:0;align-self:end;max-width:240px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-copy{grid-column:1;grid-row:2;padding:14px 0 0;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-copy>p{margin:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-find{width:auto;min-width:210px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-visual{grid-column:2;grid-row:1/3;height:228px;margin:0;align-self:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard{width:60%;max-width:176px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard img{height:145px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard-sea{left:0;top:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard-city{right:0;top:38px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-spark{right:8px;top:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits{padding:20px 20px 0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits-list{grid-template-columns:1fr 1fr;gap:24px;margin:16px 0 20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-referral-card{padding:20px 20px 0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-referral-main{padding-bottom:16px}
+/* Same pale header, large photo and blue stay information as the other trip states. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);padding:0;border-radius:24px;overflow:hidden;gap:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-heading{display:contents}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-copy{display:grid;grid-template-columns:1fr auto;grid-column:1/-1;gap:4px 20px;padding:16px 20px;background:var(--color-soft);align-items:center}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-copy h1{grid-column:1;grid-row:1;margin:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-city{grid-column:1;grid-row:2}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-status{grid-column:2;grid-row:1/3}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-photo{grid-column:1;grid-row:2;width:100%;height:280px;border-radius:0;object-fit:cover}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-pass{grid-column:2;grid-row:2;display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:20px;min-height:280px;padding:24px;border-radius:0;text-align:left;background:var(--color-brand)}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-pass>div{gap:6px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-pass>div:nth-child(2){border:0;padding:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions{grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--color-line);border-radius:20px;overflow:hidden}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions button{flex-direction:row;justify-content:center;gap:12px;min-height:88px;padding:16px 12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions strong{max-width:124px;text-align:left}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward{padding:20px 20px 8px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-summary{grid-template-columns:96px minmax(0,1fr);gap:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-actions{margin-top:12px;gap:12px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-search{white-space:nowrap}
+/* Semantic type roles match the pre-arrival and in-stay desktop screens. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kse-inspiration h2,.ka-trip-copy h1,.ka-trip-pass strong){font:var(--ui-font-title)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-reward-description h2,.ka-referral-copy>strong,.kse-benefits-heading>strong){font:var(--ui-font-section)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-stay-details,.ka-referral-footer,.kse-card-action,.ka-actions strong,.ka-reward-search,.kse-benefits-item strong){font:var(--ui-font-label)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-referral-copy>span,.kse-benefits-item>span>span,.ka-reward-copy){font:var(--ui-font-body)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-status,.ka-city,.ka-trip-pass small,.ka-reward-status,.ka-reward-amount>span){font:var(--ui-font-caption)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-amount strong{font:var(--kd-font-metric)!important;letter-spacing:0!important}
+@media(min-width:800px) and (max-width:1100px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kse-home,.ka-home:not(.kpa-home)):not([hidden]){grid-template-columns:minmax(0,1fr) 300px;gap:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration{grid-template-columns:1fr;padding:24px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-top{max-width:none}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-visual{grid-column:1;grid-row:2;width:280px;max-width:100%;margin:12px auto}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-copy{grid-row:3;padding:0;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-find{width:100%;min-width:0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits-list{grid-template-columns:1fr;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-copy{grid-template-columns:1fr;gap:4px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-status{grid-column:1;grid-row:3;margin-top:4px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-photo{height:200px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-pass{grid-column:1;grid-row:3;min-height:230px;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions button{flex-direction:column;gap:8px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions strong{text-align:center}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-summary{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-badge{display:flex;gap:12px;min-height:72px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-amount{display:flex;align-items:baseline;gap:6px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-actions{flex-wrap:wrap}
+}
+@media(max-width:799px){
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kse-home,.ka-home:not(.kpa-home)):not([hidden]){display:flex;flex-direction:column;padding:0 16px;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kd-scenario-main,.kd-scenario-side){width:100%}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration{grid-template-columns:1fr;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-top{max-width:none}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-visual{grid-column:1;grid-row:2;width:280px;max-width:100%;margin:16px auto}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration-copy{grid-row:3;padding:0;gap:16px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-find{width:100%;min-width:0}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits-list{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-copy{grid-template-columns:1fr}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-status{grid-column:1;grid-row:3}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-photo{height:210px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-trip-pass{grid-column:1;grid-row:3;min-height:230px;padding:20px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions button{flex-direction:column;gap:8px;padding:12px 4px}
+ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions strong{text-align:center}
+}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions{box-shadow:none}

@@ -1,0 +1,51 @@
+/* Desktop profile: common masthead, personal rail and reusable settings groups. */
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype #keysFourSections{max-width:1160px;width:100%;margin:auto;padding:0}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype #keysFourSections .kf-grid{display:block;width:100%;max-width:none;margin:0}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]{width:100%!important;max-width:none!important;height:auto!important;min-height:calc(100vh - 100px);overflow:visible;border:0!important;border-radius:0!important;box-shadow:none!important;background:var(--color-card);--kd-font-metric:500 24px/30px var(--font-sans);font-family:var(--font-sans)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-status{display:none!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-scroll{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;height:auto!important;overflow:visible;padding:0 0 32px!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-header{height:auto;min-height:48px;padding:0;margin:0 0 24px;gap:12px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-header h1{font:var(--ui-font-display)!important;letter-spacing:-.5px!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-back{background:transparent;border-radius:12px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-personal{display:flex;flex-direction:column;gap:16px;min-width:0}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile{padding:24px 20px!important;margin:0;border:1px solid var(--color-line)!important;border-radius:20px!important;background:var(--color-card)!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-person{flex-direction:column;align-items:flex-start;gap:20px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-photo{width:80px;height:80px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-name strong{font:var(--ui-font-title)!important;letter-spacing:0!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-contacts{margin-top:8px;font:var(--ui-font-body)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-loyalty{padding:20px;border-color:var(--color-line);background:var(--color-card)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-tier{background:var(--color-soft);color:var(--color-ink)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-balance{flex-wrap:wrap;gap:6px;margin:16px 0}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-balance strong{font:var(--kd-font-metric)!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-balance>span{font:var(--ui-font-caption);color:var(--color-muted)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:16px;min-width:0}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-group{padding:20px 20px 4px;border:1px solid var(--color-line);border-radius:20px;min-width:0;background:var(--color-card)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-group:last-child{grid-column:1/-1}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kdp-group .kf-section{margin:0 0 8px!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kdp-group h2{font:var(--ui-font-section)!important;letter-spacing:0!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kdp-group>.kf-card{margin:0;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row{min-height:80px;gap:12px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row strong{font:var(--ui-font-label)!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row small{font:var(--ui-font-caption)!important}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-group:last-child>.kf-card{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kdp-group:last-child .kf-row{border:0}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-sheet-layer:not([hidden]){position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;background:#1c284155;padding:24px}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-sheet{width:480px;max-width:100%;max-height:calc(100dvh - 48px);overflow:auto;border-radius:24px;padding:24px!important;box-shadow:0 24px 80px #1c284126}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-grab{display:none}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-passport-page:not([hidden]){position:fixed;z-index:200;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:480px;max-width:calc(100vw - 32px);height:auto;max-height:calc(100dvh - 48px);padding:24px;overflow:auto;border:1px solid var(--color-line);border-radius:24px;box-shadow:0 0 0 100vmax #1c284155,0 24px 80px #1c284126;background:var(--color-card)}
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kf-toast{position:fixed;bottom:24px;left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 32px)}
+@media(hover:hover){body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-back:hover{background:var(--color-soft)}body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kf-row:hover strong{color:var(--color-brand)}}
+@media(max-width:1100px){
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-scroll{grid-template-columns:260px minmax(0,1fr);gap:20px}
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-settings{grid-template-columns:1fr}
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .kdp-group:last-child>.kf-card{display:block}
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kdp-group:last-child .kf-row+.kf-row{border-top:1px solid var(--color-line)}
+}
+@media(max-width:799px){
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-header{padding:0 16px}
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-scroll{display:flex;flex-direction:column;padding:0 16px 24px!important;gap:16px}
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-person{flex-direction:row;align-items:center;gap:16px}
+ body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-profile-photo{width:64px;height:64px}
+}
+
+body[data-keys-desktop-profile="true"] #keysUnifiedPrototype .keys-passport-page .kh-back{background:transparent}

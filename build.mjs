@@ -1,3 +1,4 @@
+import { buildUIkit } from './scripts/build-ui-kit.mjs';
 import {buildMaps} from './scripts/build-maps.mjs';
 import { cp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -108,7 +109,14 @@ ${fragment}
 <script src="./arbana/ui-standards.js"></script>
 <link rel="stylesheet" href="./scenarios/desktop.css">
 <link rel="stylesheet" href="./scenarios/desktop-stay.css">
+<link rel="stylesheet" href="./scenarios/desktop-search-after.css">
 <script src="./scenarios/desktop.js"></script>
+<link rel="stylesheet" href="./scenarios/desktop-trip-menu.css">
+<script src="./scenarios/desktop-trip-menu.js"></script>
+<link rel="stylesheet" href="./scenarios/desktop-profile.css">
+<script src="./scenarios/desktop-profile.js"></script>
+<link rel="stylesheet" href="./scenarios/desktop-account.css">
+<script src="./scenarios/desktop-account.js"></script>
 </body>
 </html>
 `;
@@ -131,5 +139,7 @@ await cp(new URL("./src/boot.js", import.meta.url), new URL("./dist/boot.js", im
 await buildMaps();
 await buildSections();
 await stampAssets(fileURLToPath(new URL("./dist/", import.meta.url)));
+
+await buildUIkit();
 
 console.log("GitHub Pages build created: dist/index.html");

@@ -5,7 +5,8 @@
   section.className='ku-section';section.dataset.unifiedSection='arbana-sections';section.hidden=true;
   const frame=document.createElement('iframe');frame.id='keysSectionsFrame';frame.title='Найти и Чаты';
   section.append(frame);root.append(section);
-  let ready=false,pending=null,notificationOrigin=null,notificationOpened=false,feedbackFromNotifications=false,feedbackTripOrigin=null,profileOrigin=null;
+  let ready=false,pending=null,notificationOrigin=null,notificationOpened=false,feedbackFromNotifications=false,feedbackTripOrigin=null,profileOrigin=null,benefitsOrigin=null;
+  let chatOrigin=null,chatOpened=false,runtimeReturn=null;
   let profileMotionId=0,profileAnimations=[];
   const cancelProfileMotion=()=>{
     profileMotionId++;
@@ -21,9 +22,11 @@
     const exiting=direction==='exit',id=profileMotionId;
     phone.dataset.profileMotion=direction;
     if(exiting)phone.querySelector('[data-profile-back]').disabled=true;
+    const desktop=document.body.dataset.keysView==='desktop';
+    const offset=desktop?'translateY(10px)':'translateX(40px)';
     const frames=exiting
-      ?[{transform:'translateX(0)',opacity:1},{transform:'translateX(32px)',opacity:0}]
-      :[{transform:'translateX(40px)',opacity:0},{transform:'translateX(0)',opacity:1}];
+      ?[{transform:'translate(0)',opacity:1},{transform:desktop?'translateY(6px)':'translateX(32px)',opacity:0}]
+      :[{transform:offset,opacity:0},{transform:'translate(0)',opacity:1}];
     profileAnimations=parts.map(part=>part.animate(frames,{duration:exiting?160:280,easing:exiting?'cubic-bezier(.4,0,1,1)':'cubic-bezier(.22,1,.36,1)',fill:'both'}));
     Promise.allSettled(profileAnimations.map(animation=>animation.finished)).then(()=>{
       if(id!==profileMotionId)return;
@@ -34,9 +37,14 @@
   const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
   const show=(tab,hotelId,screen,discovery)=>{
     cancelProfileMotion();
+    runtimeReturn=null;
+    if(tab==='chats'&&hotelId&&section.hidden){
+      chatOrigin=[...root.querySelectorAll(':scope>.ku-section')].map(el=>[el,el.hidden]);chatOpened=false;
+    }else if(tab!=='chats'){chatOrigin=null;chatOpened=false;}
+    section.dataset.runtimeScreen=screen??'';section.dataset.runtimeTab=tab;
     root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
     pending={tab,hotelId,screen,discovery};
-    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=stay-scenarios-1&stayDay='+encodeURIComponent(notificationDay());
+    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=desktop-ui-standard-1&stayDay='+encodeURIComponent(notificationDay());
     send();
   };
   const captureProfileOrigin=()=>{
@@ -54,9 +62,14 @@
       origin.focus?.focus({preventScroll:true});
     });
   };
-  const go=target=>{
+  const go=(target,preserveOrigin=false)=>{
     cancelProfileMotion();
-    if(target==='profile')captureProfileOrigin();
+    if(target==='profile'&&!preserveOrigin)captureProfileOrigin();
+    if(target==='benefits'&&!preserveOrigin&&document.body.dataset.keysView==='desktop'){
+      const account=root.querySelector('[data-unified-section="account"]');
+      const current=account.querySelector('.kf-phone[data-screen="benefits"]')?.closest('.kf-grid>section');
+      if(account.hidden||current?.hidden)benefitsOrigin={sections:[...root.querySelectorAll(':scope>.ku-section')].map(el=>[el,el.hidden]),pages:[...account.querySelectorAll('.kf-grid>section')].map(el=>[el,el.hidden]),focus:document.activeElement};
+    }
     if(target==='feedback'){go('trips');root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s.dataset.unifiedSection!=='feedback');root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('kfb-reset'));const done=root.querySelector('#keysFeedbackFlow [data-kfb="success"] [data-kfb-exit]');if(done)done.textContent='К уведомлениям';feedbackFromNotifications=true;return;}
     if(target==='problem'){go('stay-details');root.querySelector('[data-problem-entry]')?.click();return;}
     if(target==='stay-details'){go('trips');root.querySelector('.k3-stay-head').click();return;}
@@ -79,6 +92,17 @@
   },true);
   // Capture before the base prototype's document-level exit handler.
   window.addEventListener('click',event=>{
+    if(runtimeReturn){
+      const exit=event.target.closest('#keysStayDetails .ksd-back[data-exit]');
+      const problemBack=runtimeReturn==='problem'&&event.target.closest('#keysStayDetails .ksd-detail-back');
+      if(exit||problemBack){
+        event.preventDefault();event.stopImmediatePropagation();runtimeReturn=null;
+        const layer=root.querySelector('#keysStayDetails .ksd-detail-layer');if(layer)layer.hidden=true;
+        root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
+        frame.focus({preventScroll:true});return;
+      }
+      if(event.target.closest('nav'))runtimeReturn=null;
+    }
     if((!feedbackFromNotifications&&!feedbackTripOrigin)||!event.target.closest('#keysFeedbackFlow [data-kfb-exit]'))return;
     if(feedbackTripOrigin){event.preventDefault();event.stopImmediatePropagation();const trigger=feedbackTripOrigin;feedbackTripOrigin=null;go('trips');trigger.focus({preventScroll:true});return;}
     event.preventDefault();event.stopImmediatePropagation();feedbackFromNotifications=false;const done=root.querySelector('#keysFeedbackFlow [data-kfb="success"] [data-kfb-exit]');if(done)done.textContent='Вернуться на главную';
@@ -90,9 +114,17 @@
     if(event.origin!==location.origin&&location.protocol!=='file:')return;
     if(event.data.type==='nav')window.KeysAppNav.setUnread(event.data.unread);
     if(event.data.type==='header')root.querySelectorAll('.keys-app-header').forEach(h=>window.KeysAppHeader.setUnread(h,event.data.unread));
+    if(event.data.type==='state'){section.dataset.runtimeScreen=event.data.screen??'';section.dataset.runtimeTab=event.data.tab??'find';}
+    if(event.data.type==='state'&&chatOrigin){
+      if(event.data.tab==='chats'&&event.data.screen==='chat')chatOpened=true;
+      else if(chatOpened&&event.data.tab==='chats'&&!event.data.screen){
+        const origin=chatOrigin;chatOrigin=null;chatOpened=false;
+        origin.forEach(([el,hidden])=>el.hidden=hidden);
+      }else if(event.data.tab&&event.data.tab!=='chats'){chatOrigin=null;chatOpened=false;}
+    }
     if(event.data.type==='state'&&notificationOrigin){
       if(event.data.screen==='notifications')notificationOpened=true;
-      else if(notificationOpened&&!event.data.screen){const origin=notificationOrigin;notificationOrigin=null;notificationOpened=false;go(origin);}
+      else if(notificationOpened&&!event.data.screen){const origin=notificationOrigin;notificationOrigin=null;notificationOpened=false;go(origin,true);}
     }
     if(event.data.type==='reservation'){
       const b=event.data.booking;if(!b||typeof b.hotel!=='string')return;
@@ -108,6 +140,7 @@
       if(event.data.target==='feedback')feedbackTripOrigin=null;
       if(event.data.target==='feedback')root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('keys-feedback-context',{detail:{kind:event.data.feedbackKind??'first-night'}}));
       go(event.data.target);
+      runtimeReturn=['stay-details','problem'].includes(event.data.target)?event.data.target:null;
     }
   });
   root.querySelectorAll('.k3-scroll,.kf-phone[data-screen="benefits"]>.kf-scroll').forEach(scroll=>scroll.prepend(window.KeysAppHeader.create()));
@@ -248,6 +281,7 @@
     if(action==='home')go('trips');
     if(action==='profile')go('profile');
     if(action==='notifications'){
+      if(!section.hidden){if(section.dataset.runtimeScreen!=='notifications')frame.contentWindow.postMessage({source:'keys-host',openNotification:true},location.origin);return;}
       const current=button.closest('.kf-phone')?.dataset.screen??'trips';
       notificationOrigin=current;notificationOpened=false;show('find',null,'notifications');
     }
@@ -255,13 +289,19 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
-    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=stay-scenarios-1&stayDay='+encodeURIComponent(day);
+    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=desktop-ui-standard-1&stayDay='+encodeURIComponent(day);
     else if(ready)frame.contentWindow.postMessage({source:'keys-host',stayDay:day},location.protocol==='file:'?'*':location.origin);
   });
   root.addEventListener('keys-open-trip-review',event=>{
     root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('keys-feedback-context',{detail:{kind:'stay'}}));
     go('feedback');feedbackFromNotifications=false;feedbackTripOrigin=event.detail.trigger;
     root.querySelector('#keysFeedbackFlow [data-kfb="success"] [data-kfb-exit]').textContent='К поездке';
+  });
+  root.addEventListener('keys-open-benefits',()=>go('benefits'));
+  root.addEventListener('keys-close-benefits',()=>{
+    const origin=benefitsOrigin;benefitsOrigin=null;
+    if(!origin){go('trips');return;}
+    origin.pages.forEach(([el,hidden])=>el.hidden=hidden);origin.sections.forEach(([el,hidden])=>el.hidden=hidden);origin.focus?.focus({preventScroll:true});
   });
   root.addEventListener('keys-open-hotel-chat',()=>show('chats','maidens'));
   root.addEventListener('keys-open-stay-details',()=>go('stay-details'));

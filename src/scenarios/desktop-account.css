@@ -1,0 +1,65 @@
+/* Account pages use the shared 1160 px web shell and the existing component tokens. */
+.kda-title,.kda-runtime-header,.kda-program-link{display:none}
+/* Same card footer as “Все преимущества” and “Пригласить друзей”. */
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kda-program-link{
+ display:flex;width:100%;box-sizing:border-box;align-items:center;justify-content:space-between;
+ gap:6px;min-height:var(--ui-link-height);margin:12px 0 0;padding:0;
+ border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;
+ color:var(--color-brand);font:var(--ui-font-label)!important;letter-spacing:0;text-align:left;cursor:pointer;
+ transition:color .15s ease;
+}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kda-program-link svg{width:var(--ui-icon-small);height:var(--ui-icon-small);flex:none}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kd-wallet .keys-benefits-wallet{padding-bottom:0}
+@media(hover:hover){body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kda-program-link:hover{color:var(--color-brand-dark);background:transparent}}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kda-program-link:focus-visible{outline:2px solid var(--color-brand);outline-offset:-2px}
+@media(prefers-reduced-motion:reduce){body[data-keys-view="desktop"] #keysUnifiedPrototype .kda-program-link{transition:none}}
+body[data-keys-view="desktop"] .kd-wallet .keys-benefits-wallet{cursor:pointer}
+body[data-keys-desktop-secondary] #keysUnifiedPrototype #keysFourSections{max-width:1160px;width:100%;margin:auto;padding:0}
+body[data-keys-desktop-secondary] #keysUnifiedPrototype#keysUnifiedPrototype #keysFourSections .kf-grid{display:block;max-width:none;width:100%;margin:0}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="benefits"]{width:100%!important;max-width:none!important;height:auto!important;min-height:calc(100vh - 100px);overflow:visible;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="benefits"]>.kf-scroll{height:auto!important;padding:0!important;overflow:visible}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .kf-phone[data-screen="benefits"]>:is(.kf-status,.kf-nav){display:none!important}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .kda-title{display:flex;align-items:center;gap:12px;margin:0 0 20px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kda-title h1{margin:0;font:var(--ui-font-display)!important;letter-spacing:-.5px!important}
+.kda-title button{display:grid;place-items:center;width:44px;height:44px;flex:none;border:0;border-radius:12px;background:transparent;color:var(--color-ink);cursor:pointer}
+.kda-title button svg{width:20px;height:20px}
+.kda-title button:hover{background:var(--color-soft)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.3fr);grid-template-areas:'intro intro' 'wallet guide' 'history referral' '. terms';align-items:start;gap:20px 24px;padding:0 0 32px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-intro{grid-area:intro;margin-top:-12px;margin-bottom:4px;padding-left:56px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-intro h1{display:none}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-intro p{margin:0;max-width:700px;font:var(--ui-font-body);color:var(--color-muted)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-wallet{grid-area:wallet;padding:24px;border-radius:20px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-guide{grid-area:guide;padding:24px 24px 4px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-history{grid-area:history;padding:24px;border:1px solid var(--color-line);border-radius:20px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .ka-referral-card{grid-area:referral;margin:0;padding:24px 24px 0}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-terms{grid-area:terms;padding:0 24px;border:1px solid var(--color-line);border-radius:20px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-terms summary{min-height:64px;font:var(--ui-font-label);color:var(--color-ink)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits h2{font:var(--ui-font-section)!important;margin-bottom:12px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits :is(.keys-benefits-reveal,.keys-benefits-guide-copy>span,.keys-points-empty){font:var(--ui-font-body)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-membership{font:var(--ui-font-label)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-amount{margin-top:28px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-level-details .keys-benefits-perks strong{color:#fff}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-footer{font:var(--ui-font-label)!important;min-height:48px}
+body[data-keys-desktop-secondary="notifications"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"]{display:block;padding:0;max-width:1160px;width:100%;margin:auto}
+body[data-keys-desktop-secondary="notifications"] .kda-runtime-header{display:block}
+body[data-keys-desktop-secondary="notifications"] #keysSectionsFrame{width:100%;max-width:none;min-height:560px;border:0;border-radius:0;box-shadow:none;background:#fff}
+@media(max-width:799px){
+ body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits{grid-template-columns:1fr;grid-template-areas:'intro' 'wallet' 'guide' 'history' 'referral' 'terms';padding-inline:16px}
+ body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-intro{padding-left:0;margin-top:0}
+ body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .kda-title{padding-inline:16px}
+}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="benefits"] .kf-scroll>.keys-app-header,
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="benefits"]>.kf-nav{display:none!important}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits :is(.keys-benefits-intro>p,.keys-benefits-reveal p,.keys-points-empty){font:var(--ui-font-body)!important}
+
+body[data-keys-desktop-secondary="find"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"]{display:block;padding:0;width:100%;max-width:1160px;margin:auto}
+body[data-keys-desktop-secondary="find"] .kda-runtime-header{display:block}
+body[data-keys-desktop-secondary="find"] #keysSectionsFrame{width:100%;max-width:none;min-height:620px;border:0;border-radius:0;box-shadow:none;background:#fff}
+/* The full search form is immediately below the masthead. */
+body[data-keys-desktop-secondary="find"] #keysUnifiedPrototype .kd-header-search{visibility:hidden;pointer-events:none}
+body[data-keys-desktop-secondary] #keysUnifiedPrototype#keysUnifiedPrototype .kd-header-hotel[hidden]{display:none!important}
+body[data-keys-desktop-secondary="find"]{overflow-anchor:none}
+
+/* Reused referral card: the same body and action roles as on Trips. */
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-copy>span{font:var(--ui-font-body)!important}
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-referral-footer,.kb-action-link){font:var(--ui-font-label)!important}

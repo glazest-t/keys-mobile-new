@@ -1,4 +1,4 @@
-/* Web dashboard reuses pre-arrival and in-stay components, state and destinations. */
+/* Shared desktop dashboard for all trip scenarios. Mobile components keep their state and handlers. */
 (() => {
  const root=document.getElementById('keysUnifiedPrototype'),home=document.getElementById('keysHomeVariantThree');
  const screen=home?.querySelector('.kpa-home'),toolbar=document.getElementById('keysScenarioControls');
@@ -44,20 +44,52 @@
  const stayActions=document.createElement('section');stayActions.className='kd-trip-actions kd-stay-actions kd-web-only';stayActions.setAttribute('aria-label','Связь с отелем');
  stayActions.innerHTML=action('chat','Чат с отелем','Свяжитесь с ресепшеном','chat');
  staySide.append(stayActions);
+ // Keep mobile DOM order intact; only mount existing blocks in columns on desktop.
+ const scenarioLayouts={};
+ for(const [name,selector,sideSelectors] of [
+  ['search','.kse-home',['.ka-referral-card']],
+  ['after','.ka-home:not(.kpa-home)',['.ka-reward']]
+ ]){
+  const page=home.querySelector(selector),children=[...page.children];
+  const primary=document.createElement('div');primary.className='kd-scenario-main';
+  const rail=document.createElement('aside');rail.className='kd-scenario-side';
+  rail.setAttribute('aria-label',name==='search'?'Баллы и приглашение друзей':'Баллы за поездку и привилегии');
+  scenarioLayouts[name]={page,children,primary,rail,sideSelectors};
+ }
+ function syncScenarioLayouts(name,desktop){
+  for(const [key,layout] of Object.entries(scenarioLayouts)){
+   const {page,children,primary,rail,sideSelectors}=layout;
+   if(desktop&&key===name){
+    if(primary.parentElement!==page){
+     children.forEach(el=>(sideSelectors.some(selector=>el.matches(selector))?rail:primary).append(el));
+     page.append(primary,rail);
+    }
+    if(benefits.parentElement!==rail){if(key==='search')rail.prepend(benefits);else rail.append(benefits);}
+   }else if(primary.parentElement===page){
+    children.forEach(el=>page.append(el));primary.remove();rail.remove();
+   }
+  }
+ }
  const originalCheckin=screen.querySelector('.kpa-checkin');
  function syncCheckin(){const complete=originalCheckin.classList.contains('is-complete');checkin.classList.toggle('is-complete',complete);checkin.querySelector('[data-kd-checkin-state]').textContent=complete?'Регистрация пройдена':'Пара минут — и всё готово';checkin.querySelector('[data-kd-checkin-copy]').textContent=complete?'Данные переданы отелю. Мы готовы к вашему приезду.':'Заполните данные заранее. В отеле останется только получить ключ.';checkin.querySelector('[data-kd-checkin-label]').textContent=complete?'Посмотреть данные':'Пройти онлайн-регистрацию';}
  new MutationObserver(syncCheckin).observe(originalCheckin,{attributes:true,attributeFilter:['class'],childList:true,subtree:true});syncCheckin();
- function syncBooking(){if(document.body.dataset.keysScenario==='stay')return;hotel.querySelector('[data-kd-arrival]').textContent=screen.querySelector('.kpa-arrival-countdown').textContent.replace(/\s+/g,' ').trim();}
+ function syncBooking(){if(document.body.dataset.keysScenario!=='booked')return;hotel.querySelector('[data-kd-arrival]').textContent=screen.querySelector('.kpa-arrival-countdown').textContent.replace(/\s+/g,' ').trim();}
  new MutationObserver(syncBooking).observe(screen.querySelector('.kpa-arrival-countdown'),{childList:true,subtree:true,characterData:true});syncBooking();
  const searchOpen=detail=>root.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail}));
  search.addEventListener('submit',event=>{event.preventDefault();searchOpen({city:new FormData(search).get('city')});});
- home.addEventListener('click',event=>{const button=event.target.closest('[data-desktop-action],[data-discovery-mode],[data-discovery-collection]');if(!button)return;if(button.dataset.desktopAction==='benefits'){wallet.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'center'});wallet.focus({preventScroll:true});}else searchOpen(button.dataset.discoveryCollection?{collection:button.dataset.discoveryCollection}:button.dataset.discoveryMode?{mode:button.dataset.discoveryMode}:{});});
+ root.addEventListener('click',event=>{const button=event.target.closest('[data-desktop-action],[data-discovery-mode],[data-discovery-collection]');if(!button)return;if(button.dataset.desktopAction==='benefits'){root.dispatchEvent(new CustomEvent('keys-open-benefits'));}else searchOpen(button.dataset.discoveryCollection?{collection:button.dataset.discoveryCollection}:button.dataset.discoveryMode?{mode:button.dataset.discoveryMode}:{});});
  let view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';
  function render(){
-  const inStay=document.body.dataset.keysScenario==='stay',supported=inStay||document.body.dataset.keysScenario==='booked',desktop=view==='desktop'&&supported,arriving=document.body.dataset.keysArrivalDay==='arrival';
+  const scenario=document.body.dataset.keysScenario,inStay=scenario==='stay',supported=['stay','booked','search','after'].includes(scenario),desktop=view==='desktop'&&supported,arriving=document.body.dataset.keysArrivalDay==='arrival';
   document.body.dataset.keysView=desktop?'desktop':'mobile';document.body.dataset.keysDesktopHome=String(desktop&&!home.closest('.ku-section').hidden);
   // Move, rather than clone, shared discovery/loyalty so there is one source of state.
-  if(inStay&&desktop){
+  syncScenarioLayouts(scenario,desktop);
+  if(desktop&&scenarioLayouts[scenario]){
+   const page=scenarioLayouts[scenario].page;
+   if(stayNearby.parentElement!==stay)nearbyAnchor.after(stayNearby);
+   if(intro.nextElementSibling!==page)page.before(intro);
+   if(page.nextElementSibling!==discovery)page.after(discovery);
+  }else if(inStay&&desktop){
    if(stayNearby.parentElement!==staySide)staySide.append(stayNearby,benefits,stayActions);
    if(intro.nextElementSibling!==stay)stay.before(intro);
    if(stay.nextElementSibling!==discovery)stay.after(discovery);
@@ -67,16 +99,23 @@
    if(intro.nextElementSibling!==screen)screen.before(intro);
    if(screen.nextElementSibling!==discovery)screen.after(discovery);
   }
-  if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до 12:00':`Проживание · день ${document.body.dataset.keysStayDay==='day-1'?'1':'2'} из 7`;}
+  intro.hidden=scenario==='search';
+  intro.querySelector('h1').textContent=scenario==='after'?'Ваша поездка завершена':'Ваша поездка';
+  hotel.hidden=scenario==='search';
+  delete hotel.dataset.after;
+  if(scenario==='after'){delete hotel.dataset.before;delete hotel.dataset.info;hotel.dataset.after='stay';hotel.querySelector('[data-kd-arrival]').textContent='Поездка завершена';}
+  else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до 12:00':`Проживание · день ${document.body.dataset.keysStayDay==='day-1'?'1':'2'} из 7`;}
   else{delete hotel.dataset.info;hotel.dataset.before='details';syncBooking();}
-  discovery.querySelector('header p').textContent=inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
+  discovery.querySelector('header p').textContent=scenario==='search'?'Выберите настроение — найдём подходящий отель':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
   actions.querySelector('[data-kd-manage]').hidden=arriving;actions.querySelector('[data-kd-route]').hidden=!arriving;
   const registrationAvailable=document.body.dataset.keysArrivalDay!=='day-8';
   checkin.hidden=!registrationAvailable;
   actions.querySelector('[data-kd-instruction]').hidden=!registrationAvailable;
   actions.classList.toggle('has-instruction',registrationAvailable);
-  points.querySelector('strong').textContent=walletSource.querySelector('.keys-benefits-amount strong').textContent;
-  modes.querySelectorAll('button').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.view===(desktop?'desktop':'mobile')));button.disabled=button.dataset.view==='desktop'&&!supported;button.title=button.disabled?'Веб-версия доступна до заезда и во время проживания':'';});
+  const balance=walletSource.querySelector('.keys-benefits-amount strong').textContent;
+  points.querySelector('strong').textContent=balance;wallet.querySelector('.keys-benefits-amount strong').textContent=balance;
+  delete hotel.dataset.before;delete hotel.dataset.info;delete hotel.dataset.after;
+  modes.querySelectorAll('button').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.view===(desktop?'desktop':'mobile')));button.disabled=button.dataset.view==='desktop'&&!supported;button.title=button.disabled?'Веб-версия недоступна для этого сценария':'';});
  }
  modes.addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(!button||button.disabled)return;view=button.dataset.view;const url=new URL(location.href);url.searchParams.set('view',view);history.replaceState(history.state,'',url);render();});
  window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',render);

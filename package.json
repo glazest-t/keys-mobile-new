@@ -8,7 +8,9 @@
     "preview": "python3 -m http.server 4173 --directory dist",
     "test": "node --test tests/*.test.mjs && node scripts/verify-preservation.mjs",
     "check": "npm run build && npm test",
-    "export:github": "python3 scripts/export-github.py"
+    "export:github": "python3 scripts/export-github.py",
+    "build:ui-kit": "node scripts/build-ui-kit.mjs",
+    "export:ui-kit": "python3 scripts/export-ui-kit.py"
   },
   "devDependencies": {
     "esbuild": "^0.25.12",

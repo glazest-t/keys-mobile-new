@@ -69,7 +69,7 @@
   }
  });
  const save=()=>{try{localStorage.setItem(key,JSON.stringify(requests));}catch{}refresh();};
- window.KeysActiveServices={render};
+ window.KeysActiveServices={render,getOrders:()=>all().map(item=>({...item}))};
  app.addEventListener('keys-service-requests-change',refresh);
  app.addEventListener('keys-scenario-change',()=>queueMicrotask(refresh));
  // Capture the submitted basket before the original handler clears or hides it.

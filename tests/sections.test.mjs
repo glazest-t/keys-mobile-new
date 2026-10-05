@@ -64,3 +64,18 @@ test('recent searches restore guests, car preference, filters and sorting withou
  const legacy=e.parseRecent(JSON.stringify({searches:[{...search,party:{adults:1,childrenAges:[],pet:false,business:false},filters:undefined,at:1}],hotels:[]}));
  assert.equal(legacy.searches[0].party.car,false);assert.deepEqual(legacy.searches[0].filters,[]);
 });
+
+test('hotel inner screens unwind to saved list and preserve the selected search',()=>{
+ let s=e.keysInitialState();
+ s=run(s,{type:'SEARCH_SUBMIT',city:'Сочи'});
+ s=run(s,{type:'OPEN',screen:{type:'saved'}});
+ s=run(s,{type:'HOTEL_OPEN',id:'more'});
+ const hotel={...s.navigation.screen};
+ for(const screen of [{type:'hotel-reviews',hotelId:'more'},{type:'hotel-map',hotelId:'more'},{type:'price-watch',hotelId:'more'},{type:'hotel',hotelId:'more',rooms:true}]){
+  s=run(s,{type:'OPEN',screen});s=run(s,{type:'BACK'});
+  assert.deepEqual(s.navigation.screen,hotel);
+ }
+ s=run(s,{type:'BACK'});assert.equal(s.navigation.screen.type,'saved');
+ s=run(s,{type:'BACK'});assert.equal(s.navigation.screen,null);
+ assert.equal(s.search.results,true);assert.equal(s.search.city,'Сочи');
+});

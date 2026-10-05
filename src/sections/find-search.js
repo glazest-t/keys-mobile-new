@@ -19,8 +19,9 @@ function sF() {
 }
 
 function KeysFindHeading(){
- const {open}=J();
+ const {open,dispatch}=J();
  return n.jsxs('div',{className:'keys-find-heading',children:[
+  n.jsx('button',{type:'button',className:'keys-find-home-back','aria-label':'Назад на главную',title:'На главную',onClick:()=>dispatch({type:'HOME'}),children:n.jsx('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:n.jsx('path',{d:'m12 5-7 7 7 7M5 12h14'})})}),
   n.jsx('h1',{children:'Куда поедем?'}),
   n.jsx('button',{type:'button',className:'keys-find-favorites','aria-label':'Избранные отели',title:'Избранные отели',onClick:()=>open({type:'saved'}),children:n.jsx(D,{name:'heart'})})
  ]});

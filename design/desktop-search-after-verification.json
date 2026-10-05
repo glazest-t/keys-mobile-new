@@ -1,0 +1,43 @@
+{
+  "scenarios": [
+    "search",
+    "after"
+  ],
+  "sharedComponents": [
+    "desktop header and search",
+    "loyalty wallet",
+    "hotel discovery and theme collections",
+    "referral card",
+    "existing trip, reward and trip actions"
+  ],
+  "implementation": "Desktop mounts existing mobile blocks into columns. Mobile restores the original child order. Wallet and discovery are moved between scenarios.",
+  "verifiedWidths": [
+    1440,
+    1024,
+    800,
+    375
+  ],
+  "checks": [
+    "no document horizontal overflow",
+    "desktop/mobile and live scenario switches",
+    "exactly one visible wallet and discovery",
+    "completed stay details from card and header",
+    "trip documents",
+    "review",
+    "reward details",
+    "referral open and return",
+    "search and themed collections",
+    "hotel chat",
+    "benefits navigation",
+    "no JavaScript page errors"
+  ],
+  "automatedTests": {
+    "passed": 52,
+    "failed": 0
+  },
+  "scripts": [
+    "tmp/desktop/search-after-qa.cjs",
+    "tmp/desktop/search-after-flows.cjs"
+  ],
+  "scope": "Main Trips screens adapted. Existing nested flows reused. No GitHub publication."
+}

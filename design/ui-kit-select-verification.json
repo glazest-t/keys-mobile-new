@@ -1,0 +1,35 @@
+{
+  "title": "UI kit Keys — дизайн-система приложения Ключи",
+  "brand": "k\n•\nKeys\nUI kit · 1.0",
+  "results": [
+    {
+      "width": 375,
+      "height": 48,
+      "iconSize": 20,
+      "trailingInset": 12,
+      "centerOffset": 0,
+      "paddingRight": "44px",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "appearance": "none",
+      "iconPointerEvents": "none",
+      "overflow": false,
+      "value": "09:00 · ранний заезд"
+    },
+    {
+      "width": 320,
+      "height": 48,
+      "iconSize": 20,
+      "trailingInset": 12,
+      "centerOffset": 0,
+      "paddingRight": "44px",
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "appearance": "none",
+      "iconPointerEvents": "none",
+      "overflow": false,
+      "value": "09:00 · ранний заезд"
+    }
+  ],
+  "errors": []
+}

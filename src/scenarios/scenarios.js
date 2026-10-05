@@ -4,7 +4,7 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype');
  if(!app)return;
- const presets=[['search','Брони ещё нет'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
+ const presets=[['guest','Гость не авторизован'],['search','Брони ещё нет'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
  const days=[['day-1','Проживание 1 день'],['day-2','Проживание 2 день'],['checkout','День выезда']];
  const arrivalDays=[['day-8','За 8 дней до заезда'],['day-3','За 3 дня до заезда'],['arrival','День заезда']];
  const valid=(items,id,fallback)=>items.some(([key])=>key===id)?id:fallback;
@@ -61,7 +61,7 @@
   dayControl.configure(selected==='booked'?arrivalDays:days,selected==='booked'?'До заезда':'День проживания');
   dayControl.set(selected==='booked'?arrivalDay:stayDay,!['stay','booked'].includes(selected));
   document.body.dataset.keysScenario=selected;document.body.dataset.keysStayDay=stayDay;document.body.dataset.keysArrivalDay=arrivalDay;
-  const implemented=selected==='search'||selected==='stay'||selected==='after'||selected==='booked'&&['day-8','day-3','arrival'].includes(arrivalDay);
+  const implemented=selected==='guest'||selected==='search'||selected==='stay'||selected==='after'||selected==='booked'&&['day-8','day-3','arrival'].includes(arrivalDay);
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:selected==='booked'?label+' · '+arrivalDays.find(([key])=>key===arrivalDay)[1]:label)+' — пустой сценарий');
@@ -71,5 +71,6 @@
  function fromURL(){const params=new URLSearchParams(location.search);selected=valid(presets,params.get('scenario'),'stay');stayDay=valid(days,params.get('stayDay'),'day-2');arrivalDay=valid(arrivalDays,params.get('arrivalDay'),'day-8');controls.forEach(item=>item.close());render(false);}
  document.addEventListener('pointerdown',event=>{if(!toolbar.contains(event.target))controls.forEach(item=>item.close());});
  window.addEventListener('popstate',fromURL);
+ window.KeysScenarios={select(id){selected=valid(presets,id,selected);render();}};
  fromURL();
 })();

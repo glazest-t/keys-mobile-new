@@ -1,0 +1,56 @@
+/* Mobile phone authentication uses the existing Keys typography and control roles. */
+#keysGuestPrototype[hidden],.kauth-prototype-note[hidden]{display:none!important}
+body[data-keys-scenario="guest"] #keysUnifiedPrototype>:not(#keysGuestPrototype){display:none!important}
+#keysGuestPrototype{display:flex;justify-content:center;padding:6px 0 22px;font-family:var(--font-sans);color:var(--color-ink)}
+#keysGuestPrototype *{box-sizing:border-box}
+#keysGuestPrototype .kauth-phone{width:390px;max-width:100%;height:844px;overflow:auto;overscroll-behavior:contain;border:1px solid var(--color-line);border-radius:30px;background:var(--color-card);box-shadow:0 16px 60px #1c284112}
+#keysGuestPrototype .kauth-header{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 20px}
+#keysGuestPrototype .kauth-brand{font-size:24px;font-weight:500;letter-spacing:-1px;color:var(--color-brand)}
+#keysGuestPrototype .kauth-header-title{font:var(--ui-font-label)}
+#keysGuestPrototype .kauth-main{padding:24px 20px 32px;animation:keys-auth-enter .24s cubic-bezier(.22,1,.36,1)}
+#keysGuestPrototype .kauth-intro{margin-bottom:28px}
+#keysGuestPrototype h1{margin:12px 0;font:var(--ui-font-display);letter-spacing:-.5px}
+#keysGuestPrototype p{margin:0;font:var(--ui-font-body);color:var(--color-muted)}
+#keysGuestPrototype strong{font-weight:500;color:var(--color-ink)}
+#keysGuestPrototype svg{width:24px;height:24px;flex:none;color:var(--color-brand)}
+#keysGuestPrototype form{margin:0;display:flex;flex-direction:column}
+#keysGuestPrototype label{font:var(--ui-font-label);margin-bottom:8px}
+#keysUnifiedPrototype #keysGuestPrototype input{width:100%;height:56px;padding:16px;border:1px solid var(--color-line);border-radius:var(--ui-field-radius);background:var(--color-surface);color:var(--color-ink);font:var(--ui-font-field);outline:none;box-shadow:none}
+#keysGuestPrototype input:focus-visible{border-color:var(--color-brand);outline:2px solid var(--color-soft);outline-offset:2px}
+#keysGuestPrototype input[aria-invalid="true"]{border-color:var(--color-danger,#bc3544)}
+#keysGuestPrototype .kauth-hint{font:var(--ui-font-caption);margin-top:12px}
+#keysGuestPrototype .kauth-error{min-height:20px;margin:6px 0;color:var(--color-danger,#bc3544);font:var(--ui-font-caption)}
+#keysGuestPrototype button{cursor:pointer;font:var(--ui-font-label);transition:background .18s,transform .18s}
+#keysGuestPrototype button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysGuestPrototype .kauth-primary{min-height:var(--ui-control-height,48px);width:100%;padding:12px 16px;border:0;border-radius:var(--ui-field-radius,14px);color:var(--color-on-brand);background:var(--color-brand)}
+#keysGuestPrototype .kauth-primary:active{transform:scale(.985)}
+#keysGuestPrototype .kauth-back{width:44px;height:44px;display:grid;place-items:center;margin-left:-8px;border:0;background:transparent;padding:0}
+#keysGuestPrototype .kauth-back svg{color:var(--color-ink)}
+#keysGuestPrototype .kauth-link{min-height:44px;padding:8px 0;border:0;background:none;color:var(--color-brand)}
+#keysGuestPrototype .kauth-resend{min-height:44px;margin-top:12px;padding:10px 0;border:0;background:none;color:var(--color-brand)}
+#keysGuestPrototype .kauth-resend:disabled{color:var(--color-muted);cursor:default}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input.kauth-code{font-size:24px!important;font-weight:500!important;letter-spacing:12px!important;text-align:center;padding-left:28px;height:64px}
+#keysGuestPrototype .kauth-center{text-align:center}
+.kauth-prototype-note{margin:4px auto;text-align:center;font:var(--ui-font-caption);color:var(--color-muted)}
+body[data-keys-new-guest="true"] #keysUnifiedPrototype :is([data-header-avatar],[data-profile-image]){display:none!important}
+body[data-keys-new-guest="true"] #keysUnifiedPrototype [data-avatar-initials]{display:block!important}
+[data-auth-initial]{font:var(--ui-font-label);color:var(--color-brand)}
+@keyframes keys-auth-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(max-width:520px){#keysGuestPrototype{padding:0}#keysGuestPrototype .kauth-phone{height:calc(100dvh - 76px);border:0;border-radius:0;box-shadow:none}#keysGuestPrototype .kauth-main{padding-bottom:max(24px,env(safe-area-inset-bottom))}.kauth-prototype-note{position:fixed;bottom:8px;right:8px;padding:4px 8px;border-radius:8px;background:var(--color-card);z-index:101;font-size:11px}}
+@media(prefers-reduced-motion:reduce){#keysGuestPrototype .kauth-main{animation:none}#keysGuestPrototype button{transition:none}}
+
+/* Generated layered illustration; one headline and one form. */
+#keysGuestPrototype[data-auth-step="phone"] .kauth-main{padding-top:4px}
+#keysGuestPrototype .kauth-welcome-art{position:relative;isolation:isolate;margin:0;width:100%;height:250px;overflow:hidden}
+#keysGuestPrototype .kauth-art-hotels{position:absolute;top:0;right:-2%;width:94%;height:92%;object-fit:contain;animation:keys-hotels-float 7s ease-in-out infinite}
+#keysGuestPrototype .kauth-art-key{position:absolute;left:1%;bottom:0;width:46%;height:68%;object-fit:contain;transform-origin:50% 50%;animation:keys-master-key 6s ease-in-out infinite}
+#keysGuestPrototype .kauth-motion-toggle{position:absolute;right:0;bottom:0;width:44px;height:44px;display:grid;place-items:center;padding:0;border:0;background:transparent;color:var(--color-muted)}
+#keysGuestPrototype .kauth-motion-toggle svg{width:16px;height:16px;color:inherit}
+#keysGuestPrototype :is(.kauth-welcome-art[data-paused="true"],.kauth-main:has(input:focus) .kauth-welcome-art)>img{animation-play-state:paused}
+@keyframes keys-master-key{0%,100%{transform:translate(0,0) rotate(-5deg)}50%{transform:translate(8px,-12px) rotate(6deg)}}
+@keyframes keys-hotels-float{0%,100%{transform:translateY(2px)}50%{transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){#keysGuestPrototype .kauth-welcome-art>img{animation:none}#keysGuestPrototype .kauth-motion-toggle{display:none}}
+#keysGuestPrototype[data-auth-step="phone"] .kauth-intro{margin:24px 0}
+#keysGuestPrototype[data-auth-step="phone"] h1{margin:0}
+@media(max-height:760px){#keysGuestPrototype .kauth-welcome-art{height:190px}}
+@media(max-height:600px){#keysGuestPrototype .kauth-welcome-art{height:120px}#keysGuestPrototype[data-auth-step="phone"] .kauth-intro{margin:16px 0}}

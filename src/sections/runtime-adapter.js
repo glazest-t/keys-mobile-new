@@ -293,7 +293,7 @@ function Ae(props) {
  },[]);
  if(!desktop)return n.jsx(KeysMobileScreenHeader,props);
  return n.jsxs('header',{className:'keys-desktop-screen-header',children:[
-  n.jsxs('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:[n.jsx(D,{name:'back',className:'size-5'}),n.jsx('span',{children:'Назад'})]}),
+  n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}),
   n.jsx(props.overPhoto?'p':'h1',{className:'keys-desktop-screen-title',children:props.overPhoto?'Об отеле':props.title}),
   props.action&&n.jsx('div',{className:'keys-desktop-screen-actions',children:props.action})
  ]});

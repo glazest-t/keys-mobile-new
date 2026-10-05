@@ -595,3 +595,11 @@ html[data-desktop-account="true"] #root [data-screen-type="notification-settings
 .keys-hotel-photo-expanded .keys-photo-thumbnails button[aria-pressed="true"] .keys-photo-thumb-caption{color:#fff;font-weight:500}
 .keys-hotel-photo-expanded .keys-photo-thumbnails button:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:10px}
 @media(max-height:550px){.keys-hotel-photo-expanded .keys-photo-featured{max-height:36dvh}.keys-hotel-photo-expanded .keys-photo-thumbnails{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.keys-hotel-overview{display:contents}
+
+/* Layout wrappers stay transparent in the mobile hotel overview. */
+.keys-hotel-booking-panel,.keys-hotel-content{display:contents}
+.keys-hotel-desktop-booking-action,.keys-hotel-gallery-peeks{display:none}
+
+.keys-hotel-recommendation-tags{display:none}

@@ -1,15 +1,16 @@
 /* Mobile phone authentication uses the existing Keys typography and control roles. */
 #keysGuestPrototype[hidden],.kauth-prototype-note[hidden]{display:none!important}
-body:is([data-keys-scenario="guest"],[data-keys-scenario="guest-invite"]) #keysUnifiedPrototype>:not(#keysGuestPrototype){display:none!important}
+body:is([data-keys-scenario="guest"],[data-keys-scenario="guest-returning"],[data-keys-scenario="guest-invite"]) #keysUnifiedPrototype>:not(#keysGuestPrototype){display:none!important}
 #keysGuestPrototype{display:flex;justify-content:center;padding:6px 0 22px;font-family:var(--font-sans);color:var(--color-ink)}
 #keysGuestPrototype *{box-sizing:border-box}
 #keysGuestPrototype .kauth-phone{width:390px;max-width:100%;height:844px;overflow:auto;overscroll-behavior:contain;border:1px solid var(--color-line);border-radius:30px;background:var(--color-card);box-shadow:0 16px 60px #1c284112}
-#keysGuestPrototype .kauth-header{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 20px}
-#keysGuestPrototype .kauth-brand{font-size:24px;font-weight:500;letter-spacing:-1px;color:var(--color-brand)}
+#keysGuestPrototype .kauth-header{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 20px}
+#keysGuestPrototype .kauth-brand{font-size:24px;line-height:1;font-weight:500;letter-spacing:-1px;color:var(--color-brand)}
 #keysGuestPrototype .kauth-header-title{font:var(--ui-font-label)}
 #keysGuestPrototype .kauth-main{padding:24px 20px 32px;animation:keys-auth-enter .24s cubic-bezier(.22,1,.36,1)}
-#keysGuestPrototype .kauth-intro{margin-bottom:28px}
-#keysGuestPrototype h1{margin:12px 0;font:var(--ui-font-display);letter-spacing:-.5px}
+#keysGuestPrototype .kauth-intro{margin:0 0 24px}
+#keysGuestPrototype h1{margin:0;font:var(--ui-font-display);letter-spacing:-.5px}
+#keysGuestPrototype .kauth-intro>p{margin-top:12px}
 #keysGuestPrototype p{margin:0;font:var(--ui-font-body);color:var(--color-muted)}
 #keysGuestPrototype strong{font-weight:500;color:var(--color-ink)}
 #keysGuestPrototype svg{width:24px;height:24px;flex:none;color:var(--color-brand)}
@@ -28,11 +29,11 @@ body:is([data-keys-scenario="guest"],[data-keys-scenario="guest-invite"]) #keysU
 #keysGuestPrototype .kauth-back{width:44px;height:44px;display:grid;place-items:center;margin-left:-8px;border:0;background:transparent;padding:0}
 #keysGuestPrototype .kauth-back svg{color:var(--color-ink)}
 #keysGuestPrototype .kauth-link{min-height:44px;padding:8px 0;border:0;background:none;color:var(--color-brand)}
-#keysGuestPrototype .kauth-resend{min-height:44px;margin-top:12px;padding:10px 0;border:0;background:none;color:var(--color-brand)}
+#keysGuestPrototype .kauth-resend{min-height:var(--ui-link-height);margin-top:8px;padding:10px 0;border:0;background:none;color:var(--color-brand)}
 #keysGuestPrototype .kauth-resend:disabled{color:var(--color-muted);cursor:default}
 #keysGuestPrototype .kauth-code-label{display:block;margin-bottom:8px;font:var(--ui-font-label)}
 #keysGuestPrototype .kauth-code-fields{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
-#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input.kauth-code-digit{min-width:0;height:var(--ui-control-height);padding:0;font-size:24px!important;font-weight:500!important;letter-spacing:0!important;text-align:center;border-radius:12px!important;caret-color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input.kauth-code-digit{min-width:0;height:var(--ui-control-height);padding:0;font-size:24px!important;font-weight:500!important;letter-spacing:0!important;text-align:center;border-radius:var(--ui-field-radius)!important;caret-color:var(--color-brand)}
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input.kauth-code-digit:focus{border-color:var(--color-brand);outline:2px solid var(--color-soft);outline-offset:2px}
 #keysGuestPrototype .kauth-center{text-align:center}
 .kauth-prototype-note{margin:4px auto;text-align:center;font:var(--ui-font-caption);color:var(--color-muted)}
@@ -45,11 +46,11 @@ body[data-keys-new-guest="true"] #keysUnifiedPrototype [data-avatar-initials]{di
 
 /* Generated layered illustration; one headline and one form. */
 #keysGuestPrototype[data-auth-step="phone"] .kauth-main{padding-top:4px}
-#keysGuestPrototype .kauth-welcome-art{position:relative;isolation:isolate;margin:0;width:100%;height:250px;overflow:hidden}
-#keysGuestPrototype .kauth-art-hotels{position:absolute;top:0;right:-2%;width:94%;height:92%;object-fit:contain;animation:keys-hotels-float 7s ease-in-out infinite}
-#keysGuestPrototype .kauth-art-key{position:absolute;left:1%;bottom:0;width:46%;height:68%;object-fit:contain;transform-origin:50% 50%;animation:keys-master-key 6s ease-in-out infinite}
+#keysGuestPrototype .kauth-welcome-art{position:relative;isolation:isolate;margin:0;width:100%;height:220px;overflow:hidden}
+#keysGuestPrototype .kauth-art-hotels{position:absolute;top:0;right:0;width:92%;height:92%;object-fit:contain;animation:keys-hotels-float 7s ease-in-out infinite}
+#keysGuestPrototype .kauth-art-key{position:absolute;left:2%;bottom:0;width:44%;height:68%;object-fit:contain;transform-origin:50% 50%;animation:keys-master-key 6s ease-in-out infinite}
 #keysGuestPrototype .kauth-motion-toggle{position:absolute;right:0;bottom:0;width:44px;height:44px;display:grid;place-items:center;padding:0;border:0;background:transparent;color:var(--color-muted)}
-#keysGuestPrototype .kauth-motion-toggle svg{width:16px;height:16px;color:inherit}
+#keysGuestPrototype .kauth-motion-toggle svg{width:var(--ui-icon-control);height:var(--ui-icon-control);color:inherit}
 #keysGuestPrototype :is(.kauth-welcome-art[data-paused="true"],.kauth-main:has(input:focus) .kauth-welcome-art)>img{animation-play-state:paused}
 @keyframes keys-master-key{0%,100%{transform:translate(0,0) rotate(-5deg)}50%{transform:translate(8px,-12px) rotate(6deg)}}
 @keyframes keys-hotels-float{0%,100%{transform:translateY(2px)}50%{transform:translateY(-3px)}}
@@ -64,3 +65,9 @@ body[data-keys-new-guest="true"] #keysUnifiedPrototype [data-avatar-initials]{di
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input{border-color:var(--color-line)!important;background:var(--color-card)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input:focus-visible{border-color:var(--color-brand)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input[aria-invalid="true"]{border-color:var(--color-danger)!important}
+
+/* Contact details belong together; changing the number remains a text action. */
+#keysGuestPrototype .kauth-code-contact{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:4px}
+#keysGuestPrototype .kauth-code-contact strong{font:var(--ui-font-label)}
+#keysGuestPrototype .kauth-code-contact .kauth-link{flex:none}
+#keysGuestPrototype [data-auth-code-status]:empty{display:none}

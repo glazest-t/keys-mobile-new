@@ -19,3 +19,17 @@ test('resend is throttled, expired codes rejected, changing phone invalidates ve
  f.verify('123456');f.back();f.back();assert.equal(f.state.verified,false);
  f.send('9997654321');assert.ok(f.complete('Анна'));assert.equal(f.state.phone,'+79997654321');
 });
+test('registered guest enters directly after valid SMS code and keeps the existing name',()=>{
+ const f=createAuthFlow(undefined,{registeredName:'Татьяна'});
+ assert.ok(f.verify('123456'));assert.equal(f.state.step,'phone');
+ f.send('9001234567');assert.ok(f.verify('000000'));assert.equal(f.state.step,'code');
+ assert.equal(f.verify('123456'),null);assert.equal(f.state.step,'done');
+ assert.equal(f.state.name,'Татьяна');assert.equal(f.state.verified,true);
+});
+test('registered account does not bypass SMS expiry or change the new guest flow',()=>{
+ let clock=0;const f=createAuthFlow(()=>clock,{registeredName:'Татьяна'});
+ f.send('9001234567');clock=300001;assert.ok(f.verify('123456'));assert.equal(f.state.step,'code');
+ assert.equal(f.resend(),true);assert.equal(f.verify('123456'),null);assert.equal(f.state.step,'done');
+ const fresh=createAuthFlow();fresh.send('9001234567');fresh.verify('123456');
+ assert.equal(fresh.state.step,'name');assert.equal(fresh.state.name,'');
+});

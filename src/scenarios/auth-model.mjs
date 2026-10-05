@@ -10,8 +10,8 @@ export function formatPhone(value){
  const d=value.replace(/\D/g,'');
  return `+7 (${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7,9)}-${d.slice(9,11)}`;
 }
-export function createAuthFlow(now=()=>Date.now()){
- const state={step:'phone',phone:'',name:'',resendAt:0,expiresAt:0,verified:false};
+export function createAuthFlow(now=()=>Date.now(),{registeredName=''}={}){
+ const state={step:'phone',phone:'',name:registeredName,registered:Boolean(registeredName),resendAt:0,expiresAt:0,verified:false};
  return {
   state,
   send(value){
@@ -28,7 +28,7 @@ export function createAuthFlow(now=()=>Date.now()){
    if(!state.phone||state.step!=='code')return 'Сначала укажите номер телефона.';
    if(now()>=state.expiresAt)return 'Срок действия кода истёк. Запросите новый.';
    if(code!==PROTOTYPE_CODE)return 'Код не подошёл. Проверьте цифры и попробуйте ещё раз.';
-   state.verified=true;state.step='name';return null;
+   state.verified=true;state.step=state.registered?'done':'name';return null;
   },
   complete(value){
    if(!state.verified||state.step!=='name')return 'Сначала подтвердите номер телефона.';

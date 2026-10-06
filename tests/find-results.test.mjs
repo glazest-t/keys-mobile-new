@@ -25,3 +25,25 @@ test('map collapses on a deliberate upward swipe, not a tap or horizontal/downwa
  for(const end of [{x:100,y:195},{x:160,y:190},{x:100,y:260},{x:180,y:145}])assert.equal(swipe(start,end),false);
  assert.equal(swipe(null,{x:100,y:100}),false);
 });
+test('search sorting uses displayed total, supports both price directions and keeps unknown prices last',()=>{
+ context.tx=(hotel,search,tick)=>({total:hotel.total+tick});
+ const hotels=[{id:'a',total:300,stars:3},{id:'b',total:100,stars:5},{id:'c',total:200,stars:4},{id:'d',total:NaN}];
+ const ids=sort=>Array.from(context.keysSortHotels(hotels,{sort},20),hotel=>hotel.id);
+ assert.deepEqual(ids('price'),['b','c','a','d']);
+ assert.deepEqual(ids('price-desc'),['a','c','b','d']);
+ assert.deepEqual(ids('stars-desc'),['b','c','a','d']);
+ assert.deepEqual(ids('recommended'),['a','b','c','d']);
+ assert.deepEqual(hotels.map(hotel=>hotel.id),['a','b','c','d']);
+});
+test('district filter derives districts from the selected city, combines with filters and can be cleared',()=>{
+ const hotels=[{city:'Сочи',area:'Центр',id:1},{city:'Сочи',district:'Бытха',area:'other',id:2},{city:'Сочи',area:'Центр',id:3},{city:'Москва',area:'Арбат',id:4}];
+ assert.deepEqual(Array.from(context.keysDistrictOptions(hotels,'Сочи')),['Бытха','Центр']);
+ assert.deepEqual(Array.from(context.keysDistrictOptions(hotels,'')),[]);
+ const search={city:'Сочи',filters:['Со спа']};
+ search.filters=context.keysSetDistrict(search,'Центр');
+ assert.deepEqual(Array.from(search.filters),['Со спа','Район: Сочи · Центр']);
+ assert.deepEqual(Array.from(context.keysFilterDistrict(hotels,search),hotel=>hotel.id),[1,3]);
+ assert.equal(context.keysDistrictValue({...search,city:'Москва'}),'');
+ assert.deepEqual(Array.from(context.keysSetDistrict(search,'')),['Со спа']);
+ assert.deepEqual(Array.from(context.keysSetDistrict(search,'Бытха')),['Со спа','Район: Сочи · Бытха']);
+});

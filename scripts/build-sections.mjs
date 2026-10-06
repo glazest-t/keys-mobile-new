@@ -65,7 +65,7 @@ export async function buildSections(){
  js=adaptFind(adaptTripShare(styleCheckin(adaptCheckin(js))), await readFile(path.join(root,'src/sections/find-recents.js'),'utf8'), await readFile(path.join(root,'src/sections/find-results.js'),'utf8'));
  js=adaptFindCollections(js);
  js=adaptFindSearch(js,await readFile(path.join(root,'src/sections/find-search.js'),'utf8'));
- js=adaptSelectionStyle(js,await readFile(path.join(root,'src/sections/selection-welcome.js'),'utf8'));
+ js=adaptSelectionStyle(js,await readFile(path.join(root,'src/sections/selection-welcome.js'),'utf8'), (await readFile(path.join(root,'src/sections/ideas-engine.js'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/ideas.js'),'utf8')));
  js=adaptHotelDetails(js,await readFile(path.join(root,'src/sections/hotel-details.js'),'utf8'));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
@@ -91,8 +91,9 @@ export async function buildSections(){
  html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");
  html=html.replace('</head>','<link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"></head>');
  await writeFile(path.join(dist,'index.html'),html);
+ await cp(path.join(root,'src/sections/ideas-art'),path.join(dist,'ideas-art'),{recursive:true});
  await cp(path.join(root,'src/sections/collections'),path.join(dist,'collections'),{recursive:true});
- await cp(path.join(root,'src/sections/frame.css'),path.join(dist,'frame.css'));
+ await writeFile(path.join(dist,'frame.css'),(await readFile(path.join(root,'src/sections/frame.css'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/ideas.css'),'utf8')));
  await cp(path.join(root,'src/sections/desktop-find.css'),path.join(dist,'desktop-find.css'));
  await cp(path.join(root,'src/sections/host.js'),path.join(dist,'host.js'));
  await cp(path.join(root,'src/sections/host.css'),path.join(dist,'host.css'));
@@ -100,7 +101,7 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

@@ -2,6 +2,23 @@ export function adaptHotelDetails(source,components){
  const start=source.indexOf('function TY('),end=source.indexOf('function kY(',start);
  if(start<0||end<0)throw Error('Hotel overview components missing');
  let js=source.slice(0,start)+components+'\n'+source.slice(end);
+ // Reviews keep their rating, sorting and list; the summary is shared with the hotel card.
+ const reviewsStart=js.indexOf('function lk('),reviewsEnd=js.indexOf('function gY(',reviewsStart);
+ if(reviewsStart<0||reviewsEnd<0)throw Error('Hotel reviews page missing');
+ let reviews=js.slice(reviewsStart,reviewsEnd);
+ const replaceReview=(from,to)=>{if(!reviews.includes(from))throw Error('Hotel reviews pattern missing: '+from.slice(0,80));reviews=reviews.replace(from,to);};
+ replaceReview('n.jsx(sO, { hotelId: e.id }), ','');
+ const summaryStart=reviews.indexOf('n.jsxs("section", { className: "grid gap-4 rounded-card bg-surface p-4", "aria-label": "Оценка гостей"');
+ const summaryEnd=reviews.indexOf('n.jsxs("div", { className: "mt-[18px] mb-3',summaryStart);
+ if(summaryStart<0||summaryEnd<0)throw Error('Hotel reviews summary missing');
+ reviews=reviews.slice(0,summaryStart)+'n.jsx(TY, {hotel:e,showAll:false}), '+reviews.slice(summaryEnd);
+ replaceReview('n.jsxs("p", { className: "mb-5 text-13 text-muted", children: [r.name, " · ", r.city] }), ','');
+ replaceReview('n.jsxs("p", { className: "mb-5 text-13 text-muted", children: [r?.name ?? be, " · ", r?.city ?? be] }), ','');
+ const friendsStart=reviews.indexOf('n.jsxs("section", { "aria-label": "Отзывы друзей"');
+ const friendsEnd=reviews.indexOf('n.jsxs("section", { className: "grid gap-4',friendsStart);
+ if(friendsStart<0||friendsEnd<0)throw Error('Reviews friends block missing');
+ reviews=reviews.slice(0,friendsStart)+reviews.slice(friendsEnd);
+ js=js.slice(0,reviewsStart)+reviews+js.slice(reviewsEnd);
  // Keep the original viewer's swipe, keyboard, close and active-photo behavior.
  const viewerStart=js.indexOf('function Si('),viewerEnd=js.indexOf('function zx(',viewerStart);
  if(viewerStart<0||viewerEnd<0)throw Error('Hotel photo viewer missing');
@@ -15,6 +32,9 @@ export function adaptHotelDetails(source,components){
  replaceViewer('children: n.jsx(Gl, { src: A.src, alt: "", variant: "thumbnail", sizes: "64px", loading: "lazy", className: "h-full w-full object-cover" })', 'children: n.jsxs(n.Fragment, {children:[n.jsx(Gl, { src: A.src, alt: "", variant: "thumbnail", sizes: keysHotelLayout ? "180px" : "64px", loading: "lazy", className: "h-full w-full object-cover" }),keysHotelLayout&&n.jsx("span",{className:"keys-photo-thumb-caption",children:A.alt})]})');
  js=js.slice(0,viewerStart)+viewer+js.slice(viewerEnd);
 
+ const mapRoute='return n.jsx(JV, { hotelId: e.hotelId, booked: e.booked }, e.hotelId ?? "all");';
+ if(!js.includes(mapRoute))throw Error('Hotel map route missing');
+ js=js.replace(mapRoute,'return e.selectedOnly ? n.jsx(KeysHotelLocationMap, {hotelId:e.hotelId}, e.hotelId) : '+mapRoute.slice(7));
  const hotel=js.indexOf('function mV() {'),next=js.indexOf('const Nk =',hotel);
  if(hotel<0||next<0)throw Error('Hotel page component missing');
  return js.slice(0,hotel)+'function mV() { return n.jsx(KeysHotelPage, {}); }\n'+js.slice(next);

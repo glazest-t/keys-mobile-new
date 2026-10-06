@@ -151,10 +151,6 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
  html[data-desktop-account="true"] #root .keys-hotel-content:has(.keys-hotel-recommendations)>.keys-hotel-features{display:none}
  html[data-desktop-account="true"] #root .keys-hotel-recommendation-tags{display:block;margin-top:12px}
  html[data-desktop-account="true"] #root .keys-hotel-recommendation-tags .keys-hotel-features{margin:0}
- html[data-desktop-account="true"] #root .keys-hotel-amenities{order:2;display:grid;grid-template-columns:1fr auto;gap:12px 16px;padding:24px 0;border:0;border-block:1px solid var(--color-line);border-radius:0}
- html[data-desktop-account="true"] #root .keys-hotel-amenities>h2{align-self:center}
- html[data-desktop-account="true"] #root .keys-hotel-amenity-preview{grid-column:1/-1;grid-row:2;margin:0}
- html[data-desktop-account="true"] #root .keys-hotel-amenities>.keys-hotel-text-action{grid-column:2;grid-row:1;width:auto;margin:-8px 0;padding:8px 0;border:0;gap:8px}
  html[data-desktop-account="true"] #root .keys-hotel-reviews-section{order:1}
  html[data-desktop-account="true"] #root .keys-hotel-review-summary{padding:24px 24px 16px}
  html[data-desktop-account="true"] #root .keys-hotel-review-periods{margin-inline:24px;padding:16px 0 24px}
@@ -182,3 +178,5 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
  html[data-desktop-account="true"] .keys-hotel-photo-expanded .keys-photo-featured{height:100%;max-height:none;aspect-ratio:auto;align-self:center}
  html[data-desktop-account="true"] .keys-hotel-photo-expanded .keys-photo-details{border-left:1px solid rgb(255 255 255 / .12);padding:0 16px 16px}
 }
+
+@media(min-width:900px){html[data-desktop-account="true"] #root .keys-hotel-amenities{order:2}}

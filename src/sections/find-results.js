@@ -7,12 +7,55 @@ function keysQuickFilters(current, value) {
 function keysIsMapCollapseSwipe(start, end) {
  return !!start && start.y-end.y>40 && start.y-end.y>Math.abs(start.x-end.x)*1.2;
 }
+function keysDistrictOptions(hotels,city){
+ const normalized=(city||'').trim().toLocaleLowerCase('ru-RU');
+ if(!normalized)return [];
+ return [...new Set(hotels.filter(hotel=>(hotel.city||'').trim().toLocaleLowerCase('ru-RU')===normalized).map(hotel=>hotel.district||hotel.area).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru-RU'));
+}
+function keysDistrictValue(search){
+ const prefix='Район: '+(search.city||'').trim()+' · ';
+ return (search.filters||[]).find(value=>value.startsWith(prefix))?.slice(prefix.length)||'';
+}
+function keysSetDistrict(search,district){
+ const filters=(search.filters||[]).filter(value=>!value.startsWith('Район: '));
+ return district?[...filters,'Район: '+search.city.trim()+' · '+district]:filters;
+}
+function keysFilterDistrict(hotels,search){
+ const district=keysDistrictValue(search);
+ return district?hotels.filter(hotel=>(hotel.district||hotel.area)===district):hotels;
+}
+function KeysDistrictFilter({search,filters,onChange}){
+ const options=keysDistrictOptions(_n,search.city);
+ if(!options.length)return null;
+ return n.jsxs('label',{className:'keys-district-field',children:['Район города',n.jsx(St,{'aria-label':'Район города',value:keysDistrictValue({...search,filters}),options:[{value:'',label:'Все районы'},...options.map(value=>({value,label:value}))],onChange:value=>onChange(keysSetDistrict({...search,filters},value))})]});
+}
+function keysSortHotels(hotels,search,priceTick=0){
+ const result=[...hotels];
+ if(search.sort==='stars-desc')return result.sort((a,b)=>(Number(b.stars)||0)-(Number(a.stars)||0));
+ if(search.sort==='price'||search.sort==='price-desc'){
+  const prices=new Map(result.map(hotel=>[hotel.id,tx(hotel,search,priceTick).total]));
+  return result.sort((a,b)=>{
+   const first=prices.get(a.id),second=prices.get(b.id);
+   if(!Number.isFinite(first))return Number.isFinite(second)?1:0;
+   if(!Number.isFinite(second))return -1;
+   return search.sort==='price-desc'?second-first:first-second;
+  });
+ }
+ return result;
+}
+const keysSearchSortOptions=[
+ {value:'recommended',label:'По умолчанию'},
+ {value:'price',label:'Сначала дешевле'},
+ {value:'price-desc',label:'Сначала дороже'},
+ {value:'stars-desc',label:'Сначала больше звёзд'}
+];
 function FU() {
- const {state,dispatch,open}=J(), search=state.search, [editing,setEditing]=E.useState(false);
+ const {state,dispatch,open}=J(), search=state.search, [editing,setEditing]=E.useState(false),[sorting,setSorting]=E.useState(false),[districtOpen,setDistrictOpen]=E.useState(false);
+ const districts=keysDistrictOptions(_n,search.city),district=keysDistrictValue(search);
  const remote=tt().source==='travelline', filters=remote?Sw(search.filters):search.filters;
  const collection=keysFindCollections.find(item=>item.id===search.keysCollection);
  const popular=[{value:'С завтраком',label:'Завтрак'},{value:'С бассейном',label:'Бассейн'},{value:'Со спа',label:'Спа'},{value:'От 4 звёзд',label:'4–5 звёзд'},{value:'Бесплатная отмена',label:'Бесплатная отмена'}];
- const options=[...popular,...filters.filter(value=>!popular.some(item=>item.value===value)).map(value=>({value,label:value}))];
+ const options=[...popular,...filters.filter(value=>!value.startsWith('Район: ')&&!popular.some(item=>item.value===value)).map(value=>({value,label:value}))];
  return n.jsxs(n.Fragment,{children:[
   n.jsxs('div',{className:'keys-results-sticky',children:[
   n.jsxs('div',{className:'keys-results-header',children:[
@@ -24,12 +67,16 @@ function FU() {
   ]}),
   n.jsxs('div',{className:'keys-results-filters','aria-label':'Быстрые фильтры',role:'group',children:[
    n.jsxs('button',{type:'button',className:'keys-results-all-filters','aria-label':'Все фильтры','aria-haspopup':'dialog',onClick:()=>open({type:'filters'}),children:[n.jsx(D,{name:'sliders',className:'size-4'}),filters.length>0&&n.jsx('span',{className:'keys-results-filter-count',children:filters.length})]}),
+   n.jsxs('button',{type:'button','aria-label':'Сортировка: '+(keysSearchSortOptions.find(option=>option.value===search.sort)?.label||'По умолчанию'),'aria-haspopup':'dialog','aria-pressed':!!search.sort&&search.sort!=='recommended',onClick:()=>setSorting(true),children:[search.sort&&search.sort!=='recommended'?keysSearchSortOptions.find(option=>option.value===search.sort)?.label||'Сортировка':'Сортировка',n.jsx(D,{name:'down',className:'size-4'})]}),
+   districts.length>0&&n.jsxs('button',{type:'button','aria-label':'Район города: '+(district||'Все районы'),'aria-haspopup':'dialog','aria-pressed':!!district,onClick:()=>setDistrictOpen(true),children:[district||'Район',n.jsx(D,{name:'down',className:'size-4'})]}),
    options.map(option=>n.jsx('button',{type:'button','aria-pressed':filters.includes(option.value),onClick:()=>dispatch({type:'SEARCH_PATCH',patch:{filters:keysQuickFilters(search.filters,option.value)}}),children:option.label},option.value))
   ]}),
   ]}),
   collection&&n.jsx('p',{className:'keys-collection-description',children:collection.description}),
   n.jsx(KeysResultsMap,{}),
-  editing&&n.jsx(xh,{onClose:()=>setEditing(false)})
+  districtOpen&&n.jsx(ct,{title:'Район города',onClose:()=>setDistrictOpen(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Районы города '+search.city,children:['',...districts].map(value=>n.jsxs('button',{type:'button','aria-pressed':district===value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{filters:keysSetDistrict(search,value)}});setDistrictOpen(false);},children:[n.jsx('span',{children:value||'Все районы'}),district===value&&n.jsx(D,{name:'check',className:'size-5'})]},value))})}),
+  editing&&n.jsx(xh,{onClose:()=>setEditing(false)}),
+  sorting&&n.jsx(ct,{title:'Сортировка',onClose:()=>setSorting(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Порядок отелей',children:keysSearchSortOptions.map(option=>n.jsxs('button',{type:'button','aria-pressed':(search.sort||'recommended')===option.value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{sort:option.value}});setSorting(false);},children:[n.jsx('span',{children:option.label}),(search.sort||'recommended')===option.value&&n.jsx(D,{name:'check',className:'size-5'})]},option.value))})})
  ]});
 }
 

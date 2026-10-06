@@ -570,10 +570,11 @@ html[data-desktop-account="true"] #root [data-screen-type="notification-settings
 .keys-hotel-amenity-list{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .keys-hotel-amenity-list li{display:flex;align-items:flex-start;gap:8px;font:var(--ui-font-body)}
 .keys-hotel-amenity-list svg{flex:none;color:var(--color-brand);margin-top:2px}
-#root .keys-hotel-amenities{padding:16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius)}
-#root .keys-hotel-amenity-preview{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:0}
-#root .keys-hotel-amenity-preview li{padding:6px 10px;border-radius:8px;background:var(--color-surface);font:var(--ui-font-body)}
-#root .keys-hotel-amenities>.keys-hotel-text-action{display:flex;width:100%;justify-content:space-between;margin:12px 0 -4px;border-top:1px solid var(--color-line);padding-top:12px}
+#root .keys-hotel-amenities{padding:0;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);overflow:hidden}
+#root .keys-hotel-amenity-preview{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;margin:0;padding:0 16px 12px}
+#root .keys-hotel-amenity-preview li{display:flex;align-items:flex-start;gap:8px;min-width:0;padding:0;background:transparent;font:var(--ui-font-body);color:var(--color-ink)}
+#root .keys-hotel-amenity-preview svg{flex:none;margin-top:2px;color:var(--color-brand);width:16px;height:16px}
+
 #root .keys-hotel-room-note{font:var(--ui-font-caption);color:var(--color-muted);margin:12px 0 0}
 .keys-hotel-amenities-sheet{display:grid;gap:24px}
 .keys-hotel-amenities-sheet h3{font:var(--ui-font-section);margin:0}
@@ -602,4 +603,53 @@ html[data-desktop-account="true"] #root [data-screen-type="notification-settings
 .keys-hotel-booking-panel,.keys-hotel-content{display:contents}
 .keys-hotel-desktop-booking-action,.keys-hotel-gallery-peeks{display:none}
 
-.keys-hotel-recommendation-tags{display:none}
+.keys-hotel-recommendation-tags{display:block;margin-top:12px}
+.keys-hotel-recommendation-tags .keys-hotel-features{margin:0}
+
+/* Location title and address form one text group; the link keeps a 44px target. */
+#root .keys-hotel-location-section>.keys-hotel-section-heading{min-height:24px;align-items:flex-start}
+#root .keys-hotel-location-section>.keys-hotel-section-heading>.keys-hotel-text-action{margin-block:-10px}
+#root .keys-hotel-location-section>p{margin:4px 0 16px}
+.keys-hotel-map-preview{height:100%;pointer-events:none}
+.keys-hotel-map-preview .map-controls{display:none}
+.keys-hotel-map-open{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:var(--ui-card-radius);background:transparent;cursor:pointer;z-index:600}
+#root .keys-hotel-map-open:focus-visible{outline-offset:-3px}
+.keys-single-hotel-map{height:100%;min-height:400px;position:relative;isolation:isolate;background:var(--color-soft)}
+.keys-single-hotel-map-header{position:absolute;inset:16px 16px auto;z-index:600;display:flex;align-items:flex-start;gap:12px;pointer-events:none}
+.keys-single-hotel-map-header>button{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:1px solid var(--color-line);border-radius:var(--ui-control-radius);background:var(--color-card);color:var(--color-ink);pointer-events:auto}
+.keys-single-hotel-map-header>div{min-width:0;padding:12px 16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card)}
+#root .keys-single-hotel-map-header h1{margin:0;font:var(--ui-font-section)!important}
+.keys-single-hotel-map-header p{margin:4px 0 0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-single-hotel-map .hotel-map-pin.is-selected{background:var(--color-brand);color:var(--color-on-brand,#fff);border-color:var(--color-card)}
+.keys-single-hotel-map .hotel-map-pin strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:var(--ui-font-label)}
+.keys-single-hotel-map .map-controls{top:144px}
+.keys-single-hotel-map-canvas{position:absolute;inset:0}
+/* Hotel review preview: a clear score, then two readable time periods. */
+#root .keys-hotel-card-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 16px 12px}
+#root .keys-hotel-card-heading h2{margin:0;font:var(--ui-font-section);color:var(--color-ink)}
+#root .keys-hotel-card-heading>div{display:grid;gap:4px}
+#root .keys-hotel-card-heading span{font:var(--ui-font-caption);color:var(--color-muted)}
+#root .keys-hotel-reviews-rating{font:var(--ui-font-display);color:var(--color-success);letter-spacing:0}
+html #root .keys-hotel-reviews-card .keys-hotel-review-periods{display:grid;grid-template-columns:1fr;gap:12px;margin:0;padding:0 16px;border:0}
+html #root .keys-hotel-reviews-card .keys-hotel-review-period{display:block;padding:0;border:0;background:transparent}
+html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent{padding:12px;border-radius:12px;background:var(--color-success-bg)}
+html #root .keys-hotel-reviews-card .keys-hotel-review-period h3{min-height:0;font:var(--ui-font-caption-medium);color:var(--color-muted)}
+html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color:var(--color-success)}
+#root .keys-hotel-reviews-card .keys-hotel-review-count{display:none}
+#root .keys-hotel-reviews-card .keys-hotel-review-topics{display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;font:var(--ui-font-body)}
+#root .keys-hotel-reviews-card .keys-hotel-review-topics li:not(:last-child)::after{content:'·';margin:0 8px;color:var(--color-muted)}
+#root .keys-hotel-reviews-card .keys-hotel-review-empty{margin-top:6px}
+#root .keys-hotel-card-action{display:flex;align-items:center;justify-content:space-between;gap:8px;width:calc(100% - 32px);min-height:44px;margin:8px 16px 4px;padding:0;background:transparent;color:var(--color-brand);font:var(--ui-font-label);text-align:left}
+#root .keys-hotel-card-action:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:8px}
+
+#root .keys-hotel-reviews-card-full{padding-bottom:16px}
+
+#root .keys-hotel-recommendations .keys-hotel-recommendation-source{margin:4px 0 0;font:var(--ui-font-caption);color:var(--color-muted)}
+
+.keys-sort-options{display:grid;gap:4px}
+.keys-sort-options button{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;width:100%;padding:12px;border-radius:var(--ui-control-radius);background:transparent;text-align:left;font:var(--ui-font-body);color:var(--color-ink)}
+.keys-sort-options button[aria-pressed=true]{background:var(--color-soft);color:var(--color-brand);font:var(--ui-font-label)}
+.keys-sort-options button svg{flex:none;background:transparent}
+.keys-sort-options button:focus-visible{outline:2px solid var(--color-brand);outline-offset:1px}
+
+.keys-district-field{display:grid;gap:8px;margin:20px 0;font:var(--ui-font-label);color:var(--color-ink)}

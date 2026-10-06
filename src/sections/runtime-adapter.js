@@ -73,19 +73,18 @@ function PH({children}) {
   const scrollRef=E.useRef(null);
   const {state,dispatch} = J(), screen=state.navigation.screen;
   const favorites=screen?.type==='saved'||(!screen&&state.navigation.tab==='favorites');
-  const discovery=!screen && state.navigation.tab==='find' && state.search.intent==='discover';
-  const conversation=screen?.type==='chat'||screen?.type==='describe'||discovery;
+  const conversation=screen?.type==='chat'||screen?.type==='describe';
   const full=['hotel-map','story','stories','friend-stories','swipe','shared-swipe'].includes(screen?.type);
   E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,state.search.results]);
   E.useLayoutEffect(()=>{document.documentElement.classList.toggle('keys-share-sheet',!!state.keysShareSession&&screen?.type==='keys-trip-share');},[state.keysShareSession,screen?.type]);
   const results=!screen && state.navigation.tab==='find' && state.search.results && state.search.intent==='known';
-  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(results?'results':discovery?'advice':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??(discovery?'discovery':'root'),className:'keys-module-screen bg-card',children:[
+  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(results?'results':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??'root',className:'keys-module-screen bg-card',children:[
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
-      !screen&&!results&&!discovery&&n.jsx(CH,{}),
+      !screen&&!results&&n.jsx(CH,{}),
       n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
-    !screen&&!discovery&&n.jsx(AH,{}),n.jsx(OH,{})
+    !screen&&n.jsx(AH,{}),n.jsx(OH,{})
   ]});
 }
 function keysInitialState() {

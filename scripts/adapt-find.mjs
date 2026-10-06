@@ -21,7 +21,11 @@ export function adaptFind(source, recentComponent, resultsComponent) {
  replace(', n.jsx(Ue, { icon: "users", title: "Друзья советуют", description: l ? be : "Отзывы своих и общие подборки", onClick: l ? void 0 : () => a({ type: "friends" }) })', '');
  replace(', n.jsx(Ue, { icon: "heart", title: "Сохранённые", description: h ? "В коллекции: " + h : "Отели, к которым хочется вернуться", onClick: () => a({ type: "saved" }) })', '');
  if(resultsComponent){
+  replace('return e.sort === "price" ? c.sort((u, m) => Yn(u, e, t) - Yn(m, e, t)) : c;', 'return keysSortHotels(keysFilterDistrict(c, e), e, t);');
   replace('}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);', '}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);\n  if (r.navigation.screen?.type === "saved" || !r.navigation.screen && (r.navigation.tab === "favorites" || r.navigation.tab === "find" && r.search.results)) return n.jsx(KeysResultsHotelCard, {hotel:x, local:f, summary:g, price:y, offer:v, onOpen:S, impressionRef:h?m.ref:void 0});');
+  // District is part of the same filter draft and reset/apply flow.
+  replace('n.jsx(ru, { variant: "pill", label: "Сортировка", value: c, options: pV, onChange: u })', 'n.jsxs("label", {className:"keys-district-field",children:["Сортировка",n.jsx(St, {"aria-label":"Сортировка",value:c,options:keysSearchSortOptions,onChange:u})]}), n.jsx(KeysDistrictFilter, {search:e.search,filters:r,onChange:l})');
+  replace('sort: c === "price" ? "price" : void 0', 'sort: c');
   const start=js.indexOf('function FU() {'),end=js.indexOf('\nfunction ',start+1);
   if(start<0||end<0)throw Error('Find result header missing');
   js=js.slice(0,start)+resultsComponent+'\n'+js.slice(end);

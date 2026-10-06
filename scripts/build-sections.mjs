@@ -1,3 +1,4 @@
+import {adaptPhotoDiscovery} from './adapt-photo-discovery.mjs';
 import {adapt2gis,adapt2gisRuntime} from './adapt-2gis.mjs';
 import {adaptLightTheme} from './adapt-light-theme.mjs';
 import {adaptFindCollections} from './adapt-find-collections.mjs';
@@ -67,6 +68,7 @@ export async function buildSections(){
  js=adaptFindSearch(js,await readFile(path.join(root,'src/sections/find-search.js'),'utf8'));
  js=adaptSelectionStyle(js,await readFile(path.join(root,'src/sections/selection-welcome.js'),'utf8'), (await readFile(path.join(root,'src/sections/ideas-engine.js'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/ideas.js'),'utf8')));
  js=adaptHotelDetails(js,await readFile(path.join(root,'src/sections/hotel-details.js'),'utf8'));
+ js=adaptPhotoDiscovery(js,await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8'));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
@@ -83,6 +85,13 @@ export async function buildSections(){
  const dist=path.join(root,'dist/sections');await mkdir(dist,{recursive:true});
  await cp(path.join(vendor,'dist'),dist,{recursive:true});
  await build({entryPoints:[path.join(stage,'keys-entry.js')],outfile:path.join(dist,'assets/app.js'),bundle:true,format:'iife',target:'es2022',minify:true,legalComments:'eof'});
+ // Lazy desktop modules retain their own copies of the discovery title.
+ const bundlePath=path.join(dist,'assets/app.js');
+ let bundle=await readFile(bundlePath,'utf8');
+ const oldDiscoveryTitle='Подбор по фото';
+ const escapedDiscoveryTitle=[...oldDiscoveryTitle].map(c=>c.charCodeAt(0)>127?'\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0'):c).join('');
+ bundle=bundle.replaceAll(oldDiscoveryTitle,'Отели свайпом').replaceAll(escapedDiscoveryTitle,'Отели свайпом');
+ await writeFile(bundlePath,bundle);
  let html=await readFile(path.join(dist,'index.html'),'utf8');
  html=html.replace('<html lang="ru">','<html lang="ru" data-theme="light">');
  html=html.replace('<head>','<head><meta name="color-scheme" content="light only">');

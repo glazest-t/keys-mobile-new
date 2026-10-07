@@ -2,23 +2,47 @@ export function adaptHotelDetails(source,components){
  const start=source.indexOf('function TY('),end=source.indexOf('function kY(',start);
  if(start<0||end<0)throw Error('Hotel overview components missing');
  let js=source.slice(0,start)+components+'\n'+source.slice(end);
- // Reviews keep their rating, sorting and list; the summary is shared with the hotel card.
- const reviewsStart=js.indexOf('function lk('),reviewsEnd=js.indexOf('function gY(',reviewsStart);
+ // Keep the selected room, tariff and contact when editing a stay at payment.
+ const syncGuard='if (!t || a?.type !== "hotel" || (a.hotelId ?? e.search.hotelId) !== t.hotelId || t.status === "processing" || t.status === "confirmed") return e;';
+ if(!js.includes(syncGuard))throw Error('Reservation stay synchronization missing');
+ js=js.replace(syncGuard,'if (!t || !["hotel","reservation-payment"].includes(a?.type) || a.type === "hotel" && (a.hotelId ?? e.search.hotelId) !== t.hotelId || t.status === "processing" || t.status === "confirmed" || !ca(e.search.arrival,e.search.departure) || e.search.arrival < e.tripContext.today) return e;');
+ const syncPrice='party: c, baseTotal: JE(e, t.hotelId, { arrival: r, departure: l, party: c })';
+ if(!js.includes(syncPrice))throw Error('Reservation price synchronization missing');
+ js=js.replace(syncPrice,'party: c, extras: t.extras.map(extra => ({...extra,date: extra.date < r || extra.date >= l ? r : extra.date})), baseTotal: JE(e, t.hotelId, { arrival: r, departure: l, party: c })');
+ // Reuse the date/guest editor without destination search on the room page.
+ const stayStart=js.indexOf('function xh('),stayEnd=js.indexOf('\nfunction ',stayStart+15);
+ if(stayStart<0||stayEnd<0)throw Error('Stay editor missing');
+ let stayEditor=js.slice(stayStart,stayEnd);
+ const changeStay=(from,to)=>{if(!stayEditor.includes(from))throw Error('Stay editor anchor missing: '+from);stayEditor=stayEditor.replace(from,to);};
+ changeStay('section: t = "dates" })','section: t = "dates", roomStay = false })');
+ changeStay('n.jsx(ph, { today: c, arrival: w, departure: T, months: 6,', 'n.jsx(ph, { startAtArrival: true, today: c, arrival: w, departure: T, months: 6,');
+ changeStay('n.jsx(gh, { value: g, onChange: x })', 'n.jsx(gh, { value: g, onChange: x, showPreferences: !roomStay })');
+ changeStay('title: "Параметры поиска"','title: roomStay ? "Даты и гости" : "Параметры поиска"');
+ changeStay('party: g, results: true','party: g, ...(roomStay ? {} : {results: true})');
+ changeStay('n.jsx(f4, { variant: "filled", value: u, onChange: m })','!roomStay && n.jsx(f4, { variant: "filled", value: u, onChange: m })');
+ changeStay('disabled: !C || !l && A === 0, children: T ?', 'disabled: !C || !roomStay && !l && A === 0, children: roomStay ? "Применить" : T ?');
+ js=js.slice(0,stayStart)+stayEditor+js.slice(stayEnd);
+ // Open at the selected arrival month without scrolling the settings out of view.
+ const calendarStart=js.indexOf('function ph('),calendarEnd=js.indexOf('const UU =',calendarStart);
+ if(calendarStart<0||calendarEnd<0)throw Error('Date calendar missing');
+ let calendar=js.slice(calendarStart,calendarEnd);
+ const changeCalendar=(from,to)=>{if(!calendar.includes(from))throw Error('Calendar anchor missing: '+from);calendar=calendar.replace(from,to);};
+ changeCalendar('weekdaysClassName: c })', 'weekdaysClassName: c, startAtArrival = false })');
+ changeCalendar('const u = V6(e, l), m = E.useRef(null);', 'const [firstMonth] = E.useState(() => startAtArrival && t > e ? t : e), u = V6(firstMonth, l), m = E.useRef(null);');
+ changeCalendar('let h = true;', 'if(startAtArrival)return; let h = true;');
+ changeCalendar('n.jsxs("div", { children:', 'n.jsxs("div", { className: startAtArrival ? "keys-stay-calendar" : undefined, children:');
+ js=js.slice(0,calendarStart)+calendar+js.slice(calendarEnd);
+ // Both the dedicated page and swipe-card sheet use the shared reviews component.
+ const reviewsStart=js.indexOf('function lk('),reviewsEnd=js.indexOf('function mY(',reviewsStart);
  if(reviewsStart<0||reviewsEnd<0)throw Error('Hotel reviews page missing');
- let reviews=js.slice(reviewsStart,reviewsEnd);
- const replaceReview=(from,to)=>{if(!reviews.includes(from))throw Error('Hotel reviews pattern missing: '+from.slice(0,80));reviews=reviews.replace(from,to);};
- replaceReview('n.jsx(sO, { hotelId: e.id }), ','');
- const summaryStart=reviews.indexOf('n.jsxs("section", { className: "grid gap-4 rounded-card bg-surface p-4", "aria-label": "Оценка гостей"');
- const summaryEnd=reviews.indexOf('n.jsxs("div", { className: "mt-[18px] mb-3',summaryStart);
- if(summaryStart<0||summaryEnd<0)throw Error('Hotel reviews summary missing');
- reviews=reviews.slice(0,summaryStart)+'n.jsx(TY, {hotel:e,showAll:false}), '+reviews.slice(summaryEnd);
- replaceReview('n.jsxs("p", { className: "mb-5 text-13 text-muted", children: [r.name, " · ", r.city] }), ','');
- replaceReview('n.jsxs("p", { className: "mb-5 text-13 text-muted", children: [r?.name ?? be, " · ", r?.city ?? be] }), ','');
- const friendsStart=reviews.indexOf('n.jsxs("section", { "aria-label": "Отзывы друзей"');
- const friendsEnd=reviews.indexOf('n.jsxs("section", { className: "grid gap-4',friendsStart);
- if(friendsStart<0||friendsEnd<0)throw Error('Reviews friends block missing');
- reviews=reviews.slice(0,friendsStart)+reviews.slice(friendsEnd);
- js=js.slice(0,reviewsStart)+reviews+js.slice(reviewsEnd);
+ js=js.slice(0,reviewsStart)+'function lk({hotel}){return n.jsx(KeysHotelReviews,{hotel});}\n'+js.slice(reviewsEnd);
+ for(const caption of [
+  'n.jsxs("p", { className: "mb-5 text-13 text-muted", children: [r.name, " · ", r.city] }), ',
+  'n.jsxs("p", { className: "mb-5 text-13 text-muted", children: [r?.name ?? be, " · ", r?.city ?? be] }), '
+ ])js=js.replace(caption,'');
+ const emptyStart=js.indexOf('function fY('),emptyEnd=js.indexOf('function pY(',emptyStart);
+ if(emptyStart<0||emptyEnd<0)throw Error('Empty hotel reviews page missing');
+ js=js.slice(0,emptyStart)+'function fY(){return n.jsx("p",{className:"keys-reviews-empty",children:"Отзывов пока нет"});}\n'+js.slice(emptyEnd);
  // Keep the original viewer's swipe, keyboard, close and active-photo behavior.
  const viewerStart=js.indexOf('function Si('),viewerEnd=js.indexOf('function zx(',viewerStart);
  if(viewerStart<0||viewerEnd<0)throw Error('Hotel photo viewer missing');

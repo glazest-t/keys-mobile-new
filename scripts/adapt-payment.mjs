@@ -34,9 +34,9 @@ export function adaptPaymentContact(source){
  return js.slice(0,anchor)+branch+js.slice(anchor);
 }
 
-export async function adaptReservationSuccess(source){
+export async function adaptReservationSuccess(source,component){
  const js=(await transform(source,{charset:'utf8',minify:false})).code;
- const link=', e.jsx(n, { variant: "text", className: "mt-2", onClick: () => a({ type: "booking" }), children: "Открыть бронь" })';
- if(!js.includes(link))throw Error('Success booking link missing');
- return js.replace(link,'');
+ const start=js.indexOf('function S('),end=js.indexOf('export {',start);
+ if(start<0||end<0)throw Error('Success booking component missing');
+ return js.slice(0,start)+component+'\n'+js.slice(end);
 }

@@ -1,3 +1,4 @@
+import {adaptCheckoutEngine,adaptCheckoutPage,adaptCheckoutExtras,adaptDesktopCheckout} from './adapt-checkout-options.mjs';
 import {adaptPhotoDiscovery} from './adapt-photo-discovery.mjs';
 import {adapt2gis,adapt2gisRuntime} from './adapt-2gis.mjs';
 import {adaptLightTheme} from './adapt-light-theme.mjs';
@@ -24,12 +25,18 @@ export async function buildSections(){
  let js=(await transform(await readFile(path.join(stage,'assets/index-C4VobzN0.js'),'utf8'),{minify:false,charset:'utf8'})).code;
  const paymentPath=path.join(stage,'assets/ReservationProcessing-DLNoz2B4.js');
  await writeFile(paymentPath,adaptPaymentSummaries(await adaptPayment(await readFile(paymentPath,'utf8')),await readFile(path.join(root,'src/sections/payment-booking-summary.js'),'utf8')));
+ await writeFile(paymentPath,adaptCheckoutExtras(await readFile(paymentPath,'utf8')));
+ const checkoutPage=path.join(stage,'assets/ReservationPaymentPage-BjEg33Qq.js');
+ await writeFile(checkoutPage,await adaptCheckoutPage(await readFile(checkoutPage,'utf8')));
+ const desktopCheckout=path.join(stage,'assets/DesktopApp-DR7F9ePm.js');
+ await writeFile(desktopCheckout,adaptDesktopCheckout(await readFile(desktopCheckout,'utf8')));
+ js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);
  js=adaptPaymentContact(js);
  js=adaptAdditionalGuest(js,await readFile(path.join(root,'src/sections/additional-guest.js'),'utf8'));
  const successPath=path.join(stage,'assets/ReservationSuccessCard-uN5FuBj0.js');
- await writeFile(successPath,await adaptReservationSuccess(await readFile(successPath,'utf8')));
+ await writeFile(successPath,await adaptReservationSuccess(await readFile(successPath,'utf8'),await readFile(path.join(root,'src/sections/reservation-success.js'),'utf8')));
  const mapPath=path.join(stage,'assets/HotelMapCanvas-BsuxVUsR.js');
  await writeFile(mapPath,await adaptResultMap(await readFile(mapPath,'utf8')));
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Arbana integration anchor missing: '+a.slice(0,100));js=js.replace(a,b);};
@@ -110,7 +117,7 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysCardErrors,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

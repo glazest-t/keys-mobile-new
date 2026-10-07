@@ -35,7 +35,7 @@
   };
   const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day??'day-2'):'day-1';
   const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
-  const show=(tab,hotelId,screen,discovery)=>{
+  const show=(tab,hotelId,screen,discovery,bookingId)=>{
     cancelProfileMotion();
     runtimeReturn=null;
     if(tab==='chats'&&hotelId&&section.hidden){
@@ -43,8 +43,8 @@
     }else if(tab!=='chats'){chatOrigin=null;chatOpened=false;}
     section.dataset.runtimeScreen=screen??'';section.dataset.runtimeTab=tab;
     root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
-    pending={tab,hotelId,screen,discovery};
-    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=filter-icons-visible-1&stayDay='+encodeURIComponent(notificationDay());
+    pending={tab,hotelId,screen,discovery,bookingId};
+    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=new-booking-details-1&stayDay='+encodeURIComponent(notificationDay());
     send();
   };
   const captureProfileOrigin=()=>{
@@ -129,9 +129,15 @@
     if(event.data.type==='reservation'){
       const b=event.data.booking;if(!b||typeof b.hotel!=='string')return;
       let card=root.querySelector('#keysNewReservation');
-      if(!card){card=document.createElement('button');card.id='keysNewReservation';card.className='keys-new-reservation';root.querySelector('#keysHomeVariantThree main').append(card);card.addEventListener('click',()=>show('find',null,'booking'));}
-      card.replaceChildren();const title=document.createElement('strong'),detail=document.createElement('span');
-      title.textContent='Новая бронь · '+b.hotel;detail.textContent=b.arrival+' — '+b.departure+' · Посмотреть';card.append(title,detail);
+      if(!card){card=document.createElement('button');card.type='button';card.id='keysNewReservation';card.className='keys-new-reservation';root.querySelector('#keysHomeVariantThree main').append(card);card.addEventListener('click',()=>show('find',null,'created-booking',null,card.dataset.bookingId));}
+      card.dataset.bookingId=b.id;card.setAttribute('aria-label','Детали брони '+b.id+' · '+b.hotel);
+      card.innerHTML='<span class="keys-new-booking-heading"><strong>Новая бронь</strong><span class="keys-new-booking-status"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Подтверждена</span></span><span class="keys-new-booking-body"><img alt=""><span class="keys-new-booking-copy"><strong></strong><span class="keys-new-booking-dates"></span><span class="keys-new-booking-guests"></span></span></span><span class="keys-new-booking-action">Детали брони<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></span>';
+      const date=value=>new Date(value+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','');
+      card.querySelector('.keys-new-booking-copy strong').textContent=b.hotel;
+      card.querySelector('.keys-new-booking-dates').textContent=date(b.arrival)+' — '+date(b.departure);
+      card.querySelector('.keys-new-booking-guests').textContent=b.guests||'';
+      const photo=card.querySelector('img');if(b.photo){const url=new URL(b.photo,frame.src);if(['http:','https:'].includes(url.protocol))photo.src=url.href;else photo.hidden=true;}else photo.hidden=true;
+
     }
     if(event.data.type==='ready'){ready=true;send();frame.contentWindow.postMessage({source:'keys-host',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
     if(event.data.type==='navigate'&&['trips','benefits','profile','stay-details','problem','feedback'].includes(event.data.target)){
@@ -289,7 +295,7 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
-    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=filter-icons-visible-1&stayDay='+encodeURIComponent(day);
+    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=new-booking-details-1&stayDay='+encodeURIComponent(day);
     else if(ready)frame.contentWindow.postMessage({source:'keys-host',stayDay:day},location.protocol==='file:'?'*':location.origin);
   });
   root.addEventListener('keys-open-trip-review',event=>{

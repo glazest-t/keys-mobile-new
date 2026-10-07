@@ -268,7 +268,7 @@ button.keys-hotel-pricing-amount:focus-visible{outline:2px solid var(--color-bra
 .keys-room-stay>button{flex:none;min-height:44px;color:var(--color-brand);font:500 12px/18px var(--font-sans)}
 .keys-room-filters{margin-block:16px}
 .keys-room-list-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
-.keys-room-list-heading h2,.keys-room-selection h3{font:500 17px/24px var(--font-sans);letter-spacing:0}
+.keys-room-list-heading h2{font:500 17px/24px var(--font-sans);letter-spacing:0}
 .keys-room-list-heading>span{font:400 12px/18px var(--font-sans);color:var(--color-muted);white-space:nowrap}
 .keys-room-list{display:grid;gap:16px}
 .keys-room-list article{border-radius:20px;box-shadow:none}
@@ -299,7 +299,7 @@ button.keys-hotel-pricing-amount:focus-visible{outline:2px solid var(--color-bra
 .keys-payment-extras article>div:last-child{padding:12px;gap:0}
 [data-screen-type="reservation-payment"] [aria-label="Контакты гостя"]{margin-block:0 24px;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
 [data-screen-type="reservation-payment"] [aria-label="Способ оплаты"]{margin-bottom:24px}
-[data-screen-type="reservation-payment"] [aria-label="Способ оплаты"] label{border-radius:14px;padding:12px;min-height:96px}
+[data-screen-type="reservation-payment"] [aria-label="Способ оплаты"]:not(.keys-pay-section) label{border-radius:14px;padding:12px;min-height:96px}
 [data-screen-type="reservation-payment"] .keys-payment-total{padding:16px;margin-block:24px 16px;gap:8px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
 .keys-payment-total>div:last-child{padding-top:16px;margin-top:4px;border-color:var(--color-line)}
 .keys-payment-total>div:last-child>strong{font:500 20px/26px var(--font-sans)}
@@ -701,7 +701,7 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 #root .keys-hotel-sheet .keys-hotel-identity{margin:0}#root .keys-hotel-gallery-bottom{padding-bottom:28px}
 #root .keys-hotel-personal{margin-top:20px}#root .keys-hotel-personal h2{margin:0;font:var(--ui-font-section)}#root .keys-hotel-personal>p{margin:4px 0 12px;font:var(--ui-font-caption);color:var(--color-muted)}
 .keys-hotel-personal-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}.keys-hotel-personal-tags li{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 12px;border-radius:10px;background:var(--color-soft);color:var(--color-ink);font:400 14px/21px var(--font-sans)}.keys-hotel-personal-tags img{display:block;flex:none;width:24px;height:24px;object-fit:contain;background:none}
-#root .keys-hotel-rating-link{display:flex;align-items:center;gap:12px;width:100%;min-width:0;margin:20px 0 12px;padding:14px 16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);text-align:left;color:var(--color-ink)}
+.keys-hotel-rating-link{display:flex;align-items:center;gap:12px;width:100%;min-width:0;margin:20px 0 12px;padding:14px 16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);text-align:left;color:var(--color-ink)}
 .keys-hotel-rating-number{flex:none;font:500 28px/34px var(--font-sans);color:var(--color-success)}.keys-hotel-rating-copy{flex:1;min-width:0;display:grid;gap:4px}.keys-hotel-rating-copy strong{font:var(--ui-font-label)}.keys-hotel-rating-copy>span{font:var(--ui-font-caption);color:var(--color-muted)}.keys-hotel-rating-link>svg{color:var(--color-brand);flex:none}
 #root .keys-hotel-sheet .keys-hotel-pricing{margin-top:0}#root .keys-hotel-short-description{margin:16px 0 0;font:var(--ui-font-body);color:var(--color-ink-2,var(--color-muted))}
 #root .keys-hotel-location-interactive{position:relative;padding:16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);cursor:pointer}#root .keys-hotel-location-interactive>p{margin:6px 0 12px;font:var(--ui-font-body)}
@@ -726,13 +726,13 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 #root .keys-hotel-personal-tags li{box-sizing:border-box;flex:0 0 156px;flex-direction:row;align-items:center;justify-content:flex-start;white-space:normal;scroll-snap-align:start;min-height:60px;padding:10px 12px;background:none;border:1px solid var(--color-line);border-radius:12px;font:var(--ui-font-body);gap:10px}
 #root .keys-hotel-personal-tags li span{font-size:13px;line-height:18px}
 #root .keys-hotel-personal-tags img{width:28px;height:28px}
-#root .keys-hotel-rating-link{margin:20px 0 12px;padding:14px 16px;border:1px solid var(--color-line);background:transparent;border-radius:16px;gap:12px}
-#root .keys-hotel-rating-number{display:grid;place-items:center;min-width:44px;height:44px;border-radius:12px;background:var(--color-success-bg);font:var(--ui-font-title);color:var(--color-success)}
-#root .keys-hotel-rating-copy{gap:6px}
-#root .keys-hotel-rating-title{display:flex;align-items:baseline;gap:4px 8px;flex-wrap:wrap}
-#root .keys-hotel-rating-title strong{font:var(--ui-font-label);color:var(--color-ink)}
-#root .keys-hotel-rating-title>span{font:var(--ui-font-caption);color:var(--color-muted);white-space:nowrap}
-#root .keys-hotel-rating-copy>span:last-child{font:var(--ui-font-caption);line-height:18px;color:var(--color-muted)}
+.keys-hotel-rating-link{margin:20px 0 12px;padding:14px 16px;border:1px solid var(--color-line);background:transparent;border-radius:16px;gap:12px}
+.keys-hotel-rating-number{display:grid;place-items:center;min-width:44px;height:44px;border-radius:12px;background:var(--color-success-bg);font:var(--ui-font-title);color:var(--color-success)}
+.keys-hotel-rating-copy{gap:6px}
+.keys-hotel-rating-title{display:flex;align-items:baseline;gap:4px 8px;flex-wrap:wrap}
+.keys-hotel-rating-title strong{font:var(--ui-font-label);color:var(--color-ink)}
+.keys-hotel-rating-title>span{font:var(--ui-font-caption);color:var(--color-muted);white-space:nowrap}
+.keys-hotel-rating-copy>span:last-child{font:var(--ui-font-caption);line-height:18px;color:var(--color-muted)}
 #root .keys-hotel-sheet .keys-hotel-pricing-row{border:0;border-radius:16px;background:var(--color-soft)}
 #root .keys-hotel-sheet .keys-hotel-pricing-amount{position:relative;min-height:84px;padding:14px 44px 14px 16px;border-radius:16px;gap:6px}
 #root .keys-hotel-sheet .keys-hotel-price-label{padding-right:0;font:var(--ui-font-caption);color:var(--color-muted)}
@@ -759,7 +759,7 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 #root .keys-review-preview-tags>span{padding:0;background:none;border-radius:0}
 #root .keys-review-preview-tags>span+span:before{content:'·';margin-right:6px}
 #root .keys-review-preview-score{font:var(--ui-font-label)}
-@media(hover:hover){#root .keys-hotel-rating-link:hover{background:transparent;border-color:var(--color-brand-line)}#root .keys-review-preview:hover{background:var(--color-soft)}}
+@media(hover:hover){.keys-hotel-rating-link:hover{background:transparent;border-color:var(--color-brand-line)}#root .keys-review-preview:hover{background:var(--color-soft)}}
 
 /* Discovery: horizontal gestures browse media, upward gestures advance hotels. */
 #root .keys-photo-gesture-card{touch-action:none}
@@ -816,3 +816,202 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 
 #root .keys-filter-option-icon{display:grid;place-items:center;flex:none;width:24px;height:24px;background:transparent;color:var(--color-brand);border:0;border-radius:0;box-shadow:none}
 #root .keys-filter-option-icon>svg{width:22px;height:22px;stroke-width:1.65}
+
+/* Reviews: shared summary and chips, 16px cards, consistent body/caption hierarchy. */
+.keys-reviews-content{display:grid;gap:24px;min-width:0;padding-bottom:8px}
+.keys-reviews-content .keys-hotel-rating-link{margin:0}
+.keys-reviews-content .keys-reviews-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.keys-reviews-heading h2{margin:0;font:var(--ui-font-section);color:var(--color-ink);letter-spacing:0}
+.keys-reviews-heading [role="combobox"]{font:var(--ui-font-caption-medium);min-height:40px;flex:none}
+.keys-reviews-list{display:grid;gap:12px;list-style:none;margin:0;padding:0}
+.keys-guest-review{display:grid;gap:12px;margin:0;padding:16px;border-radius:16px;background:var(--color-surface);color:var(--color-ink)}
+.keys-guest-review .keys-review-preview-heading{gap:12px}
+.keys-guest-review .keys-review-preview-score{font:var(--ui-font-label);flex:none}
+.keys-guest-review-text{margin:0;font:var(--ui-font-body);overflow-wrap:anywhere}
+.keys-guest-review-photos{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.keys-guest-review-photos img{flex:none;width:72px;height:72px;object-fit:cover;border-radius:12px}
+.keys-guest-review-reply{display:grid;gap:6px;margin:0;padding:12px 0 0;border-top:1px solid var(--color-line)}
+.keys-guest-review-reply strong{font:var(--ui-font-caption-medium)}
+.keys-guest-review-reply p{margin:0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-reviews-more{margin-top:16px}
+.keys-reviews-empty{margin:0;padding:16px 0;font:var(--ui-font-body);color:var(--color-muted)}
+.keys-reviews-content .keys-review-topic-filters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding:0 0 2px}
+
+/* A room owns its photos and amenities; each rate owns meals and booking terms. */
+.keys-room-list .keys-room-offer-card{min-width:0;overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);scroll-margin-top:76px}
+.keys-room-identity{padding:14px 16px}
+.keys-room-identity h2{margin:0;font:var(--ui-font-section)}
+.keys-room-identity p{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0 0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-room-identity p>span:first-child{display:inline-flex;align-items:center;gap:6px;flex:none}
+.keys-room-tariff-track{display:flex;align-items:stretch;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;padding:0 16px 16px;scrollbar-width:none}
+.keys-room-tariff-track::-webkit-scrollbar{display:none}
+.keys-room-tariff{position:relative;display:flex;flex-direction:column;flex:0 0 calc(100% - 28px);min-width:0;scroll-snap-align:start;border:1px solid var(--color-line);border-radius:16px;background:var(--color-card);padding:14px}
+.keys-room-tariff-track.is-single .keys-room-tariff{flex-basis:100%}
+.keys-tariff-title{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:24px}
+.keys-tariff-title>h3{margin:0;font:var(--ui-font-label);color:var(--color-ink)}
+.keys-tariff-discount{grid-area:auto;justify-self:start;cursor:pointer;white-space:nowrap}
+.keys-tariff-discount:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+.keys-tariff-discount-context{margin:0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-tariff-facts{display:grid;gap:8px;margin:8px 0 16px}
+.keys-tariff-fact{display:flex;align-items:flex-start;gap:8px;min-height:21px}
+.keys-tariff-fact>svg{flex:none;margin-top:3px;color:var(--color-muted)}
+.keys-tariff-fact>span{display:grid;gap:2px;min-width:0}
+.keys-tariff-fact .keys-tariff-fact-title{font:var(--ui-font-caption);color:var(--color-ink)}
+.keys-tariff-fact .keys-tariff-fact-title.is-positive{color:var(--color-success)}
+.keys-tariff-fact span>span{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-tariff-terms{display:flex;align-items:center;justify-content:center;min-height:40px;width:auto;margin:-8px -6px -8px 0;padding:8px 6px;background:transparent;border:0;color:var(--color-brand);font:var(--ui-font-caption-medium)}
+.keys-tariff-terms:focus-visible{outline:2px solid var(--color-brand);outline-offset:-2px;border-radius:12px}
+.keys-tariff-details h3{margin:0;font:var(--ui-font-section)}
+.keys-tariff-details>p{margin:4px 0 16px;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-tariff-details ul{display:grid;gap:12px;margin:0;padding-left:20px;font:var(--ui-font-body);color:var(--color-ink)}
+html[data-desktop-account="true"] .keys-room-tariff-track{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
+html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-template-columns:1fr}
+
+.keys-tariff-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto}
+.keys-tariff-price{display:flex;align-items:center;gap:6px;min-width:0}
+.keys-tariff-price>strong{font:var(--ui-font-section);color:var(--color-ink);white-space:nowrap}
+.keys-tariff-footer>button{width:auto;min-width:96px;min-height:48px;padding:10px 12px;flex:none}
+
+/* Selection remains separate from the action that continues booking. */
+.keys-room-tariff{cursor:pointer}
+.keys-room-tariff.is-selected{background:var(--color-soft);border-color:var(--color-brand)}
+.keys-tariff-radio-label{display:flex;align-items:center;gap:8px;min-height:40px;margin:-8px 0;cursor:pointer}
+.keys-tariff-radio-label>span{font:var(--ui-font-label);color:var(--color-ink)}
+.keys-tariff-radio{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:20px;height:20px;margin:0;border:1.5px solid var(--color-muted);border-radius:50%;background:var(--color-card);cursor:pointer}
+.keys-tariff-radio:checked{border-color:var(--color-brand);background:radial-gradient(circle,var(--color-brand) 0 4px,var(--color-card) 5px)}
+.keys-tariff-radio:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+.keys-tariff-fact>svg.is-included{color:var(--color-success)}
+.keys-room-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.keys-room-title-row h2{flex:1;min-width:0}
+.keys-room-info{display:grid;place-items:center;flex:none;width:40px;height:40px;margin:-8px -8px -8px 0;background:transparent;border:0;color:var(--color-brand);border-radius:12px}
+.keys-room-info:focus-visible{outline:2px solid var(--color-brand);outline-offset:-2px}
+.keys-room-equipment h3{margin:0;font:var(--ui-font-section);color:var(--color-ink)}
+.keys-room-equipment>p{margin:6px 0 0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-room-equipment ul{display:grid;gap:0;list-style:none;margin:16px 0 0;padding:0}
+.keys-room-equipment li{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 0;font:var(--ui-font-caption);border-bottom:1px solid var(--color-line)}
+.keys-room-equipment li:last-child{border-bottom:0}
+.keys-room-equipment li svg{flex:none;color:var(--color-success)}
+
+/* Room selection hierarchy: page 20 / room 17 / tariff 14, body 14 / captions 12. */
+.keys-room-selection{font:var(--ui-font-body);letter-spacing:0}
+.keys-room-title-row h2{margin:0;font:var(--ui-font-section);letter-spacing:0;overflow-wrap:anywhere}
+.keys-tariff-title h3{margin:0;font:var(--ui-font-label);letter-spacing:0}
+.keys-tariff-fact .keys-tariff-fact-title{font:var(--ui-font-caption)}
+.keys-room-stay>button{font:var(--ui-font-label)}
+.keys-tariff-footer>button{font:var(--ui-font-label)}
+.keys-tariff-price>strong{font:var(--ui-font-section);font-variant-numeric:tabular-nums;letter-spacing:0}
+.keys-room-equipment h3,.keys-tariff-details h3{font:var(--ui-font-section);letter-spacing:0}
+
+/* A single header owns the room page title and editable trip context. */
+.keys-room-page-header{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;margin:-16px -16px 0;padding:12px 16px;background:var(--color-card);border-bottom:1px solid var(--color-line)}
+.keys-room-header-copy{flex:1;min-width:0;display:grid;gap:4px}
+.keys-room-header-copy h1{margin:0;font:var(--ui-font-title);color:var(--color-ink);letter-spacing:0}
+.keys-room-header-copy p{margin:0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-room-edit{flex:none;min-height:44px;margin-right:-4px;padding:0 4px;border:0;background:transparent;color:var(--color-brand);font:var(--ui-font-caption-medium)}
+.keys-room-edit:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:8px}
+.keys-room-page-header.is-desktop{margin:0 0 4px;padding:12px 0;gap:16px}
+.keys-room-page-header.is-desktop .keys-room-edit{font:var(--ui-font-label)}
+
+/* Keep dates and guest controls visible while calendar months scroll. */
+.keys-stay-calendar{max-height:min(360px,calc(100dvh - 320px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.keys-room-page-header + .keys-payment-summary{margin-top:16px}
+/* Checkout: shared quiet cards, plain icons, explicit payment selection. */
+.keys-pay-service-filters{margin-top:12px;margin-bottom:0}
+.keys-pay-section{margin:24px 0;color:var(--color-ink)}
+.keys-pay-section h2{margin:0;font:var(--ui-font-title-small,500 17px/24px 'Golos Text Variable',sans-serif)}
+.keys-pay-methods{margin-top:12px;overflow:hidden;border:1px solid var(--color-line);border-radius:16px}
+.keys-pay-method{display:flex;align-items:center;gap:12px;padding:14px 16px;min-height:64px;cursor:pointer}
+.keys-pay-method-item + .keys-pay-method-item,.keys-pay-other{border-top:1px solid var(--color-line)}
+.keys-pay-method-item.is-selected{background:var(--color-soft)}
+.keys-pay-method>svg{flex:none;color:var(--color-muted)}
+.keys-pay-method>span{display:grid;gap:2px;flex:1;min-width:0}
+.keys-pay-method strong{font:var(--ui-font-label)}
+.keys-pay-method small,.keys-pay-hint,.keys-pay-points-head p,.keys-pay-points-note{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-pay-method input,.keys-pay-use-points input{appearance:auto!important;width:20px;height:20px;margin:0;accent-color:var(--color-brand);flex:none}
+.keys-pay-other{display:flex;width:100%;align-items:center;justify-content:space-between;min-height:48px;padding:12px 16px;background:transparent;border-right:0;border-left:0;border-bottom:0;font:var(--ui-font-label);color:var(--color-ink)}
+.keys-pay-other .is-open{transform:rotate(90deg)}
+.keys-pay-card{padding:0 16px 16px}
+.keys-pay-card h3{font:var(--ui-font-label);margin:0 0 12px}
+.keys-pay-card-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.keys-pay-field{display:grid;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-pay-field.is-wide{grid-column:1/-1}
+.keys-pay-field input{width:100%;min-width:0;height:48px;padding:12px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-body,400 14px/21px 'Golos Text Variable',sans-serif);box-sizing:border-box}
+.keys-pay-field input:focus{outline:2px solid var(--color-brand);outline-offset:1px}
+.keys-pay-field input[aria-invalid=true]{border-color:var(--color-danger,#bd3232)}
+.keys-pay-field small{font:var(--ui-font-caption);color:var(--color-danger,#bd3232)}
+.keys-pay-hint{margin:0;padding:0 16px 16px 48px}
+.keys-pay-points{padding:16px;border:1px solid var(--color-line);border-radius:16px}
+.keys-pay-points-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.keys-pay-points-head p{margin:4px 0 0}
+.keys-pay-use-points{display:flex;align-items:center;gap:8px;font:var(--ui-font-caption-medium);cursor:pointer}
+.keys-pay-points-entry{display:flex;align-items:flex-end;gap:12px;margin-top:16px}
+.keys-pay-points-entry .keys-pay-field{flex:1}
+.keys-pay-max{min-height:48px;padding:0 12px;border:1px solid var(--color-line);border-radius:12px;background:transparent;color:var(--color-brand);font:var(--ui-font-caption-medium)}
+.keys-pay-points-note{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.keys-pay-points-note strong{font:var(--ui-font-label);color:var(--color-ink);white-space:nowrap}
+
+.keys-pay-method-item .keys-pay-card-fields{padding-top:4px}
+.keys-pay-other + .keys-pay-method-item{border-top:1px solid var(--color-line)}
+/* One section pattern throughout checkout: title inside, 16px inset/gap, 20px radius. */
+#root [data-screen-type="reservation-payment"] .keys-checkout-panel{
+ display:block;margin:16px 0 0;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);box-shadow:none;min-width:0;
+}
+#root [data-screen-type="reservation-payment"] .keys-checkout-panel h2{margin:0;font:var(--ui-font-section);letter-spacing:0;color:var(--color-ink)}
+#root [data-screen-type="reservation-payment"] .keys-checkout-panel h3{font:var(--ui-font-label);letter-spacing:0}
+#root [data-screen-type="reservation-payment"] .keys-payment-summary-body{margin:12px 0}
+#root [data-screen-type="reservation-payment"] .keys-payment-summary-action{margin-bottom:-8px;min-height:44px}
+#root [data-screen-type="reservation-payment"] .keys-guest-panel .keys-guest-row:last-child{margin-bottom:-8px}
+#root [data-screen-type="reservation-payment"] .keys-guest-primary{padding-top:12px}
+#root [data-screen-type="reservation-payment"] .keys-pay-methods{border:0;border-radius:0;margin:12px -4px -4px}
+#root [data-screen-type="reservation-payment"] .keys-pay-method{padding:12px 4px;min-height:64px}
+#root [data-screen-type="reservation-payment"] .keys-pay-method-item.is-selected{border-radius:12px;border-color:transparent}
+#root [data-screen-type="reservation-payment"] .keys-pay-method-item.is-selected .keys-pay-method{padding-inline:12px}
+#root [data-screen-type="reservation-payment"] .keys-pay-method-item.is-selected + .keys-pay-method-item{border-color:transparent}
+#root [data-screen-type="reservation-payment"] .keys-pay-card{padding:0 12px 12px}
+#root [data-screen-type="reservation-payment"] .keys-pay-other{padding:12px 4px;font:var(--ui-font-caption-medium);color:var(--color-brand)}
+#root [data-screen-type="reservation-payment"] .keys-pay-hint{padding:0 12px 12px 44px}
+#root [data-screen-type="reservation-payment"] .keys-payment-extras>div:has(>article){margin:12px -4px -4px;padding:0 4px 4px;scroll-padding:4px;gap:12px}
+#root [data-screen-type="reservation-payment"] .keys-payment-extras article{width:156px;border:0;border-radius:12px;background:transparent}
+#root [data-screen-type="reservation-payment"] .keys-payment-extras article>div:first-child{border-radius:12px;overflow:hidden}
+#root [data-screen-type="reservation-payment"] .keys-payment-extras article>div:last-child{padding:10px 0 0}
+#root [data-screen-type="reservation-payment"] .keys-payment-extras article:has(button[aria-label^="Убрать:"]){background:var(--color-soft)}
+#root [data-screen-type="reservation-payment"] .keys-payment-extras article:has(button[aria-label^="Убрать:"])>div:last-child{padding:10px 8px 8px}
+#root [data-screen-type="reservation-payment"] .keys-payment-total{display:flex;gap:8px;margin-bottom:12px}
+#root [data-screen-type="reservation-payment"] .keys-checkout-total-heading{margin-bottom:4px}
+#root [data-screen-type="reservation-payment"] .keys-payment-total>div:last-child{padding-top:12px}
+#root [data-screen-type="reservation-payment"] .keys-payment-total>div:last-child>strong{font:var(--ui-font-title);letter-spacing:0}
+/* Booking confirmation uses the checkout card and type hierarchy. */
+#root .keys-booking-success{display:grid;gap:16px;font:var(--ui-font-body);color:var(--color-ink);padding-block:8px 16px;max-width:640px;margin-inline:auto}
+#root .keys-success-heading>div{display:flex;align-items:center;gap:10px}
+#root .keys-success-heading h1{margin:0;font:var(--ui-font-title);letter-spacing:0}
+.keys-success-check{width:24px;height:24px;flex:none;color:var(--color-success)}
+.keys-success-heading>p{margin:6px 0 0 34px;font:var(--ui-font-caption);color:var(--color-muted)}
+#root .keys-booking-success .keys-checkout-panel{margin:0;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);box-shadow:none}
+#root .keys-booking-success h2{margin:0;font:var(--ui-font-section);letter-spacing:0}
+.keys-success-hotel{display:flex;align-items:center;gap:12px}
+.keys-success-hotel>img{width:64px;height:72px;border-radius:12px;object-fit:cover;flex:none}
+.keys-success-hotel>div{min-width:0}
+.keys-success-hotel p{margin:4px 0 0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-success-dates{display:grid;grid-template-columns:1fr 1fr;margin:16px 0 0;padding:12px 0;border-block:1px solid var(--color-line)}
+.keys-success-dates>div+div{padding-left:16px;border-left:1px solid var(--color-line)}
+.keys-success-dates dt{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-success-dates dd{margin:4px 0 0;font:var(--ui-font-label)}
+.keys-success-facts{margin:8px 0 0}
+.keys-success-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:6px 0}
+.keys-success-row dt{font:var(--ui-font-body);color:var(--color-muted)}
+.keys-success-row dd{margin:0;text-align:right;font:var(--ui-font-label);overflow-wrap:anywhere}
+.keys-success-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.keys-success-section-heading>span{display:flex;align-items:center;gap:4px;font:var(--ui-font-caption-medium);color:var(--color-success)}
+.keys-success-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1px solid var(--color-line);margin-top:6px;padding-top:12px}
+.keys-success-total dt{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-success-total dd{margin:0;font:var(--ui-font-title)}
+.keys-success-services{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;margin:8px 0 -8px;border:0;border-top:1px solid var(--color-line);padding:8px 0;background:transparent;color:var(--color-brand);font:var(--ui-font-caption-medium);text-align:left}
+.keys-success-actions{display:grid;gap:12px}
+.keys-success-actions p{margin:0;font:var(--ui-font-caption);color:var(--color-muted)}
+#root .keys-success-actions>button{min-height:48px;font:var(--ui-font-label);border-radius:var(--ui-button-radius,14px)}
+
+.keys-success-dates dd small{display:block;margin-top:4px;font:var(--ui-font-caption);color:var(--color-muted)}
+#root .keys-booking-success.is-details{padding-top:0}
+.keys-success-detail-status{margin:0;font:var(--ui-font-label);color:var(--color-success)}
+#root .keys-booking-success.is-details>.keys-success-heading{padding:0}
+#root .keys-booking-success.is-details>div:first-child{margin-bottom:0}

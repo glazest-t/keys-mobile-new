@@ -18,8 +18,8 @@ function KeysPaymentGuestPanel({contact,onChange,edited,onReset}) {
  const valid=editing==='primary'?um(form):!!form.firstName?.trim()&&!!form.lastName?.trim();
  const save=event=>{event.preventDefault();if(!valid)return;if(editing==='primary')onChange(form);else dispatch({type:'KEYS_RESERVATION_GUEST',guest:form});close();};
  return n.jsxs(n.Fragment,{children:[
-  n.jsxs('section',{'aria-label':'Контакты гостя',className:'keys-guest-panel',children:[
-   n.jsxs('div',{className:'keys-guest-panel-heading',children:[n.jsx(D,{name:'users',className:'keys-payment-summary-icon'}),n.jsx('h2',{children:hasSecond?'Гости':'Гость'}),n.jsx('span',{children:Rt(draft?.party||{adults:1,childrenAges:[]})})]}),
+  n.jsxs('section',{'aria-label':'Контакты гостя',className:'keys-checkout-panel keys-guest-panel',children:[
+   n.jsxs('div',{className:'keys-guest-panel-heading',children:[n.jsx('h2',{children:hasSecond?'Гости':'Гость'}),n.jsx('span',{children:Rt(draft?.party||{adults:1,childrenAges:[]})})]}),
    n.jsxs('button',{type:'button',className:'keys-guest-row keys-guest-primary',onClick:()=>open('primary'),'aria-label':'Изменить данные основного гостя',children:[
     n.jsxs('span',{className:'keys-guest-row-copy',children:[n.jsx('strong',{children:Ac(contact)||'Укажите данные гостя'}),n.jsx('span',{children:contact.phone}),n.jsx('span',{children:contact.email})]}),n.jsx(D,{name:'chevron',className:'size-3.5'})
    ]}),

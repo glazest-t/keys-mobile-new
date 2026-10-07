@@ -30,7 +30,7 @@ function KeysBridge() {
     const receive = event => {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
-      const {tab,hotelId,screen,stayDay,discovery} = event.data;
+      const {tab,hotelId,screen,stayDay,discovery,bookingId} = event.data;
       if(event.data.openNotification){dispatch({type:'OPEN',screen:{type:'notifications'}});return;}
       if(typeof event.data.desktopAccount==='boolean')document.documentElement.dataset.desktopAccount=String(event.data.desktopAccount);
       if(Number.isFinite(event.data.desktopHeight))document.documentElement.style.setProperty('--keys-desktop-height',Math.max(560,event.data.desktopHeight)+'px');
@@ -41,6 +41,7 @@ function KeysBridge() {
       }
       if(!['find','chats','favorites'].includes(tab)) return;
       dispatch({type:'NAV_TAB',tab});
+      if(screen==='created-booking'&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
       if(['booking','notifications'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
       if(tab==='find'&&discovery){
@@ -57,7 +58,7 @@ function KeysBridge() {
     window.addEventListener('message',receive); keysPost('ready',{});
     return () => window.removeEventListener('message',receive);
   }, [dispatch]);
-  E.useEffect(()=>{if(state.reservation?.status==='confirmed'&&state.reservation.bookedId===state.booking.id){keysPost('reservation',{booking:{id:state.booking.id,hotel:eHotelName(state.booking.hotelId),arrival:state.booking.arrival,departure:state.booking.departure}});}},[state.reservation?.status,state.booking.id]);
+  E.useEffect(()=>{if(state.reservation?.status==='confirmed'&&state.reservation.bookedId===state.booking.id){keysPost('reservation',{booking:{id:state.booking.id,hotel:eHotelName(state.booking.hotelId),arrival:state.booking.arrival,departure:state.booking.departure,room:state.booking.room.name,photo:state.booking.room.photo?.src,guests:Rt(state.booking.party)}});}},[state.reservation?.status,state.booking.id]);
   E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null}); },[state.navigation,state.search.results,state.search.intent]);
   E.useEffect(()=>{
     const page=document.querySelector('.keys-module-screen main');if(!page)return;
@@ -82,7 +83,7 @@ function PH({children}) {
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&n.jsx(CH,{}),
-      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
+      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
     !screen&&n.jsx(AH,{}),n.jsx(OH,{})
   ]});
@@ -290,10 +291,32 @@ function Ae(props) {
   observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});
   sync();return()=>observer.disconnect();
  },[]);
+ if(props.title==='Оплата'&&!props.subtitle)return n.jsx(KeysPaymentStayHeader,props);
+ if(props.subtitle)return n.jsxs('header',{className:'keys-room-page-header'+(desktop?' is-desktop':''),children:[
+  desktop?n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}):n.jsx(cs,{onClick:props.onBack??back}),
+  n.jsxs('div',{className:'keys-room-header-copy',children:[n.jsx('h1',{children:props.title}),n.jsx('p',{children:props.subtitle})]}),
+  props.action
+ ]});
  if(!desktop)return n.jsx(KeysMobileScreenHeader,props);
  return n.jsxs('header',{className:'keys-desktop-screen-header',children:[
   n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}),
   n.jsx(props.overPhoto?'p':'h1',{className:'keys-desktop-screen-title',children:props.overPhoto?'Об отеле':props.title}),
   props.action&&n.jsx('div',{className:'keys-desktop-screen-actions',children:props.action})
  ]});
+}
+
+function KeysPaymentStayHeader(props){
+ const {state}=J(),[editing,setEditing]=E.useState(false),draft=state.reservation;
+ if(!draft)return n.jsx(KeysMobileScreenHeader,props);
+ return n.jsxs(n.Fragment,{children:[
+  n.jsx(Ae,{...props,subtitle:zt(draft.arrival,draft.departure)+' · '+Rt(draft.party),action:n.jsx('button',{type:'button',className:'keys-room-edit','aria-label':'Изменить даты и количество гостей',disabled:draft.status==='processing'||draft.status==='confirmed',onClick:()=>setEditing(true),children:'Изменить'})}),
+  editing&&n.jsx(xh,{roomStay:true,onClose:()=>setEditing(false)})
+ ]});
+}
+
+const KeysCreatedBookingCard=E.lazy(()=>import('./ReservationSuccessCard-uN5FuBj0.js').then(module=>({default:module.R})));
+function KeysCreatedBookingDetails({bookingId}){
+ const {state}=J(),record=state.keysCreatedBookings?.[bookingId],back=()=>keysPost('navigate',{target:'trips'});
+ if(!record)return n.jsxs(n.Fragment,{children:[n.jsx(Ae,{title:'Детали брони',onBack:back}),n.jsx('p',{children:'Бронирование не найдено'})]});
+ return n.jsx(E.Suspense,{fallback:n.jsx('p',{role:'status',children:'Загружаем бронь…'}),children:n.jsx(KeysCreatedBookingCard,{draft:record.draft,booking:record.booking,details:true,onBack:back})});
 }

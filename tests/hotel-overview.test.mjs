@@ -48,3 +48,27 @@ test('rating wording handles the catalog comma notation and numeric ratings',()=
  assert.equal(helpers.keysHotelRatingLabel('8,6'),'Хорошо');
  assert.equal(helpers.keysHotelRatingLabel('—'),'Отзывы гостей');
 });
+
+// Hotel preview and full reviews must select the same topics and matching reviews.
+test('review topic filters match text and praise and omit empty topics',()=>{
+ const start=source.indexOf('function keysHotelReviewTopics(');
+ const end=source.indexOf('function KeysReviewTopicFilters(',start);
+ const topicsFor=vm.runInNewContext(source.slice(start,end)+';keysHotelReviewTopics');
+ const reviews=[{text:'Вкусный ужин',praise:['Завтраки']},{text:'Удобно приехать на такси',praise:[]},{text:'Тихо, удобная кровать',praise:['Номер']}];
+ const topics=topicsFor(reviews);
+ assert.deepEqual(plain(topics.map(t=>t.id)),['all','food','quiet','transport','rooms']);
+ assert.deepEqual(plain(topics.find(t=>t.id==='food').match(reviews[0])),true);
+ assert.equal(topics.find(t=>t.id==='food').match(reviews[1]),false);
+ assert.deepEqual(plain(topicsFor([]).map(t=>t.id)),['all']);
+});
+
+test('rate facts keep meal, cancellation, payment and changes specific to the offer',()=>{
+ const start=source.indexOf('function keysRoomTariffFacts('),end=source.indexOf('function KeysRoomOfferCard(',start);
+ const factsFor=vm.runInNewContext(source.slice(start,end)+';keysRoomTariffFacts');
+ const flexible=factsFor({includesBreakfast:true,freeCancellation:true,refundable:true,cancellationDeadline:'28 сентября',requiresPrepayment:false,changesAllowed:true});
+ assert.deepEqual(plain(flexible.map(f=>f.title)),['Завтрак включён','Бесплатная отмена','Без предоплаты','Можно изменить бронь']);
+ assert.equal(flexible[1].detail,'До 28 сентября');
+ const restricted=factsFor({includesBreakfast:false,freeCancellation:false,refundable:false,requiresPrepayment:true,changesAllowed:false});
+ assert.deepEqual(plain(restricted.map(f=>f.title)),['Без питания','Без возврата','Оплата при бронировании','Без изменений']);
+ assert.equal(factsFor({refundable:true,freeCancellation:false})[1].title,'Отмена со штрафом');
+});

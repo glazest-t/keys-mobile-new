@@ -29,7 +29,7 @@ test('new hotel conversation supports drafts, send, unread and handoff',()=>{
  let s=e.keysInitialState();s=run(s,{type:'OPEN',screen:{type:'chat',hotelId:'palm'}});s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'Есть завтрак?');s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'');assert.ok(s.chat.conversations.palm.messages.some(m=>m.sender==='ai'));s=run(s,{type:'HANDOFF',hotelId:'palm'});assert.equal(s.chat.conversations.palm.human,true);
 });
 test('booking, payment and success remain original working flow',()=>{
- let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});assert.ok(s.reservation);s=run(s,{type:'RESERVATION_NEXT'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});assert.equal(s.reservation.status,'confirmed');assert.equal(s.navigation.screen.type,'reservation-success');
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});assert.ok(s.reservation);s=run(s,{type:'RESERVATION_NEXT'});s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});assert.equal(s.reservation.status,'confirmed');assert.equal(s.navigation.screen.type,'reservation-success');
 });
 test('Trips, Benefits and Profile return to host, Find and Chats remain in original reducer',()=>{
  const messages=[];globalThis.window={parent:{postMessage:m=>messages.push(m)},location:{origin:'http://127.0.0.1:8765'}};
@@ -78,4 +78,62 @@ test('hotel inner screens unwind to saved list and preserve the selected search'
  s=run(s,{type:'BACK'});assert.equal(s.navigation.screen.type,'saved');
  s=run(s,{type:'BACK'});assert.equal(s.navigation.screen,null);
  assert.equal(s.search.results,true);assert.equal(s.search.city,'Сочи');
+});
+
+test('editing dates and guests at payment updates the stay and preserves the selected booking',()=>{
+ let s=e.keysInitialState();
+ s=run(s,{type:'HOTEL_OPEN',id:'more'});
+ s=run(s,{type:'RESERVATION_START'});
+ s=run(s,{type:'RESERVATION_EXTRA',id:'dinner',selected:true});
+ s=run(s,{type:'RESERVATION_NEXT'});
+ assert.equal(s.navigation.screen.type,'reservation-payment');
+ const before=structuredClone(s.reservation);
+ const party={...before.party,adults:3,childrenAges:[]};
+ s=run(s,{type:'SEARCH_PATCH',patch:{arrival:'2026-11-01',departure:'2026-11-06',party}});
+ assert.equal(s.navigation.screen.type,'reservation-payment');
+ assert.equal(s.reservation.arrival,'2026-11-01');
+ assert.equal(s.reservation.departure,'2026-11-06');
+ assert.equal(s.reservation.party.adults,3);
+ assert.notEqual(s.reservation.baseTotal,before.baseTotal);
+ for(const key of ['id','room','tariffId','contact','paymentMethod','usePoints'])assert.deepEqual(s.reservation[key],before[key]);
+ assert.equal(s.reservation.extras.length,before.extras.length);
+ assert.ok(s.reservation.extras.every(extra=>extra.date>='2026-11-01'&&extra.date<'2026-11-06'));
+ s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});
+ assert.equal(s.reservation.status,'processing');
+ const processing=structuredClone(s.reservation);
+ s=run(s,{type:'SEARCH_PATCH',patch:{party:{...party,adults:2}}});
+ assert.deepEqual(s.reservation,processing);
+});
+
+test('checkout requires a method and valid new card, while alternative methods remain available',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});
+ assert.equal(s.reservation.paymentMethod,'');
+ s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});assert.match(s.reservation.error,/Выберите способ/);
+ s=run(s,{type:'RESERVATION_METHOD',method:'card'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});assert.match(s.reservation.error,/данные карты/);
+ for(const method of ['sbp','digital-ruble','sberpay','yandexpay']){
+  let other=run(s,{type:'RESERVATION_METHOD',method});assert.equal(other.reservation.paymentMethod,method);
+  other=run(other,{type:'RESERVATION_PAY',draftId:other.reservation.id});assert.equal(other.reservation.status,'processing');
+ }
+ assert.ok(Object.values(e.keysCardErrors({number:'4242 4242 4242 4242',expiry:'12/30',cvv:'123'},new Date('2026-10-07'))).every(error=>!error));
+ for(const card of [{number:'0000000000000000',expiry:'12/30',cvv:'123'},{number:'4242424242424241',expiry:'12/30',cvv:'123'},{number:'4242424242424242',expiry:'09/26',cvv:'123'},{number:'4242424242424242',expiry:'12/30',cvv:'12'}])assert.ok(Object.values(e.keysCardErrors(card,new Date('2026-10-07'))).some(Boolean));
+});
+
+test('custom points reduce totals and settlement by the exact amount, capped to balance and room cost',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});
+ const balance=s.loyalty.balance,original=e.checkoutTotal(s.reservation).total;
+ assert.equal(e.keysPointsLimit(s.reservation,balance),Math.floor(original*0.2));
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:2537});assert.equal(e.keysPointsUsed(s.reservation),2537);assert.equal(e.checkoutTotal(s.reservation).total,original-2537);
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:999999});assert.equal(e.keysPointsUsed(s.reservation),e.keysPointsLimit(s.reservation,balance));
+ s=run(s,{type:'RESERVATION_POINTS',enabled:false});assert.equal(e.checkoutTotal(s.reservation).total,original);
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:2500});s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});
+ assert.equal(s.reservation.status,'confirmed');assert.equal(s.booking.pointsSpent,2500);assert.equal(s.booking.pointsDiscount,2500);assert.equal(s.loyalty.balance,balance-2500);assert.equal(s.booking.payment.amount,original-2500);
+});
+
+test('created booking details retain the exact confirmed record when another draft is started',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_TARIFF',id:'saving'});s=run(s,{type:'RESERVATION_NEXT'});s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});
+ const id=s.booking.id,record=structuredClone(s.keysCreatedBookings[id]);
+ assert.equal(record.booking.hotelId,'more');assert.equal(record.draft.tariffId,'saving');assert.equal(record.booking.payment.amount,e.checkoutTotal(record.draft).total);
+ s=run(s,{type:'HOTEL_OPEN',id:'palm'});s=run(s,{type:'RESERVATION_START',hotelId:'palm'});
+ s=run(s,{type:'OPEN',screen:{type:'created-booking',bookingId:id}});
+ assert.equal(s.navigation.screen.bookingId,id);assert.deepEqual(s.keysCreatedBookings[id],record);
 });

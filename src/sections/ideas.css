@@ -26,18 +26,18 @@
 .ki-wish-form{display:flex;align-items:center;gap:8px;background:var(--color-soft);padding:6px 6px 6px 16px;border-radius:var(--ui-control-radius);border:1px solid transparent}
 .ki-wish-form:focus-within{border-color:var(--color-brand)}.ki-wish-form input{min-width:0;flex:1;border:0;outline:0;background:transparent;font:var(--ui-font-field);color:var(--color-ink)}.ki-wish-form button{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--color-brand);color:white}.ki-wish-form button:disabled{background:transparent;color:var(--color-muted);opacity:.6}
 .ki-workspace{display:flex;flex-direction:column;min-height:100%;gap:16px}.ki-choice-body{flex:1;min-height:300px;display:flex;flex-direction:column;gap:12px}
-#root .ki-page .ki-step-hint{font:var(--ui-font-caption);min-height:36px;padding-top:4px}.ki-idea-card{position:relative;flex:1;min-height:300px;padding:16px 20px 20px;background:linear-gradient(135deg,#fff,var(--ki-tint,var(--color-soft)));border:1px solid var(--color-line);border-radius:var(--ui-card-radius);display:flex;flex-direction:column;gap:12px;touch-action:pan-y;transition:transform .18s ease,opacity .18s ease;animation:ki-enter .24s ease both}
+.ki-idea-card{position:relative;flex:1;min-height:300px;padding:16px 20px 20px;background:linear-gradient(135deg,#fff,var(--ki-tint,var(--color-soft)));border:1px solid var(--color-line);border-radius:var(--ui-card-radius);display:flex;flex-direction:column;gap:12px;touch-action:pan-y;transition:transform .18s ease,opacity .18s ease;animation:ki-enter .24s ease both}
 .ki-idea-kind{font:var(--ui-font-caption);color:var(--color-muted)}.ki-hero-art{width:144px;height:144px;align-self:center;margin:auto}.ki-idea-card>div{display:grid;gap:6px}
 #root .ki-page .ki-idea-card h2{font:var(--ui-font-section)}
 .ki-bag{padding:16px 0 0;border-top:1px solid var(--color-line);background:var(--color-card);display:grid;gap:12px;position:sticky;bottom:-24px;padding-bottom:16px;z-index:2}
 .ki-bag-title{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}.ki-bag-title strong{font:var(--ui-font-label)}.ki-bag-title span{font:var(--ui-font-caption);color:var(--color-muted)}
-.ki-bag-items{display:flex;gap:8px;overflow:auto;padding:2px 0;max-height:82px}.ki-bag-items>button{display:flex;gap:4px;align-items:center;flex:none;background:var(--color-soft);border-radius:12px;padding:4px 8px 4px 4px;font:var(--ui-font-caption)}.ki-bag-items .ki-art{width:28px;height:28px}#root .ki-bag-items>p{font:var(--ui-font-caption)}
+.ki-bag-items{display:flex;gap:8px;overflow:auto;padding:2px 0;max-height:82px}#root .ki-bag-items>p{font:var(--ui-font-caption)}
 .ki-topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ki-topics,.ki-topic-options{display:grid;gap:16px;padding-top:8px}.ki-topic-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;gap:6px;min-height:128px;padding:12px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card)}.ki-topic-card[aria-pressed=true]{border-color:var(--color-brand);background:var(--color-soft)}.ki-topic-card strong{font:var(--ui-font-label)}.ki-topic-card small{font:var(--ui-font-caption);color:var(--color-muted)}.ki-topic-check{position:absolute;top:12px;right:12px;color:var(--color-brand)}.ki-topic-title{display:flex;align-items:center;gap:8px}.ki-topic-card .ki-art{width:64px;height:64px}
 .ki-question{display:flex;flex-direction:column;gap:12px;padding:20px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-soft);min-height:320px}.ki-question-art{width:96px;height:96px;align-self:center;margin:8px}.ki-question-answers{display:grid;gap:8px}
 .ki-note{margin:0 16px 12px;display:flex;gap:8px;align-items:center;border-radius:14px;background:var(--color-soft);padding:12px;font:var(--ui-font-caption)}.ki-note>span{flex:1}.ki-note>button{min-height:32px;flex:none;color:var(--color-brand);font:var(--ui-font-label)}
 .ki-tune{display:grid;gap:16px;font:var(--ui-font-body);letter-spacing:0;font-synthesis:none}
 #root .ki-tune select{font:var(--ui-font-field);letter-spacing:0}.ki-company{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ki-company>button{min-height:48px;border-radius:14px;background:var(--color-soft);font:var(--ui-font-label);border:1px solid transparent}.ki-company>button[aria-pressed=true]{border-color:var(--color-brand);color:var(--color-brand)}.ki-budget-label{display:grid;gap:8px;font:var(--ui-font-label)}
-.ki-results{display:grid;gap:16px}.ki-results-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.ki-result-chips:empty{display:none}.keys-results-filters.ki-result-chips,.keys-results-filters.ki-refine{margin:0;padding:2px 0;min-width:0}.ki-filter-art{width:24px;height:24px;object-fit:contain;background:transparent}.ki-hotel-grid{display:grid;gap:20px}.ki-hotel-result{border:1px solid var(--color-line);border-radius:var(--ui-card-radius);overflow:hidden}.ki-hotel-result .keys-result-hotel{border:0;border-radius:0}.ki-alternatives{display:grid;gap:16px}.ki-results-wish{display:grid;gap:12px;border-top:1px solid var(--color-line);padding-top:16px}
+.ki-results{display:grid;gap:16px}.ki-results-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.ki-result-chips:empty{display:none}.ki-result-chips,.keys-results-filters.ki-refine{margin:0;padding:2px 0;min-width:0}.ki-filter-art{width:24px;height:24px;object-fit:contain;background:transparent}.ki-hotel-grid{display:grid;gap:20px}.ki-hotel-result{border:1px solid var(--color-line);border-radius:var(--ui-card-radius);overflow:hidden}.ki-hotel-result .keys-result-hotel{border:0;border-radius:0}.ki-alternatives{display:grid;gap:16px}.ki-results-wish{display:grid;gap:12px;border-top:1px solid var(--color-line);padding-top:16px}
 .ki-area-choices{display:grid;gap:12px;padding-top:8px}.ki-area-choices>button:not([data-keys-button]){display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px;padding:12px 16px;text-align:left;border:1px solid var(--color-line);border-radius:14px}.ki-area-choices>button[aria-pressed=true]{border-color:var(--color-brand);background:var(--color-soft)}.ki-area-choices strong,.ki-area-choices small{display:block}.ki-area-choices strong{font:var(--ui-font-label)}.ki-area-choices small{font:var(--ui-font-caption);color:var(--color-muted);margin-top:4px}
 .ki-page button:focus-visible,.ki-page summary:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 @keyframes ki-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -146,13 +146,12 @@ html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose] .k
 html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose]>.ki-scroll{padding-bottom:0;overflow:hidden}
 html:not([data-desktop-account=true]) #root .ki-workspace{height:100%;min-height:0;gap:0}
 html:not([data-desktop-account=true]) #root .ki-choice-body{flex:0 1 auto;min-height:0;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}
-html:not([data-desktop-account=true]) #root .ki-page .ki-step-hint{min-height:0;padding:0;line-height:18px;flex:none}
 html:not([data-desktop-account=true]) #root .ki-idea-card{min-height:clamp(220px,32dvh,280px);flex:0 0 auto;padding:12px 16px;gap:8px}
 html:not([data-desktop-account=true]) #root .ki-hero-art{width:clamp(64px,14dvh,112px);height:clamp(64px,14dvh,112px);margin:auto;flex:none}
 html:not([data-desktop-account=true]) #root .ki-idea-card>div{gap:4px}
 html:not([data-desktop-account=true]) #root .ki-choice-body>.ki-decisions{position:sticky;bottom:0;background:var(--color-card);z-index:1;padding-top:4px}
 html:not([data-desktop-account=true]) #root .ki-bag{position:static;flex:none;padding:12px 0 max(12px,env(safe-area-inset-bottom));gap:8px}
-html:not([data-desktop-account=true]) #root .ki-bag-items{max-height:40px;padding:0}
+html:not([data-desktop-account=true]) #root .ki-bag-items{max-height:40px;padding:0;margin-bottom:8px}
 html:not([data-desktop-account=true]) #root .ki-bag-items>p{display:none}
 html:not([data-desktop-account=true]) #root .ki-bag-items:has(>p){display:none}
 html:not([data-desktop-account=true]) #root .ki-topics,
@@ -162,3 +161,12 @@ html:not([data-desktop-account=true]) #root .ki-topic-card{min-height:104px;padd
 html:not([data-desktop-account=true]) #root .ki-topic-card .ki-art{width:48px;height:48px}
 html:not([data-desktop-account=true]) #root .ki-question{min-height:0;padding:16px;gap:10px}
 html:not([data-desktop-account=true]) #root .ki-question-art{width:clamp(48px,10dvh,80px);height:clamp(48px,10dvh,80px);margin:0;flex:none}
+
+/* The same removable preference component is used in both selection and results. */
+.ki-result-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+#root .ki-page .ki-preference-tag{display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:none;min-height:40px;height:40px;max-width:100%;padding:6px 10px;border:1px solid var(--color-brand-line);border-radius:99px;background:var(--color-soft);color:var(--color-brand);font:var(--ui-font-label);white-space:nowrap;cursor:pointer}
+#root .ki-page .ki-preference-tag .ki-art{width:24px;height:24px;flex:none}
+#root .ki-page .ki-preference-tag>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#root .ki-page .ki-preference-tag .ki-preference-remove{width:16px;height:16px;flex:none}
+#root .ki-page .ki-preference-tag:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+@media(hover:hover){#root .ki-page .ki-preference-tag:hover{border-color:var(--color-brand);background:var(--color-soft-hover)}}

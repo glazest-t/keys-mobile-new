@@ -760,3 +760,59 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 #root .keys-review-preview-tags>span+span:before{content:'·';margin-right:6px}
 #root .keys-review-preview-score{font:var(--ui-font-label)}
 @media(hover:hover){#root .keys-hotel-rating-link:hover{background:transparent;border-color:var(--color-brand-line)}#root .keys-review-preview:hover{background:var(--color-soft)}}
+
+/* Discovery: horizontal gestures browse media, upward gestures advance hotels. */
+#root .keys-photo-gesture-card{touch-action:none}
+
+/* On the swipe stage, only like and skip are primary actions. */
+#root .keys-discovery-reviews{display:inline-flex;flex-shrink:0;align-items:center;gap:6px;min-height:44px;padding:0;background:transparent;border:0;border-radius:8px;box-shadow:none;color:#fff;font:var(--ui-font-caption);font-weight:500;transition:opacity .18s}
+#root .keys-discovery-reviews span{color:rgb(255 255 255 / 80%);font:inherit}
+#root .keys-discovery-reviews svg{color:rgb(255 255 255 / 65%)}
+#root .keys-discovery-rooms{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 16px;border:1px solid rgb(255 255 255 / 28%);border-radius:999px;background:rgb(0 0 0 / 16%);color:#fff;box-shadow:none;font:var(--ui-font-label);font-size:14px;line-height:21px;font-weight:500;white-space:nowrap;transition:background .18s,border-color .18s}
+#root .keys-discovery-tool{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:rgb(0 0 0 / 32%);color:#fff;box-shadow:none;backdrop-filter:blur(8px);transition:background .18s}
+#root .keys-discovery-tool.is-active{background:rgb(44 93 235 / 45%)}
+#root .keys-discovery-reviews:hover{opacity:.8}
+#root .keys-discovery-rooms:hover{background:rgb(255 255 255 / 10%);border-color:rgb(255 255 255 / 48%)}
+#root .keys-discovery-tool:hover{background:rgb(0 0 0 / 48%)}
+#root :is(.keys-discovery-reviews,.keys-discovery-rooms,.keys-discovery-tool):focus-visible{outline:2px solid #fff;outline-offset:3px}
+#root .keys-discovery-rooms:disabled{opacity:.5}
+
+/* Card transforms and shadows stay below the foreground action controls. */
+#root .keys-discovery-stack{isolation:isolate;z-index:0}
+#root .keys-module-screen:is([data-screen-type="swipe"],[data-screen-type="shared-swipe"]) [aria-label="Действия с отелем"]{position:relative;z-index:1;isolation:isolate}
+
+/* Shared room picker from the swipe gallery uses the app's light sheet and type scale. */
+.keys-photo-rooms{font:var(--ui-font-body);color:var(--color-ink)}
+.keys-photo-rooms-context{display:grid;gap:4px;padding-bottom:16px}
+.keys-photo-rooms-context p{margin:0;font:var(--ui-font-label)}
+.keys-photo-rooms-context p+p{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-photo-rooms-period{margin:0 0 4px;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-photo-rooms [aria-label="Варианты номеров"]>button{gap:12px;padding:12px 0;align-items:center;color:var(--color-ink);border-color:var(--color-line)}
+.keys-photo-rooms [aria-label="Варианты номеров"]>button img{width:80px;height:80px;border-radius:12px;object-fit:cover}
+.keys-photo-rooms [aria-label="Варианты номеров"]>button>span{display:grid;gap:4px}
+.keys-photo-rooms strong{margin:0;font:var(--ui-font-label);letter-spacing:0}
+.keys-photo-rooms strong+span{margin:0;font:var(--ui-font-caption);color:var(--color-muted);white-space:normal}
+.keys-photo-rooms strong:last-child{margin-top:4px;font:500 17px/24px var(--font-sans);letter-spacing:0}
+.keys-photo-rooms [aria-label="Варианты номеров"]>button>svg{width:16px;height:16px;color:var(--color-muted);flex:none}
+.keys-photo-rooms [aria-label="Варианты номеров"]>button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:12px}
+
+.keys-nightly-price{min-width:0;margin:0 0 24px;padding:0;border:0}
+.keys-nightly-price legend{margin-bottom:12px;font:var(--ui-font-label);color:var(--color-ink)}
+.keys-price-bounds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.keys-price-bound{display:grid;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-price-bound-control{display:flex;align-items:center;gap:8px;min-height:48px;padding:0 12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);font:var(--ui-font-body)}
+.keys-price-bound-control:focus-within{border-color:var(--color-brand);box-shadow:0 0 0 2px var(--color-brand-ring)}
+.keys-price-bound-control:has([aria-invalid="true"]){border-color:var(--color-danger)}
+.keys-price-bound-control input{width:100%;min-width:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--color-ink);font:var(--ui-font-body);outline:none;box-shadow:none}
+.keys-price-bound-control input::placeholder{color:var(--color-muted)}
+.keys-price-presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.keys-price-presets button{min-height:40px;padding:0 12px;border:1px solid var(--color-line);border-radius:999px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-label)}
+.keys-price-presets button[aria-pressed="true"]{background:var(--color-soft);border-color:var(--color-brand);color:var(--color-brand)}
+.keys-price-presets button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+.keys-price-range-error{margin:8px 0 0;color:var(--color-danger);font:var(--ui-font-caption)}
+#root .keys-price-bound-control input:focus-visible{outline:none!important;box-shadow:none!important}
+.keys-price-presets{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px;margin-top:10px}
+.keys-price-presets button{flex:none;white-space:nowrap}
+
+#root .keys-filter-option-icon{display:grid;place-items:center;flex:none;width:24px;height:24px;background:transparent;color:var(--color-brand);border:0;border-radius:0;box-shadow:none}
+#root .keys-filter-option-icon>svg{width:22px;height:22px;stroke-width:1.65}

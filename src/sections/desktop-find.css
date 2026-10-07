@@ -254,8 +254,6 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
  html[data-desktop-account=true] #root .ki-question-answers{gap:8px}
  html[data-desktop-account=true] #root .ki-bag{position:sticky;top:96px;bottom:auto;margin:0;padding:20px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);gap:16px;min-width:0}
  html[data-desktop-account=true] #root .ki-bag-items{flex-wrap:wrap;max-height:280px;overflow-y:auto;gap:8px}
- html[data-desktop-account=true] #root .ki-bag-items>button{min-height:40px;font:var(--ui-font-body);max-width:100%;white-space:normal;text-align:left}
- html[data-desktop-account=true] #root .ki-bag-items>button>span{flex:1;min-width:0}
  html[data-desktop-account=true] #root .ki-topic-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
  html[data-desktop-account=true] #root .ki-topic-card{min-height:156px;padding:20px}
  html[data-desktop-account=true] #root .ki-topics,html[data-desktop-account=true] #root .ki-topic-options{padding:0;gap:20px}

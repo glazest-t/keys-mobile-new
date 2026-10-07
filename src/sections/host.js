@@ -44,7 +44,7 @@
     section.dataset.runtimeScreen=screen??'';section.dataset.runtimeTab=tab;
     root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
     pending={tab,hotelId,screen,discovery};
-    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=advice-welcome-actions-1&stayDay='+encodeURIComponent(notificationDay());
+    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=filter-icons-visible-1&stayDay='+encodeURIComponent(notificationDay());
     send();
   };
   const captureProfileOrigin=()=>{
@@ -289,7 +289,7 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
-    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=advice-welcome-actions-1&stayDay='+encodeURIComponent(day);
+    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=filter-icons-visible-1&stayDay='+encodeURIComponent(day);
     else if(ready)frame.contentWindow.postMessage({source:'keys-host',stayDay:day},location.protocol==='file:'?'*':location.origin);
   });
   root.addEventListener('keys-open-trip-review',event=>{

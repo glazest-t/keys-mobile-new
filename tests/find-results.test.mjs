@@ -47,3 +47,26 @@ test('district filter derives districts from the selected city, combines with fi
  assert.deepEqual(Array.from(context.keysSetDistrict(search,'')),['Со спа']);
  assert.deepEqual(Array.from(context.keysSetDistrict(search,'Бытха')),['Со спа','Район: Сочи · Бытха']);
 });
+test('nightly price bounds preserve other filters, round-trip, and replace presets',()=>{
+ const f=context.keysSetNightlyPrice(['Со спа','До 6 000 ₽/ночь'],5000,8000);
+ assert.equal(f.length,2);
+ assert.equal(f[0],'Со спа');
+ assert.equal(context.keysNightlyPriceRange(f).min,5000);
+ assert.equal(context.keysNightlyPriceRange(f).max,8000);
+ assert.deepEqual(Array.from(context.keysSetNightlyPrice(f,null,null)),['Со спа']);
+ assert.equal(context.keysNightlyPriceRange(context.keysSetNightlyPrice(f,'',9000)).min,null);
+ assert.equal(context.keysNightlyPriceRange(context.keysSetNightlyPrice(f,4000,'')).max,null);
+});
+test('nightly filtering includes boundary prices and handles one-sided, empty and reversed ranges',()=>{
+ const set=(min,max)=>context.keysSetNightlyPrice([],min,max),match=context.keysNightlyPriceMatches;
+ assert.equal(match(5000,set(5000,8000)),true);
+ assert.equal(match(8000,set(5000,8000)),true);
+ assert.equal(match(4999,set(5000,8000)),false);
+ assert.equal(match(8001,set(5000,8000)),false);
+ assert.equal(match(10000,set(5000,null)),true);
+ assert.equal(match(1000,set(null,5000)),true);
+ assert.equal(match(6000,set(8000,5000)),false);
+ assert.equal(match(NaN,set(5000,8000)),false);
+ assert.equal(match(100000,[]),true);
+ assert.equal(match(1,set(null,0)),false);
+});

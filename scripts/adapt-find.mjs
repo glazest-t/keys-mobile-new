@@ -23,6 +23,8 @@ export function adaptFind(source, recentComponent, resultsComponent) {
   patch('placeholder: "Город или название отеля"','placeholder: citiesOnly ? "Введите город" : "Город или название отеля"');
   js=js.slice(0,start)+field+js.slice(end);
  }
+ // Decorative filter icons stay blue on the plain surface in both checkbox states.
+ for(const selected of ['h','v'])replace('className: F("grid size-8 shrink-0 place-items-center rounded-10", '+selected+' ? "bg-brand-solid text-on-brand" : "bg-card text-brand")','className: "keys-filter-option-icon"');
  const start=js.indexOf('function B4() {'),end=js.indexOf('function XN(',start);
  if(start<0||end<0)throw Error('Recent component missing');
  js=js.slice(0,start)+recentComponent+'\n'+js.slice(end);
@@ -33,6 +35,8 @@ export function adaptFind(source, recentComponent, resultsComponent) {
  replace(', n.jsx(Ue, { icon: "users", title: "Друзья советуют", description: l ? be : "Отзывы своих и общие подборки", onClick: l ? void 0 : () => a({ type: "friends" }) })', '');
  replace(', n.jsx(Ue, { icon: "heart", title: "Сохранённые", description: h ? "В коллекции: " + h : "Отели, к которым хочется вернуться", onClick: () => a({ type: "saved" }) })', '');
  if(resultsComponent){
+  replace('fV.map((f) => {', 'fV.map((f,index) => { if(index===0)return n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l},"nightly-price");');
+  replace('if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l) return false;', 'if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l || !keysNightlyPriceMatches(qE(u,e,t),e.filters)) return false;');
   replace('return e.sort === "price" ? c.sort((u, m) => Yn(u, e, t) - Yn(m, e, t)) : c;', 'return keysSortHotels(keysFilterDistrict(c, e), e, t);');
   replace('}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);', '}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);\n  if (r.navigation.screen?.type === "saved" || !r.navigation.screen && (r.navigation.tab === "favorites" || r.navigation.tab === "find" && r.search.results)) return n.jsx(KeysResultsHotelCard, {hotel:x, local:f, summary:g, price:y, offer:v, onOpen:S, impressionRef:h?m.ref:void 0});');
   // District is part of the same filter draft and reset/apply flow.

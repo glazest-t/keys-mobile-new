@@ -169,3 +169,36 @@ function KeysResultsMap() {
   ]})
  ]});
 }
+
+function keysNightlyPriceRange(filters){
+ const raw=(filters||[]).find(value=>/^(?:От|До) [\d\s]+(?: до [\d\s]+)? ₽\/ночь$/.test(value));
+ if(!raw)return {min:null,max:null};
+ const values=raw.match(/\d[\d\s]*/g).map(value=>Number(value.replace(/\s/g,'')));
+ return raw.startsWith('До ')?{min:null,max:values[0]}:{min:values[0],max:values[1]??null};
+}
+function keysSetNightlyPrice(filters,min,max){
+ const rest=filters.filter(value=>!/^(?:От|До) [\d\s]+(?: до [\d\s]+)? ₽\/ночь$/.test(value));
+ const format=value=>Number(value).toLocaleString('ru-RU');
+ const hasMin=min!==null&&min!=='',hasMax=max!==null&&max!=='';
+ if(!hasMin&&!hasMax)return rest;
+ return [...rest,(hasMin?'От '+format(min)+(hasMax?' до '+format(max):''):'До '+format(max))+' ₽/ночь'];
+}
+function keysNightlyPriceMatches(price,filters){
+ const {min,max}=keysNightlyPriceRange(filters);
+ if(min===null&&max===null)return true;
+ return Number.isFinite(price)&&(min===null||price>=min)&&(max===null||price<=max);
+}
+function KeysNightlyPriceFilter({filters,onChange}){
+ const {min,max}=keysNightlyPriceRange(filters),invalid=min!==null&&max!==null&&min>max;
+ const errorId=E.useId();
+ const field=(label,value,key)=>n.jsxs('label',{className:'keys-price-bound',children:[
+  n.jsx('span',{children:label}),
+  n.jsxs('span',{className:'keys-price-bound-control',children:[n.jsx('input',{type:'text',inputMode:'numeric',autoComplete:'off','aria-label':'Цена за ночь '+label.toLowerCase(),value:value??'',placeholder:key==='min'?'0':'Без лимита',maxLength:9,'aria-invalid':invalid,'aria-describedby':invalid?errorId:undefined,onChange:event=>{const clean=event.target.value.replace(/[^0-9]/g,'');onChange(keysSetNightlyPrice(filters,key==='min'?clean:min,key==='max'?clean:max));}}),n.jsx('span',{'aria-hidden':true,children:'₽'})]})
+ ]});
+ return n.jsxs('fieldset',{className:'keys-nightly-price',children:[
+  n.jsx('legend',{children:'Цена за ночь, ₽'}),
+  n.jsxs('div',{className:'keys-price-bounds',children:[field('От',min,'min'),field('До',max,'max')]}),
+  invalid&&n.jsx('p',{id:errorId,role:'alert',className:'keys-price-range-error',children:'Цена «До» должна быть не меньше цены «От».'}),
+  n.jsx('div',{className:'keys-price-presets',children:[null,6000,8000,10000].map(value=>n.jsx('button',{type:'button','aria-pressed':min===null&&max===value,onClick:()=>onChange(keysSetNightlyPrice(filters,null,value)),children:value===null?'Любая':'До '+value.toLocaleString('ru-RU')},value??'any'))})
+ ]});
+}

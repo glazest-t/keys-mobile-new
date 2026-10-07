@@ -3,8 +3,23 @@ export function adaptPhotoDiscovery(source,components){
  const edit=(name,next,update)=>{const a=js.indexOf('function '+name+'('),b=js.indexOf('function '+next+'(',a);if(a<0||b<0)throw Error('Photo component missing: '+name);js=js.slice(0,a)+update(js.slice(a,b))+js.slice(b);};
  const swap=(s,a,b)=>{if(!s.includes(a))throw Error('Photo anchor missing: '+a.slice(0,80));return s.replace(a,b);};
  edit('MV','PV',s=>swap(s,', n.jsx("button", { onClick: () => a({ type: "shared-create" }), "aria-label": "Выбрать вместе с друзьями", className: "glass-round shrink-0 transition-colors hover:bg-on-photo/25", children: n.jsx(D, { name: "users", className: "size-5" }) })',''));
- edit('Ck','bE',s=>s.replace('A = Qw(e).length','A = keysPhotoMedia(e,Qw(e)).length').replace('photos: e.photos, title: e.name','photos: keysPhotoMedia(e), title: e.name, startIndex:f, keysHotelLayout:true'));
+ edit('Ck','bE',s=>{
+  s=swap(s,'n.jsx(CV, { hotel: e','n.jsx(KeysPhotoRooms, { hotel: e');
+  s=swap(s,'className: "relative min-h-0 flex-1"','className: "keys-discovery-stack relative min-h-0 flex-1"');
+  s=s.replace('A = Qw(e).length','A = keysPhotoMedia(e,Qw(e)).length').replace('photos: e.photos, title: e.name','photos: keysPhotoMedia(e), title: e.name, startIndex:f, keysHotelLayout:true');
+  s=swap(s,'= wh(Y,','= useKeysPhotoGestures(Y,');
+  s=swap(s,'}, !ae);','}, !ae, delta=>g(index=>(index+delta+A)%A));');
+  s=swap(s,'return Sk(L), n.jsxs','return n.jsxs');
+  const a=s.indexOf('"aria-label": e.name + '),b=s.indexOf('}, ...Ce,',a);
+  if(a<0||b<0)throw Error('Photo keyboard controls missing');
+  s=s.slice(0,a)+'"aria-label": e.name + ". Влево и вправо — фотографии, вверх — следующий отель", onKeyDown: (event) => {if(event.target!==event.currentTarget||ae||le)return;if(event.key==="ArrowLeft"||event.key==="ArrowRight"){event.preventDefault();g(index=>(index+(event.key==="ArrowRight"?1:A-1))%A);}else if(event.key==="ArrowUp"){event.preventDefault();he(false);}' +s.slice(b);
+  return swap(s,'cursor-grab touch-pan-y select-none will-change-transform active:cursor-grabbing','keys-photo-gesture-card cursor-grab select-none will-change-transform active:cursor-grabbing');
+ });
  edit('bE','IV',s=>{
+  s=swap(s,'name: v?.enabled ? "bell-check" : "bell"','name: "price"');
+  s=swap(s,'className: "flex shrink-0 items-center gap-1.5 rounded-10 bg-photo-chip/95 px-2.5 py-1.5 text-13 leading-4 font-semibold text-success transition-colors hover:bg-photo-chip"','className: "keys-discovery-reviews"');
+  s=swap(s,'className: Gx, children:','className: "keys-discovery-rooms", children:');
+  s=s.replace('className: Pl, children:','className: "keys-discovery-tool", children:').replace('className: F(Pl, v?.enabled && "text-brand")','className: F("keys-discovery-tool", v?.enabled && "is-active")');
   s=swap(s,'photos: Qw(e)','photos: keysPhotoMedia(e,Qw(e)), mediaActive:a!==lc&&!r');
   const a=s.indexOf('n.jsxs("div", { className: "mt-2.5 flex flex-wrap'),b=s.indexOf('n.jsxs("div", { className: "mt-3 flex items-center',a);
   if(a<0||b<0)throw Error('Photo tags missing');

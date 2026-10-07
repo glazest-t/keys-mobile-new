@@ -68,7 +68,7 @@ export async function buildSections(){
  js=adaptFindSearch(js,await readFile(path.join(root,'src/sections/find-search.js'),'utf8'));
  js=adaptSelectionStyle(js,await readFile(path.join(root,'src/sections/selection-welcome.js'),'utf8'), (await readFile(path.join(root,'src/sections/ideas-engine.js'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/ideas.js'),'utf8')));
  js=adaptHotelDetails(js,await readFile(path.join(root,'src/sections/hotel-details.js'),'utf8'));
- js=adaptPhotoDiscovery(js,await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8'));
+ js=adaptPhotoDiscovery(js,(await readFile(path.join(root,'src/sections/photo-gestures.mjs'),'utf8')).replace('export function','function')+'\n'+(await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8')));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);

@@ -1,0 +1,13 @@
+{
+  "tool": "Built-in image_gen",
+  "assets": [
+    {
+      "path": "src/sections/ideas-art/destination-any.png",
+      "prompt": "Use case: stylized-concept. Asset type: mobile travel application Keys destination-choice illustration. Create one isolated premium soft 3D clay illustration: a small sky-blue globe with pale mint continents and a tiny golden travel key floating diagonally in front. Meaning: open to traveling to any city. Friendly rounded shapes, blue as main accent, subtle soft studio shadows, smooth matte material, three-quarter view. Compact centered composition, generous transparent margins, transparent background with alpha. No text, no letters, no UI, no border, no people. Match a refined pastel-blue 3D travel icon family, readable at 96 pixels. Square image."
+    },
+    {
+      "path": "src/sections/ideas-art/destination-city.png",
+      "prompt": "Use case: stylized-concept. Asset type: Keys mobile travel application destination-choice illustration. One isolated premium soft 3D clay illustration: two charming rounded hotel buildings, one ivory and one pastel sky blue, with a cobalt blue location pin floating just above them. Means choosing a particular city for a hotel stay. Compact centered three-quarter view, matte smooth materials, subtle studio shadows, refined friendly blue travel illustration family. Tiny warm golden window accents. Transparent background with alpha, generous transparent margins, square image. Readable at 96 pixels. No words, letters, logos, UI, border or people."
+    }
+  ]
+}

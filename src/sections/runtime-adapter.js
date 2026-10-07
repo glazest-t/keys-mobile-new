@@ -78,7 +78,7 @@ function PH({children}) {
   E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,state.search.results]);
   E.useLayoutEffect(()=>{document.documentElement.classList.toggle('keys-share-sheet',!!state.keysShareSession&&screen?.type==='keys-trip-share');},[state.keysShareSession,screen?.type]);
   const results=!screen && state.navigation.tab==='find' && state.search.results && state.search.intent==='known';
-  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(results?'results':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??'root',className:'keys-module-screen bg-card',children:[
+  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(screen?.type==='describe'?'advice':results?'results':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??'root',className:'keys-module-screen bg-card',children:[
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&n.jsx(CH,{}),
@@ -90,7 +90,7 @@ function PH({children}) {
 function keysInitialState() {
   const state=Xg('stay',Date.now());
   const photo={src:'../scenarios/maidens-hotel.jpg',alt:'Maidens Hotel'};
-  const maidens={...Ie('more'),id:'maidens',name:'Maidens Hotel',city:'Москва',area:'Хамовники',address:'Москва, Зубовская площадь, 3, стр. 1',location:'Хамовники · Москва',coordinates:[55.7364,37.5912],description:'Ваше текущее проживание: 12–19 сентября, номер 412.',photos:[photo],image:photo.src,beach:false,pool:false,spa:false,breakfast:false,room:'Премиум Кинг с видом во двор'};
+  const maidens={...Ie('more'),id:'maidens',name:'Maidens Hotel',city:'Москва',isSeasideCity:false,seaDistance:null,centerDistance:null,area:'Хамовники',address:'Москва, Зубовская площадь, 3, стр. 1',location:'Хамовники · Москва',coordinates:[55.7364,37.5912],description:'Ваше текущее проживание: 12–19 сентября, номер 412.',photos:[photo],image:photo.src,beach:false,pool:false,spa:false,breakfast:false,room:'Премиум Кинг с видом во двор'};
   if(!_n.some(h=>h.id==='maidens')) _n.push(maidens);
   state.navigation={tab:'find',screen:null,history:[]};
   state.tripContext.today='2026-09-13';

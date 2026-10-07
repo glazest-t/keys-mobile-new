@@ -680,3 +680,83 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 
 .keys-discovery-progress{display:block;width:100%;height:3px;overflow:hidden;border-radius:999px;background:rgb(255 255 255 / 40%)}
 .keys-discovery-progress>span{display:block;width:100%;height:100%;background:rgb(255 255 255 / 95%);transform-origin:left center;will-change:transform}
+/* Hotel album uses the application shell; only individual photo viewing is dark. */
+.keys-hotel-album{position:fixed;inset:0;margin:auto;width:100%;max-width:430px;height:100dvh;max-height:none;padding:0;border:0;background:var(--color-card);color:var(--color-ink);overflow:hidden;font-family:var(--font-sans);box-sizing:border-box}
+.keys-hotel-album[open]{display:flex;flex-direction:column}.keys-hotel-album::backdrop{background:rgb(28 40 65 / .45)}
+.keys-album-header{display:flex;align-items:center;gap:12px;flex:none;padding:12px 16px;background:var(--color-card);border-bottom:1px solid var(--color-line)}
+.keys-album-back{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--color-fill);color:var(--color-ink)}
+.keys-album-header h1{flex:1;min-width:0;margin:0;font:500 17px/24px var(--font-sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.keys-album-total{flex:none;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-album-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}.keys-album-scroll::-webkit-scrollbar{display:none}
+.keys-album-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:20px 16px 16px}.keys-album-heading h2{margin:0;font:500 20px/26px var(--font-sans)}.keys-album-heading>span{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-album-content{padding:0 8px 16px}.keys-album-tile{display:block;width:100%;padding:0;margin:0 0 4px;border:0;background:transparent;color:inherit;text-align:left;cursor:zoom-in;break-inside:avoid}
+.keys-album-image{display:block;position:relative;overflow:hidden;border-radius:12px;background:var(--color-surface,var(--color-soft))}.keys-album-photo{display:block;width:100%;height:100%;object-fit:cover}.keys-album-lead .keys-album-image{aspect-ratio:3/2}.keys-album-mosaic{columns:2;column-gap:4px}.keys-album-mosaic .keys-album-image{aspect-ratio:4/3}.keys-album-mosaic .keys-album-tile:nth-child(4n+1) .keys-album-image{aspect-ratio:3/4}
+.keys-album-caption{display:block;padding:6px 4px 4px;font:400 12px/18px var(--font-sans);color:var(--color-muted);overflow-wrap:anywhere}.keys-album-video{position:absolute;left:12px;bottom:12px;padding:4px 8px;border-radius:8px;background:var(--color-card);font:var(--ui-font-caption)}
+.keys-album-filters{flex:none;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:12px 16px max(16px,env(safe-area-inset-bottom));border-top:1px solid var(--color-line);background:var(--color-card)}.keys-album-filters::-webkit-scrollbar{display:none}.keys-album-filters button{flex:none;min-height:40px;padding:8px 14px;border:1px solid var(--color-line);border-radius:10px;background:var(--color-card);color:var(--color-ink);font:500 14px/21px var(--font-sans);white-space:nowrap}.keys-album-filters button[aria-pressed=true]{background:var(--color-soft);border-color:var(--color-soft);color:var(--color-brand)}
+.keys-hotel-album button:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}.keys-album-empty{padding:16px;color:var(--color-muted)}
+@media(min-width:640px){.keys-hotel-album{height:calc(100dvh - 48px);border-radius:24px}}
+@media(min-width:900px){html[data-desktop-account=true] .keys-hotel-album{width:calc(100% - 48px);max-width:1040px}.keys-hotel-album .keys-album-content{max-width:1040px;margin:auto}html[data-desktop-account=true] .keys-album-content{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:0 24px 24px}html[data-desktop-account=true] .keys-album-lead .keys-album-image{aspect-ratio:4/3}html[data-desktop-account=true] .keys-album-heading{padding-inline:24px}}
+@media(min-width:900px){html[data-desktop-account=true] .keys-album-content{align-items:start}html[data-desktop-account=true] .keys-album-lead{align-self:start}html[data-desktop-account=true] .keys-hotel-album~.hotel-photo-dialog{max-width:960px;width:calc(100% - 80px)}}
+/* Hotel detail content flows from personal fit to reviews, price and practical information. */
+#root .keys-hotel-sheet{position:relative;z-index:1;margin:-16px calc(-1 * var(--gutter)) 0;padding:20px var(--gutter) 24px;border-radius:24px 24px 0 0;background:var(--color-card)}
+#root .keys-hotel-sheet .keys-hotel-identity{margin:0}#root .keys-hotel-gallery-bottom{padding-bottom:28px}
+#root .keys-hotel-personal{margin-top:20px}#root .keys-hotel-personal h2{margin:0;font:var(--ui-font-section)}#root .keys-hotel-personal>p{margin:4px 0 12px;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-hotel-personal-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}.keys-hotel-personal-tags li{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 12px;border-radius:10px;background:var(--color-soft);color:var(--color-ink);font:400 14px/21px var(--font-sans)}.keys-hotel-personal-tags img{display:block;flex:none;width:24px;height:24px;object-fit:contain;background:none}
+#root .keys-hotel-rating-link{display:flex;align-items:center;gap:12px;width:100%;min-width:0;margin:20px 0 12px;padding:14px 16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);text-align:left;color:var(--color-ink)}
+.keys-hotel-rating-number{flex:none;font:500 28px/34px var(--font-sans);color:var(--color-success)}.keys-hotel-rating-copy{flex:1;min-width:0;display:grid;gap:4px}.keys-hotel-rating-copy strong{font:var(--ui-font-label)}.keys-hotel-rating-copy>span{font:var(--ui-font-caption);color:var(--color-muted)}.keys-hotel-rating-link>svg{color:var(--color-brand);flex:none}
+#root .keys-hotel-sheet .keys-hotel-pricing{margin-top:0}#root .keys-hotel-short-description{margin:16px 0 0;font:var(--ui-font-body);color:var(--color-ink-2,var(--color-muted))}
+#root .keys-hotel-location-interactive{position:relative;padding:16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);cursor:pointer}#root .keys-hotel-location-interactive>p{margin:6px 0 12px;font:var(--ui-font-body)}
+.keys-location-link{display:flex;gap:4px;align-items:center;font:var(--ui-font-caption);color:var(--color-brand);white-space:nowrap}.keys-location-hitarea{position:absolute;inset:0;z-index:2;width:100%;height:100%;padding:0;border:0;border-radius:inherit;background:transparent;cursor:pointer}
+#root .keys-hotel-location-interactive .keys-hotel-inline-map{height:156px;border-radius:12px;overflow:hidden}#root .keys-location-landmarks h3{margin:14px 0 8px;font:var(--ui-font-label)}.keys-location-landmarks dl{display:grid;gap:8px;margin:0}.keys-location-landmarks dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;font:var(--ui-font-caption)}.keys-location-landmarks dt{min-width:0;color:var(--color-muted)}.keys-location-landmarks dd{margin:0;flex:none;color:var(--color-ink)}
+#root .keys-hotel-review-carousel{margin-top:24px;min-width:0}#root .keys-hotel-carousel-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}#root .keys-hotel-carousel-heading h2{margin:0;font:var(--ui-font-section)}.keys-hotel-carousel-arrows{display:flex;gap:4px}.keys-hotel-carousel-arrows button{display:grid;place-items:center;width:36px;height:40px;background:transparent;border:0;color:var(--color-brand);border-radius:10px}
+#root .keys-review-topic-filters{display:flex;flex-wrap:nowrap;gap:8px;margin:10px 0 12px;padding:0 0 2px;overflow-x:auto;scrollbar-width:none}#root .keys-review-topic-filters button{flex:none}
+.keys-review-carousel-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;padding:2px 2px 4px}.keys-review-carousel-track::-webkit-scrollbar{display:none}
+#root .keys-review-preview{display:flex;flex-direction:column;gap:12px;flex:0 0 calc(100% - 28px);max-width:320px;min-width:0;scroll-snap-align:start;padding:16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);color:var(--color-ink);text-align:left}
+.keys-review-preview-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.keys-review-preview-heading>span:first-child{display:grid;gap:3px}.keys-review-preview-heading strong{font:var(--ui-font-label)}.keys-review-preview-heading time{font:var(--ui-font-caption);color:var(--color-muted)}.keys-review-preview-score{font:500 17px/24px var(--font-sans);color:var(--color-success)}.keys-review-preview-text{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;font:var(--ui-font-body)}.keys-review-preview-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;font:var(--ui-font-caption);color:var(--color-muted)}.keys-review-preview-tags>span{padding:4px 8px;background:var(--color-surface,var(--color-soft));border-radius:8px}
+#root .keys-hotel-review-carousel>.keys-hotel-card-action{margin-top:8px;padding-inline:0;border:0}.keys-location-hitarea:focus-visible,.keys-hotel-rating-link:focus-visible,.keys-review-preview:focus-visible,.keys-hotel-carousel-arrows button:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+@media(hover:hover){.keys-hotel-rating-link:hover,.keys-hotel-location-interactive:hover,.keys-review-preview:hover{border-color:var(--color-brand-line)}}
+
+/* Hotel detail: one reading surface and a shared section/action rhythm. */
+#root .keys-hotel-sheet{padding-top:20px;padding-bottom:28px;border-radius:24px 24px 0 0}
+#root .keys-hotel-sheet h2{font:var(--ui-font-section);letter-spacing:0}
+#root .keys-hotel-personal{margin-top:24px;padding:0;background:none;border-radius:0}
+#root .keys-hotel-sheet .keys-hotel-personal h2{font:var(--ui-font-label)}
+#root .keys-hotel-personal-tags{margin-top:10px;gap:8px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px;max-width:100%}
+#root .keys-hotel-personal-tags::-webkit-scrollbar{display:none}
+#root .keys-hotel-personal-tags:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px;border-radius:10px}
+#root .keys-hotel-personal-tags li{box-sizing:border-box;flex:0 0 156px;flex-direction:row;align-items:center;justify-content:flex-start;white-space:normal;scroll-snap-align:start;min-height:60px;padding:10px 12px;background:none;border:1px solid var(--color-line);border-radius:12px;font:var(--ui-font-body);gap:10px}
+#root .keys-hotel-personal-tags li span{font-size:13px;line-height:18px}
+#root .keys-hotel-personal-tags img{width:28px;height:28px}
+#root .keys-hotel-rating-link{margin:20px 0 12px;padding:14px 16px;border:1px solid var(--color-line);background:transparent;border-radius:16px;gap:12px}
+#root .keys-hotel-rating-number{display:grid;place-items:center;min-width:44px;height:44px;border-radius:12px;background:var(--color-success-bg);font:var(--ui-font-title);color:var(--color-success)}
+#root .keys-hotel-rating-copy{gap:6px}
+#root .keys-hotel-rating-title{display:flex;align-items:baseline;gap:4px 8px;flex-wrap:wrap}
+#root .keys-hotel-rating-title strong{font:var(--ui-font-label);color:var(--color-ink)}
+#root .keys-hotel-rating-title>span{font:var(--ui-font-caption);color:var(--color-muted);white-space:nowrap}
+#root .keys-hotel-rating-copy>span:last-child{font:var(--ui-font-caption);line-height:18px;color:var(--color-muted)}
+#root .keys-hotel-sheet .keys-hotel-pricing-row{border:0;border-radius:16px;background:var(--color-soft)}
+#root .keys-hotel-sheet .keys-hotel-pricing-amount{position:relative;min-height:84px;padding:14px 44px 14px 16px;border-radius:16px;gap:6px}
+#root .keys-hotel-sheet .keys-hotel-price-label{padding-right:0;font:var(--ui-font-caption);color:var(--color-muted)}
+#root .keys-hotel-sheet .keys-hotel-price-values{gap:8px}
+#root .keys-hotel-sheet .keys-hotel-price-action{position:absolute;right:16px;bottom:18px;width:16px;min-height:20px}
+#root .keys-hotel-sheet .keys-hotel-pricing-row .keys-hotel-watch{right:2px;top:0}
+#root .keys-hotel-short-description{margin:20px 0 0;font:var(--ui-font-body);line-height:22px;color:var(--color-ink)}
+#root .keys-hotel-sheet :is(.keys-hotel-location-interactive,.keys-hotel-amenities,.keys-hotel-review-carousel){margin-top:24px;padding:24px 0 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;overflow:visible}
+#root .keys-hotel-sheet :is(.keys-hotel-section-heading,.keys-hotel-card-heading,.keys-hotel-carousel-heading){display:flex;align-items:center;justify-content:space-between;min-height:24px;padding:0;margin:0 0 12px;gap:12px}
+#root .keys-hotel-location-interactive>p{margin:0 0 12px;font:var(--ui-font-body);color:var(--color-muted)}
+#root .keys-hotel-sheet .keys-hotel-inline-map{height:156px;border-radius:16px}
+#root .keys-location-landmarks{margin-top:16px}
+#root .keys-location-landmarks dl{gap:10px}
+#root .keys-location-landmarks dl>div{font:var(--ui-font-body)}
+#root .keys-location-landmarks dt{color:var(--color-ink)}
+#root .keys-location-landmarks dd{color:var(--color-muted)}
+#root .keys-hotel-amenity-preview{padding:0;gap:12px 16px}
+#root .keys-hotel-inline-action,#root .keys-location-link{display:inline-flex;align-items:center;gap:4px;flex:none;min-height:44px;margin:-10px 0;padding:0;border:0;background:none;font:var(--ui-font-label);color:var(--color-brand);white-space:nowrap}
+#root .keys-hotel-inline-action:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px;border-radius:6px}
+#root .keys-hotel-carousel-actions{display:flex;align-items:center;gap:12px}
+#root .keys-hotel-carousel-arrows{display:none}
+#root .keys-review-topic-filters{margin:0 0 12px;padding:0 0 2px}
+#root .keys-review-preview{border:0;border-radius:16px;background:var(--color-surface);gap:12px;padding:16px}
+#root .keys-review-preview-tags>span{padding:0;background:none;border-radius:0}
+#root .keys-review-preview-tags>span+span:before{content:'·';margin-right:6px}
+#root .keys-review-preview-score{font:var(--ui-font-label)}
+@media(hover:hover){#root .keys-hotel-rating-link:hover{background:transparent;border-color:var(--color-brand-line)}#root .keys-review-preview:hover{background:var(--color-soft)}}

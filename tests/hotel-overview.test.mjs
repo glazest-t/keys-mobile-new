@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
 const source=readFileSync(new URL('../src/sections/hotel-details.js',import.meta.url),'utf8');
-const helpers=vm.runInNewContext(source.slice(0,source.indexOf('function TY('))+';({keysReviewHighlights,keysHotelReasons,keysRoomAmenities})');
+const helpers=vm.runInNewContext(source.slice(0,source.indexOf('function TY('))+';({keysReviewHighlights,keysHotelReasons,keysRoomAmenities,keysHotelRatingLabel})');
 const plain=value=>JSON.parse(JSON.stringify(value));
 
 test('review summary includes the three-month boundary and excludes future reviews',()=>{
@@ -39,4 +39,12 @@ test('room amenities are deduplicated and room-specific descriptions remain avai
  const rooms=[{description:'Вид на море · Wi-Fi · кондиционер'},{description:'Окна во двор · Wi-Fi · кондиционер'}];
  assert.deepEqual(plain(helpers.keysRoomAmenities(rooms)),['Wi-Fi','Кондиционер','Вид на море','Окна во двор']);
  assert.deepEqual(plain(helpers.keysRoomAmenities([rooms[1]])),['Wi-Fi','Кондиционер','Окна во двор']);
+});
+
+
+test('rating wording handles the catalog comma notation and numeric ratings',()=>{
+ assert.equal(helpers.keysHotelRatingLabel('9,4'),'Очень хорошо');
+ assert.equal(helpers.keysHotelRatingLabel(9.4),'Очень хорошо');
+ assert.equal(helpers.keysHotelRatingLabel('8,6'),'Хорошо');
+ assert.equal(helpers.keysHotelRatingLabel('—'),'Отзывы гостей');
 });

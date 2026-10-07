@@ -12,6 +12,7 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 export async function buildUIkit(){
  const out=path.join(root,'dist/ui-kit');await rm(out,{recursive:true,force:true,maxRetries:3});await mkdir(out,{recursive:true});
  for(const f of ['key.css','key.js','templates.js','catalog.css','catalog.js','index.html','contracts.d.ts','handoff.html']) await cp(path.join(root,'src/ui-kit-key',f),path.join(out,f));
+ await cp(path.join(root,'src/ui-kit-key/brand'),path.join(out,'brand'),{recursive:true});
  const foundations=await json('design/ui-foundations.json');
  const tokenSource=await read('src/arbana/tokens.css');
  const firstRoot=tokenSource.slice(tokenSource.indexOf(':root{'),tokenSource.indexOf(':root[data-theme="dark"]'));

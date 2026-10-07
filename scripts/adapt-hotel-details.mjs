@@ -30,6 +30,8 @@ export function adaptHotelDetails(source,components){
  replaceViewer('className: "px-4 pt-4 pb-[max(20px,env(safe-area-inset-bottom))]"', 'className: (keysHotelLayout ? "keys-photo-details " : "") + "px-4 pt-4 pb-[max(20px,env(safe-area-inset-bottom))]"');
  replaceViewer('className: "grid max-h-[132px] grid-cols-6 gap-1.5 overflow-y-auto"', 'className: (keysHotelLayout ? "keys-photo-thumbnails " : "") + "grid max-h-[132px] grid-cols-6 gap-1.5 overflow-y-auto"');
  replaceViewer('children: n.jsx(Gl, { src: A.src, alt: "", variant: "thumbnail", sizes: "64px", loading: "lazy", className: "h-full w-full object-cover" })', 'children: n.jsxs(n.Fragment, {children:[n.jsx(Gl, { src: A.src, alt: "", variant: "thumbnail", sizes: keysHotelLayout ? "180px" : "64px", loading: "lazy", className: "h-full w-full object-cover" }),keysHotelLayout&&n.jsx("span",{className:"keys-photo-thumb-caption",children:A.alt})]})');
+ viewer=viewer.replace('function Si(', 'function KeysHotelPhotoViewer(');
+ viewer='function Si(props){return props.keysHotelLayout ? n.jsx(KeysHotelPhotoAlbum,props) : n.jsx(KeysHotelPhotoViewer,props); }\n'+viewer;
  js=js.slice(0,viewerStart)+viewer+js.slice(viewerEnd);
 
  const mapRoute='return n.jsx(JV, { hotelId: e.hotelId, booked: e.booked }, e.hotelId ?? "all");';

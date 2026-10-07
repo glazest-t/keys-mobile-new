@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-07",
+  "result": "passed",
+  "scope": "Hotel details composition, mobile and desktop",
+  "changes": [
+    "Rounded photo-content transition",
+    "Clickable rating summary above price",
+    "Preference icon chips beneath hotel metadata",
+    "Two-sentence description after price",
+    "Clickable location with nearby landmark distances",
+    "Topic-filtered review carousel below amenities"
+  ],
+  "checks": [
+    "78 existing tests passed",
+    "Production build succeeded",
+    "320 and 375 px: no horizontal document overflow",
+    "1440 px desktop grid visually checked",
+    "Rating and all-reviews links open detailed reviews",
+    "Location opens selected hotel map and nearby places",
+    "Carousel arrows advance track; food filter matches relevant reviews",
+    "No browser errors observed"
+  ],
+  "screenshots": [
+    "tmp/hotel-detail-story-mobile.png",
+    "tmp/hotel-detail-story-reviews.png"
+  ]
+}

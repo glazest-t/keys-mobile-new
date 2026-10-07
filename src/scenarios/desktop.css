@@ -274,7 +274,7 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-payment{margin:0;padding-top:16px;align-items:center;gap:8px;flex-wrap:wrap}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-status strong{font:500 12px/18px var(--font-sans)!important}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions{border:0;border-radius:0;padding:0;gap:12px;background:transparent}
-body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button{position:relative;display:grid;grid-template-columns:1fr auto;align-content:start;align-items:start;gap:12px;min-height:122px;padding:16px;border:1px solid #dce5fc;border-radius:18px;background:var(--color-soft);transition:background .18s,border-color .18s}
+body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button{position:relative;display:grid;grid-template-columns:1fr auto;align-content:start;align-items:start;gap:12px;min-height:122px;padding:16px;border:1px solid var(--color-line);border-radius:18px;background:transparent;transition:border-color .18s}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button[hidden]{display:none}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button>svg:first-child{width:22px;height:22px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button>svg:last-child{grid-column:2;grid-row:1;display:block;width:16px;height:16px;color:var(--color-brand);align-self:center}
@@ -290,7 +290,7 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{position:absolute;right:16px;top:10px;display:flex;align-items:center;justify-content:flex-end;width:auto;min-height:44px;padding:8px 4px;border:0;background:transparent;gap:6px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-wallet .keys-benefits-level-details:last-child{margin-bottom:0}
 @media(hover:hover){
- body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button:hover{background:var(--color-soft-hover);border-color:#b9caf7}
+ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions button:hover{background:transparent;border-color:var(--color-brand)}
  body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-service:hover{border-color:#b9caf7}
 }
 @media(min-width:800px) and (max-width:999px){

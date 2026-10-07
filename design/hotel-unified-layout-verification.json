@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-07",
+  "result": "passed",
+  "reference": {
+    "file": "55eQFTYpNPx5UXWYuv7o8e",
+    "page": "345:10578",
+    "selectedNodes": [
+      "345:10620",
+      "345:10665",
+      "345:10668"
+    ],
+    "application": "References guide reading hierarchy, light continuous content surface, compact metadata and consistent section spacing. Existing Keys assets and tokens retained; not a literal clone."
+  },
+  "changes": [
+    "Consistent section typography, spacing and inline actions",
+    "Removed redundant subtitles, nested borders and repeated headings",
+    "Rating summary includes qualitative label and review count",
+    "Price shortened, details and price-watch actions retained",
+    "Location, amenities and review carousel share section design"
+  ],
+  "checks": [
+    "Mobile 320/375: no horizontal overflow",
+    "Desktop 1440 layout inspected",
+    "Amenities modal and detailed reviews route verified",
+    "79 tests passed; build passed",
+    "No browser errors observed"
+  ],
+  "screenshots": [
+    "tmp/hotel-unified-desktop.png"
+  ]
+}

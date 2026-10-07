@@ -91,11 +91,11 @@ function keysHotelLocation(searchCity, hotel = {}) {
  const distance=meters<1000?meters.toLocaleString('ru-RU')+' м':(meters/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км';
  return [city,distance+(seaside?' до моря':' до центра')].filter(Boolean).join(' · ');
 }
-function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impressionRef}) {
+function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impressionRef,locationCity}) {
  const {state,dispatch}=J();
  const saved=state.discovery.savedIds.includes(hotel.id);
  const reviews=local?Zc(local).reviews.length:null;
- const location=keysHotelLocation(state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'?(local?.city||summary?.city||''):state.search.city,local||summary);
+ const location=keysHotelLocation(locationCity??(state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'?(local?.city||summary?.city||''):state.search.city),local||summary);
  return n.jsxs('article',{ref:impressionRef,className:'keys-result-hotel','data-hotel-id':hotel.id,children:[
   n.jsxs('div',{className:'keys-result-hotel-photo',children:[
    n.jsx(jO,{photos:hotel.photos,name:hotel.name,onOpen}),

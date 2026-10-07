@@ -102,3 +102,63 @@
 .ki-match summary>span:first-child{flex:1;min-width:0}
 .ki-match-badge{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:2px 8px;border-radius:8px;background:var(--color-soft);color:var(--color-muted);font:var(--ui-font-caption-medium);white-space:nowrap}
 .ki-match-badge.is-matched{color:var(--color-brand)}
+
+/* A destination is part of every advice search, including all-city discovery. */
+/* Destination is an explicit step, shared by the feed and topic entry points. */
+.ki-start-controls{display:flex;align-items:center;min-width:0}
+.ki-selection-controls{padding:0 16px 16px;display:grid;gap:12px;flex:none}
+#root .ki-selection-controls>.ki-mode{padding:0}
+.ki-location-action{display:flex;align-items:center;gap:8px;min-height:44px;width:max-content;max-width:100%;padding:0 12px;border:1px solid var(--color-line);border-radius:var(--ui-control-radius);background:var(--color-card);color:var(--color-ink);font:var(--ui-font-label)}
+.ki-location-action>span{flex:1;text-align:left}
+.ki-location-action>svg:last-child{color:var(--color-muted)}
+.ki-tune>.ki-location-action{grid-column:1/-1}
+.ki-destination-step{display:grid;gap:24px;max-width:640px;margin:16px auto 0;animation:ki-enter .24s ease both}
+.ki-destination-intro{display:grid;gap:8px}
+.ki-destination-options{display:grid;gap:12px}
+.ki-destination-card{display:flex;align-items:center;gap:16px;text-align:left;padding:20px 16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);background:var(--color-card);color:var(--color-ink);transition:background .18s,border-color .18s}
+.ki-destination-card:first-child{background:var(--color-soft)}
+.ki-destination-card:hover{border-color:var(--color-brand)}
+.ki-destination-card .ki-art{width:88px;height:96px}
+.ki-destination-copy{display:grid;gap:6px;flex:1;min-width:0}
+.ki-destination-copy strong{font:var(--ui-font-label)}
+.ki-destination-copy>span{font:var(--ui-font-caption);color:var(--color-muted);line-height:1.5}
+.ki-destination-card>svg{flex:none;color:var(--color-muted)}
+.ki-city-picker{display:grid;gap:24px}
+.ki-city-art{width:156px;height:156px;justify-self:center}
+.ki-city-form{display:grid;gap:24px;min-width:0;align-self:start}
+.ki-empty-city{display:grid;gap:12px;padding:24px 0}
+.ki-destination-card:focus-visible,.ki-location-action:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .ki-selection-controls{display:flex;align-items:center;gap:24px;padding:0;margin:0 0 24px}
+ html[data-desktop-account=true] #root .ki-selection-controls>.ki-mode{margin:0;padding:0}
+ html[data-desktop-account=true] #root .ki-destination-step{max-width:760px;margin:24px auto 0;gap:32px}
+ html[data-desktop-account=true] #root .ki-destination-options{grid-template-columns:1fr 1fr;gap:20px}
+ html[data-desktop-account=true] #root .ki-destination-card{display:grid;grid-template-columns:1fr auto;padding:24px;gap:20px}
+ html[data-desktop-account=true] #root .ki-destination-card .ki-art{grid-column:1/-1;width:160px;height:160px;justify-self:center}
+ html[data-desktop-account=true] #root .ki-city-picker{grid-template-columns:200px 1fr;align-items:center;gap:32px}
+ html[data-desktop-account=true] #root .ki-city-art{width:200px;height:200px}
+}
+@media(prefers-reduced-motion:reduce){.ki-destination-step{animation:none}.ki-destination-card{transition:none}}
+
+/* Mobile advice fits the available phone viewport; long choices scroll above the summary. */
+html:not([data-desktop-account=true]) #root .ki-mode>[data-keys-tabs]{margin-bottom:0}
+html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose] .ki-selection-controls{padding-bottom:12px;gap:8px}
+html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose]>.ki-scroll{padding-bottom:0;overflow:hidden}
+html:not([data-desktop-account=true]) #root .ki-workspace{height:100%;min-height:0;gap:0}
+html:not([data-desktop-account=true]) #root .ki-choice-body{flex:0 1 auto;min-height:0;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}
+html:not([data-desktop-account=true]) #root .ki-page .ki-step-hint{min-height:0;padding:0;line-height:18px;flex:none}
+html:not([data-desktop-account=true]) #root .ki-idea-card{min-height:clamp(220px,32dvh,280px);flex:0 0 auto;padding:12px 16px;gap:8px}
+html:not([data-desktop-account=true]) #root .ki-hero-art{width:clamp(64px,14dvh,112px);height:clamp(64px,14dvh,112px);margin:auto;flex:none}
+html:not([data-desktop-account=true]) #root .ki-idea-card>div{gap:4px}
+html:not([data-desktop-account=true]) #root .ki-choice-body>.ki-decisions{position:sticky;bottom:0;background:var(--color-card);z-index:1;padding-top:4px}
+html:not([data-desktop-account=true]) #root .ki-bag{position:static;flex:none;padding:12px 0 max(12px,env(safe-area-inset-bottom));gap:8px}
+html:not([data-desktop-account=true]) #root .ki-bag-items{max-height:40px;padding:0}
+html:not([data-desktop-account=true]) #root .ki-bag-items>p{display:none}
+html:not([data-desktop-account=true]) #root .ki-bag-items:has(>p){display:none}
+html:not([data-desktop-account=true]) #root .ki-topics,
+html:not([data-desktop-account=true]) #root .ki-topic-options{padding-top:0;gap:12px}
+html:not([data-desktop-account=true]) #root .ki-topic-grid{gap:8px}
+html:not([data-desktop-account=true]) #root .ki-topic-card{min-height:104px;padding:10px 8px;gap:4px}
+html:not([data-desktop-account=true]) #root .ki-topic-card .ki-art{width:48px;height:48px}
+html:not([data-desktop-account=true]) #root .ki-question{min-height:0;padding:16px;gap:10px}
+html:not([data-desktop-account=true]) #root .ki-question-art{width:clamp(48px,10dvh,80px);height:clamp(48px,10dvh,80px);margin:0;flex:none}

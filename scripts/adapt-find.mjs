@@ -11,6 +11,18 @@ export function adaptFind(source, recentComponent, resultsComponent) {
  replace('YB(e.party, t.party);', 'YB(e.party, t.party) && JSON.stringify([...(e.filters ?? [])].sort()) === JSON.stringify([...(t.filters ?? [])].sort()) && (e.sort ?? "recommended") === (t.sort ?? "recommended") && JSON.stringify([...(e.recommendedHotelIds ?? [])].sort()) === JSON.stringify([...(t.recommendedHotelIds ?? [])].sort());');
  replace('pet: t.party.pet, business: t.party.business }, at: a', 'pet: t.party.pet, business: t.party.business, car: !!t.party.car }, filters: [...(t.filters ?? [])], sort: t.sort ?? "recommended", recommendedHotelIds: [...(t.recommendedHotelIds ?? [])], at: a');
  replace('JSON.stringify({ city: l.trim(), arrival: c, departure: u, party: m })', 'JSON.stringify({ city: l.trim(), arrival: c, departure: u, party: m, filters: e.search.filters, sort: e.search.sort, recommendedHotelIds: e.search.recommendedHotelIds })');
+ // Reuse the main search autocomplete for city-only advice, without hotel suggestions.
+ {
+  const start=js.indexOf('function f4({'),end=js.indexOf('\nconst MU =',start);
+  if(start<0||end<0)throw Error('Destination input missing');
+  let field=js.slice(start,end);
+  const patch=(a,b)=>{if(!field.includes(a))throw Error('Destination anchor missing: '+a);field=field.replace(a,b);};
+  patch('onHotelChange: l })','onHotelChange: l, citiesOnly = false })');
+  patch('].slice(0, 7), C =','].filter(I => !citiesOnly || I.place && I.caption.startsWith("Город")).slice(0, 7), C =');
+  patch('"aria-label": "Город или отель"','"aria-label": citiesOnly ? "Город" : "Город или отель"');
+  patch('placeholder: "Город или название отеля"','placeholder: citiesOnly ? "Введите город" : "Город или название отеля"');
+  js=js.slice(0,start)+field+js.slice(end);
+ }
  const start=js.indexOf('function B4() {'),end=js.indexOf('function XN(',start);
  if(start<0||end<0)throw Error('Recent component missing');
  js=js.slice(0,start)+recentComponent+'\n'+js.slice(end);

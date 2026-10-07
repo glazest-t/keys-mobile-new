@@ -44,9 +44,9 @@ html[data-desktop-account="true"] [data-find-layout="results"] .keys-results-map
 /* Secondary forms keep readable line lengths within the web shell. */
 html[data-desktop-account="true"] [data-find-layout="detail"] main{max-width:760px;margin:auto;padding:8px 24px 32px}
 html[data-desktop-account="true"] [data-find-layout="detail"]{min-height:620px}
-html[data-desktop-account="true"] [data-find-layout="advice"]{max-width:840px;margin:auto;height:720px;min-height:0}
-html[data-desktop-account="true"] [data-find-layout="advice"]>.keys-module-scroll{height:100%;overflow:hidden}
-html[data-desktop-account="true"] [data-find-layout="advice"] main{padding-inline:24px}
+html[data-desktop-account="true"] [data-find-layout="advice"]{max-width:none;width:100%;margin:0;height:var(--keys-desktop-height,760px);min-height:560px}
+html[data-desktop-account="true"] [data-find-layout="advice"]>.keys-module-scroll{height:100%;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent}
+html[data-desktop-account="true"] [data-find-layout="advice"] main{width:100%;max-width:none;margin:0;padding:0 0 32px;overflow:visible;flex:none}
 @media(max-width:1000px){
  html[data-desktop-account="true"] [data-find-layout="landing"] .keys-search-fields{grid-template-columns:minmax(180px,1fr) minmax(300px,1.4fr)}
  html[data-desktop-account="true"] #root#root [data-find-layout="landing"] .keys-search-submit{width:140px}
@@ -180,3 +180,112 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
 }
 
 @media(min-width:900px){html[data-desktop-account="true"] #root .keys-hotel-amenities{order:2}}
+@media(min-width:900px){
+ html[data-desktop-account="true"] #root .keys-hotel-overview{grid-template-areas:"photo photo" "identity booking" "description booking" "content booking";gap:24px 32px}
+ html[data-desktop-account="true"] #root .keys-hotel-sheet{display:contents}
+ html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-location-section{order:0}
+ html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-amenities{order:1}
+ html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-review-carousel{order:2;margin-top:0}
+ html[data-desktop-account="true"] #root .keys-hotel-personal{margin-top:20px}
+ html[data-desktop-account="true"] #root .keys-hotel-booking-panel>.keys-hotel-rating-link{margin:0 0 16px;padding:0 0 16px;border:0;border-bottom:1px solid var(--color-line);border-radius:0}
+ html[data-desktop-account="true"] #root .keys-hotel-booking-panel .keys-hotel-price-label{padding-right:24px}
+ html[data-desktop-account="true"] #root .keys-hotel-location-interactive .keys-hotel-inline-map{height:240px}
+ html[data-desktop-account="true"] #root .keys-location-link{font:var(--ui-font-label)}
+ html[data-desktop-account="true"] #root .keys-hotel-gallery-bottom{padding-bottom:12px}
+}
+
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-hotel-personal{margin-top:24px}
+ html[data-desktop-account=true] #root .keys-hotel-content{gap:24px}
+ html[data-desktop-account=true] #root .keys-hotel-sheet .keys-hotel-content>section{margin:0;padding-top:24px}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel{padding:20px}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel>.keys-hotel-rating-link{padding:14px 16px;margin:0 0 20px;background:none;border:1px solid var(--color-line);border-radius:16px}
+ html[data-desktop-account=true] #root .keys-hotel-sheet .keys-hotel-pricing-amount{padding:14px 40px 14px 14px;gap:8px}
+ html[data-desktop-account=true] #root .keys-hotel-sheet .keys-hotel-price-label{font:var(--ui-font-caption);max-width:none}
+ html[data-desktop-account=true] #root .keys-hotel-sheet .keys-hotel-inline-map{height:240px}
+ html[data-desktop-account=true] #root .keys-hotel-carousel-arrows{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+}
+
+/* Desktop hotel overview: aligned reading column and compact booking summary. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-hotel-sheet>.keys-hotel-short-description{grid-area:description;margin:0;max-width:68ch;font:var(--ui-font-body);line-height:22px}
+ html[data-desktop-account=true] #root .keys-hotel-personal-tags{gap:12px}
+ html[data-desktop-account=true] #root .keys-hotel-personal-tags li{flex:1 0 156px;max-width:240px;min-height:60px}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel{top:88px;padding:0;border:0;background:none;border-radius:0}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel>.keys-hotel-rating-link{margin-bottom:16px}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel .keys-hotel-pricing-row{background:var(--color-soft);border:0;border-radius:16px}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel .keys-hotel-pricing-amount{padding:14px 40px 14px 14px;min-height:88px;gap:8px}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel .keys-hotel-price-label{padding-right:0}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel .keys-hotel-pricing-row .keys-hotel-watch{top:0;right:2px}
+ html[data-desktop-account=true] #root .keys-hotel-desktop-booking-action{margin-top:16px}
+ html[data-desktop-account=true] #root .keys-review-carousel-track{scroll-padding-inline:0}
+ html[data-desktop-account=true] #root .keys-review-preview{flex-basis:calc((100% - 12px)/2);max-width:none}
+}
+
+/* Advice shares the desktop Find shell; the mobile questionnaire stays unchanged. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root [data-find-layout=landing] .ki-embedded{grid-column:1/-1;margin:0;width:100%}
+ html[data-desktop-account=true] #root .ki-page{display:block;max-width:none;overflow:visible}
+ html[data-desktop-account=true] #root .ki-scroll{overflow:visible;padding:0;flex:none}
+ html[data-desktop-account=true] #root .ki-header{position:sticky;top:0;z-index:40;min-height:76px;padding:8px 0 20px;background:var(--color-card)}
+ html[data-desktop-account=true] #root .ki-header>button{width:44px;height:44px;border-radius:12px;background:transparent;box-shadow:none}
+ html[data-desktop-account=true] #root .ki-header>button:hover{background:var(--color-soft)}
+ html[data-desktop-account=true] #root .ki-mode{width:360px;max-width:100%;padding:0;margin:0 0 24px}
+ html[data-desktop-account=true] #root .ki-welcome{max-width:none;width:100%;gap:20px}
+ html[data-desktop-account=true] #root .ki-welcome-card{grid-template-columns:minmax(0,1fr) 360px;grid-template-areas:"heading art" "copy art" "actions art";gap:12px 40px;padding:32px;align-items:center}
+ html[data-desktop-account=true] #root .ki-welcome-card h2{grid-area:heading;font:var(--ui-font-title);max-width:460px;align-self:end}
+ html[data-desktop-account=true] #root .ki-welcome-card>p{grid-area:copy;max-width:440px;align-self:start}
+ html[data-desktop-account=true] #root .ki-welcome-card>.ki-decisions{grid-area:actions;max-width:400px;width:100%;align-self:start;margin-top:8px}
+ html[data-desktop-account=true] #root .ki-welcome-art{grid-area:art;height:208px;padding:16px 0;margin:0}
+ html[data-desktop-account=true] #root .ki-welcome-art>button{height:160px;max-width:116px}
+ html[data-desktop-account=true] #root .ki-welcome>.ki-wish-form{max-width:680px;width:100%}
+ html[data-desktop-account=true] #root .ki-workspace{grid-template-columns:minmax(0,1fr) 336px;gap:32px;min-height:0;align-items:start}
+ html[data-desktop-account=true] #root .ki-choice-body{min-width:0;min-height:0;gap:16px}
+ html[data-desktop-account=true] #root .ki-step-hint{min-height:0;padding:0;font:var(--ui-font-body)}
+ html[data-desktop-account=true] #root .ki-idea-card{display:grid;grid-template-columns:minmax(0,1fr) 200px;grid-template-rows:auto 1fr;gap:16px 24px;min-height:300px;flex:none;padding:32px;overflow:hidden}
+ html[data-desktop-account=true] #root .ki-idea-kind{grid-column:1;align-self:start}
+ html[data-desktop-account=true] #root .ki-hero-art{grid-column:2;grid-row:1/3;width:200px;height:200px;margin:auto;align-self:center}
+ html[data-desktop-account=true] #root .ki-idea-card>div{grid-column:1;grid-row:2;align-self:center;gap:12px}
+ html[data-desktop-account=true] #root .ki-idea-card h2{font:var(--ui-font-title)}
+ html[data-desktop-account=true] #root .ki-question{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:16px 24px;align-content:center;min-height:300px;padding:32px}
+ html[data-desktop-account=true] #root .ki-question>.ki-question-art{grid-column:2;grid-row:1/6;width:144px;height:144px;margin:auto;align-self:center}
+ html[data-desktop-account=true] #root .ki-question>:not(.ki-question-art){grid-column:1;min-width:0}
+ html[data-desktop-account=true] #root .ki-question h2{font:var(--ui-font-title)}
+ html[data-desktop-account=true] #root .ki-question-answers{gap:8px}
+ html[data-desktop-account=true] #root .ki-bag{position:sticky;top:96px;bottom:auto;margin:0;padding:20px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);gap:16px;min-width:0}
+ html[data-desktop-account=true] #root .ki-bag-items{flex-wrap:wrap;max-height:280px;overflow-y:auto;gap:8px}
+ html[data-desktop-account=true] #root .ki-bag-items>button{min-height:40px;font:var(--ui-font-body);max-width:100%;white-space:normal;text-align:left}
+ html[data-desktop-account=true] #root .ki-bag-items>button>span{flex:1;min-width:0}
+ html[data-desktop-account=true] #root .ki-topic-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+ html[data-desktop-account=true] #root .ki-topic-card{min-height:156px;padding:20px}
+ html[data-desktop-account=true] #root .ki-topics,html[data-desktop-account=true] #root .ki-topic-options{padding:0;gap:20px}
+ html[data-desktop-account=true] #root .ki-results{gap:24px}
+ html[data-desktop-account=true] #root .ki-hotel-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+ html[data-desktop-account=true] #root .ki-hotel-result{min-width:0}
+ html[data-desktop-account=true] #root .ki-results-summary{padding:0 0 20px;border:0;border-bottom:1px solid var(--color-line);border-radius:0;gap:16px}
+ html[data-desktop-account=true] #root .ki-results-summary .ki-results-count{display:flex;gap:12px;align-items:baseline}
+ html[data-desktop-account=true] #root .ki-results-count p{margin:0;font:var(--ui-font-body)}
+ html[data-desktop-account=true] #root .ki-results-wish{max-width:680px;width:100%;padding-top:24px}
+ html[data-desktop-account=true] #root .ki-results>button{justify-self:center;min-width:240px}
+ html[data-desktop-account=true] #root .ki-area-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:0}
+ html[data-desktop-account=true] #root .ki-area-choices>:is(h2,p){grid-column:1/-1}
+ html[data-desktop-account=true] #root .ki-area-map{grid-column:1;grid-row:3/10;height:420px}
+ html[data-desktop-account=true] #root .ki-area-choices>button{grid-column:2}
+ html[data-desktop-account=true] #root .ki-note{margin:0 0 20px;max-width:100%}
+}
+@media(min-width:900px) and (max-width:1100px){
+ html[data-desktop-account=true] #root .ki-workspace{grid-template-columns:minmax(0,1fr) 300px;gap:24px}
+ html[data-desktop-account=true] #root .ki-hotel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ html[data-desktop-account=true] #root .ki-question,html[data-desktop-account=true] #root .ki-idea-card{grid-template-columns:minmax(0,1fr) 120px;padding:24px;gap:16px}
+ html[data-desktop-account=true] #root .ki-question>.ki-question-art,html[data-desktop-account=true] #root .ki-hero-art{width:120px;height:120px}
+}
+@media(min-width:900px){
+ html[data-desktop-account=true] dialog:has(.ki-tune){max-width:640px;width:calc(100% - 48px);max-height:calc(100dvh - 48px)}
+ html[data-desktop-account=true] dialog:has(.ki-tune)>.p-5{padding:24px}
+ html[data-desktop-account=true] .ki-tune{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 16px}
+ html[data-desktop-account=true] .ki-tune>.ki-company{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr))}
+ html[data-desktop-account=true] .ki-tune>.ki-preferences{grid-column:1/-1}
+ html[data-desktop-account=true] .ki-tune>.ki-budget-label{min-width:0}
+ html[data-desktop-account=true] .ki-tune>button{grid-column:1/-1}
+ html[data-desktop-account=true] .ki-tune>.ki-reset-filters{margin-top:-12px}
+}

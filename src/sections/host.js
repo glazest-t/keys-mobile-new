@@ -44,7 +44,7 @@
     section.dataset.runtimeScreen=screen??'';section.dataset.runtimeTab=tab;
     root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
     pending={tab,hotelId,screen,discovery,bookingId};
-    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=new-booking-details-1&stayDay='+encodeURIComponent(notificationDay());
+    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=desktop-room-filters-1&stayDay='+encodeURIComponent(notificationDay());
     send();
   };
   const captureProfileOrigin=()=>{
@@ -126,6 +126,13 @@
       if(event.data.screen==='notifications')notificationOpened=true;
       else if(notificationOpened&&!event.data.screen){const origin=notificationOrigin;notificationOrigin=null;notificationOpened=false;go(origin,true);}
     }
+    if(event.data.type==='cancel-booking'){
+      const b=event.data;
+      window.KeysBookingCancellation.open({...b,onComplete:result=>{
+       frame.contentWindow.postMessage({source:'keys-host',cancelledBooking:{id:b.bookingId,result}},location.protocol==='file:'?'*':location.origin);
+       const card=root.querySelector('#keysNewReservation');if(card?.dataset.bookingId===b.bookingId){card.querySelector('.keys-new-booking-status').textContent='Отменена';card.querySelector('.keys-new-booking-heading strong').textContent='Бронирование';}
+      }});
+    }
     if(event.data.type==='reservation'){
       const b=event.data.booking;if(!b||typeof b.hotel!=='string')return;
       let card=root.querySelector('#keysNewReservation');
@@ -139,6 +146,7 @@
       const photo=card.querySelector('img');if(b.photo){const url=new URL(b.photo,frame.src);if(['http:','https:'].includes(url.protocol))photo.src=url.href;else photo.hidden=true;}else photo.hidden=true;
 
     }
+    if(event.data.type==='checkout-profile'){const c=event.data.contact;if(c&&typeof c.firstName==='string'){root.querySelectorAll('.keys-profile-name>strong,[data-open="travelerProfile"] strong').forEach(el=>el.textContent=[c.firstName,c.lastName].filter(Boolean).join(' '));root.querySelectorAll('.keys-profile-contacts dd').forEach(el=>el.textContent=c.phone);}}
     if(event.data.type==='ready'){ready=true;send();frame.contentWindow.postMessage({source:'keys-host',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
     if(event.data.type==='navigate'&&['trips','benefits','profile','stay-details','problem','feedback'].includes(event.data.target)){
       // Feedback is a temporary host screen; retain the notification entry point.
@@ -295,7 +303,7 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
-    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=new-booking-details-1&stayDay='+encodeURIComponent(day);
+    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=desktop-room-filters-1&stayDay='+encodeURIComponent(day);
     else if(ready)frame.contentWindow.postMessage({source:'keys-host',stayDay:day},location.protocol==='file:'?'*':location.origin);
   });
   root.addEventListener('keys-open-trip-review',event=>{

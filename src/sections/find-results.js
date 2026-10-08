@@ -1,3 +1,27 @@
+// Shared selection connects map markers to the result list without changing search filters.
+let keysResultsSelectionContext;
+function keysResultsContext(){return keysResultsSelectionContext??=E.createContext(null);}
+function KeysResultsLayout({children}){
+ const {state}=J(),[selected,setSelected]=E.useState(null),[desktop,setDesktop]=E.useState(false),list=E.useRef(null);
+ E.useEffect(()=>{
+  const media=matchMedia('(min-width:900px)');
+  const update=()=>setDesktop(document.documentElement.dataset.desktopAccount==='true'&&media.matches);
+  const observer=new MutationObserver(update);observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});
+  media.addEventListener('change',update);update();return()=>{observer.disconnect();media.removeEventListener('change',update);};
+ },[]);
+ E.useEffect(()=>setSelected(null),[state.search]);
+ E.useEffect(()=>{
+  if(!desktop||!selected||!list.current)return;
+  const card=Array.from(list.current.querySelectorAll('[data-hotel-id]')).find(item=>item.dataset.hotelId===String(selected));
+  if(!card)return;
+  const container=list.current,top=card.getBoundingClientRect().top-container.getBoundingClientRect().top+container.scrollTop;
+  container.scrollTo({top:Math.max(0,top-4),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
+ },[desktop,selected]);
+ return n.jsx(keysResultsContext().Provider,{value:desktop?selected:null,children:n.jsxs(n.Fragment,{children:[children[0],n.jsxs('div',{className:'keys-results-workspace',children:[
+  n.jsx(KeysResultsMap,{desktop,onSelectionChange:setSelected}),
+  n.jsx('div',{ref:list,className:'keys-results-list','aria-label':'Отели в результатах поиска',children:children.slice(1)})
+ ]})]})});
+}
 // One result page: filters, an inline expandable map, and the existing hotel list.
 function keysQuickFilters(current, value) {
  if(current.includes(value))return current.filter(item=>item!==value);
@@ -73,7 +97,6 @@ function FU() {
   ]}),
   ]}),
   collection&&n.jsx('p',{className:'keys-collection-description',children:collection.description}),
-  n.jsx(KeysResultsMap,{}),
   districtOpen&&n.jsx(ct,{title:'Район города',onClose:()=>setDistrictOpen(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Районы города '+search.city,children:['',...districts].map(value=>n.jsxs('button',{type:'button','aria-pressed':district===value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{filters:keysSetDistrict(search,value)}});setDistrictOpen(false);},children:[n.jsx('span',{children:value||'Все районы'}),district===value&&n.jsx(D,{name:'check',className:'size-5'})]},value))})}),
   editing&&n.jsx(xh,{onClose:()=>setEditing(false)}),
   sorting&&n.jsx(ct,{title:'Сортировка',onClose:()=>setSorting(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Порядок отелей',children:keysSearchSortOptions.map(option=>n.jsxs('button',{type:'button','aria-pressed':(search.sort||'recommended')===option.value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{sort:option.value}});setSorting(false);},children:[n.jsx('span',{children:option.label}),(search.sort||'recommended')===option.value&&n.jsx(D,{name:'check',className:'size-5'})]},option.value))})})
@@ -93,10 +116,11 @@ function keysHotelLocation(searchCity, hotel = {}) {
 }
 function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impressionRef,locationCity}) {
  const {state,dispatch}=J();
+ const selected=E.useContext(keysResultsContext())===hotel.id;
  const saved=state.discovery.savedIds.includes(hotel.id);
  const reviews=local?Zc(local).reviews.length:null;
  const location=keysHotelLocation(locationCity??(state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'?(local?.city||summary?.city||''):state.search.city),local||summary);
- return n.jsxs('article',{ref:impressionRef,className:'keys-result-hotel','data-hotel-id':hotel.id,children:[
+ return n.jsxs('article',{ref:impressionRef,className:'keys-result-hotel'+(selected?' is-map-selected':''),'aria-label':selected?hotel.name+' — выбран на карте':undefined,'data-hotel-id':hotel.id,children:[
   n.jsxs('div',{className:'keys-result-hotel-photo',children:[
    n.jsx(jO,{photos:hotel.photos,name:hotel.name,onOpen}),
    n.jsx('button',{type:'button',className:'keys-result-hotel-save','aria-label':saved?'Убрать '+hotel.name+' из сохранённых':'Сохранить '+hotel.name,'aria-pressed':saved,onClick:()=>dispatch({type:'FAVORITE_TOGGLE',id:hotel.id}),children:n.jsx(D,{name:'heart',className:F('size-[18px]',saved&&'fill-current')})})
@@ -118,12 +142,14 @@ function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impression
   ]})
  ]});
 }
-function KeysResultsMap() {
+function KeysResultsMap({desktop=false,onSelectionChange=()=>{}}) {
  const {state,dispatch,open}=J(), source=tt(), remote=source.source==='travelline';
  const hotels=E.useMemo(()=>remote?source.list.page?.items??[]:ls(state.search,state.discovery.priceTick),[remote,source.list.page,state.search,state.discovery.priceTick]);
- const expanded=!!state.search.keysMapExpanded, [selected,setSelected]=E.useState([]), [active,setActive]=E.useState(0), [previewHeight,setPreviewHeight]=E.useState(300), preview=E.useRef(null), start=E.useRef(null), dragged=E.useRef(false), section=E.useRef(null);
+ const expanded=desktop||!!state.search.keysMapExpanded, [selected,setSelected]=E.useState([]), [active,setActive]=E.useState(0), [previewHeight,setPreviewHeight]=E.useState(300), preview=E.useRef(null), start=E.useRef(null), dragged=E.useRef(false), section=E.useRef(null);
  const chosen=selected.map(id=>hotels.find(hotel=>hotel.id===id)).filter(Boolean);
  const selectedHotel=chosen[Math.min(active,Math.max(0,chosen.length-1))];
+ E.useEffect(()=>{onSelectionChange(selectedHotel?.id??null);},[selectedHotel?.id]);
+ E.useEffect(()=>{setSelected([]);setActive(0);},[state.search]);
  E.useEffect(()=>{
   if(!preview.current)return;
   const measure=()=>setPreviewHeight(Math.ceil(preview.current?.getBoundingClientRect().height||0));
@@ -134,10 +160,10 @@ function KeysResultsMap() {
  const resize=value=>dispatch({type:'SEARCH_PATCH',patch:{keysMapExpanded:value}});
  const collapse=()=>resize(false);
  E.useEffect(()=>{
-  if(!expanded)return;
+  if(!expanded||desktop)return;
   const onKey=event=>{if(event.key==='Escape'){event.stopPropagation();collapse();}};
   window.addEventListener('keydown',onKey);return()=>window.removeEventListener('keydown',onKey);
- },[expanded]);
+ },[expanded,desktop]);
  const select=ids=>{setActive(0);setSelected(Array.isArray(ids)?ids:[ids]);};
  const pointerDown=event=>{start.current={x:event.clientX,y:event.clientY};dragged.current=false;event.currentTarget.setPointerCapture?.(event.pointerId);};
  const pointerUp=event=>{
@@ -149,10 +175,10 @@ function KeysResultsMap() {
   n.jsxs('div',{id:'keys-results-map-canvas',className:'keys-results-map-canvas',children:[
    hotels.length>0?n.jsx('div',{className:'keys-results-map-layer',inert:expanded?undefined:true,children:remote?
     n.jsx(GV,{hotels,selectedId:selectedHotel?.id,onSelect:select,className:'h-full w-full'}):
-    n.jsx(E.Suspense,{fallback:n.jsx('p',{className:'keys-results-map-empty',children:'Загружаем карту…'}),children:n.jsx(ZV,{hotels,fitPadding,selectedId:selectedHotel?.id,previewHeight:expanded&&chosen.length?previewHeight:0,onSelect:select,onDismiss:()=>setSelected([]),dates:state.search,priceTick:state.discovery.priceTick,booked:false})})
+    n.jsx(E.Suspense,{fallback:n.jsx('p',{className:'keys-results-map-empty',children:'Загружаем карту…'}),children:n.jsx(ZV,{hotels,fitPadding,selectedId:selectedHotel?.id,previewHeight:!desktop&&expanded&&chosen.length?previewHeight:0,onSelect:select,onDismiss:()=>setSelected([]),dates:state.search,priceTick:state.discovery.priceTick,booked:false})})
    }):n.jsx('p',{className:'keys-results-map-empty',children:source.list.status==='loading'?'Загружаем отели…':'Нет отелей по выбранным условиям'}),
    !expanded&&n.jsx('button',{type:'button',className:'keys-results-map-cover','aria-label':'Развернуть карту отелей','aria-expanded':false,'aria-controls':'keys-results-map-canvas',onClick:()=>resize(true)}),
-   expanded&&selectedHotel&&n.jsxs('div',{ref:preview,className:'keys-results-map-preview','aria-label':'Выбранный отель на карте',children:[
+   !desktop&&expanded&&selectedHotel&&n.jsxs('div',{ref:preview,className:'keys-results-map-preview','aria-label':'Выбранный отель на карте',children:[
     n.jsxs('div',{className:'keys-results-map-preview-toolbar',children:[
      chosen.length>1?n.jsxs('div',{className:'keys-results-map-pager',children:[
       n.jsx('button',{type:'button','aria-label':'Предыдущий отель на карте',disabled:active===0,onClick:()=>setActive(index=>Math.max(0,index-1)),children:n.jsx(D,{name:'chevron',className:'size-4 keys-results-map-prev'})}),
@@ -164,7 +190,7 @@ function KeysResultsMap() {
     n.jsx(jx,{hotelId:selectedHotel.id,summary:remote?selectedHotel:undefined},selectedHotel.id)
    ]})
   ]}),
-  n.jsxs('button',{type:'button',className:'keys-results-map-handle','aria-label':expanded?'Свернуть карту':'Развернуть карту','aria-expanded':expanded,'aria-controls':'keys-results-map-canvas',onPointerDown:pointerDown,onPointerUp:pointerUp,onPointerCancel:()=>{start.current=null;},onClick:toggle,children:[
+  !desktop&&n.jsxs('button',{type:'button',className:'keys-results-map-handle','aria-label':expanded?'Свернуть карту':'Развернуть карту','aria-expanded':expanded,'aria-controls':'keys-results-map-canvas',onPointerDown:pointerDown,onPointerUp:pointerUp,onPointerCancel:()=>{start.current=null;},onClick:toggle,children:[
    n.jsx('span',{className:'keys-results-map-grip','aria-hidden':true})
   ]})
  ]});

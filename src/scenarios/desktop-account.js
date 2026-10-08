@@ -14,7 +14,7 @@
   const desktop=document.body.dataset.keysView==='desktop';
   const benefits=desktop&&!account.hidden&&!page.hidden;
   const notices=desktop&&!runtime.hidden&&['notifications','notification-settings'].includes(runtime.dataset.runtimeScreen);
-  const find=desktop&&!runtime.hidden&&runtime.dataset.runtimeTab==='find'&&!notices;
+  const find=desktop&&!runtime.hidden&&(runtime.dataset.runtimeTab==='find'||['reservation-success','created-booking'].includes(runtime.dataset.runtimeScreen))&&!notices;
   const framed=notices||find;
   const kind=benefits?'benefits':notices?'notifications':find?'find':'';
   if(kind)document.body.dataset.keysDesktopSecondary=kind;else delete document.body.dataset.keysDesktopSecondary;

@@ -2,6 +2,24 @@ export function adaptHotelDetails(source,components){
  const start=source.indexOf('function TY('),end=source.indexOf('function kY(',start);
  if(start<0||end<0)throw Error('Hotel overview components missing');
  let js=source.slice(0,start)+components+'\n'+source.slice(end);
+ // Five real demo rates for Swissôtel, shared by room selection, cart and checkout.
+ const rateAnchor='hm = qc.tariffs,';
+ if(!js.includes(rateAnchor))throw Error('Tariff catalogue missing');
+ js=js.replace(rateAnchor,`hm = qc.tariffs.concat([
+  {id:"room-only",name:"Без питания",multiplier:0.85,includesBreakfast:false,refundable:false,freeCancellationDays:0,penaltyNights:0,changesAllowed:false,requiresPrepayment:true,hotelId:"more",showDiscount:false},
+  {id:"room-flexible",name:"Гибкий без питания",multiplier:0.95,includesBreakfast:false,refundable:true,freeCancellationDays:3,penaltyNights:1,changesAllowed:true,requiresPrepayment:false,hotelId:"more",showDiscount:false},
+  {id:"breakfast-arrival",name:"Завтрак без предоплаты",multiplier:1.08,includesBreakfast:true,refundable:true,freeCancellationDays:1,penaltyNights:1,changesAllowed:true,requiresPrepayment:false,hotelId:"more"}
+ ]),`);
+ const available='_g = (e) => Ie(e).freeCancellation ? hm : hm.filter((t) => !t.refundable)';
+ if(!js.includes(available))throw Error('Available tariffs missing');
+ js=js.replace(available,'_g = (e) => hm.filter(t => (!t.hotelId || t.hotelId === e) && (Ie(e).freeCancellation || !t.refundable))');
+ const breakfast='includesBreakfast: Ie(e).breakfast';
+ if(!js.includes(breakfast))throw Error('Tariff meal lookup missing');
+ js=js.replace(breakfast,'includesBreakfast: hm.find(a => a.id === t)?.includesBreakfast ?? Ie(e).breakfast');
+ js=js.replace('discountLabel: l > 0 ?', 'discountLabel: r.showDiscount !== false && l > 0 ?');
+ js=js.replace('return r > 0 && a.push("Скидка "', 'return e.showDiscount !== false && r > 0 && a.push("Скидка "');
+ js=js.replace('a.push(yY), a;', 'a.push(e.requiresPrepayment === false ? "Без предоплаты, оплата при заселении" : yY), a;');
+
  // Keep the selected room, tariff and contact when editing a stay at payment.
  const syncGuard='if (!t || a?.type !== "hotel" || (a.hotelId ?? e.search.hotelId) !== t.hotelId || t.status === "processing" || t.status === "confirmed") return e;';
  if(!js.includes(syncGuard))throw Error('Reservation stay synchronization missing');
@@ -48,11 +66,11 @@ export function adaptHotelDetails(source,components){
  if(viewerStart<0||viewerEnd<0)throw Error('Hotel photo viewer missing');
  let viewer=js.slice(viewerStart,viewerEnd);
  const replaceViewer=(from,to)=>{if(!viewer.includes(from))throw Error('Hotel photo viewer pattern missing: '+from.slice(0,60));viewer=viewer.replace(from,to);};
- replaceViewer('onPhotoView: l })','onPhotoView: l, keysHotelLayout = false })');
- replaceViewer('className: "hotel-photo-dialog motion-gallery', 'className: (keysHotelLayout ? "keys-hotel-photo-expanded " : "") + "hotel-photo-dialog motion-gallery');
- replaceViewer('ref: u, className: "no-scrollbar', 'ref: u, className: (keysHotelLayout ? "keys-photo-featured " : "") + "no-scrollbar');
- replaceViewer('className: "px-4 pt-4 pb-[max(20px,env(safe-area-inset-bottom))]"', 'className: (keysHotelLayout ? "keys-photo-details " : "") + "px-4 pt-4 pb-[max(20px,env(safe-area-inset-bottom))]"');
- replaceViewer('className: "grid max-h-[132px] grid-cols-6 gap-1.5 overflow-y-auto"', 'className: (keysHotelLayout ? "keys-photo-thumbnails " : "") + "grid max-h-[132px] grid-cols-6 gap-1.5 overflow-y-auto"');
+ replaceViewer('onPhotoView: l })','onPhotoView: l, keysHotelLayout = false, keysRoomGallery = false })');
+ replaceViewer('className: "hotel-photo-dialog motion-gallery', 'className: (keysRoomGallery ? "keys-room-photo-dialog " : "") + (keysHotelLayout ? "keys-hotel-photo-expanded " : "") + "hotel-photo-dialog motion-gallery');
+ replaceViewer('ref: u, className: "no-scrollbar', 'ref: u, className: (keysRoomGallery ? "keys-room-photo-stage " : "") + (keysHotelLayout ? "keys-photo-featured " : "") + "no-scrollbar');
+ replaceViewer('className: "px-4 pt-4 pb-[max(20px,env(safe-area-inset-bottom))]"', 'className: (keysRoomGallery ? "keys-room-photo-footer " : "") + (keysHotelLayout ? "keys-photo-details " : "") + "px-4 pt-4 pb-[max(20px,env(safe-area-inset-bottom))]"');
+ replaceViewer('className: "grid max-h-[132px] grid-cols-6 gap-1.5 overflow-y-auto"', 'className: (keysRoomGallery ? "keys-room-photo-thumbs " : "") + (keysHotelLayout ? "keys-photo-thumbnails " : "") + "grid max-h-[132px] grid-cols-6 gap-1.5 overflow-y-auto"');
  replaceViewer('children: n.jsx(Gl, { src: A.src, alt: "", variant: "thumbnail", sizes: "64px", loading: "lazy", className: "h-full w-full object-cover" })', 'children: n.jsxs(n.Fragment, {children:[n.jsx(Gl, { src: A.src, alt: "", variant: "thumbnail", sizes: keysHotelLayout ? "180px" : "64px", loading: "lazy", className: "h-full w-full object-cover" }),keysHotelLayout&&n.jsx("span",{className:"keys-photo-thumb-caption",children:A.alt})]})');
  viewer=viewer.replace('function Si(', 'function KeysHotelPhotoViewer(');
  viewer='function Si(props){return props.keysHotelLayout ? n.jsx(KeysHotelPhotoAlbum,props) : n.jsx(KeysHotelPhotoViewer,props); }\n'+viewer;

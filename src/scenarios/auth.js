@@ -44,6 +44,9 @@ function showPartnerStatus(approved){
 }
 function finishLogin(hotelier=false,deferred=false){
  clearInterval(timer);
+ const loginContact={firstName:flow.state.name||'Татьяна',lastName:'',phone:formatPhone(flow.state.phone),email:''};
+ try{sessionStorage.setItem('keys-login-contact-v1',JSON.stringify(loginContact));}catch{}
+ document.getElementById('keysSectionsFrame')?.contentWindow?.postMessage({source:'keys-host',loginContact},location.origin);
  if(!completed){
   if(flow.state.registered){rememberText('.keys-profile-contacts dd',formatPhone(flow.state.phone));completed=true;}
   else applyIdentity();

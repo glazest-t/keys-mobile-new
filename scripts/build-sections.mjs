@@ -30,7 +30,7 @@ export async function buildSections(){
  await writeFile(checkoutPage,await adaptCheckoutPage(await readFile(checkoutPage,'utf8')));
  const desktopCheckout=path.join(stage,'assets/DesktopApp-DR7F9ePm.js');
  await writeFile(desktopCheckout,adaptDesktopCheckout(await readFile(desktopCheckout,'utf8')));
- js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8'));
+ js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);
  js=adaptPaymentContact(js);
@@ -40,6 +40,8 @@ export async function buildSections(){
  const mapPath=path.join(stage,'assets/HotelMapCanvas-BsuxVUsR.js');
  await writeFile(mapPath,await adaptResultMap(await readFile(mapPath,'utf8')));
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Arbana integration anchor missing: '+a.slice(0,100));js=js.replace(a,b);};
+ replace('const h = gw(e);', 'const h = a.keysCheckoutIdentity ? a.profile : gw(e);');
+ replace('const a = gw(t), r = t.personaId;', 'const a = e.keysCheckoutIdentity ? e.profile : gw(t), r = t.personaId;');
  replace('const Gv = typeof window < "u" && true','const Gv = false'); // Host owns browser history; reducer keeps screen history.
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "KEYS_CHANGE_START") return keysChangeInitial(e,t.booking);');
  replace('FE = (e, t, a = 0) => Math.round(Rg(e, a) * BE(t))','FE = (e, t, a = 0) => e.keysNightly ?? Math.round(Rg(e, a) * BE(t))');
@@ -117,7 +119,7 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {keysCardErrors,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

@@ -282,3 +282,23 @@ body[data-keys-scenario="booked"] #keysStayDetails .ksd-detail-content>:is(.ksd-
 /* Shared service typography must also override the legacy catalogue small/button rules. */
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-service{font:var(--font-weight-normal) var(--text-14)/var(--leading-normal) var(--font-sans)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-service .kpa-service-status{font:var(--font-weight-normal) var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+
+/* Mobile booking actions keep a stable first row across all prearrival days. */
+#keysUnifiedPrototype .kpa-reservation-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation-actions>button{width:100%;min-width:0;margin:0;min-height:48px;padding:12px 8px!important;font:var(--ui-font-label)!important}
+#keysUnifiedPrototype .kpa-booking-buttons:has(.kpa-route[hidden])>.kpa-checkin{grid-column:1/-1}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-reservation-actions,
+body[data-keys-booking-cancelled=true] #keysUnifiedPrototype .kpa-reservation-actions{display:none!important}
+
+/* Both mobile action rows share the standard control height, including two-line labels. */
+body:not([data-keys-desktop-home=true]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kpa-reservation-actions,.kpa-booking-buttons)>button{
+ box-sizing:border-box;min-height:var(--ui-control-height,48px)!important;height:var(--ui-control-height,48px)!important;
+ padding:2px 8px!important;border-radius:var(--ui-control-radius,14px)!important;
+ display:flex;align-items:center;justify-content:center;font:var(--ui-font-label)!important;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation-actions>.kpa-manage{
+ border:1px solid var(--color-line);background:var(--color-card);color:var(--color-brand)!important;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation-actions>.kpa-manage:hover{
+ border-color:var(--color-brand);background:var(--color-soft);
+}

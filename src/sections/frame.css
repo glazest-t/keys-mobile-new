@@ -927,12 +927,9 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 .keys-pay-method>span{display:grid;gap:2px;flex:1;min-width:0}
 .keys-pay-method strong{font:var(--ui-font-label)}
 .keys-pay-method small,.keys-pay-hint,.keys-pay-points-head p,.keys-pay-points-note{font:var(--ui-font-caption);color:var(--color-muted)}
-.keys-pay-method input,.keys-pay-use-points input{appearance:auto!important;width:20px;height:20px;margin:0;accent-color:var(--color-brand);flex:none}
+.keys-pay-method input{appearance:auto!important;width:20px;height:20px;margin:0;accent-color:var(--color-brand);flex:none}
 .keys-pay-other{display:flex;width:100%;align-items:center;justify-content:space-between;min-height:48px;padding:12px 16px;background:transparent;border-right:0;border-left:0;border-bottom:0;font:var(--ui-font-label);color:var(--color-ink)}
 .keys-pay-other .is-open{transform:rotate(90deg)}
-.keys-pay-card{padding:0 16px 16px}
-.keys-pay-card h3{font:var(--ui-font-label);margin:0 0 12px}
-.keys-pay-card-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .keys-pay-field{display:grid;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
 .keys-pay-field.is-wide{grid-column:1/-1}
 .keys-pay-field input{width:100%;min-width:0;height:48px;padding:12px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-body,400 14px/21px 'Golos Text Variable',sans-serif);box-sizing:border-box}
@@ -943,14 +940,14 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 .keys-pay-points{padding:16px;border:1px solid var(--color-line);border-radius:16px}
 .keys-pay-points-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .keys-pay-points-head p{margin:4px 0 0}
-.keys-pay-use-points{display:flex;align-items:center;gap:8px;font:var(--ui-font-caption-medium);cursor:pointer}
+.keys-pay-use-points{display:flex;align-items:center;gap:12px;min-height:44px;font:var(--ui-font-body);cursor:pointer}
+.keys-pay-use-points input[type=checkbox]{margin:0;padding:0}
 .keys-pay-points-entry{display:flex;align-items:flex-end;gap:12px;margin-top:16px}
 .keys-pay-points-entry .keys-pay-field{flex:1}
 .keys-pay-max{min-height:48px;padding:0 12px;border:1px solid var(--color-line);border-radius:12px;background:transparent;color:var(--color-brand);font:var(--ui-font-caption-medium)}
 .keys-pay-points-note{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
 .keys-pay-points-note strong{font:var(--ui-font-label);color:var(--color-ink);white-space:nowrap}
 
-.keys-pay-method-item .keys-pay-card-fields{padding-top:4px}
 .keys-pay-other + .keys-pay-method-item{border-top:1px solid var(--color-line)}
 /* One section pattern throughout checkout: title inside, 16px inset/gap, 20px radius. */
 #root [data-screen-type="reservation-payment"] .keys-checkout-panel{
@@ -967,7 +964,6 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 #root [data-screen-type="reservation-payment"] .keys-pay-method-item.is-selected{border-radius:12px;border-color:transparent}
 #root [data-screen-type="reservation-payment"] .keys-pay-method-item.is-selected .keys-pay-method{padding-inline:12px}
 #root [data-screen-type="reservation-payment"] .keys-pay-method-item.is-selected + .keys-pay-method-item{border-color:transparent}
-#root [data-screen-type="reservation-payment"] .keys-pay-card{padding:0 12px 12px}
 #root [data-screen-type="reservation-payment"] .keys-pay-other{padding:12px 4px;font:var(--ui-font-caption-medium);color:var(--color-brand)}
 #root [data-screen-type="reservation-payment"] .keys-pay-hint{padding:0 12px 12px 44px}
 #root [data-screen-type="reservation-payment"] .keys-payment-extras>div:has(>article){margin:12px -4px -4px;padding:0 4px 4px;scroll-padding:4px;gap:12px}
@@ -1015,3 +1011,83 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 .keys-success-detail-status{margin:0;font:var(--ui-font-label);color:var(--color-success)}
 #root .keys-booking-success.is-details>.keys-success-heading{padding:0}
 #root .keys-booking-success.is-details>div:first-child{margin-bottom:0}
+
+/* Points redemption: shared field value, native keyboard-accessible slider. */
+.keys-pay-points-slider{margin-top:16px}
+.keys-pay-points-slider input[type=range]{appearance:none;display:block;width:100%;height:32px;margin:0;background:transparent;cursor:pointer;accent-color:var(--color-brand)}
+.keys-pay-points-slider input::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(to right,var(--color-brand) var(--points-progress),var(--color-line) var(--points-progress))}
+.keys-pay-points-slider input::-moz-range-track{height:4px;border-radius:4px;background:var(--color-line)}
+.keys-pay-points-slider input::-moz-range-progress{height:4px;background:var(--color-brand);border-radius:4px}
+.keys-pay-points-slider input::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border:2px solid var(--color-brand);border-radius:50%;background:var(--color-card);margin-top:-10px;box-shadow:0 1px 4px #20385d20}
+.keys-pay-points-slider input::-moz-range-thumb{width:20px;height:20px;border:2px solid var(--color-brand);border-radius:50%;background:var(--color-card)}
+.keys-pay-points-slider input:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px;border-radius:8px}
+.keys-pay-points-bounds{display:flex;justify-content:space-between;font:var(--ui-font-caption);color:var(--color-muted)}
+
+/* Checkout contact fields share the app's field and section tokens. */
+.keys-guest-contact-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}
+.keys-guest-contact-fields label{display:grid;align-content:start;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-guest-contact-fields input{width:100%;min-width:0;height:48px;padding:12px;border:1px solid var(--color-line);border-radius:var(--ui-field-radius,14px);background:var(--color-card);color:var(--color-ink);font:var(--ui-font-body)}
+.keys-guest-contact-fields input:focus{outline:2px solid var(--color-brand);outline-offset:1px}
+.keys-guest-contact-fields input[aria-invalid=true]{border-color:#b93838}
+.keys-guest-contact-fields small{font:var(--ui-font-caption);color:#b93838}
+.keys-guest-contact-fields label:nth-child(n+3){grid-column:1/-1}
+.keys-guest-profile-action{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:16px}
+.keys-guest-profile-action>button{font:var(--ui-font-label);min-height:44px;width:auto;padding-inline:16px}
+.keys-guest-profile-action>span{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-guest-editor-actions{display:flex;gap:12px}
+.keys-guest-editor-actions>button{flex:1}
+@media(min-width:900px){
+ html[data-desktop-account=true] .keys-guest-contact-fields label:nth-child(n+3){grid-column:auto}
+ html[data-desktop-account=true] .keys-guest-inline{padding-block:12px 20px}
+ html[data-desktop-account=true] .keys-guest-completion-hint{margin:0 0 16px;font:var(--ui-font-caption);color:var(--color-muted)}
+ html[data-desktop-account=true] .keys-guest-inline+.keys-guest-row{border-top:1px solid var(--color-line)}
+ html[data-desktop-account=true] .keys-guest-panel>.keys-guest-editor{padding-block:12px 20px}
+ html[data-desktop-account=true] .keys-guest-panel .keys-guest-editor-actions{justify-content:flex-start}
+ html[data-desktop-account=true] .keys-guest-panel .keys-guest-editor-actions>button{flex:none;min-width:140px}
+}
+
+.keys-guest-profile-check{display:flex;gap:12px;align-items:flex-start;min-height:44px;margin-top:16px;cursor:pointer;color:var(--color-ink)}
+.keys-guest-profile-check>input[type=checkbox]{margin:0;padding:0}
+.keys-guest-profile-check>span{display:grid;gap:3px}
+.keys-guest-profile-check strong{font:var(--ui-font-body)}
+.keys-guest-profile-check small{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-guest-row>svg.is-open{transform:rotate(90deg)}
+.keys-guest-panel>.keys-guest-editor{padding-block:8px 20px}
+
+.keys-pay-method-filters{margin:16px 0 8px}
+.keys-pay-filter-selection{font:var(--ui-font-caption);color:var(--color-muted);margin:12px 0 0}
+.keys-cancellation-copy{display:flex;align-items:flex-start;gap:12px;margin-top:16px}
+.keys-cancellation-copy>svg{flex:none;color:var(--color-muted);margin-top:2px}
+.keys-cancellation-copy h3{margin:0}
+.keys-cancellation-copy p{margin:6px 0 0;font:var(--ui-font-body);color:var(--color-muted)}
+
+.keys-room-summary{display:contents}
+
+/* Room and tariff filters share the existing controls and dialog typography. */
+.keys-room-tools{display:grid;gap:12px;margin-bottom:20px;min-width:0}
+.keys-room-tools .keys-room-filters{margin:0}
+.keys-room-results-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.keys-room-results-meta>div{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.keys-room-results-meta p{font:var(--ui-font-caption);color:var(--color-muted);margin:0}
+.keys-room-results-meta button{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:4px 0;font:var(--ui-font-label);color:var(--color-brand);border:0;background:transparent}
+.keys-room-results-meta button:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px;border-radius:4px}
+.keys-room-filter-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border-radius:6px;background:var(--color-brand);color:var(--color-on-brand,#fff);font:var(--ui-font-caption-medium)}
+.keys-room-filter-dialog{display:grid;gap:24px}
+.keys-room-filter-dialog fieldset{border:0;padding:0;margin:0;min-width:0}
+.keys-room-filter-dialog legend{font:var(--ui-font-label);margin:0 0 12px;padding:0}
+.keys-room-filter-dialog .keys-room-filter-note{font:var(--ui-font-caption);color:var(--color-muted);margin:0 0 12px}
+.keys-room-filter-dialog .keys-price-bounds+.keys-room-filter-note{margin:8px 0 0}
+.keys-room-filter-choices{display:grid;gap:4px}
+.keys-room-filter-check{display:flex;align-items:center;gap:12px;min-height:44px;font:var(--ui-font-body);color:var(--color-ink);cursor:pointer}
+.keys-room-filter-check input{appearance:auto!important;-webkit-appearance:auto!important;accent-color:var(--color-brand);width:20px;height:20px;margin:0;padding:0;flex:none;box-shadow:none;background:initial;border:initial}
+.keys-room-filter-check input::before,.keys-room-filter-check input::after{content:none!important}
+.keys-room-filter-check input:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+.keys-room-filter-actions{position:sticky;bottom:-20px;background:var(--color-card);padding:16px 0 0;border-top:1px solid var(--color-line)}
+.keys-room-filter-actions>p{font:var(--ui-font-caption);color:var(--color-muted);margin:0 0 12px}
+.keys-room-filter-actions>div{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px}
+.keys-room-filter-actions button{min-height:48px;font:var(--ui-font-label)}
+
+#root .keys-success-actions>.keys-cancel-entry{min-height:48px;padding:12px 16px;border:1px solid var(--color-line);border-radius:var(--ui-button-radius,14px);background:var(--color-card);box-shadow:none;color:var(--color-brand);font:var(--ui-font-label)}
+#root .keys-success-actions>.keys-cancel-entry:hover{background:var(--color-soft);border-color:var(--color-brand)}
+#root .keys-cancelled-booking .keys-success-heading>p{margin-left:0}
+.keys-cancelled-booking .keys-cart-tax{font:var(--ui-font-caption);color:var(--color-muted);margin-top:16px}

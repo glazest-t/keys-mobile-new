@@ -95,6 +95,8 @@ ${fragment}
 <link rel="stylesheet" href="./scenarios/before.css?v=checkin-style-1">
 <script src="./scenarios/booking-change.js?v=arbana-checkin-1"></script>
 <script src="./scenarios/before.js?v=checkin-style-1"></script>
+<link rel="stylesheet" href="./booking/cancellation.css">
+<script src="./booking/cancellation.js"></script>
 <link rel="stylesheet" href="./scenarios/search.css">
 <script src="./scenarios/search.js"></script>
 <script src="./scenarios/scenarios.js?v=arrival-day-route-1"></script>

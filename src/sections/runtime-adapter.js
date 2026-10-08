@@ -25,12 +25,15 @@ function KeysBridge() {
   const {state,dispatch} = J();
   const searchRef=E.useRef(state.search);searchRef.current=state.search;
   const notifications=Qg(),refresh=E.useRef(null);refresh.current=notifications?.refresh;
+  E.useEffect(()=>{if(!state.keysProfileSaved)return;try{localStorage.setItem('keys-booking-profile-v1',JSON.stringify(state.profile));}catch{}keysPost('checkout-profile',{contact:state.profile});},[state.keysProfileSaved]);
   E.useEffect(()=>keysPost('header',{unread:!!notifications?.page?.unread}),[notifications?.page?.unread]);
   E.useEffect(() => {
     const receive = event => {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
       const {tab,hotelId,screen,stayDay,discovery,bookingId} = event.data;
+      if(event.data.cancelledBooking){dispatch({type:'KEYS_BOOKING_CANCELLED',bookingId:event.data.cancelledBooking.id,result:event.data.cancelledBooking.result});return;}
+      if(event.data.loginContact){dispatch({type:'KEYS_LOGIN_CONTACT',contact:event.data.loginContact});return;}
       if(event.data.openNotification){dispatch({type:'OPEN',screen:{type:'notifications'}});return;}
       if(typeof event.data.desktopAccount==='boolean')document.documentElement.dataset.desktopAccount=String(event.data.desktopAccount);
       if(Number.isFinite(event.data.desktopHeight))document.documentElement.style.setProperty('--keys-desktop-height',Math.max(560,event.data.desktopHeight)+'px');
@@ -62,7 +65,7 @@ function KeysBridge() {
   E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null}); },[state.navigation,state.search.results,state.search.intent]);
   E.useEffect(()=>{
     const page=document.querySelector('.keys-module-screen main');if(!page)return;
-    const report=()=>{if(document.documentElement.dataset.desktopAccount==='true'&&(state.navigation.tab==='find'||['notifications','notification-settings'].includes(state.navigation.screen?.type)))keysPost('account-height',{height:Math.ceil((state.navigation.tab==='find'?page.closest('.keys-module-screen'):page).getBoundingClientRect().height)+32});};
+    const report=()=>{if(document.documentElement.dataset.desktopAccount==='true'&&(state.navigation.tab==='find'||['reservation-success','created-booking','notifications','notification-settings'].includes(state.navigation.screen?.type)))keysPost('account-height',{height:Math.ceil(((state.navigation.tab==='find'||['reservation-success','created-booking'].includes(state.navigation.screen?.type))?page.closest('.keys-module-screen'):page).getBoundingClientRect().height)+32});};
     const resize=new ResizeObserver(report);resize.observe(page);
     const attributes=new MutationObserver(report);attributes.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});report();
     return()=>{resize.disconnect();attributes.disconnect();};
@@ -96,6 +99,9 @@ function keysInitialState() {
   state.navigation={tab:'find',screen:null,history:[]};
   state.tripContext.today='2026-09-13';
   state.booking={...state.booking,id:'keys-maidens-412',hotelId:'maidens',arrival:'2026-09-12',departure:'2026-09-19',party:{adults:1,childrenAges:[],pet:false,business:true},room:{...state.booking.room,name:maidens.room,photo,photos:[photo]},contact:{...state.booking.contact,firstName:'Татьяна',lastName:'Глазырина'},tariff:{...state.booking.tariff,name:'Деловой тариф',includesBreakfast:false}};
+  state.keysCheckoutIdentity=true;
+  state.profile={firstName:'Татьяна',lastName:'',phone:'+7 (900) 123-45-67',email:''};
+  try{const login=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(login?.firstName&&login?.phone)state.profile={...state.profile,firstName:login.firstName,phone:login.phone};const saved=JSON.parse(localStorage.getItem('keys-booking-profile-v1')||'null');if(saved&&um(saved)&&saved.phone.replace(/\D/g,'')===state.profile.phone.replace(/\D/g,''))state.profile=saved,state.keysProfileSaved=1;}catch{}
   state.orders=[];
   state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Здесь можно задать вопрос об отеле или связаться с сотрудником.',bookingId:state.booking.id}]};
   state.chat.sequence=6;

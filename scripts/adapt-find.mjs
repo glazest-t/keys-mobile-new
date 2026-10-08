@@ -35,6 +35,7 @@ export function adaptFind(source, recentComponent, resultsComponent) {
  replace(', n.jsx(Ue, { icon: "users", title: "Друзья советуют", description: l ? be : "Отзывы своих и общие подборки", onClick: l ? void 0 : () => a({ type: "friends" }) })', '');
  replace(', n.jsx(Ue, { icon: "heart", title: "Сохранённые", description: h ? "В коллекции: " + h : "Отели, к которым хочется вернуться", onClick: () => a({ type: "saved" }) })', '');
  if(resultsComponent){
+  replace('return n.jsxs(n.Fragment, { children: [n.jsx(FU, {}),', 'return n.jsxs(KeysResultsLayout, { children: [n.jsx(FU, {}),');
   replace('fV.map((f) => {', 'fV.map((f,index) => { if(index===0)return n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l},"nightly-price");');
   replace('if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l) return false;', 'if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l || !keysNightlyPriceMatches(qE(u,e,t),e.filters)) return false;');
   replace('return e.sort === "price" ? c.sort((u, m) => Yn(u, e, t) - Yn(m, e, t)) : c;', 'return keysSortHotels(keysFilterDistrict(c, e), e, t);');

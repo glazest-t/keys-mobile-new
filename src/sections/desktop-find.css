@@ -287,3 +287,181 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
  html[data-desktop-account=true] .ki-tune>button{grid-column:1/-1}
  html[data-desktop-account=true] .ki-tune>.ki-reset-filters{margin-top:-12px}
 }
+
+/* Desktop results: coordinated list and map, with independent list scrolling. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-workspace{display:grid;grid-template-columns:minmax(360px,1fr) minmax(360px,1fr);gap:24px;align-items:stretch;--results-height:clamp(480px,calc(var(--keys-desktop-height,800px) - 200px),760px)}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-list{grid-column:1;grid-row:1;min-width:0;height:var(--results-height);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent;padding:3px 10px 3px 3px;scroll-behavior:smooth}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-list>div:has(>.keys-result-hotel){display:grid;grid-template-columns:1fr;gap:16px;margin:0}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-map{grid-column:2;grid-row:1;margin:0;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);height:var(--results-height);min-width:0}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-map-canvas{height:100%}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-result-hotel{transition:border-color .18s,box-shadow .18s}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-result-hotel.is-map-selected{border-color:var(--color-brand);box-shadow:0 0 0 2px var(--color-brand)}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-result-hotel.is-map-selected .keys-result-hotel-body{background:var(--color-soft)}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-list{scroll-behavior:auto}
+ html[data-desktop-account=true] #root [data-find-layout=results] .keys-result-hotel{transition:none}
+}
+
+/* Full-width desktop reservation flow, using the same content grid as hotel details. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-module-screen:has(.keys-booking-desktop){height:var(--keys-desktop-height,760px);min-height:560px;max-width:none}
+ html[data-desktop-account=true] #root .keys-module-screen:has(.keys-booking-desktop)>.keys-module-scroll{height:100%;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent}
+ html[data-desktop-account=true] #root .keys-module-screen:has(.keys-booking-desktop) main{width:100%;max-width:none;margin:0;padding:0 8px 32px 0}
+ html[data-desktop-account=true] #root .keys-module-screen:has(.keys-booking-desktop)>.keys-bottom-nav{display:none!important}
+ html[data-desktop-account=true] #root .keys-booking-columns{display:grid;grid-template-columns:minmax(0,1fr) 352px;gap:32px;align-items:start}
+ html[data-desktop-account=true] #root .keys-booking-primary{min-width:0;display:flex;flex-direction:column;gap:24px}
+ html[data-desktop-account=true] #root .keys-booking-primary>*{margin:0!important;min-width:0}
+ html[data-desktop-account=true] #root .keys-booking-primary .keys-room-list{display:grid;gap:24px}
+ html[data-desktop-account=true] #root .keys-booking-primary .keys-room-tariff-track{grid-template-columns:repeat(2,minmax(0,1fr))}
+ html[data-desktop-account=true] #root .keys-booking-primary .keys-tariff-footer{flex-wrap:wrap;gap:12px}
+ html[data-desktop-account=true] #root .keys-booking-cart{position:sticky;top:96px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius);padding:20px;background:var(--color-card);min-width:0;max-height:calc(var(--keys-desktop-height,760px) - 112px);overflow:auto;scrollbar-width:thin}
+ html[data-desktop-account=true] #root .keys-booking-cart h2{font:var(--ui-font-section);margin:0 0 16px}
+ html[data-desktop-account=true] #root .keys-cart-room{display:flex;gap:12px;align-items:center}
+ html[data-desktop-account=true] #root .keys-cart-room img{width:64px;height:72px;object-fit:cover;border-radius:12px;flex:none}
+ html[data-desktop-account=true] #root .keys-cart-room p{font:var(--ui-font-caption);color:var(--color-muted);margin:0 0 4px}
+ html[data-desktop-account=true] #root .keys-cart-room h3{font:var(--ui-font-label);margin:0}
+ html[data-desktop-account=true] #root .keys-cart-dates{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:16px;margin:16px 0 0;border-top:1px solid var(--color-line)}
+ html[data-desktop-account=true] #root .keys-cart-dates dt{font:var(--ui-font-caption);color:var(--color-muted);margin-bottom:4px}
+ html[data-desktop-account=true] #root .keys-cart-dates dd{font:var(--ui-font-label);margin:0}
+ html[data-desktop-account=true] #root .keys-cart-guests{display:flex;gap:8px;align-items:center;font:var(--ui-font-body);margin:12px 0 0}
+ html[data-desktop-account=true] #root .keys-cart-tariff{display:grid;gap:8px;padding:16px 0;margin:16px 0;border-block:1px solid var(--color-line);font:var(--ui-font-caption)}
+ html[data-desktop-account=true] #root .keys-cart-tariff p{margin:0;font:var(--ui-font-label)}
+ html[data-desktop-account=true] #root .keys-cart-tariff span{display:flex;gap:8px;align-items:flex-start}
+ html[data-desktop-account=true] #root .keys-cart-tariff svg{flex:none;color:var(--color-muted)}
+ html[data-desktop-account=true] #root .keys-cart-costs{display:grid;gap:10px;margin:0}
+ html[data-desktop-account=true] #root :is(.keys-cart-row,.keys-cart-total){display:flex;justify-content:space-between;gap:12px;font:var(--ui-font-body)}
+ html[data-desktop-account=true] #root .keys-cart-costs dd{margin:0;white-space:nowrap;font-weight:500}
+ html[data-desktop-account=true] #root .keys-cart-total{border-top:1px solid var(--color-line);padding-top:14px;margin-top:4px;align-items:baseline}
+ html[data-desktop-account=true] #root .keys-cart-total dd{font:var(--ui-font-title)}
+ html[data-desktop-account=true] #root :is(.keys-cart-tax,.keys-cart-helper){font:var(--ui-font-caption);color:var(--color-muted);margin:8px 0 0}
+ html[data-desktop-account=true] #root .keys-cart-submit{width:100%;margin-top:20px;min-height:48px;font:var(--ui-font-label)}
+ html[data-desktop-account=true] #root .keys-checkout-desktop .keys-room-page-header{margin-bottom:24px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop{max-width:none;width:100%;padding:8px 0 0}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop>.keys-success-heading{padding:0;margin-bottom:24px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions{display:grid;gap:12px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions>button{max-width:360px}
+}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-guest-panel .keys-guest-editor-actions>button{width:auto;max-width:100%;flex:0 1 auto;min-width:140px}
+ html[data-desktop-account=true] #root .keys-guest-panel .keys-guest-editor-actions{flex-wrap:wrap}
+}
+
+/* A room groups its gallery and independent rate options, with a separate cart. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-room-list .keys-room-offer-card{display:grid;grid-template-columns:180px minmax(0,1fr);grid-template-rows:auto 1fr;gap:12px 24px;padding:20px;overflow:visible;align-items:start}
+ html[data-desktop-account=true] #root .keys-room-list .keys-room-offer-card.has-selected-rate{border-color:var(--color-brand)}
+ html[data-desktop-account=true] #root .keys-room-summary{display:contents}
+ html[data-desktop-account=true] #root .keys-room-summary>[role=region]{grid-column:1;grid-row:1/3;height:148px;border-radius:12px;position:sticky;top:96px;align-self:start}
+ html[data-desktop-account=true] #root .keys-room-summary .keys-room-identity{grid-column:2;grid-row:1;padding:0 12px}
+ html[data-desktop-account=true] #root .keys-room-summary .keys-room-identity p{gap:4px 12px;margin-top:8px}
+ html[data-desktop-account=true] #root .keys-booking-primary .keys-room-tariff-track.keys-tariff-comparison{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:4px;padding:0;overflow:visible}
+ html[data-desktop-account=true] #root .keys-rate-option{display:grid;grid-template-columns:minmax(0,1fr) auto 20px;column-gap:12px;align-items:start;padding:12px;border-radius:12px;cursor:pointer;background:var(--color-card);transition:background .15s}
+ html[data-desktop-account=true] #root .keys-rate-option:hover{background:var(--color-surface)}
+ html[data-desktop-account=true] #root .keys-rate-option.is-selected{background:var(--color-soft)}
+ html[data-desktop-account=true] #root .keys-rate-heading{display:contents}
+ html[data-desktop-account=true] #root .keys-rate-heading h3{grid-column:1;grid-row:1;display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-height:28px;font:var(--ui-font-label);margin:0;min-width:0}
+ html[data-desktop-account=true] #root .keys-rate-heading label{cursor:pointer}
+ html[data-desktop-account=true] #root .keys-rate-heading>.keys-tariff-radio{grid-column:3;grid-row:1;margin-top:4px}
+ html[data-desktop-account=true] #root .keys-rate-price{grid-column:2;grid-row:1/4;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;gap:4px;max-width:152px}
+ html[data-desktop-account=true] #root .keys-rate-price strong{font:var(--ui-font-section);white-space:nowrap}
+ html[data-desktop-account=true] #root .keys-rate-highlights{grid-column:1;grid-row:2;display:grid;gap:4px;margin:4px 0 0}
+ html[data-desktop-account=true] #root .keys-rate-highlight{display:flex;gap:8px;align-items:flex-start;font:var(--ui-font-body);color:var(--color-muted)}
+ html[data-desktop-account=true] #root .keys-rate-highlight svg{flex:none;margin-top:3px}
+ html[data-desktop-account=true] #root .keys-rate-highlight.is-included{color:var(--color-success)}
+ html[data-desktop-account=true] #root .keys-rate-expand{grid-column:1;grid-row:3;justify-self:start;display:flex;align-items:center;gap:8px;min-height:32px;margin:8px 0 0;padding:4px 0;font:var(--ui-font-label);color:var(--color-brand);background:transparent;border:0;border-radius:4px}
+ html[data-desktop-account=true] #root .keys-rate-expand svg{transform:rotate(90deg);transition:transform .15s}
+ html[data-desktop-account=true] #root .keys-rate-expand svg.is-open{transform:rotate(-90deg)}
+ html[data-desktop-account=true] #root .keys-rate-expand:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+ html[data-desktop-account=true] #root .keys-rate-conditions{grid-column:1/-1;grid-row:4;display:grid;gap:8px;margin:12px 0 0;padding:12px 0 0 16px;border-top:1px solid var(--color-line);font:var(--ui-font-body);color:var(--color-muted)}
+}
+@media(min-width:900px) and (max-width:1099px){
+ html[data-desktop-account=true] #root .keys-room-list .keys-room-offer-card{grid-template-columns:116px minmax(0,1fr);padding:16px;column-gap:12px}
+ html[data-desktop-account=true] #root .keys-room-summary>[role=region]{height:116px}
+ html[data-desktop-account=true] #root .keys-rate-option{column-gap:8px}
+ html[data-desktop-account=true] #root .keys-rate-price{max-width:100px}
+}
+@media(prefers-reduced-motion:reduce){.keys-rate-option,.keys-rate-expand svg{transition:none!important}}
+
+@media(min-width:900px){html[data-desktop-account=true] #root .keys-rate-nightly{font:var(--ui-font-caption);color:var(--color-muted);white-space:nowrap}}
+
+/* Room photos open in a landscape lightbox on desktop; mobile keeps its viewer. */
+@media(min-width:900px){
+ html[data-desktop-account=true] .keys-room-photo-dialog{width:calc(100% - 48px);max-width:1120px;height:min(800px,calc(100dvh - 48px));max-height:calc(100dvh - 48px);border-radius:20px}
+ html[data-desktop-account=true] .keys-room-photo-dialog>div>div:first-child{padding:16px 24px;flex:none}
+ html[data-desktop-account=true] .keys-room-photo-dialog>div>div:first-child p:first-child{font:var(--ui-font-section);margin:0}
+ html[data-desktop-account=true] .keys-room-photo-dialog>div>div:first-child p[aria-live]{font:var(--ui-font-caption)}
+ html[data-desktop-account=true] .keys-room-photo-stage{margin:0 24px;min-height:0;flex:1}
+ html[data-desktop-account=true] .keys-room-photo-stage>div{height:100%}
+ html[data-desktop-account=true] .keys-room-photo-stage img{width:100%;height:100%;object-fit:contain}
+ html[data-desktop-account=true] .keys-room-photo-footer{flex:none;padding:16px 24px 24px}
+ html[data-desktop-account=true] .keys-room-photo-footer>div:first-child{margin-bottom:8px}
+ html[data-desktop-account=true] .keys-room-photo-footer>div:first-child p{font:var(--ui-font-body)}
+ html[data-desktop-account=true] .keys-room-photo-dialog button[aria-label="Закрыть фотографии"],
+ html[data-desktop-account=true] .keys-room-photo-footer>div:first-child button{width:44px;height:44px;background:transparent;border-radius:12px}
+ html[data-desktop-account=true] .keys-room-photo-dialog button:hover{background:rgb(255 255 255 / .1)}
+ html[data-desktop-account=true] .keys-room-photo-thumbs{display:flex;justify-content:center;gap:8px;max-height:80px;overflow-x:auto;overflow-y:hidden;padding:2px}
+ html[data-desktop-account=true] .keys-room-photo-thumbs>button{width:88px;height:64px;flex:none;aspect-ratio:auto;border-radius:8px}
+}
+
+/* Desktop room selection uses the shared page / section / body type hierarchy. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-room-summary .keys-room-identity h2{font:var(--ui-font-section);letter-spacing:0}
+ html[data-desktop-account=true] #root .keys-room-filters button{font:var(--ui-font-label);min-height:40px;padding:8px 12px}
+ html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-tariff{font:var(--ui-font-body);gap:8px}
+ html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-tariff svg{margin-top:3px}
+ html[data-desktop-account=true] #root .keys-rate-heading .keys-tariff-discount{min-height:24px;padding:2px 6px;font:var(--ui-font-caption-medium);line-height:20px}
+}
+
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-room-selection{display:flex;flex-direction:column;gap:24px;padding-top:24px}
+ html[data-desktop-account=true] #root .keys-room-selection>.keys-room-filters{margin:0;font:var(--ui-font-label)}
+ html[data-desktop-account=true] #root .keys-room-selection>.keys-room-filters button{font:var(--ui-font-label);min-height:40px;padding:8px 12px}
+ html[data-desktop-account=true] #root .keys-room-selection .keys-booking-cart{margin:0}
+}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-room-tools{margin:0;gap:12px}
+ html[data-desktop-account=true] #root .keys-room-tools .keys-room-filters{flex-wrap:wrap;margin:0;padding:0;overflow:visible;gap:8px}
+ html[data-desktop-account=true] #root .keys-room-results-meta p{font:var(--ui-font-body)}
+}
+
+@media(min-width:900px){
+ html[data-desktop-account=true] dialog:has(.keys-room-filter-dialog[data-mode=all]){width:calc(100% - 48px);max-width:640px}
+ html[data-desktop-account=true] .keys-room-filter-dialog[data-mode=all]{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+ html[data-desktop-account=true] .keys-room-filter-dialog[data-mode=all]>fieldset:first-child,
+ html[data-desktop-account=true] .keys-room-filter-dialog[data-mode=all]>fieldset:nth-child(4),
+ html[data-desktop-account=true] .keys-room-filter-dialog[data-mode=all]>.keys-room-filter-actions{grid-column:1/-1}
+ html[data-desktop-account=true] .keys-room-filter-dialog[data-mode=all]>fieldset:nth-child(4) .keys-room-filter-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 24px}
+ html[data-desktop-account=true] #root .keys-cart-filter-note{margin:12px 0 0;padding:12px 0;border-block:1px solid var(--color-line);font:var(--ui-font-caption);color:var(--color-muted)}
+}
+
+/* Confirmation: stay and conditions on the left, payment and next actions on the right. */
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-confirmation-desktop{gap:24px;padding-top:8px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop>.keys-success-heading{margin:0;padding:0}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-heading>p{font:var(--ui-font-body);margin-top:8px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-checkout-panel{padding:24px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-hotel{gap:20px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-hotel>img{width:144px;height:104px;border-radius:12px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-hotel p{font:var(--ui-font-body);margin-top:6px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-hotel p:last-child{color:var(--color-ink)}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-dates{margin-top:24px;padding:20px 0}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-dates>div+div{padding-left:24px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-dates dd{font:var(--ui-font-section);margin-top:6px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-dates dd small{font:var(--ui-font-body);margin-top:4px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-facts{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:20px;margin:20px 0 0}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-row{display:block;padding:0}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-row dt{font:var(--ui-font-caption)}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-row dd{text-align:left;margin:6px 0 0;font:var(--ui-font-label)}
+ html[data-desktop-account=true] #root .keys-confirmation-terms p{display:flex;gap:10px;align-items:center;font:var(--ui-font-body);margin:16px 0 0}
+ html[data-desktop-account=true] #root .keys-confirmation-terms p+p{margin-top:12px}
+ html[data-desktop-account=true] #root .keys-confirmation-terms svg{flex:none;color:var(--color-muted)}
+ html[data-desktop-account=true] #root .keys-confirmation-side{display:grid;gap:20px;min-width:0}
+ html[data-desktop-account=true] #root .keys-confirmation-side .keys-booking-cart{position:static;max-height:none;padding:24px}
+ html[data-desktop-account=true] #root .keys-confirmation-payment-status{display:flex;gap:8px;align-items:center;color:var(--color-success);font:var(--ui-font-body);margin:0 0 20px}
+ html[data-desktop-account=true] #root .keys-confirmation-payment-status.is-arrival{color:var(--color-muted)}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions{display:flex;flex-direction:column;gap:12px}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions>button{max-width:none;width:100%}
+ html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions>p{order:1;margin-top:4px;line-height:1.5}
+}

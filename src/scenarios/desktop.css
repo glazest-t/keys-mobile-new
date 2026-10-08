@@ -422,3 +422,29 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 @media(min-width:800px) and (max-width:1100px){
  body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-trip-actions.has-instruction{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Prearrival follows the mobile hierarchy: action buttons, then one navigation card. */
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-actions{display:flex!important;flex-direction:column;gap:12px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-buttons{display:flex;gap:12px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-buttons>button{flex:1;min-width:0;width:auto}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-actions button[hidden]{display:none!important}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:8px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-actions.has-instruction .kd-before-links{grid-template-columns:repeat(3,minmax(0,1fr))}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:12px;min-height:84px;min-width:0;border:0;background:transparent;color:var(--color-ink);cursor:pointer;text-align:center}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button+button{border-left:1px solid var(--color-line)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button>svg:first-child{width:22px;height:22px;color:var(--color-brand);flex:none}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links :is(small,button>svg:last-child){display:none}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .kd-before-links strong{font:var(--ui-font-label);color:var(--color-ink)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-footer{display:flex;justify-content:flex-end}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-footer:empty{display:none}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button:hover{background:var(--color-soft);border-radius:12px}
+body[data-keys-booking-cancelled=true][data-keys-scenario=booked] #keysUnifiedPrototype :is(.kd-before-buttons,.kd-before-footer,.kd-before-links [data-before=instruction]){display:none!important}
+
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .kd-before-button{display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px 16px;border:0;border-radius:14px;background:var(--color-soft);color:var(--color-brand);font:var(--ui-font-label);cursor:pointer}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-button:hover{background:var(--color-soft-hover,var(--color-soft))}
+
+/* Changing and cancelling always share the first desktop row below the stay card. */
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-management{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-management>button{width:100%;min-width:0;min-height:48px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-buttons[hidden],
+body[data-keys-booking-cancelled=true][data-keys-scenario=booked] #keysUnifiedPrototype .kd-before-management{display:none!important}

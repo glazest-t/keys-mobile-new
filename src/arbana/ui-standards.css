@@ -34,7 +34,7 @@
 @media(hover:hover){#keysUnifiedPrototype .kse-benefits:hover .kse-card-action>span{text-decoration:none}}
 
 /* Filled and outlined standalone actions use the same 48 / 14 / 14 geometry. */
-#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-primary,.kn-primary,.kpa-manage,.kse-find,.kh-open-door,.kfb-primary,.ksd-sheet-action,.ksd-close,.kp-primary,.kf-primary,.kti-primary,.kdf-primary,.ksd-primary,.ksd-flow-primary,.ksd-door-primary,.ktd-add-primary,.kp-detail-cta,.kp-secondary,.kf-secondary,.kti-secondary,.kdf-secondary,.ksd-flow-secondary,.ksd-other-secondary){
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.keys-cancel-entry,.kh-primary,.kn-primary,.kpa-manage,.kse-find,.kh-open-door,.kfb-primary,.ksd-sheet-action,.ksd-close,.kp-primary,.kf-primary,.kti-primary,.kdf-primary,.ksd-primary,.ksd-flow-primary,.ksd-door-primary,.ktd-add-primary,.kp-detail-cta,.kp-secondary,.kf-secondary,.kti-secondary,.kdf-secondary,.ksd-flow-secondary,.ksd-other-secondary){
  box-sizing:border-box;min-height:var(--ui-control-height)!important;height:auto!important;
  padding:12px 16px!important;border-radius:var(--ui-control-radius)!important;
  font:500 var(--ui-body-size)/1.5 var(--font-sans)!important;letter-spacing:0!important;
@@ -293,4 +293,5 @@ html[data-desktop-account="true"] #root [data-keys-button="text"]{min-height:var
  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4L19 6'/%3E%3C/svg%3E");
 }
 #root input[type="checkbox"]:not(.sr-only):disabled{opacity:.45;cursor:default}
+#root input[type="checkbox"]:not(.sr-only):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 @media(forced-colors:active){#root input[type="checkbox"]:not(.sr-only){appearance:auto;background-image:none}}

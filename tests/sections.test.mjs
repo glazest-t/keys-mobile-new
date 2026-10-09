@@ -116,15 +116,26 @@ test('checkout requires a method but defers bank card details to the later payme
  }
 });
 
-test('custom points reduce totals and settlement by the exact amount, capped to balance and room cost',()=>{
+test('points toggle spends both complete wallets, ignores a custom amount and settles once',()=>{
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});
- const balance=s.loyalty.balance,original=e.checkoutTotal(s.reservation).total;
- assert.equal(e.keysPointsLimit(s.reservation,balance),Math.floor(original*0.2));
- s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:2537});assert.equal(e.keysPointsUsed(s.reservation),2537);assert.equal(e.checkoutTotal(s.reservation).total,original-2537);
- s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:999999});assert.equal(e.keysPointsUsed(s.reservation),e.keysPointsLimit(s.reservation,balance));
- s=run(s,{type:'RESERVATION_POINTS',enabled:false});assert.equal(e.checkoutTotal(s.reservation).total,original);
- s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:2500});s=completeGuest(s);s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});
- assert.equal(s.reservation.status,'confirmed');assert.equal(s.booking.pointsSpent,2500);assert.equal(s.booking.pointsDiscount,2500);assert.equal(s.loyalty.balance,balance-2500);assert.equal(s.booking.payment.amount,original-2500);
+ const balance=s.loyalty.balance,original=e.checkoutTotal(s.reservation).total,hotel=1500;
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:2537});assert.equal(e.keysPointsUsed(s.reservation),balance);assert.equal(s.reservation.hotelPointsAmount,hotel);assert.equal(e.checkoutTotal(s.reservation).total,original-balance-hotel);
+ s=run(s,{type:'RESERVATION_POINTS',enabled:false});assert.equal(e.checkoutTotal(s.reservation).total,original);assert.equal(s.loyalty.balance,balance);
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true});s=completeGuest(s);s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});
+ assert.equal(s.reservation.status,'confirmed');assert.equal(s.booking.pointsSpent,balance);assert.equal(s.booking.hotelPointsSpent,hotel);assert.equal(s.booking.pointsDiscount,balance+hotel);assert.equal(s.loyalty.balance,0);assert.equal(s.keysHotelPoints.more,0);assert.equal(s.booking.payment.amount,original-balance-hotel);
+});
+test('all-points redemption handles zero wallets and never exceeds room cost',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});
+ s={...s,loyalty:{...s.loyalty,balance:0},keysHotelPoints:{more:0}};
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true});assert.equal(s.reservation.usePoints,false);
+ s={...s,loyalty:{...s.loyalty,balance:999999}};
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true});assert.equal(s.reservation.usePoints,false);assert.ok(e.checkoutTotal(s.reservation).total>=0);
+ s={...s,loyalty:{...s.loyalty,balance:0},keysHotelPoints:{more:500,palm:900}};
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true});assert.equal(s.reservation.usePoints,true);assert.equal(s.reservation.hotelPointsAmount,500);
+});
+test('full redemption revalidates changed wallets before confirmation',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});s=completeGuest(s);s=run(s,{type:'RESERVATION_METHOD',method:'arrival'});s=run(s,{type:'RESERVATION_POINTS',enabled:true});
+ s={...s,keysHotelPoints:{more:0}};s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});assert.equal(s.reservation.status,'editing');assert.match(s.reservation.error,/баллов/);
 });
 
 test('created booking details retain the exact confirmed record when another draft is started',()=>{
@@ -145,7 +156,7 @@ test('pay at arrival confirms once without a bank payment and preserves the hote
  s=run(s,{type:'RESERVATION_PAY',draftId:id});
  assert.equal(s.reservation.status,'confirmed');assert.equal(s.navigation.screen.type,'reservation-success');
  assert.equal(s.booking.payment.method,'arrival');assert.equal(s.booking.payment.status,'pending');assert.equal(s.booking.payment.amount,0);assert.equal(s.booking.paid,0);assert.equal(s.booking.dueAtHotel,due);
- assert.equal(s.booking.pointsSpent,753);assert.equal(s.loyalty.balance,balance-753);
+ assert.equal(s.booking.pointsSpent,balance);assert.equal(s.booking.hotelPointsSpent,1500);assert.equal(s.loyalty.balance,0);assert.equal(s.keysHotelPoints.more,0);
  assert.ok(s.orders.length);assert.ok(s.orders.every(order=>!order.paid));assert.equal(s.keysCreatedBookings[s.booking.id].booking.dueAtHotel,due);
  const confirmed=s;s=run(s,{type:'RESERVATION_PAY',draftId:id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});assert.equal(s.booking.id,confirmed.booking.id);assert.equal(s.loyalty.balance,confirmed.loyalty.balance);
 });
@@ -253,4 +264,11 @@ test('cancelling a created booking updates its details and returns points only o
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});s=completeGuest(s);s=run(s,{type:'RESERVATION_POINTS',enabled:true,amount:500});s=run(s,{type:'RESERVATION_METHOD',method:'arrival'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});
  const id=s.booking.id,balance=s.loyalty.balance,action={type:'KEYS_BOOKING_CANCELLED',bookingId:id,result:{status:'cancelled',fee:0,refund:0,points:500,due:0}};
  const cancelled=run(s,action);assert.equal(cancelled.booking.keysCancellation.status,'cancelled');assert.equal(cancelled.keysCreatedBookings[id].booking.keysCancellation.status,'cancelled');assert.equal(cancelled.loyalty.balance,balance+500);assert.equal(run(cancelled,action),cancelled);assert.equal(run(s,{...action,bookingId:'missing'}),s);
+});
+
+test('free cancellation returns each wallet to its source exactly once',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});s=completeGuest(s);s=run(s,{type:'RESERVATION_METHOD',method:'arrival'});const balance=s.loyalty.balance;
+ s=run(s,{type:'RESERVATION_POINTS',enabled:true});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});
+ const quote=e.keysBookingCancellationQuote(s.reservation,s.booking,'2020-01-01');assert.equal(quote.points,balance+1500);
+ const action={type:'KEYS_BOOKING_CANCELLED',bookingId:s.booking.id,result:{...quote,status:'cancelled'}};s=run(s,action);assert.equal(s.loyalty.balance,balance);assert.equal(s.keysHotelPoints.more,1500);assert.equal(run(s,action),s);
 });

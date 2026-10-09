@@ -47,5 +47,15 @@ export function adaptFind(source, recentComponent, resultsComponent) {
   if(start<0||end<0)throw Error('Find result header missing');
   js=js.slice(0,start)+resultsComponent+'\n'+js.slice(end);
  }
+ // Mark both filter variants for one viewport-bottom primary action pattern.
+ for(const name of ['xV','vV']){
+  const start=js.indexOf('function '+name+'() {'),end=js.indexOf('\nfunction ',start+1);
+  if(start<0||end<0)throw Error('Filter page missing: '+name);
+  let part=js.slice(start,end);
+  const form='n.jsxs("form", { onSubmit:',footer='className: "sticky bottom-0 z-10 -mx-(--gutter) border-t border-line bg-card px-(--gutter) pt-3 pb-[max(14px,env(safe-area-inset-bottom))]"';
+  if(!part.includes(form)||!part.includes(footer))throw Error('Filter action layout missing: '+name);
+  part=part.replace(form,'n.jsxs("form", { className: "keys-filter-form", onSubmit:').replace(footer,footer.replace('"sticky','"keys-filter-footer sticky'));
+  js=js.slice(0,start)+part+js.slice(end);
+ }
  return js;
 }

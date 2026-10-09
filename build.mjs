@@ -122,6 +122,8 @@ ${fragment}
 <link rel="stylesheet" href="./scenarios/auth.css">
 <link rel="stylesheet" href="./scenarios/partner-invite.css">
 <script type="module" src="./scenarios/auth.js"></script>
+<link rel="stylesheet" href="./scenarios/preview-viewport.css">
+<script src="./scenarios/preview-viewport.js"></script>
 </body>
 </html>
 `;

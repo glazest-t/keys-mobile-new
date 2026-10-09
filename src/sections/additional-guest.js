@@ -38,6 +38,8 @@ function KeysPaymentGuestPanel({contact,onChange,edited,onReset}) {
  const {state,dispatch}=J(),draft=state.reservation,second=draft?.additionalGuests?.[0],secondDraft=draft?.additionalGuestDraft||second,desktop=useKeysDesktopBooking();
  const hasSecond=keysHasAdditionalGuest(draft?.party),[editing,setEditing]=E.useState(null),[form,setForm]=E.useState({});
  const prefix=E.useId();
+ // Keep a desktop form open while the guest is completing its last field.
+ const [inlinePrimary]=E.useState(()=>!um(contact));
  const open=kind=>{setForm(kind==='primary'?{...contact}:{firstName:secondDraft?.firstName||'',lastName:secondDraft?.lastName||''});setEditing(kind);};
  const close=()=>setEditing(null);
  const valid=editing==='primary'?um(form):!!form.firstName?.trim()&&!!form.lastName?.trim();
@@ -50,10 +52,12 @@ function KeysPaymentGuestPanel({contact,onChange,edited,onReset}) {
  ]});
  return n.jsxs(n.Fragment,{children:[
   n.jsxs('section',{'aria-label':'Контакты гостя',className:'keys-checkout-panel keys-guest-panel',children:[
-   n.jsxs('div',{className:'keys-guest-panel-heading',children:[n.jsx('h2',{children:hasSecond?'Гости':'Гость'}),n.jsx('span',{children:Rt(draft?.party||{adults:1,childrenAges:[]})})]}),
-   desktop?n.jsxs('div',{className:'keys-guest-inline',children:[n.jsx('p',{className:'keys-guest-completion-hint',children:'Заполните фамилию и email для подтверждения брони.'}),n.jsx(KeysGuestContactFields,{value:contact,onChange}),profileAction(contact)]}):n.jsxs('button',{type:'button',className:'keys-guest-row keys-guest-primary',onClick:()=>open('primary'),'aria-label':um(contact)?'Изменить данные основного гостя':'Дополнить данные гостя',children:[n.jsxs('span',{className:'keys-guest-row-copy',children:[n.jsx('strong',{children:Ac(contact)||'Укажите данные гостя'}),n.jsx('span',{children:contact.phone}),n.jsx('span',{children:um(contact)?contact.email:'Добавьте фамилию и email'})]}),n.jsx(D,{name:'chevron',className:'size-3.5'})]}),
-   hasSecond&&n.jsxs('button',{type:'button',className:'keys-guest-row'+(second?'':' keys-guest-add'),onClick:()=>editing==='second'?close():open('second'),'aria-expanded':editing==='second','aria-label':second?'Изменить данные второго гостя':'Добавить второго гостя',children:[n.jsxs('span',{className:'keys-guest-row-copy',children:second?[n.jsx('span',{children:'Второй гость'}),n.jsx('strong',{children:second.firstName+' '+second.lastName})]:[n.jsx('strong',{children:'Добавить второго гостя'})]}),n.jsx(D,{name:'chevron',className:'size-4'+(editing==='second'?' is-open':'')})]}),
+   n.jsx('div',{className:'keys-guest-panel-heading',children:n.jsx('h2',{children:hasSecond?'Гости':'Гость'})}),
+   n.jsxs('div',{className:'keys-guest-list',children:[
+   desktop&&inlinePrimary?n.jsxs('div',{className:'keys-guest-inline',children:[n.jsx('p',{className:'keys-guest-completion-hint',children:'Заполните фамилию и email для подтверждения брони.'}),n.jsx(KeysGuestContactFields,{value:contact,onChange}),profileAction(contact)]}):n.jsxs('button',{type:'button',className:'keys-guest-row keys-guest-primary',onClick:()=>open('primary'),'aria-label':um(contact)?'Изменить данные основного гостя':'Дополнить данные гостя',children:[n.jsx(D,{name:'users',className:'keys-guest-leading','aria-hidden':true}),n.jsxs('span',{className:'keys-guest-row-copy',children:[n.jsx('strong',{children:Ac(contact)||'Основной гость'}),!um(contact)&&n.jsx('span',{children:'Дополните данные'})]}),n.jsxs('span',{className:'keys-guest-row-action',children:[um(contact)?'Изменить':'Заполнить',n.jsx(D,{name:'chevron',className:'size-3.5','aria-hidden':true})]})]}),
+   hasSecond&&n.jsxs('button',{type:'button',className:'keys-guest-row'+(!second?' keys-guest-add':''),onClick:()=>editing==='second'?close():open('second'),'aria-expanded':editing==='second','aria-label':editing==='second'?'Свернуть данные второго гостя':second?'Изменить данные второго гостя':'Добавить второго гостя',children:[n.jsx(D,{name:'users',className:'keys-guest-leading','aria-hidden':true}),n.jsx('span',{className:'keys-guest-row-copy',children:n.jsx('strong',{children:second?second.firstName+' '+second.lastName:'Второй гость'})}),n.jsxs('span',{className:'keys-guest-row-action',children:[editing==='second'?'Свернуть':second?'Изменить':'Добавить',n.jsx(D,{name:'chevron',className:'size-3.5'+(editing==='second'?' is-open':''),'aria-hidden':true})]})]}),
    editing==='second'&&editor
+   ]})
   ]}),
   editing==='primary'&&n.jsx(ct,{title:editing==='primary'?'Данные гостя':'Второй гость',onClose:close,children:editor})
  ]});

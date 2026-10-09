@@ -15,7 +15,7 @@
   dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
   dialog.addEventListener('click',event=>{
    if(event.target.closest('[data-dismiss]'))close();
-   if(event.target.closest('[data-confirm]')){const result={status:request?'requested':'cancelled',fee:options.fee||0,refund:options.refund||0,due:options.due||0,points:options.points||0};close();options.onComplete?.(result);}
+   if(event.target.closest('[data-confirm]')){const result={status:request?'requested':'cancelled',fee:options.fee||0,refund:options.refund||0,due:options.due||0,points:options.points||0,keysPoints:options.keysPoints??options.points??0,hotelPoints:options.hotelPoints||0};close();options.onComplete?.(result);}
   });
  }};
  app.addEventListener('keys-scenario-change',()=>current?.close());

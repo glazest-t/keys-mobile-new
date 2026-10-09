@@ -6,7 +6,7 @@
  const arrow=svg('<path d="m9 5 7 7-7 7"/>');
  const screen=document.createElement('section');screen.className='kse-home';screen.hidden=true;screen.setAttribute('aria-label','Поездки без бронирования');
  screen.innerHTML=`
-  <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span><h1>Куда отправимся?</h1><p>Броней пока нет — начнём с выбора отеля.</p></header>
+  <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span><h1>Куда отправимся?</h1></header>
   <article class="kse-inspiration" aria-labelledby="kse-inspiration-title">
    <div class="kse-inspiration-top"><h2 id="kse-inspiration-title">За новыми впечатлениями</h2></div>
    <div class="kse-visual" aria-label="Вдохновение для следующей поездки">

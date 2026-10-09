@@ -302,7 +302,7 @@ function Ae(props) {
  if(props.title==='Оплата'&&!props.subtitle)return n.jsx(KeysPaymentStayHeader,props);
  if(props.subtitle)return n.jsxs('header',{className:'keys-room-page-header'+(desktop?' is-desktop':''),children:[
   desktop?n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}):n.jsx(cs,{onClick:props.onBack??back}),
-  n.jsxs('div',{className:'keys-room-header-copy',children:[n.jsx('h1',{children:props.title}),n.jsx('p',{children:props.subtitle})]}),
+  n.jsxs('div',{className:'keys-room-header-copy',children:[n.jsx('h1',{children:props.title}),n.jsx('p',{title:props.subtitle,children:props.subtitle})]}),
   props.action
  ]});
  if(!desktop)return n.jsx(KeysMobileScreenHeader,props);

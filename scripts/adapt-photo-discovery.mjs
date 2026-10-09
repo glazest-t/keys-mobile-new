@@ -26,7 +26,11 @@ export function adaptPhotoDiscovery(source,components){
   s=s.slice(0,a)+'n.jsx(KeysPhotoTags,{tags:[...L,...q]}), '+s.slice(b);
   const p=s.indexOf('n.jsxs("div", { className: "min-w-0", children: [n.jsxs("div", { className: "flex items-baseline',a),end=s.indexOf('n.jsxs("button", { disabled: r, onClick: m',p);
   if(p<0||end<0)throw Error('Photo price missing');
-  return s.slice(0,p)+'n.jsxs("div",{className:"keys-discovery-price",children:[n.jsx("strong",{children:Te(C)}),n.jsx("span",{children:"за "+Xe(w)})]}), '+s.slice(end);
+  s=s.slice(0,p)+'n.jsxs("div",{className:"keys-discovery-price",children:[n.jsx("strong",{children:Te(C)}),n.jsx("span",{children:"за "+Xe(w)})]}), '+s.slice(end);
+  const toolsStart=s.indexOf('n.jsxs("div", { className: "absolute top-[26px] right-3 flex gap-2"'),toolsEnd=s.indexOf('h, n.jsxs("div", { className: Xx',toolsStart);
+  if(toolsStart<0||toolsEnd<0)throw Error('Photo card tools missing');
+  s=s.slice(0,toolsStart)+s.slice(toolsEnd);
+  return swap(s,'onClick: m, className: "keys-discovery-rooms", children: ["Выбрать номер"','onClick: () => x({ type: "HOTEL_OPEN", id: e.id }), className: "keys-discovery-rooms", children: ["К отелю"');
  });
  edit('Bx','Fx',s=>{
   s=swap(s,'numbered: c = false, children: u })','numbered: c = false, children: u, mediaActive = true })');

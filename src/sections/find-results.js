@@ -85,7 +85,7 @@ function FU() {
   n.jsxs('div',{className:'keys-results-header',children:[
    n.jsx(cs,{onClick:()=>dispatch({type:'SEARCH_PATCH',patch:{results:false,keysMapExpanded:false,keysCollection:null}})}),
    n.jsxs('button',{type:'button',className:'keys-results-query','aria-label':'Изменить параметры поиска','aria-haspopup':'dialog',onClick:()=>setEditing(true),children:[
-    n.jsxs('span',{className:'keys-results-city',children:[collection?.title||search.city||'Все отели',n.jsx(D,{name:'down',className:'size-4'})]}),
+    n.jsxs('span',{className:'keys-results-city',children:[n.jsx('span',{className:'keys-results-city-name',title:collection?.title||search.city||'Все отели',children:collection?.title||search.city||'Все отели'}),n.jsx(D,{name:'down',className:'size-4'})]}),
     n.jsx('span',{className:'keys-results-dates',children:(collection?(search.city||'Все направления')+' · ':'')+zt(search.arrival,search.departure)+' · '+Bm(search.party)})
    ]}),n.jsx('span',{className:'keys-results-header-spacer','aria-hidden':true})
   ]}),
@@ -96,7 +96,6 @@ function FU() {
    options.map(option=>n.jsx('button',{type:'button','aria-pressed':filters.includes(option.value),onClick:()=>dispatch({type:'SEARCH_PATCH',patch:{filters:keysQuickFilters(search.filters,option.value)}}),children:option.label},option.value))
   ]}),
   ]}),
-  collection&&n.jsx('p',{className:'keys-collection-description',children:collection.description}),
   districtOpen&&n.jsx(ct,{title:'Район города',onClose:()=>setDistrictOpen(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Районы города '+search.city,children:['',...districts].map(value=>n.jsxs('button',{type:'button','aria-pressed':district===value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{filters:keysSetDistrict(search,value)}});setDistrictOpen(false);},children:[n.jsx('span',{children:value||'Все районы'}),district===value&&n.jsx(D,{name:'check',className:'size-5'})]},value))})}),
   editing&&n.jsx(xh,{onClose:()=>setEditing(false)}),
   sorting&&n.jsx(ct,{title:'Сортировка',onClose:()=>setSorting(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Порядок отелей',children:keysSearchSortOptions.map(option=>n.jsxs('button',{type:'button','aria-pressed':(search.sort||'recommended')===option.value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{sort:option.value}});setSorting(false);},children:[n.jsx('span',{children:option.label}),(search.sort||'recommended')===option.value&&n.jsx(D,{name:'check',className:'size-5'})]},option.value))})})

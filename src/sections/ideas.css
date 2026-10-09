@@ -145,7 +145,7 @@ html:not([data-desktop-account=true]) #root .ki-mode>[data-keys-tabs]{margin-bot
 html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose] .ki-selection-controls{padding-bottom:12px;gap:8px}
 html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose]>.ki-scroll{padding-bottom:0;overflow:hidden}
 html:not([data-desktop-account=true]) #root .ki-workspace{height:100%;min-height:0;gap:0}
-html:not([data-desktop-account=true]) #root .ki-choice-body{flex:0 1 auto;min-height:0;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}
+html:not([data-desktop-account=true]) #root .ki-choice-body{flex:1 1 0%;min-height:0;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}
 html:not([data-desktop-account=true]) #root .ki-idea-card{min-height:clamp(220px,32dvh,280px);flex:0 0 auto;padding:12px 16px;gap:8px}
 html:not([data-desktop-account=true]) #root .ki-hero-art{width:clamp(64px,14dvh,112px);height:clamp(64px,14dvh,112px);margin:auto;flex:none}
 html:not([data-desktop-account=true]) #root .ki-idea-card>div{gap:4px}
@@ -170,3 +170,18 @@ html:not([data-desktop-account=true]) #root .ki-question-art{width:clamp(48px,10
 #root .ki-page .ki-preference-tag .ki-preference-remove{width:16px;height:16px;flex:none}
 #root .ki-page .ki-preference-tag:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
 @media(hover:hover){#root .ki-page .ki-preference-tag:hover{border-color:var(--color-brand);background:var(--color-soft-hover)}}
+
+/* Results: title and destination share one compact, editable header. */
+#root .ki-results-query-heading{min-width:0;flex:1}
+#root .ki-results-query{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:44px;width:100%;min-width:0;padding:0;border:0;background:transparent;color:var(--color-ink)}
+#root .ki-results-query-title{font:var(--ui-font-label)}
+#root .ki-results-query-city{display:flex;align-items:center;justify-content:center;gap:4px;max-width:100%;font:var(--ui-font-caption);color:var(--color-muted)}
+#root .ki-results-query-city>span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#root .ki-results-query-city>svg{flex:none}
+#root .ki-results-query:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px;border-radius:8px}
+html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=results]>.ki-header{padding:8px 16px 12px;gap:8px;min-height:64px;box-sizing:border-box}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .ki-results-query{align-items:flex-start;flex-direction:row;justify-content:flex-start;gap:16px}
+ html[data-desktop-account=true] #root .ki-results-query-title{font:var(--ui-font-display)}
+ html[data-desktop-account=true] #root .ki-results-query-city{align-self:center;font:var(--ui-font-label)}
+}

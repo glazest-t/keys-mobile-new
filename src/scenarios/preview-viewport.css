@@ -1,0 +1,8 @@
+/* Preview chrome occupies only the space left above/below the phone. */
+body[data-keys-view="mobile"]{box-sizing:border-box;min-height:100dvh;padding:16px 12px 12px}
+body[data-keys-view="mobile"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.kp-phone,.kf-phone,.ktd-phone,.kti-phone,.kdf-phone,.kfb-phone,.ksd-phone,.kauth-phone,#keysSectionsFrame),
+body[data-keys-view="mobile"] #keysScenarioEmpty{height:var(--keys-preview-height,min(844px,calc(100dvh - 100px)))!important;min-height:0!important}
+@media(max-width:520px){
+ body[data-keys-view="mobile"]{padding:0}
+ body[data-keys-view="mobile"] #keysScenarioControls{margin-bottom:0}
+}

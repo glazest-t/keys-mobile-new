@@ -234,6 +234,14 @@ function KeysHotelAmenities({hotel}){
   opened&&n.jsx(ct,{title:'Удобства в отеле',onClose:()=>setOpened(false),children:n.jsx('div',{className:'keys-hotel-amenities-sheet',children:groups.map(group=>n.jsxs('section',{children:[n.jsx('h3',{children:group}),n.jsx('ul',{className:'keys-hotel-amenity-list',children:amenities.filter(item=>item.group===group).map(item=>n.jsxs('li',{children:[n.jsx(D,{name:'check',className:'size-4'}),item.label]},item.label))})]},group))})})
  ]});
 }
+function KeysHotelStayRules({hotel}){
+ const checkIn=hotel.checkInTime??(hotel.id==='more'?Lg.checkInTime:hotel.id==='maidens'?'14:00':'15:00');
+ const checkOut=hotel.checkOutTime??(hotel.id==='more'?Lg.checkOutTime:'12:00');
+ return n.jsxs('section',{className:'keys-hotel-stay-rules','aria-label':'Правила проживания',children:[
+  n.jsx('div',{className:'keys-hotel-card-heading',children:n.jsx('h2',{children:'Правила проживания'})}),
+  n.jsx('dl',{className:'keys-hotel-stay-times',children:[['Заезд','с',checkIn],['Выезд','до',checkOut]].map(([label,prefix,time])=>n.jsxs('div',{children:[n.jsx('dt',{children:label}),n.jsxs('dd',{children:[prefix+' ',n.jsx('time',{dateTime:time,children:time})]})]},label))})
+ ]});
+}
 function KeysHotelCompactReviews({hotel,interactive=true}){
  const {state,open}=J(),summary=keysReviewHighlights(Zc(hotel).reviews,state.tripContext.today).all,ratingLabel=keysHotelRatingLabel(hotel.rating);
  return n.jsxs(interactive?'button':'section',{...(interactive?{type:'button',onClick:()=>open({type:'hotel-reviews',hotelId:hotel.id})}:{}),className:'keys-hotel-rating-link','aria-label':'Отзывы гостей: '+String(hotel.rating).replace('.',',')+', '+Ym(summary.count),children:[n.jsx('strong',{className:'keys-hotel-rating-number',children:String(hotel.rating).replace('.',',')}),n.jsxs('span',{className:'keys-hotel-rating-copy',children:[n.jsxs('span',{className:'keys-hotel-rating-title',children:[n.jsx('strong',{children:ratingLabel}),n.jsx('span',{children:Ym(summary.count)})]}),n.jsx('span',{children:summary.topics.length?'Гости хвалят: '+summary.topics.map(t=>t.toLowerCase()).join(', '):'Впечатления гостей об отеле'})]}),interactive&&n.jsx(D,{name:'chevron',className:'size-4'})]});
@@ -266,13 +274,18 @@ function KeysHotelReviewCarousel({hotel}){
  n.jsx(KeysReviewTopicFilters,{reviews,value:topic,onChange:value=>{setTopic(value);track.current?.scrollTo({left:0});}}),
  n.jsx('div',{ref:track,className:'keys-review-carousel-track','aria-label':'Отзывы',children:visible.map(review=>n.jsxs('button',{type:'button',className:'keys-review-preview','aria-label':'Читать отзыв: '+review.author,onClick:go,children:[n.jsxs('span',{className:'keys-review-preview-heading',children:[n.jsxs('span',{children:[n.jsx('strong',{children:review.author}),n.jsx('time',{dateTime:review.date,children:new Date(review.date+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})})]}),n.jsx('span',{className:'keys-review-preview-score',children:String(review.score).replace('.',',')})]}),n.jsx('span',{className:'keys-review-preview-text',children:review.text}),n.jsx('span',{className:'keys-review-preview-tags',children:review.praise.slice(0,2).map(label=>n.jsx('span',{children:label},label))})]},review.id))}),n.jsxs('div',{className:'keys-hotel-carousel-arrows',children:[n.jsx('button',{type:'button','aria-label':'Предыдущие отзывы',onClick:()=>shift(-1),children:n.jsx(D,{name:'back',className:'size-4'})}),n.jsx('button',{type:'button','aria-label':'Следующие отзывы',onClick:()=>shift(1),children:n.jsx(D,{name:'arrow',className:'size-4'})})]})]});
 }
+function KeysHotelRegistry({hotel}){
+ const number=hotel.registryNumber;
+ // Fictional identifier for the prototype; real hotel data takes precedence.
+ return n.jsxs('p',{className:'keys-hotel-registry',children:['№ объекта в реестре: ',number||'С232026000123',!number&&' (пример)']});
+}
 function KeysHotelOverview({hotel,draft,minimum}) {
  const {open}=J(),stars=Number.isInteger(hotel.stars)&&hotel.stars>0&&hotel.stars<=5?hotel.stars:null;
  return n.jsxs('div',{className:'keys-hotel-overview',children:[n.jsx(KeysHotelGallery,{hotel}),n.jsxs('div',{className:'keys-hotel-sheet',children:[
   n.jsxs('section',{className:'keys-hotel-identity',children:[n.jsx('h1',{children:hotel.name}),n.jsxs('div',{className:'keys-hotel-meta',children:[n.jsxs('div',{className:'keys-hotel-category',children:[n.jsx('span',{children:hotel.accommodationType||'Отель'}),stars&&n.jsx('span',{className:'keys-hotel-category-label',children:stars+' '+(stars===1?'звезда':stars<5?'звезды':'звёзд')})]}),n.jsx('p',{className:'keys-hotel-city',children:[hotel.city,hotel.area||hotel.district].filter(Boolean).join(' · ')})]}),n.jsx(KeysHotelRecommendations,{hotel})]}),
   n.jsxs('div',{className:'keys-hotel-booking-panel',children:[n.jsx(KeysHotelCompactReviews,{hotel}),n.jsx(jY,{hotel,draft}),n.jsx('div',{className:'keys-hotel-desktop-booking-action',children:n.jsx(H,{onClick:()=>open({type:'hotel',hotelId:hotel.id,rooms:true}),children:'Выбрать номер от '+Te(minimum)})})]}),
   n.jsx(KeysHotelDescription,{hotel}),
-  n.jsxs('div',{className:'keys-hotel-content',children:[n.jsx(KeysHotelLocation,{hotel,draft}),n.jsx(KeysHotelAmenities,{hotel}),n.jsx(KeysHotelReviewCarousel,{hotel})]})
+  n.jsxs('div',{className:'keys-hotel-content',children:[n.jsx(KeysHotelLocation,{hotel,draft}),n.jsx(KeysHotelAmenities,{hotel}),n.jsx(KeysHotelStayRules,{hotel}),n.jsx(KeysHotelReviewCarousel,{hotel}),n.jsx(KeysHotelRegistry,{hotel})]})
  ]})]});
 }
 

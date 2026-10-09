@@ -294,6 +294,10 @@
     const action=button.dataset.headerAction;
     if(action==='home')go('trips');
     if(action==='profile')go('profile');
+    if(action==='favorites'){
+      if(!section.hidden){frame.contentWindow.postMessage({source:'keys-host',openFavorites:true},location.origin);return;}
+      show('find',null,'saved');return;
+    }
     if(action==='notifications'){
       if(!section.hidden){if(section.dataset.runtimeScreen!=='notifications')frame.contentWindow.postMessage({source:'keys-host',openNotification:true},location.origin);return;}
       const current=button.closest('.kf-phone')?.dataset.screen??'trips';

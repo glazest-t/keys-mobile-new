@@ -716,7 +716,8 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 @media(hover:hover){.keys-hotel-rating-link:hover,.keys-hotel-location-interactive:hover,.keys-review-preview:hover{border-color:var(--color-brand-line)}}
 
 /* Hotel detail: one reading surface and a shared section/action rhythm. */
-#root .keys-hotel-sheet{padding-top:20px;padding-bottom:28px;border-radius:24px 24px 0 0}
+#root .keys-hotel-sheet{padding-top:20px;padding-bottom:16px;border-radius:24px 24px 0 0}
+#root .keys-hotel-booking-cta{margin-top:0}
 #root .keys-hotel-sheet h2{font:var(--ui-font-section);letter-spacing:0}
 #root .keys-hotel-personal{margin-top:24px;padding:0;background:none;border-radius:0}
 #root .keys-hotel-sheet .keys-hotel-personal h2{font:var(--ui-font-label)}
@@ -740,7 +741,7 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 #root .keys-hotel-sheet .keys-hotel-price-action{position:absolute;right:16px;bottom:18px;width:16px;min-height:20px}
 #root .keys-hotel-sheet .keys-hotel-pricing-row .keys-hotel-watch{right:2px;top:0}
 #root .keys-hotel-short-description{margin:20px 0 0;font:var(--ui-font-body);line-height:22px;color:var(--color-ink)}
-#root .keys-hotel-sheet :is(.keys-hotel-location-interactive,.keys-hotel-amenities,.keys-hotel-review-carousel){margin-top:24px;padding:24px 0 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;overflow:visible}
+#root .keys-hotel-sheet :is(.keys-hotel-location-interactive,.keys-hotel-amenities,.keys-hotel-stay-rules,.keys-hotel-review-carousel){margin-top:24px;padding:24px 0 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;overflow:visible}
 #root .keys-hotel-sheet :is(.keys-hotel-section-heading,.keys-hotel-card-heading,.keys-hotel-carousel-heading){display:flex;align-items:center;justify-content:space-between;min-height:24px;padding:0;margin:0 0 12px;gap:12px}
 #root .keys-hotel-location-interactive>p{margin:0 0 12px;font:var(--ui-font-body);color:var(--color-muted)}
 #root .keys-hotel-sheet .keys-hotel-inline-map{height:156px;border-radius:16px}
@@ -1091,3 +1092,14 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 #root .keys-success-actions>.keys-cancel-entry:hover{background:var(--color-soft);border-color:var(--color-brand)}
 #root .keys-cancelled-booking .keys-success-heading>p{margin-left:0}
 .keys-cancelled-booking .keys-cart-tax{font:var(--ui-font-caption);color:var(--color-muted);margin-top:16px}
+
+/* Stay rules share the hotel section rhythm; two equal columns keep times easy to compare. */
+#root .keys-hotel-stay-rules h2{margin:0;font:var(--ui-font-section);letter-spacing:0}
+#root .keys-hotel-stay-times{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0}
+#root .keys-hotel-stay-times>div{display:grid;gap:4px}
+#root .keys-hotel-stay-times>div+div{padding-left:16px;border-left:1px solid var(--color-line)}
+#root .keys-hotel-stay-times dt{font:var(--ui-font-body);color:var(--color-muted)}
+#root .keys-hotel-stay-times dd{margin:0;font:var(--ui-font-label);color:var(--color-ink)}
+
+/* Legal object identifier stays quiet but readable at the end of the hotel page. */
+#root .keys-hotel-registry{margin:24px 0 0;padding:0;font:var(--ui-font-caption);color:var(--color-muted);overflow-wrap:anywhere}

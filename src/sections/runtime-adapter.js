@@ -34,6 +34,7 @@ function KeysBridge() {
       const {tab,hotelId,screen,stayDay,discovery,bookingId} = event.data;
       if(event.data.cancelledBooking){dispatch({type:'KEYS_BOOKING_CANCELLED',bookingId:event.data.cancelledBooking.id,result:event.data.cancelledBooking.result});return;}
       if(event.data.loginContact){dispatch({type:'KEYS_LOGIN_CONTACT',contact:event.data.loginContact});return;}
+      if(event.data.openFavorites){dispatch({type:'OPEN',screen:{type:'saved'}});return;}
       if(event.data.openNotification){dispatch({type:'OPEN',screen:{type:'notifications'}});return;}
       if(typeof event.data.desktopAccount==='boolean')document.documentElement.dataset.desktopAccount=String(event.data.desktopAccount);
       if(Number.isFinite(event.data.desktopHeight))document.documentElement.style.setProperty('--keys-desktop-height',Math.max(560,event.data.desktopHeight)+'px');
@@ -45,7 +46,7 @@ function KeysBridge() {
       if(!['find','chats','favorites'].includes(tab)) return;
       dispatch({type:'NAV_TAB',tab});
       if(screen==='created-booking'&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
-      if(['booking','notifications'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
+      if(['booking','notifications','saved'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
       if(tab==='find'&&discovery){
         if(['deals','weekend','anywhere'].includes(discovery.collection)) keysOpenCollection(dispatch,searchRef.current,discovery.collection);
@@ -131,6 +132,7 @@ function CH() {
     const action=event.target.closest('[data-header-action]')?.dataset.headerAction;
     if(action==='home')dispatch({type:'HOME'});
     if(action==='profile')open({type:'profile'});
+    if(action==='favorites')open({type:'saved'});
     if(action==='notifications')open({type:'notifications'});
   }});
 }

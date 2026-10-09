@@ -356,14 +356,14 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 
 /* A single control height throughout the desktop masthead. */
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header{--kd-header-control-height:48px}
-body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header :is(.kd-header-search,.kd-header-hotel,.kd-header-points,.keys-app-bell,.keys-app-profile,.keys-app-logo){height:var(--kd-header-control-height);min-height:var(--kd-header-control-height);box-sizing:border-box;align-self:center}
+body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header :is(.kd-header-search,.kd-header-hotel,.kd-header-points,.keys-app-bell,.keys-app-favorites,.keys-app-profile,.keys-app-logo){height:var(--kd-header-control-height);min-height:var(--kd-header-control-height);box-sizing:border-box;align-self:center}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header .kd-header-hotel{padding:4px 12px 4px 6px;border-radius:14px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-header-hotel img{width:34px;height:34px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-header-hotel span{gap:0}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-header-hotel strong{line-height:20px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kd-header-hotel small{line-height:16px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header .kd-header-points{padding:0 12px}
-body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header .keys-app-bell{width:var(--kd-header-control-height);padding:0}
+body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header :is(.keys-app-bell,.keys-app-favorites){width:var(--kd-header-control-height);padding:0}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header .keys-app-profile{padding:0 12px 0 7px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .keys-app-header .keys-app-unread{top:10px;right:11px}
 

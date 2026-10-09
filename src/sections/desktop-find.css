@@ -185,7 +185,8 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
  html[data-desktop-account="true"] #root .keys-hotel-sheet{display:contents}
  html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-location-section{order:0}
  html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-amenities{order:1}
- html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-review-carousel{order:2;margin-top:0}
+ html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-stay-rules{order:2}
+ html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-review-carousel{order:3;margin-top:0}
  html[data-desktop-account="true"] #root .keys-hotel-personal{margin-top:20px}
  html[data-desktop-account="true"] #root .keys-hotel-booking-panel>.keys-hotel-rating-link{margin:0 0 16px;padding:0 0 16px;border:0;border-bottom:1px solid var(--color-line);border-radius:0}
  html[data-desktop-account="true"] #root .keys-hotel-booking-panel .keys-hotel-price-label{padding-right:24px}
@@ -465,3 +466,5 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
  html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions>button{max-width:none;width:100%}
  html[data-desktop-account=true] #root .keys-confirmation-desktop .keys-success-actions>p{order:1;margin-top:4px;line-height:1.5}
 }
+
+html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-registry{order:4;margin:0}

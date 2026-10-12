@@ -19,15 +19,4 @@
   });
  }};
  app.addEventListener('keys-scenario-change',()=>current?.close());
- // A started stay can only be shortened after agreement with the hotel.
- const view=document.querySelector('#keysStayDetails .kb-details:not(.kb-completed-details)');
- if(view){
-  const button=document.createElement('button');button.type='button';button.className='keys-cancel-entry';button.dataset.stayCancel='';button.textContent='Отменить бронирование';view.append(button);
-  let requested=false;
-  const open=trigger=>{if(requested)return;window.KeysBookingCancellation.open({hotel:'Maidens Hotel',dates:'12–19 сентября',requestOnly:true,trigger,onComplete:()=>{
-   requested=true;document.querySelectorAll('[data-stay-cancel]').forEach(item=>{item.textContent='Выезд запрошен';item.disabled=true;});
-   const note=document.createElement('p');note.className='keys-cancel-note';note.setAttribute('role','status');note.textContent='Запрос на досрочный выезд отправлен. Ожидаем подтверждения отеля. До ответа условия брони остаются прежними.';button.after(note);
-  }});};
-  button.onclick=()=>open(button);window.KeysStayCancellation={open,isRequested:()=>requested};
- }
 })();

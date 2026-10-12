@@ -52,3 +52,51 @@ test('destination confirmation preserves entry mode and excludes seaside questio
   assert.ok(k.destinationAllowed(k.get(s.ideas.current.id),s.ideas));
  }
 });
+
+test('company selection survives feed and topics starts without changing booking guests',()=>{
+ for(const company of ['solo','couple','friends','kids','work'])for(const mode of ['feed','topics']){
+  let s=initial();const party=structuredClone(s.search.party);
+  s=k.reduce(s,{type:'IDEAS_DESTINATION',city:'*'});
+  s=k.reduce(s,{type:'IDEAS_COMPANY',company});
+  s=k.reduce(s,{type:'IDEAS_START',mode});
+  assert.equal(s.ideas.company,company);assert.equal(s.ideas.companyChosen,true);
+  assert.equal(s.ideas.mode,mode);assert.equal(s.ideas.destination,'*');
+  assert.deepEqual(s.search.party,party);
+  assert.ok(k.allowed(k.get(s.ideas.current.id),company));
+ }
+});
+test('solo guests can choose adult experiences without couple-specific copy',()=>{
+ assert.equal(k.company({adults:1,childrenAges:[],business:false}),'solo');
+ assert.ok(k.allowed(k.get('adults'),'solo'));
+ assert.ok(!k.allowed(k.get('kidsclub'),'solo'));
+ assert.equal(k.title(k.get('hammam'),'solo'),'Хаммам и массаж');
+});
+
+test('budget range filters both nightly bounds and keeps out-of-range alternatives',()=>{
+ const {hotelPrice}=createRequire(import.meta.url)('../tmp/sections-engine.cjs');
+ let s=initial();s=k.reduce(s,{type:'IDEAS_DESTINATION',city:'*'});
+ s=k.reduce(s,{type:'IDEAS_BUDGET',min:7000,max:10000});
+ const nights=(Date.parse(s.search.departure)-Date.parse(s.search.arrival))/86400000;
+ const nightly=h=>hotelPrice(h,s.search,0).total/Math.max(1,nights);
+ const result=k.rank(s.ideas,s.search,0);
+ assert.ok(result.fitting.length>0);assert.ok(result.others.length>0);
+ assert.ok(result.fitting.every(h=>nightly(h)>=7000&&nightly(h)<=10000));
+ assert.ok(result.others.some(h=>nightly(h)<7000));
+ assert.ok(result.others.some(h=>nightly(h)>10000));
+ assert.deepEqual(k.budgetRange(s.ideas),{min:7000,max:10000});
+ assert.ok(s.ideas.seen.includes('budget'));
+ s=k.reduce(s,{type:'IDEAS_COMPANY',company:'friends'});
+ assert.deepEqual(k.budgetRange(s.ideas),{min:7000,max:10000});
+ s=k.reduce(s,{type:'IDEAS_BUDGET',min:0,max:null});
+ assert.deepEqual(k.budgetRange(s.ideas),{min:0,max:null});
+ assert.ok(k.rank(s.ideas,s.search,0).fitting.length>result.fitting.length);
+});
+test('budget handles cannot cross; old budget answers replace the range',()=>{
+ let s=k.reduce(initial(),{type:'IDEAS_BUDGET',min:9000,max:5000});
+ assert.deepEqual(k.budgetRange(s.ideas),{min:9000,max:9000});
+ s=k.reduce(s,{type:'IDEAS_ASK',id:'budget',value:'6000'});
+ assert.deepEqual(k.budgetRange(s.ideas),{min:0,max:6000});
+ s=k.reduce(s,{type:'IDEAS_BUDGET',min:8000,max:null});
+ s=k.reduce(s,{type:'IDEAS_WISH',likes:[],answers:{budget:'8000'}});
+ assert.deepEqual(k.budgetRange(s.ideas),{min:0,max:8000});
+});

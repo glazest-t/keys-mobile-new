@@ -1,0 +1,12 @@
+{
+  "mode": "built-in image_gen",
+  "use_case": "background-extraction",
+  "prompt": "Use case: background-extraction. Asset type: production raster hero for mobile travel app. Edit target: attached selected app mockup. Extract/recreate ONLY its existing flowing S-shaped sculptural satin ribbon, with saturated cobalt-blue front and pale apricot reverse, and the small floating coral-orange sphere at upper right. Preserve the exact original ribbon geometry, elegant looping S silhouette, palette, satin texture, realistic studio light and soft ground shadow. Remove ALL text, logo, phone field, button and interface. Output a standalone illustration on pure white #ffffff background, near-square landscape canvas aspect 1.15:1 (e.g. 1152x1008), framing only artwork. The ribbon fills most canvas, its lower-left end naturally cropped at left/bottom-left as in reference. Sphere fully visible at upper right with clear breathing room. No new objects, no typography, no UI, no hotel, no key, no border.",
+  "source": "exec-39cff689-51a3-43f3-957d-30e1bb6156cc.png",
+  "result": "exec-68e2fa6e-371e-4028-a33c-f91ae50a890d.png",
+  "asset": "journey-ribbon.png",
+  "dimensions": {
+    "width": 1340,
+    "height": 1174
+  }
+}

@@ -163,3 +163,112 @@
 #keysUnifiedPrototype .keys-new-booking-action{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;border-top:1px solid var(--color-line);font:500 12px/18px var(--font-sans);color:var(--color-brand)}
 #keysUnifiedPrototype .keys-new-reservation:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 #keysUnifiedPrototype .keys-new-booking-heading>strong{color:var(--color-ink)}
+/* Cool membership badge matches the application's compact labels. */
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-loyalty[data-tier=Gold] .keys-profile-tier,
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-tier-badge{background:#eef3ff;color:#183f9e;border:0;border-radius:8px;padding:4px 8px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-membership{font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-amount{margin-top:20px;gap:8px}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-amount>span,
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-conversion{font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-level-details{margin-top:16px}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-perks{font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-perks strong{font:500 14px/20px var(--font-sans)}
+
+/* App points and each hotel's membership are independent programmes. */
+#keysUnifiedPrototype .keys-benefits-keys-group{display:flex;flex-direction:column;gap:16px;min-width:0}
+#keysUnifiedPrototype .keys-benefits-wallet-caption{margin:16px 0 0;font:400 12px/18px var(--font-sans);color:inherit}
+#keysUnifiedPrototype .keys-benefits-hotels{display:grid;gap:12px;min-width:0;margin-top:12px}
+#keysUnifiedPrototype .keys-benefits-hotels-heading p{margin:8px 0 4px;font:400 14px/20px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-hotel-membership{padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);color:var(--color-ink)}
+#keysUnifiedPrototype .keys-hotel-membership-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-hotel-membership h3{margin:0;font:500 16px/22px var(--font-sans)!important;letter-spacing:0}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-tier-badge{flex:none;background:#eef3ff;color:#183f9e;border:0;border-radius:8px;padding:4px 8px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-program-type{margin:4px 0 16px;color:var(--color-muted);font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-program-value{margin:0 0 8px;font:500 16px/24px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-program-value>span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-level-details{border-top:0!important;margin:0!important}
+#keysUnifiedPrototype .keys-hotel-membership summary{color:var(--color-brand);min-height:44px}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress-label{margin-top:16px;color:var(--color-ink)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress-label>span{color:var(--color-muted)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress{background:var(--color-line)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress>i{background:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-perks strong{color:var(--color-ink);font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-reveal{padding-bottom:4px;font:400 12px/18px var(--font-sans)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:'intro intro' 'keys hotels';gap:24px;align-items:start}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-keys-group{grid-area:keys}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-hotels{grid-area:hotels;margin:0;gap:16px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-hotel-membership{padding:24px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-level-details .keys-benefits-perks strong{color:var(--color-ink)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-intro{padding:0;margin:0}
+@media(max-width:760px){body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{grid-template-columns:minmax(0,1fr);grid-template-areas:'intro' 'keys' 'hotels'}}
+#keysUnifiedPrototype .keys-benefits-points-more>summary{padding:0 4px;color:var(--color-brand)}
+#keysUnifiedPrototype .keys-benefits-points-more[open]>:not(summary){margin-top:12px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{row-gap:0}
+
+/* Scalable hotel memberships: one list, primary benefit first, details on demand. */
+#keysUnifiedPrototype .keys-benefits-hotels{gap:12px}
+#keysUnifiedPrototype .keys-loyalty-search{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;background:var(--color-soft);border:1px solid transparent;border-radius:12px}
+#keysUnifiedPrototype .keys-loyalty-search>svg{width:18px;height:18px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-search>input{width:100%;min-width:0;padding:11px 0;border:0;outline:none;background:transparent;color:var(--color-ink);font:400 14px/20px var(--font-sans);box-shadow:none}
+#keysUnifiedPrototype .keys-loyalty-search>input::placeholder{color:var(--color-muted);opacity:1}
+#keysUnifiedPrototype .keys-loyalty-search:focus-within{border-color:var(--color-brand)}
+#keysUnifiedPrototype .keys-loyalty-filters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+#keysUnifiedPrototype .keys-loyalty-filters>button{flex:none;min-height:36px;padding:7px 14px;border:1px solid var(--color-line);border-radius:999px;background:var(--color-card);color:var(--color-ink);font:500 12px/18px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-loyalty-filters>button[aria-pressed=true]{background:var(--color-soft);color:var(--color-brand);border-color:var(--color-brand)}
+#keysUnifiedPrototype .keys-loyalty-list{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .keys-loyalty-list[hidden]{display:none}
+#keysUnifiedPrototype .keys-benefits .keys-loyalty-item{margin:0;padding:0 16px;border-radius:0}
+#keysUnifiedPrototype .keys-loyalty-item+.keys-loyalty-item{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-loyalty-item>summary{display:flex;align-items:flex-start;gap:12px;min-height:112px;padding:18px 0;color:var(--color-ink)}
+#keysUnifiedPrototype .keys-loyalty-hotel-icon{flex:none;display:flex;padding-top:2px;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-hotel-icon>svg{width:24px;height:24px}
+#keysUnifiedPrototype .keys-loyalty-item-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+#keysUnifiedPrototype .keys-loyalty-name{font:500 14px/20px var(--font-sans);overflow-wrap:anywhere}
+#keysUnifiedPrototype .keys-loyalty-city{font:400 12px/18px var(--font-sans);color:var(--color-muted);margin-top:2px}
+#keysUnifiedPrototype .keys-loyalty-value{font:500 14px/20px var(--font-sans);color:var(--color-ink);margin-top:10px}
+#keysUnifiedPrototype .keys-loyalty-value>span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-item-end{align-self:stretch;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:12px;flex:none}
+#keysUnifiedPrototype .keys-loyalty-item-end>svg{width:16px;height:16px;margin-top:auto;color:var(--color-muted);transition:transform .18s ease}
+#keysUnifiedPrototype .keys-loyalty-tier{padding:3px 8px;border-radius:8px;background:var(--color-soft);color:#183f9e;font:500 11px/16px var(--font-sans)}
+#keysUnifiedPrototype .keys-loyalty-item[open] .keys-loyalty-item-end>svg{transform:rotate(90deg)}
+#keysUnifiedPrototype .keys-loyalty-item-details{padding:0 0 18px 36px;font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-loyalty-item-details>p{margin:0 0 12px;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-item-details>ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+#keysUnifiedPrototype .keys-loyalty-item-details li{display:flex;align-items:flex-start;gap:8px}
+#keysUnifiedPrototype .keys-loyalty-item-details li>svg{width:16px;height:16px;margin-top:1px;flex:none;color:#226747}
+#keysUnifiedPrototype .keys-loyalty-item-details .keys-loyalty-next-tier{margin:16px 0 0}
+#keysUnifiedPrototype .keys-loyalty-more{width:100%;min-height:44px;padding:10px 16px;border:0;border-radius:12px;background:var(--color-soft);color:var(--color-brand);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-loyalty-more[hidden],#keysUnifiedPrototype .keys-loyalty-empty[hidden]{display:none}
+#keysUnifiedPrototype .keys-loyalty-empty{margin:0;padding:24px 16px;text-align:center;color:var(--color-muted);font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-loyalty-live{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .keys-loyalty-item-end>svg{transition:none}}
+@media(hover:hover){#keysUnifiedPrototype .keys-loyalty-item>summary:hover .keys-loyalty-name{color:var(--color-brand)}}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-loyalty-search>input{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:11px 0!important;min-height:0!important;font:400 14px/20px var(--font-sans)!important}
+
+/* Benefits overview leads to separate app-points and hotel-programme pages. */
+#keysUnifiedPrototype .keys-benefits>[hidden],#keysUnifiedPrototype .keys-benefits-hotels-heading[hidden]{display:none!important}
+#keysUnifiedPrototype .keys-benefits-overview{display:grid;border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .keys-benefits-entry{display:flex;flex-direction:column;gap:16px;padding:20px;border:0;background:transparent;text-align:left;color:var(--color-ink);cursor:pointer;border-radius:0}
+#keysUnifiedPrototype .keys-benefits-entry+.keys-benefits-entry{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-benefits-entry-top{display:flex;align-items:center;justify-content:space-between;gap:16px;font:500 14px/20px var(--font-sans);width:100%}
+#keysUnifiedPrototype .keys-benefits-entry-top>svg{width:18px;height:18px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-entry>strong{font:500 28px/34px var(--font-sans)!important;letter-spacing:-.5px}
+#keysUnifiedPrototype .keys-benefits-entry>strong>span{font:400 14px/20px var(--font-sans);letter-spacing:0;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits-entry-note{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits-entry:focus-visible{outline-offset:-3px}
+#keysUnifiedPrototype .keys-benefits-subheader{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+#keysUnifiedPrototype .keys-benefits-subheader>button{display:grid;place-items:center;width:40px;height:40px;flex:none;padding:0;border:0;border-radius:12px;background:var(--color-soft);color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .keys-benefits-subheader>button>svg{width:20px;height:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-subheader>h1{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important;outline:none}
+#keysUnifiedPrototype .keys-benefits[data-page=hotels] .keys-benefits-hotels{margin:0}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{display:block;padding-bottom:32px}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-subheader{display:none}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-overview{grid-template-columns:1fr 1fr}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-entry{padding:24px;gap:20px}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-entry+.keys-benefits-entry{border-top:0;border-left:1px solid var(--color-line)}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-subpage{max-width:760px;margin:0 auto}
+@media(hover:hover){#keysUnifiedPrototype .keys-benefits-entry:hover{background:var(--color-soft)}}
+@media(max-width:760px){body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-overview{grid-template-columns:1fr}body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-entry+.keys-benefits-entry{border-left:0;border-top:1px solid var(--color-line)}}
+
+#keysUnifiedPrototype .keys-benefits-entry-label{display:flex;align-items:center;gap:10px;min-width:0}
+#keysUnifiedPrototype .keys-benefits-entry-label>svg{width:22px;height:22px;flex:none;color:var(--color-brand)}

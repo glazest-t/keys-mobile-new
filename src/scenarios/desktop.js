@@ -13,7 +13,7 @@
  [...screen.children].forEach(el=>(el.matches('.kh-nearby-v2,[data-nearby-slot]')?side:main).append(el));screen.append(main,side);
  const intro=document.createElement('div');intro.className='kd-page-heading';intro.innerHTML='<h1>Ваша поездка</h1>';screen.before(intro);
  const cancelTrip=document.createElement('button');cancelTrip.type='button';cancelTrip.className='keys-cancel-entry kd-cancel-trip';cancelTrip.textContent='Отменить бронирование';
- cancelTrip.addEventListener('click',()=>document.body.dataset.keysScenario==='stay'?window.KeysStayCancellation.open(cancelTrip):window.KeysBeforeCancellation.open(cancelTrip));
+ cancelTrip.addEventListener('click',()=>{if(document.body.dataset.keysScenario==='booked')window.KeysBeforeCancellation.open(cancelTrip);});
  const header=home.querySelector('.keys-app-header');
  const search=document.createElement('form');search.className='kd-header-search kd-web-only';search.setAttribute('role','search');
  search.innerHTML=`<label class="kd-search-label" for="kd-destination">Найти новый отель</label><input id="kd-destination" name="city" placeholder="Город или направление" autocomplete="off"><button type="submit" aria-label="Найти отель">${icon('search')}</button>`;
@@ -42,7 +42,7 @@
  const nearbyAnchor=document.createComment('Mobile nearby position');stayNearby.before(nearbyAnchor);
  const staySide=document.createElement('aside');staySide.className='kd-stay-side kd-web-only';staySide.setAttribute('aria-label','Места рядом и привилегии');stay.append(staySide);
  const stayPhoto=document.createElement('div');stayPhoto.className='kd-stay-photo kd-web-only';
- stayPhoto.innerHTML=`<img src="./scenarios/maidens-hotel.jpg" alt="Фасад Maidens Hotel" width="480" height="360"><button type="button" class="kd-about-hotel" data-before="hotel">Об отеле ${icon('arrow')}</button>`;
+ stayPhoto.innerHTML=`<img src="./scenarios/maidens-premium-king.jpg" alt="Премиум Кинг с видом во двор — номер гостя в Maidens Hotel" width="480" height="360"><button type="button" class="kd-about-hotel" data-before="hotel">Об отеле ${icon('arrow')}</button>`;
  stayCard.querySelector('.kh-stay-heading').after(stayPhoto);
  const stayActions=document.createElement('section');stayActions.className='kd-trip-actions kd-stay-actions kd-web-only';stayActions.setAttribute('aria-label','Связь с отелем');
  stayActions.innerHTML=action('chat','Чат с отелем','Свяжитесь с ресепшеном','chat');
@@ -84,6 +84,8 @@
  root.addEventListener('click',event=>{const button=event.target.closest('[data-desktop-action],[data-discovery-mode],[data-discovery-collection]');if(!button)return;if(button.dataset.desktopAction==='benefits'){root.dispatchEvent(new CustomEvent('keys-open-benefits'));}else searchOpen(button.dataset.discoveryCollection?{collection:button.dataset.discoveryCollection}:button.dataset.discoveryMode?{mode:button.dataset.discoveryMode}:{});});
  let view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';
  function render(){
+  const guestSearch=document.body.dataset.keysGuestSearch==='true';
+  if(guestSearch){view='desktop';const url=new URL(location.href);url.searchParams.set('view','desktop');history.replaceState(history.state,'',url);}
   const scenario=document.body.dataset.keysScenario,inStay=scenario==='stay',supported=['stay','booked','search','after'].includes(scenario),desktop=view==='desktop'&&supported,arriving=document.body.dataset.keysArrivalDay==='arrival';
   document.body.dataset.keysView=desktop?'desktop':'mobile';document.body.dataset.keysDesktopHome=String(desktop&&!home.closest('.ku-section').hidden);
   // Move, rather than clone, shared discovery/loyalty so there is one source of state.
@@ -104,8 +106,8 @@
    if(screen.nextElementSibling!==discovery)screen.after(discovery);
   }
   intro.hidden=scenario==='search';
-  const cancellationActions=inStay?stayActions:beforeManagement;if(cancelTrip.parentElement!==cancellationActions)cancellationActions.append(cancelTrip);
-  cancelTrip.hidden=!['booked','stay'].includes(scenario);cancelTrip.toggleAttribute('data-stay-cancel',inStay);cancelTrip.disabled=inStay&&window.KeysStayCancellation.isRequested();cancelTrip.textContent=cancelTrip.disabled?'Выезд запрошен':inStay?'Отменить бронирование':'Отменить бронь';
+  if(cancelTrip.parentElement!==beforeManagement)beforeManagement.append(cancelTrip);
+  cancelTrip.hidden=scenario!=='booked';cancelTrip.textContent='Отменить бронь';
   intro.querySelector('h1').textContent=scenario==='after'?'Ваша поездка завершена':'Ваша поездка';
   hotel.hidden=scenario==='search';
   delete hotel.dataset.after;
@@ -120,10 +122,16 @@
   beforeButtons.hidden=!registrationAvailable;
   actions.querySelector('[data-kd-instruction]').hidden=!registrationAvailable;
   actions.classList.toggle('has-instruction',registrationAvailable);
+  if(wallet.dataset.tier!==walletSource.dataset.tier){
+   const programLink=wallet.querySelector('.kda-program-link');
+   wallet.innerHTML=walletSource.innerHTML;wallet.dataset.tier=walletSource.dataset.tier;
+   wallet.setAttribute('aria-label',walletSource.getAttribute('aria-label'));
+   wallet.append(walletHelp);if(programLink)wallet.append(programLink);
+  }
   const balance=walletSource.querySelector('.keys-benefits-amount strong').textContent;
   points.querySelector('strong').textContent=balance;wallet.querySelector('.keys-benefits-amount strong').textContent=balance;
   delete hotel.dataset.before;delete hotel.dataset.info;delete hotel.dataset.after;
-  modes.querySelectorAll('button').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.view===(desktop?'desktop':'mobile')));button.disabled=button.dataset.view==='desktop'&&!supported;button.title=button.disabled?'Веб-версия недоступна для этого сценария':'';});
+  modes.querySelectorAll('button').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.view===(desktop?'desktop':'mobile')));button.disabled=guestSearch?button.dataset.view==='mobile':button.dataset.view==='desktop'&&!supported;button.title=button.disabled?(guestSearch?'Этот сценарий доступен только на десктопе':'Веб-версия недоступна для этого сценария'):'';});
  }
  modes.addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(!button||button.disabled)return;view=button.dataset.view;const url=new URL(location.href);url.searchParams.set('view',view);history.replaceState(history.state,'',url);render();});
  window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',render);

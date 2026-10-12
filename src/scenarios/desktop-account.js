@@ -5,7 +5,7 @@
  const phone=root.querySelector('.kf-phone[data-screen="benefits"]'),account=phone.closest('.ku-section'),page=phone.closest('.kf-grid>section');
  const content=phone.querySelector('.keys-benefits'),scroll=phone.querySelector(':scope>.kf-scroll');
  const mobileHeader=scroll.querySelector('.keys-app-header');
- const title=document.createElement('div');title.className='kda-title';title.innerHTML='<button type="button" aria-label="Назад" data-benefits-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14"/></svg></button><h1>Бонусная программа</h1>';
+ const title=document.createElement('div');title.className='kda-title';title.innerHTML='<button type="button" aria-label="Назад" data-benefits-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14"/></svg></button><h1>Выгоды</h1>';
  scroll.prepend(title);
  const frame=root.querySelector('#keysSectionsFrame'),runtime=frame.closest('.ku-section');
  const frameHeader=document.createElement('div');frameHeader.className='kda-runtime-header';runtime.prepend(frameHeader);

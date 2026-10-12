@@ -33,3 +33,13 @@ body[data-keys-booking-cancelled=true][data-keys-scenario=booked] :is(.kpa-cance
 
 #keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry{color:var(--color-brand,#3c5ce5)!important}
 #keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:disabled{color:var(--color-muted,#70798b)!important}
+
+/* Cancellation is a quiet destructive action; booking edits keep the brand treatment. */
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:not([data-before="manage"]),.keys-cancel-confirm{
+ color:#a9323e!important;border:1px solid #edc4c8;background:#fff;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:not([data-before="manage"]):hover,.keys-cancel-confirm:hover{
+ color:#912734!important;border-color:#d9919a;background:#fff3f4;
+}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:not([data-before="manage"]):focus-visible,.keys-cancel-confirm:focus-visible{outline:2px solid #a9323e;outline-offset:3px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:not([data-before="manage"]):disabled{color:var(--color-muted,#70798b)!important;border-color:var(--color-line,#e5e7ed);background:var(--color-card,#fff)}

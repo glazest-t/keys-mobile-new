@@ -112,16 +112,16 @@ ${fragment}
 <link rel="stylesheet" href="./scenarios/desktop.css">
 <link rel="stylesheet" href="./scenarios/desktop-stay.css">
 <link rel="stylesheet" href="./scenarios/desktop-search-after.css">
-<script src="./scenarios/desktop.js"></script>
+<script src="./scenarios/desktop.js?v=stay-room-photo"></script>
 <link rel="stylesheet" href="./scenarios/desktop-trip-menu.css">
 <script src="./scenarios/desktop-trip-menu.js"></script>
 <link rel="stylesheet" href="./scenarios/desktop-profile.css">
 <script src="./scenarios/desktop-profile.js"></script>
 <link rel="stylesheet" href="./scenarios/desktop-account.css">
 <script src="./scenarios/desktop-account.js"></script>
-<link rel="stylesheet" href="./scenarios/auth.css">
+<link rel="stylesheet" href="./scenarios/auth.css?v=journey-ribbon">
 <link rel="stylesheet" href="./scenarios/partner-invite.css">
-<script type="module" src="./scenarios/auth.js"></script>
+<script type="module" src="./scenarios/auth.js?v=journey-ribbon"></script>
 <link rel="stylesheet" href="./scenarios/preview-viewport.css">
 <script src="./scenarios/preview-viewport.js"></script>
 </body>

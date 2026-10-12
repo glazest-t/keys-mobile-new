@@ -13,6 +13,7 @@ const header=guest.querySelector('header'),main=guest.querySelector('main');
 const partnerSessionKey='keys-partner-session-v1';
 const savePartnerSession=approved=>{try{sessionStorage.setItem(partnerSessionKey,JSON.stringify({name:flow.state.name,phone:flow.state.phone,approved}));}catch{}};
 const clearPartnerSession=()=>{try{sessionStorage.removeItem(partnerSessionKey);}catch{}};
+let desktopAuth=false,desktopAuthOrigin=null;
 let flow=createAuthFlow(),timer=null,background=[],completed=false,finishing=false,originals=[],invited=false,resuming=false,resumeOrigin=null,codeFields=null;
 const partner=createPartnerInvite({guest,header,main,svg,onStartAuth:()=>render(),onReady:()=>finishLogin(true),onSkip:()=>finishLogin(false,true)});
 const rememberText=(selector,value)=>root.querySelectorAll(selector).forEach(el=>{const children=[...el.childNodes];originals.push(()=>el.replaceChildren(...children));el.textContent=value;});
@@ -42,10 +43,49 @@ function showPartnerStatus(approved){
  root.querySelector('.keys-profile-name').append(badge);
  originals.push(()=>{banner.remove();badge.remove();});
 }
+const guestFrame=()=>document.getElementById('keysSectionsFrame');
+const guestPost=payload=>guestFrame()?.contentWindow?.postMessage({source:'keys-host',...payload},location.origin);
+function closeDesktopAuth(cancel=true){
+ clearInterval(timer);guest.hidden=true;note.hidden=true;
+ background.forEach(({el,inert})=>el.inert=inert);background=[];
+ desktopAuth=false;delete guest.dataset.desktopAuth;guest.removeAttribute('role');guest.removeAttribute('aria-modal');guest.removeAttribute('aria-label');
+ if(cancel)guestPost({cancelGuestAuth:true});
+ desktopAuthOrigin?.focus({preventScroll:true});desktopAuthOrigin=null;
+}
+function openDesktopAuth(){
+ if(document.body.dataset.keysGuestSearch!=='true'||document.body.dataset.keysGuestAuthorized==='true'||desktopAuth)return;
+ desktopAuth=true;invited=false;flow=createAuthFlow();desktopAuthOrigin=document.activeElement;
+ background=[...root.children].filter(el=>el!==guest).map(el=>({el,inert:el.inert}));background.forEach(({el})=>el.inert=true);
+ guest.dataset.desktopAuth='true';guest.setAttribute('role','dialog');guest.setAttribute('aria-modal','true');guest.setAttribute('aria-label','Вход или регистрация');guest.hidden=false;render();
+}
+function openGuestHome(){root.dispatchEvent(new CustomEvent('keys-open-hotel-search'));guestPost({guestHome:true});}
+const loginButton=document.createElement('button');loginButton.type='button';loginButton.className='keys-desktop-guest-login';loginButton.dataset.guestLogin='';loginButton.textContent='Войти';
+root.querySelector('#keysHomeVariantThree .keys-app-actions').append(loginButton);loginButton.addEventListener('click',openDesktopAuth);
+window.addEventListener('message',event=>{
+ if(event.source!==guestFrame()?.contentWindow||event.origin!==location.origin||event.data?.source!=='keys-arbana')return;
+ if(event.data.type==='guest-auth-required')openDesktopAuth();
+ if(event.data.type==='guest-home')openGuestHome();
+ if(event.data.type==='ready')guestPost({guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true'});
+});
+guest.addEventListener('keydown',event=>{
+ if(!desktopAuth)return;
+ if(event.key==='Escape'){event.preventDefault();closeDesktopAuth();}
+ if(event.key==='Tab'){
+  const focusable=[...guest.querySelectorAll('button:not(:disabled),input:not(:disabled)')].filter(el=>el.getClientRects().length);
+  const first=focusable[0],last=focusable.at(-1);
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+ }
+});
 function finishLogin(hotelier=false,deferred=false){
  clearInterval(timer);
  const loginContact={firstName:flow.state.name||'Татьяна',lastName:'',phone:formatPhone(flow.state.phone),email:''};
  try{sessionStorage.setItem('keys-login-contact-v1',JSON.stringify(loginContact));}catch{}
+ if(desktopAuth){
+  applyIdentity();document.body.dataset.keysGuestAuthorized='true';
+  guestPost({guestMode:true,guestAuthorized:true,guestLogin:loginContact});
+  closeDesktopAuth(false);return;
+ }
  document.getElementById('keysSectionsFrame')?.contentWindow?.postMessage({source:'keys-host',loginContact},location.origin);
  if(!completed){
   if(flow.state.registered){rememberText('.keys-profile-contacts dd',formatPhone(flow.state.phone));completed=true;}
@@ -75,22 +115,40 @@ function tick(){const button=main.querySelector('[data-auth-resend]');if(!button
 function render(focus=true){
  clearInterval(timer);codeFields=null;const {step,phone}=flow.state;guest.dataset.authStep=step;
  note.hidden=step!=='code'||guest.hidden;
+ guest.dataset.authWelcome=String(step==='phone'&&!invited&&!desktopAuth);
  header.innerHTML=step==='phone'?'<span class="kauth-brand">ключи</span>':`<button type="button" class="kauth-back" data-auth-back aria-label="Назад">${backIcon}</button><span class="kauth-header-title">Вход в «Ключи»</span>`;
- if(step==='phone')main.innerHTML=`<figure class="kauth-welcome-art" aria-label="Один ключ — от всех отелей"><img class="kauth-art-hotels" src="./scenarios/auth-art/hotels.png" width="960" height="640" alt="" aria-hidden="true"><img class="kauth-art-key" src="./scenarios/auth-art/key.png" width="512" height="512" alt="" aria-hidden="true"><button type="button" class="kauth-motion-toggle" data-auth-motion aria-label="Приостановить анимацию" aria-pressed="false">${svg('<path d="M9 5v14M15 5v14"/>')}</button></figure><div class="kauth-intro"><h1>Ваша следующая<br>поездка — здесь</h1></div><form novalidate><label for="keys-auth-phone">Номер телефона</label><input id="keys-auth-phone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (999) 000-00-00" aria-describedby="keys-auth-hint keys-auth-error" required><p id="keys-auth-error" class="kauth-error" data-auth-error role="alert"></p><button type="submit" class="kauth-primary">Получить код</button><p id="keys-auth-hint" class="kauth-hint kauth-center">Вход и регистрация по коду из СМС</p></form>`;
+ if(step==='phone')main.innerHTML=`<div class="kauth-intro"><h1>У каждой поездки<br>свой характер</h1></div><figure class="kauth-welcome-art" aria-hidden="true"><img class="kauth-art-ribbon" src="./scenarios/auth-art/journey-ribbon.png" width="1152" height="1008" alt="" fetchpriority="high"></figure><p class="kauth-welcome-caption">Подберём отель под ваши планы.</p><form novalidate><label for="keys-auth-phone">Номер телефона</label><input id="keys-auth-phone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (999) 000-00-00" aria-describedby="keys-auth-hint keys-auth-error" required><p id="keys-auth-error" class="kauth-error" data-auth-error role="alert"></p><button type="submit" class="kauth-primary">Получить код</button><p id="keys-auth-hint" class="kauth-hint kauth-center">Вход и регистрация по коду из СМС</p></form>`;
  if(step==='code')main.innerHTML=`<div class="kauth-intro"><h1>Введите код</h1><p>Отправили СМС на номер</p><div class="kauth-code-contact"><strong>${formatPhone(phone)}</strong><button type="button" class="kauth-link" data-auth-edit>Изменить номер</button></div></div><form novalidate><span id="keys-auth-code-label" class="kauth-code-label">Код из СМС</span><div class="kauth-code-fields" role="group" aria-labelledby="keys-auth-code-label">${Array.from({length:6},(_,i)=>`<input class="kauth-code-digit" name="code-${i+1}" type="text" inputmode="numeric" autocomplete="${i===0?'one-time-code':'off'}" maxlength="6" pattern="[0-9]" aria-label="Цифра ${i+1} из 6" aria-describedby="keys-auth-error" required>`).join('')}</div><p id="keys-auth-error" class="kauth-error" data-auth-error role="alert"></p><button type="submit" class="kauth-primary">Подтвердить</button><button type="button" class="kauth-resend" data-auth-resend></button><p class="kauth-hint kauth-center" data-auth-code-status role="status"></p></form>`;
  if(step==='name')main.innerHTML=`<div class="kauth-intro"><h1>Как вас зовут?</h1><p>Достаточно вашего имени.</p></div><form novalidate><label for="keys-auth-name">Ваше имя</label><input id="keys-auth-name" name="given-name" type="text" autocomplete="given-name" autocapitalize="words" maxlength="40" placeholder="Например, Анна" aria-describedby="keys-auth-error" required><p id="keys-auth-error" class="kauth-error" data-auth-error role="alert"></p><button type="submit" class="kauth-primary">Начать путешествовать</button></form>`;
  if(invited&&step==='phone'){
   header.innerHTML=`<button type="button" class="kauth-back" data-auth-invite aria-label="Назад">${backIcon}</button><span class="kauth-header-title">Вход в «Ключи»</span>`;
   main.querySelector('.kauth-welcome-art').remove();
+  main.querySelector('.kauth-welcome-caption')?.remove();
   main.querySelector('.kauth-intro').innerHTML='<h1>Введите номер телефона</h1><p>Отправим код для входа в «Ключи».</p>';
  }
  if(invited){header.insertAdjacentHTML('beforeend','<span class="kpi-edition">Для отельеров</span>');if(step==='name')main.querySelector('.kauth-primary').textContent='Продолжить';}
+ if(desktopAuth){
+  if(step==='phone'){
+   main.querySelector('.kauth-welcome-art')?.remove();
+   main.querySelector('.kauth-welcome-caption')?.remove();
+   main.querySelector('.kauth-intro').innerHTML='<h1>Вход или регистрация</h1><p>Подтвердите телефон, чтобы продолжить бронирование.</p>';
+  }
+  header.insertAdjacentHTML('beforeend',`<button type="button" class="kauth-close" aria-label="Закрыть вход" data-auth-close>${svg('<path d="m6 6 12 12M18 6 6 18"/>')}</button>`);
+  header.querySelector('[data-auth-close]').addEventListener('click',()=>closeDesktopAuth());
+  if(step==='name')main.querySelector('.kauth-primary').textContent='Продолжить';
+  if(step==='code'){note.hidden=true;main.insertAdjacentHTML('beforeend',`<p class="kauth-demo-code">Код в прототипе: ${PROTOTYPE_CODE}</p>`);}
+ }
  const input=main.querySelector('input');if(step==='phone')input.value=phone?formatPhone(phone):'';
  if(step==='name')input.value=flow.state.name;
  if(step==='code'){tick();timer=setInterval(tick,1000);codeFields=bindOtpFields(main.querySelector('.kauth-code-fields'),()=>error(''));}
  else input.addEventListener('input',()=>error(''));
  main.querySelector('form').addEventListener('submit',event=>{
   event.preventDefault();const message=step==='phone'?flow.send(input.value):step==='code'?(codeFields.value().length<6?'Введите все 6 цифр кода.':flow.verify(codeFields.value())):flow.complete(input.value);
+  if(!message&&desktopAuth&&step==='phone'){
+   let known=flow.state.phone==='+79001234567'?'Татьяна':'';
+   try{const saved=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(saved?.phone?.replace(/\D/g,'')===flow.state.phone.replace(/\D/g,''))known=saved.firstName;}catch{}
+   flow.state.registered=!!known;flow.state.name=known||'';
+  }
   if(message){error(message);if(step==='code')codeFields.focusMissing();else input.focus();return;}
   if(flow.state.step==='done'){
    clearInterval(timer);note.hidden=true;
@@ -102,8 +160,6 @@ function render(focus=true){
 }
 guest.addEventListener('click',event=>{
  if(event.target.closest('[data-auth-invite]')){partner.invite();return;}
- const motion=event.target.closest('[data-auth-motion]');
- if(motion){const art=motion.closest('.kauth-welcome-art'),paused=art.dataset.paused!=='true';art.dataset.paused=String(paused);motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'Включить анимацию':'Приостановить анимацию');motion.innerHTML=svg(paused?'<path d="m9 5 10 7-10 7Z"/>':'<path d="M9 5v14M15 5v14"/>');return;}
  if(event.target.closest('[data-auth-back],[data-auth-edit]')){flow.back();render();}
  if(event.target.closest('[data-auth-resend]')&&flow.resend()){
   codeFields?.reset();error('');tick();main.querySelector('[data-auth-code-status]').textContent='Можно ввести новый код';main.querySelector('input').focus();
@@ -111,6 +167,11 @@ guest.addEventListener('click',event=>{
 });
 function scenarioChanged(event){
  const scenario=document.body.dataset.keysScenario;
+ if(desktopAuth)closeDesktopAuth();
+ const guestSearch=document.body.dataset.keysGuestSearch==='true';
+ document.body.dataset.keysGuestAuthorized='false';
+ guestPost({guestMode:guestSearch,guestAuthorized:false,resetGuest:guestSearch});
+ if(guestSearch)queueMicrotask(openGuestHome);
  const active=['guest','guest-returning','guest-invite'].includes(scenario);invited=scenario==='guest-invite';
  guest.dataset.authAudience=invited?'partner':'guest';
  if(!finishing){if(event)clearPartnerSession();partner.reset();resuming=false;resumeOrigin=null;delete document.body.dataset.keysPartnerVerification;}
@@ -125,15 +186,16 @@ function scenarioChanged(event){
  }
 }
 document.addEventListener('click',event=>{
+ if(document.body.dataset.keysGuestSearch==='true'&&event.target.closest('[data-header-action=home]')){event.preventDefault();event.stopImmediatePropagation();openGuestHome();return;}
  const resume=event.target.closest('[data-partner-resume]');
  if(resume){event.preventDefault();event.stopImmediatePropagation();resumePartner(resume);return;}
- if(completed&&event.target.closest('[data-open="logout"]')){event.preventDefault();event.stopImmediatePropagation();window.KeysScenarios.select(flow.state.registered?'guest-returning':'guest');}
+ if(completed&&event.target.closest('[data-open="logout"]')){event.preventDefault();event.stopImmediatePropagation();window.KeysScenarios.select(document.body.dataset.keysGuestSearch==='true'?'search-guest':flow.state.registered?'guest-returning':'guest');}
 },true);
 root.addEventListener('keys-scenario-change',scenarioChanged);
 scenarioChanged();
 
 // Keep the deferred reminder across reloads in the same prototype tab.
-if(document.body.dataset.keysScenario==='search'){
+if(document.body.dataset.keysScenario==='search'&&document.body.dataset.keysGuestSearch!=='true'){
  try{
   const saved=JSON.parse(sessionStorage.getItem(partnerSessionKey)||'null');
   if(saved&&typeof saved.name==='string'&&saved.name.length<=40&&/^\+7\d{10}$/.test(saved.phone)&&typeof saved.approved==='boolean'){

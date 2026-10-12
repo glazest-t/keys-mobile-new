@@ -4,7 +4,7 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype');
  if(!app)return;
- const presets=[['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению'],['search','Брони ещё нет'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
+ const presets=[['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
  const days=[['day-1','Проживание 1 день'],['day-2','Проживание 2 день'],['checkout','День выезда']];
  const arrivalDays=[['day-8','За 8 дней до заезда'],['day-3','За 3 дня до заезда'],['arrival','День заезда']];
  const valid=(items,id,fallback)=>items.some(([key])=>key===id)?id:fallback;
@@ -60,13 +60,17 @@
   scenarioControl.set(selected);
   dayControl.configure(selected==='booked'?arrivalDays:days,selected==='booked'?'До заезда':'День проживания');
   dayControl.set(selected==='booked'?arrivalDay:stayDay,!['stay','booked'].includes(selected));
-  document.body.dataset.keysScenario=selected;document.body.dataset.keysStayDay=stayDay;document.body.dataset.keysArrivalDay=arrivalDay;
-  const implemented=selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='stay'||selected==='after'||selected==='booked'&&['day-8','day-3','arrival'].includes(arrivalDay);
+  const scenario=['search-gold','search-guest','search-no-loyalty'].includes(selected)?'search':selected;
+  document.body.dataset.keysHotelLoyaltyMissing=String(selected==='search-no-loyalty');
+  document.body.dataset.keysGuestSearch=String(selected==='search-guest');
+  document.body.dataset.keysLoyalty=selected==='search-gold'?'Gold':'Silver';
+  document.body.dataset.keysScenario=scenario;document.body.dataset.keysStayDay=stayDay;document.body.dataset.keysArrivalDay=arrivalDay;
+  const implemented=selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked'&&['day-8','day-3','arrival'].includes(arrivalDay);
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:selected==='booked'?label+' · '+arrivalDays.find(([key])=>key===arrivalDay)[1]:label)+' — пустой сценарий');
-  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');if(selected==='booked')url.searchParams.set('arrivalDay',arrivalDay);else url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
-  app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario:selected,stayDay:selected==='stay'?stayDay:null,arrivalDay:selected==='booked'?arrivalDay:null}}));
+  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);if(selected==='search-guest')url.searchParams.set('view','desktop');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');if(selected==='booked')url.searchParams.set('arrivalDay',arrivalDay);else url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
+  app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null,arrivalDay:selected==='booked'?arrivalDay:null}}));
  }
  function fromURL(){const params=new URLSearchParams(location.search);selected=valid(presets,params.get('scenario'),'stay');stayDay=valid(days,params.get('stayDay'),'day-2');arrivalDay=valid(arrivalDays,params.get('arrivalDay'),'day-8');controls.forEach(item=>item.close());render(false);}
  document.addEventListener('pointerdown',event=>{if(!toolbar.contains(event.target))controls.forEach(item=>item.close());});

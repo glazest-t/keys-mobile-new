@@ -468,3 +468,25 @@ html[data-desktop-account="true"] .keys-results-header>button:first-child svg{wi
 }
 
 html[data-desktop-account="true"] #root .keys-hotel-content>.keys-hotel-registry{order:4;margin:0}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold{background:#fffaf0;box-shadow:inset 0 0 0 1px #e7d7b2}
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold.is-selected{background:#fff4d9;box-shadow:inset 0 0 0 1px #ad7c22}
+ html[data-desktop-account=true] #root .keys-rate-option .keys-gold-privileges{grid-column:1;grid-row:3;margin:8px 0 0}
+}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold .keys-rate-expand{grid-row:4}
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold .keys-rate-conditions{grid-row:5}
+}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold :is(.keys-rate-highlight,.keys-rate-nightly){color:#536078}
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold .keys-rate-highlight.is-included{color:#226747}
+ html[data-desktop-account=true] #root .keys-rate-option.is-gold .keys-rate-expand{color:#2446a6}
+}
+/* Anonymous desktop search is the public home, rather than an account subpage. */
+html[data-desktop-account=true][data-guest-search=true] .keys-find-home-back{display:none}
+html[data-desktop-account=true][data-guest-search=true] .keys-find-history{display:none}
+
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel .keys-hotel-pricing-row .keys-hotel-watch{right:6px;top:0}
+ html[data-desktop-account=true] #root .keys-hotel-booking-panel .keys-hotel-price-label{max-width:calc(100% - 120px)}
+}

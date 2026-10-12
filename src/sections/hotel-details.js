@@ -56,12 +56,12 @@ function jY({hotel,draft}) {
  const watch=Vm(state.discovery.watches,hotel.id,state.search);
  return n.jsxs('section',{'aria-label':'Стоимость проживания',className:'keys-hotel-pricing',children:[
   n.jsxs('div',{className:'keys-hotel-pricing-row',children:[
-   n.jsxs('button',{type:'button',className:'keys-hotel-pricing-amount',onClick:()=>setDiscountOpen(true),'aria-label':'Персонализированная цена — посмотреть расчёт скидки','aria-haspopup':'dialog',children:[
-    n.jsx('span',{className:'keys-hotel-price-label',children:'Персонализированная цена'}),
+   n.jsxs('button',{type:'button',className:'keys-hotel-pricing-amount',onClick:()=>setDiscountOpen(true),'aria-label':(price.registrationDiscount?'Цена после регистрации':'Персонализированная цена')+' — посмотреть расчёт скидки','aria-haspopup':'dialog',children:[
+    n.jsx('span',{className:'keys-hotel-price-label',children:price.registrationDiscount?'Цена после регистрации':price.goldDiscount?'Ваша цена Gold':'Персонализированная цена'}),
     n.jsxs('span',{className:'keys-hotel-price-values',children:[n.jsx('strong',{children:Te(price.total)}),price.ownPrice&&n.jsxs('span',{className:'keys-hotel-pricing-base',children:[n.jsx('s',{children:Te(price.usualTotal)}),n.jsx('span',{className:'keys-hotel-pricing-discount',children:'−'+eT(price.total,price.usualTotal)+'%'})]})]}),
     n.jsxs('span',{className:'keys-hotel-price-action',children:n.jsx(D,{name:'chevron',className:'size-4'})})
    ]}),
-   n.jsxs('button',{type:'button',className:'keys-hotel-watch','aria-label':watch?.enabled?'Цена отслеживается':'Отслеживать цену',title:watch?.enabled?'Цена отслеживается':'Отслеживать цену','aria-pressed':!!watch?.enabled,onClick:()=>open({type:'price-watch',hotelId:hotel.id,watchId:watch?.id}),children:[n.jsx(D,{name:'price',className:'size-5'}),watch?.enabled&&n.jsx('span',{className:'keys-hotel-watch-check','aria-hidden':true,children:n.jsx(D,{name:'check',className:'size-3'})})]})
+   n.jsxs('button',{type:'button',className:'keys-hotel-watch','aria-label':watch?.enabled?'Цена отслеживается':'Следить за ценой',title:watch?.enabled?'Цена отслеживается':'Следить за ценой','aria-pressed':!!watch?.enabled,onClick:()=>open({type:'price-watch',hotelId:hotel.id,watchId:watch?.id}),children:[n.jsx(D,{name:'price',className:'size-5'}),n.jsx('span',{className:'keys-hotel-watch-label',children:watch?.enabled?'Цена отслеживается':'Следить за ценой'}),watch?.enabled&&n.jsx('span',{className:'keys-hotel-watch-check','aria-hidden':true,children:n.jsx(D,{name:'check',className:'size-3'})})]})
   ]}),
   discountOpen&&n.jsx(KeysHotelDiscount,{price,onClose:()=>setDiscountOpen(false)})
  ]});
@@ -98,22 +98,35 @@ function KeysHotelFeatures({hotel}) {
  if(!tags.length)return null;
  return n.jsx('div',{className:'keys-hotel-features','aria-label':'По вашим предпочтениям',children:tags.map(tag=>n.jsx('span',{className:'keys-hotel-feature',children:tag},tag))});
 }
+// Only redeemed points contribute to the total. Hotel Gold is not a third programme.
 function keysHotelDiscount(price) {
  const total=Math.max(0,price.usualTotal-price.total);
- const hotel=Math.min(total,Math.round(price.usualTotal*.05));
- return {total,hotel,keys:total-hotel,hotelPercent:price.usualTotal?Math.round(hotel/price.usualTotal*100):0};
+ const keys=Math.min(total,Math.max(0,price.keysPoints||0));
+ const hotelPoints=Math.min(total-keys,Math.max(0,price.hotelPoints||0));
+ return {total,keys,hotelPoints,hotel:total-keys-hotelPoints};
+}
+function keysReservationDiscountQuote(draft,search,tick=0){
+ const base=keysStandardHotelPrice(Ie(draft.hotelId),{...search,arrival:draft.arrival,departure:draft.departure,party:draft.party},tick);
+ const usualTotal=Math.max(Ul(draft),base.usualTotal+draft.room.nightlySupplement*Ge(draft.arrival,draft.departure));
+ return keysRegistrationPrice({hotelId:draft.hotelId,connectedHotelDiscount:keysConnectedHotelSavings(draft),usualTotal,total:Ul(draft)-keysPointsDiscount(draft),keysPoints:keysPointsUsed(draft),hotelPoints:keysHotelPointsUsed(draft),hotelTier:draft.tariffId==='loyalty-gold'?'Gold':null});
 }
 function KeysHotelDiscount({price,onClose}) {
- const discount=keysHotelDiscount(price);
+ price=keysRegistrationPrice(price);
+ const {state}=J(),discount=keysHotelDiscount(price);
+ const hasHotelPoints=discount.hotelPoints>0;
  const row=(label,value,className='')=>n.jsxs('div',{className:'keys-hotel-discount-row '+className,children:[n.jsx('span',{children:label}),n.jsx('strong',{children:value})]},label);
- return n.jsx(ct,{title:'Ваша выгода',onClose,children:n.jsxs('div',{className:'keys-hotel-discount-details',children:[
+ const points=value=>value>0?'−'+Te(value):'Не списаны';
+ return n.jsx(ct,{title:price.registrationDiscount?'Скидка после регистрации':'Общая скидка',onClose,children:n.jsxs('div',{className:'keys-hotel-discount-details',children:[
   row('Стоимость без скидок',Te(price.usualTotal)),
   n.jsxs('div',{className:'keys-hotel-discount-sources',children:[
-   row('Программа лояльности Ключей','−'+Te(discount.keys)),
-   row('Лояльность отеля · −'+discount.hotelPercent+'%','−'+Te(discount.hotel))
+   discount.hotel>(price.connectedHotelDiscount||0)&&row(price.registrationDiscount?'За регистрацию в Ключах':price.hotelTier==='Gold'?'Скидка отеля · Gold':'Скидка отеля','−'+Te(discount.hotel-(price.connectedHotelDiscount||0))),
+   price.connectedHotelDiscount>0&&row('Карта лояльности отеля · 10%','−'+Te(price.connectedHotelDiscount)),
+   hasHotelPoints&&row('Баллы отеля',points(discount.hotelPoints)),
+   (discount.keys>0||state.loyalty.balance>0)&&row(discount.keys>0?'Баллы Ключей':'Баллы Ключей · доступно',discount.keys>0?points(discount.keys):new Intl.NumberFormat('ru-RU').format(state.loyalty.balance)+' баллов')
   ]}),
   row('Общая скидка','−'+Te(discount.total),'keys-hotel-discount-total'),
-  row('Стоимость проживания',Te(price.total),'keys-hotel-discount-final')
+  row(price.registrationDiscount?'После регистрации':'Стоимость проживания',Te(price.total),'keys-hotel-discount-final'),
+  price.registrationDiscount>0&&n.jsxs('div',{className:'keys-registration-benefit',children:[n.jsx(D,{name:'gift',className:'size-5'}),n.jsxs('div',{children:[n.jsx('strong',{children:'Сэкономьте '+Te(price.registrationDiscount)}),n.jsx('p',{children:'Войдите или зарегистрируйтесь по телефону. Скидка уже включена в показанную цену.'})]})]})
  ]})});
 }
 const keysRoomFilters=[
@@ -131,7 +144,7 @@ function keysRoomCriteriaInvalid(value){return value.min!==''&&value.max!==''&&N
 function keysFilterRoomOffers(catalogue,value,sort='price-asc'){
  if(keysRoomCriteriaInvalid(value))return [];
  const direction=sort==='price-desc'?-1:1;
- return catalogue.filter(({room})=>(!value.bed||room.bedType===value.bed)&&value.features.every(id=>keysRoomFeatureOptions.find(option=>option.id===id)?.test(room))).map(({room,offers})=>({room,offers:offers.filter(offer=>keysRoomOfferMatches(offer,value.filters)&&(value.min===''||offer.price>=Number(value.min))&&(value.max===''||offer.price<=Number(value.max))).sort((a,b)=>direction*(a.price-b.price))})).filter(item=>item.offers.length).sort((a,b)=>direction*(Math.min(...a.offers.map(o=>o.price))-Math.min(...b.offers.map(o=>o.price))));
+ return catalogue.filter(({room})=>(!value.bed||room.bedType===value.bed)&&value.features.every(id=>keysRoomFeatureOptions.find(option=>option.id===id)?.test(room))).map(({room,offers})=>({room,offers:offers.filter(offer=>keysRoomOfferMatches(offer,value.filters)&&(value.min===''||offer.price>=Number(value.min))&&(value.max===''||offer.price<=Number(value.max))).sort((a,b)=>Number(b.id==='loyalty-gold')-Number(a.id==='loyalty-gold')||direction*(a.price-b.price))})).filter(item=>item.offers.length).sort((a,b)=>direction*(Math.min(...a.offers.map(o=>o.price))-Math.min(...b.offers.map(o=>o.price))));
 }
 function keysRoomResultLabel(rooms){const rates=rooms.reduce((sum,item)=>sum+item.offers.length,0);return rooms.length+' '+ui(rooms.length,'категория номера','категории номеров','категорий номеров')+' · '+rates+' '+ui(rates,'тариф','тарифа','тарифов');}
 function KeysRoomFilterDialog({mode,value,catalogue,nights,onApply,onClose}){
@@ -157,7 +170,9 @@ function KeysHotelRooms({hotel}) {
  const filters=criteria.filters;
  const catalogue=wr(hotel.id).map(original=>{const room=hotel.id==='more'?{...original,bedType:original.id==='comfort'?'twin':'double'}:original;return {room,offers:DY(draft,room).map(offer=>{
   const tariff=Sr(hotel.id,offer.id);
-  return {...offer,freeCancellation:tariff.refundable&&state.tripContext.today<=Hx(tariff,draft.arrival),requiresPrepayment:tariff.requiresPrepayment!==false,changesAllowed:tariff.changesAllowed,cancellationDeadline:tariff.refundable?qm(Hx(tariff,draft.arrival)):null};
+  const base=keysStandardHotelPrice(hotel,{...state.search,arrival:draft.arrival,departure:draft.departure,party:draft.party},state.discovery.priceTick);
+  const usualTotal=Math.max(offer.price,base.usualTotal+room.nightlySupplement*Ge(draft.arrival,draft.departure));
+  return {...offer,usualTotal,discountLabel:tariff.showDiscount!==false&&usualTotal>offer.price?'−'+eT(offer.price,usualTotal)+'%':'',freeCancellation:tariff.refundable&&state.tripContext.today<=Hx(tariff,draft.arrival),requiresPrepayment:tariff.requiresPrepayment!==false,changesAllowed:tariff.changesAllowed,cancellationDeadline:tariff.refundable?qm(Hx(tariff,draft.arrival)):null};
  })};});
  const rooms=keysFilterRoomOffers(catalogue,criteria,sort),hasBeds=catalogue.some(item=>item.room.bedType),activeCount=criteria.filters.length+criteria.features.length+(criteria.bed?1:0)+(criteria.min!==''||criteria.max!==''?1:0);
  const reset=()=>setCriteria(keysRoomCriteriaEmpty());
@@ -362,28 +377,23 @@ function KeysRoomOfferCard({room,offers,draft,onOpenPhotos,onChoose,onSelect}){
 }
 function KeysRoomTariff({offer,room,draft,onChoose,onSelect,onTerms}){
  const desktop=useKeysDesktopBooking(),facts=keysRoomTariffFacts(offer),radioId=E.useId(),[discountOpen,setDiscountOpen]=E.useState(false),[expanded,setExpanded]=E.useState(false);
- if(desktop)return n.jsxs('div',{className:'keys-rate-option'+(offer.selected?' is-selected':''),onClick:event=>{if(!event.target.closest('button,input,label'))onChoose();},children:[
+ if(desktop)return n.jsxs('div',{className:'keys-rate-option'+(offer.id==='loyalty-gold'?' is-gold':'')+(offer.selected?' is-selected':''),onClick:event=>{if(!event.target.closest('button,input,label'))onChoose();},children:[
   n.jsxs('div',{className:'keys-rate-heading',children:[n.jsxs('h3',{children:[n.jsx('label',{htmlFor:radioId,children:offer.name}),offer.discountLabel&&n.jsx('button',{type:'button',className:'keys-result-hotel-discount keys-tariff-discount','aria-label':'Скидка '+offer.discountLabel+' по тарифу '+offer.name+' — '+room.name,'aria-haspopup':'dialog',onClick:()=>setDiscountOpen(true),children:offer.discountLabel.replace(/\s+(?=%)/,'')})]}),n.jsxs('div',{className:'keys-rate-price',children:[n.jsx('strong',{children:Te(offer.price)}),n.jsx('span',{className:'keys-rate-nightly',children:Te(Math.round(offer.price/Ge(draft.arrival,draft.departure)*100)/100)+' / ночь'})]}),n.jsx('input',{id:radioId,type:'radio',name:'keys-room-tariff',checked:offer.selected,onChange:onChoose,'aria-label':'Тариф '+offer.name+' — '+room.name,className:'keys-tariff-radio'})]}),
+  offer.id==='loyalty-gold'&&n.jsx(KeysGoldPrivileges,{}),
   n.jsx('div',{className:'keys-rate-highlights',children:facts.slice(0,3).map(fact=>n.jsxs('div',{className:'keys-rate-highlight'+(fact.positive?' is-included':''),children:[n.jsx(D,{name:fact.icon,className:'size-4'}),n.jsx('span',{children:fact.title+(fact.icon==='shield'&&offer.freeCancellation?' до '+offer.cancellationDeadline:'')})]},fact.icon))}),
   n.jsxs('button',{type:'button',className:'keys-rate-expand','aria-expanded':expanded,'aria-controls':radioId+'-terms',onClick:()=>setExpanded(!expanded),children:['Условия тарифа',n.jsx(D,{name:'chevron',className:'size-4'+(expanded?' is-open':'')})]}),
   expanded&&n.jsx('ul',{id:radioId+'-terms',className:'keys-rate-conditions',children:offer.terms.map((term,index)=>n.jsx('li',{children:term},index))}),
-  discountOpen&&n.jsx(KeysRoomTariffDiscount,{offer,room,basePrice:Ul({...draft,room},'flexible'),onClose:()=>setDiscountOpen(false)})
+  discountOpen&&n.jsx(KeysRoomTariffDiscount,{offer,room,hotelId:draft.hotelId,basePrice:Ul({...draft,room},'flexible'),onClose:()=>setDiscountOpen(false)})
  ]});
- return n.jsxs('div',{className:'keys-room-tariff'+(offer.selected?' is-selected':''),onClick:event=>{if(event.currentTarget.contains(event.target)&&!event.target.closest('button,input,label'))onChoose();},children:[
+ return n.jsxs('div',{className:'keys-room-tariff'+(offer.id==='loyalty-gold'?' is-gold':'')+(offer.selected?' is-selected':''),onClick:event=>{if(event.currentTarget.contains(event.target)&&!event.target.closest('button,input,label'))onChoose();},children:[
   n.jsxs('div',{className:'keys-tariff-title',children:[n.jsx('h3',{children:n.jsxs('label',{htmlFor:radioId,className:'keys-tariff-radio-label',children:[n.jsx('input',{id:radioId,type:'radio',name:'keys-room-tariff',checked:offer.selected,onChange:onChoose,'aria-label':'Тариф '+offer.name+' — '+room.name,className:'keys-tariff-radio'}),n.jsx('span',{children:offer.name})]})}),n.jsx('button',{type:'button',className:'keys-tariff-terms',onClick:onTerms,'aria-haspopup':'dialog','aria-label':'Условия тарифа '+offer.name+' — '+room.name,children:'Условия'})]}),
+  offer.id==='loyalty-gold'&&n.jsx(KeysGoldPrivileges,{}),
   n.jsx('div',{className:'keys-tariff-facts',children:facts.map(fact=>n.jsxs('div',{className:'keys-tariff-fact keys-tariff-fact-'+fact.icon,children:[n.jsx(D,{name:fact.icon,className:'size-4'+(fact.positive?' is-included':'')}),n.jsxs('span',{children:[n.jsx('span',{className:'keys-tariff-fact-title'+(fact.positive?' is-positive':''),children:fact.title}),fact.icon==='shield'&&offer.freeCancellation&&n.jsx('span',{children:fact.detail})]})]},fact.icon))}),
   n.jsxs('div',{className:'keys-tariff-footer',children:[n.jsxs('span',{className:'keys-tariff-price',children:[n.jsx('strong',{children:Te(offer.price)}),offer.discountLabel&&n.jsx('button',{type:'button',className:'keys-result-hotel-discount keys-tariff-discount','aria-label':'Скидка '+offer.discountLabel+' по тарифу '+offer.name+' — '+room.name,'aria-haspopup':'dialog',onClick:()=>setDiscountOpen(true),children:offer.discountLabel.replace(/\s+(?=%)/,'')})]}),!desktop&&n.jsx(H,{onClick:onSelect,'aria-label':'Выбрать тариф '+offer.name+' — '+room.name,children:'Выбрать'})]}),
-  discountOpen&&n.jsx(KeysRoomTariffDiscount,{offer,room,basePrice:Ul({...draft,room},'flexible'),onClose:()=>setDiscountOpen(false)})
+  discountOpen&&n.jsx(KeysRoomTariffDiscount,{offer,room,hotelId:draft.hotelId,basePrice:Ul({...draft,room},'flexible'),onClose:()=>setDiscountOpen(false)})
  ]});
 }
 
-function KeysRoomTariffDiscount({offer,room,basePrice,onClose}){
- const savings=Math.max(0,basePrice-offer.price);
- const row=(label,value,className='')=>n.jsxs('div',{className:'keys-hotel-discount-row '+className,children:[n.jsx('span',{children:label}),n.jsx('strong',{children:value})]});
- return n.jsx(ct,{title:'Скидка по тарифу',onClose,children:n.jsxs('div',{className:'keys-hotel-discount-details',children:[
-  n.jsx('p',{className:'keys-tariff-discount-context',children:room.name}),
-  row('Цена по гибкому тарифу',Te(basePrice)),
-  n.jsx('div',{className:'keys-hotel-discount-sources',children:row('Тариф «'+offer.name+'» · '+offer.discountLabel.replace(/\s+(?=%)/,''),'−'+Te(savings),'keys-hotel-discount-total')}),
-  row('Стоимость проживания',Te(offer.price),'keys-hotel-discount-final')
- ]})});
+function KeysRoomTariffDiscount({offer,room,hotelId,basePrice,onClose}){
+ return n.jsx(KeysHotelDiscount,{price:{hotelId,usualTotal:offer.usualTotal??basePrice,total:offer.price,hotelTier:offer.id==='loyalty-gold'?'Gold':null},onClose});
 }

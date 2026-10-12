@@ -5,18 +5,19 @@ function useKeysDesktopBooking(){
  return desktop;
 }
 function KeysBookingCart({draft,stage='rooms',onNext,booking,hiddenByFilters=false}){
- const {dispatch}=J(),hotel=Ie(draft.hotelId),tariff=Sr(draft.hotelId,draft.tariffId),total=YA(draft),confirmed=stage==='confirmed',arrival=(confirmed?booking.payment?.method:draft.paymentMethod)==='arrival',payment=stage==='payment';
+ const {state,dispatch}=J(),hotel=Ie(draft.hotelId),tariff=Sr(draft.hotelId,draft.tariffId),total=YA(draft),confirmed=stage==='confirmed',arrival=(confirmed?booking.payment?.method:draft.paymentMethod)==='arrival',payment=stage==='payment';
  const row=(label,value)=>n.jsxs('div',{className:'keys-cart-row',children:[n.jsx('dt',{children:label}),n.jsx('dd',{children:value})]},label);
  const date=value=>new Date(value+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'});
  return n.jsxs('aside',{className:'keys-booking-cart','aria-label':confirmed?'Итог бронирования':'Ваше бронирование',children:[
   n.jsx('h2',{children:confirmed?'Оплата':'Ваше бронирование'}),
+  !confirmed&&keysReservationDiscountQuote(draft,state.search,state.discovery.priceTick).registrationDiscount>0&&n.jsx('p',{className:'keys-cart-helper keys-registration-cart',children:'Цена со скидкой за регистрацию. Войдите по телефону на следующем шаге.'}),
   confirmed&&n.jsxs('p',{className:'keys-confirmation-payment-status'+(arrival?' is-arrival':''),children:[n.jsx(D,{name:arrival?'clock':'check',className:'size-4'}),arrival?'Оплата при заселении':'Оплачено']}),
   !confirmed&&n.jsxs('div',{className:'keys-cart-room',children:[n.jsx('img',{src:draft.room.photo.src,alt:draft.room.name}),n.jsxs('div',{children:[n.jsx('p',{children:hotel.name}),n.jsx('h3',{children:draft.room.name})]})]}),
   hiddenByFilters&&n.jsx('p',{className:'keys-cart-filter-note',role:'status',children:'Выбранный тариф сохранён в корзине, но скрыт текущими фильтрами.'}),
   !confirmed&&n.jsxs('dl',{className:'keys-cart-dates',children:[n.jsxs('div',{children:[n.jsx('dt',{children:'Заезд'}),n.jsx('dd',{children:date(draft.arrival)})]}),n.jsxs('div',{children:[n.jsx('dt',{children:'Выезд'}),n.jsx('dd',{children:date(draft.departure)})]})]}),
   !confirmed&&n.jsxs('p',{className:'keys-cart-guests',children:[n.jsx(D,{name:'users',className:'size-4'}),Rt(draft.party)]}),
   !confirmed&&n.jsxs('div',{className:'keys-cart-tariff',children:[n.jsxs('p',{children:['Тариф «',tariff.name,'»']}),n.jsxs('span',{children:[n.jsx(D,{name:'coffee',className:'size-4'}),tariff.includesBreakfast?'Завтрак включён':'Без питания']}),n.jsxs('span',{children:[n.jsx(D,{name:'shield',className:'size-4'}),vY(tariff,draft.arrival)]})]}),
-  n.jsxs('dl',{className:'keys-cart-costs','aria-live':'polite',children:[row('Проживание',Te(total.room)),...draft.extras.map(extra=>row(Dg(draft.hotelId,extra.serviceId),extra.price?Te(extra.price):'Бесплатно')),keysPointsUsed(draft)>0&&row('Баллы Ключей','−'+Te(keysPointsUsed(draft))),keysHotelPointsUsed(draft)>0&&row('Баллы отеля','−'+Te(keysHotelPointsUsed(draft))),(payment||confirmed)&&arrival&&row(confirmed?'Оплачено сейчас':'К оплате сейчас',Te(0)),n.jsxs('div',{className:'keys-cart-total',children:[n.jsx('dt',{children:(payment||confirmed)&&arrival?'При заселении':confirmed?'Оплачено':'Итого'}),n.jsx('dd',{children:Te(confirmed?(arrival?booking.dueAtHotel:booking.payment?.amount??booking.paid):total.total)})]})]}),
+  n.jsxs('dl',{className:'keys-cart-costs','aria-live':'polite',children:[row('Проживание',Te(total.room+keysConnectedHotelSavings(draft))),keysConnectedHotelSavings(draft)>0&&row('Карта отеля · 10%','−'+Te(keysConnectedHotelSavings(draft))),...draft.extras.map(extra=>row(Dg(draft.hotelId,extra.serviceId),extra.price?Te(extra.price):'Бесплатно')),keysPointsUsed(draft)>0&&row('Баллы Ключей','−'+Te(keysPointsUsed(draft))),keysHotelPointsUsed(draft)>0&&row('Баллы отеля','−'+Te(keysHotelPointsUsed(draft))),(payment||confirmed)&&arrival&&row(confirmed?'Оплачено сейчас':'К оплате сейчас',Te(0)),n.jsxs('div',{className:'keys-cart-total',children:[n.jsx('dt',{children:(payment||confirmed)&&arrival?'При заселении':confirmed?'Оплачено':'Итого'}),n.jsx('dd',{children:Te(confirmed?(arrival?booking.dueAtHotel:booking.payment?.amount??booking.paid):total.total)})]})]}),
   n.jsx('p',{className:'keys-cart-tax',children:'Налоги и сборы включены'}),
   !confirmed&&stage!=='processing'&&n.jsx(H,{className:'keys-cart-submit',disabled:payment&&(!um(draft.contact)||!draft.paymentMethod||!keysAdditionalGuestComplete(draft)),onClick:payment?()=>dispatch({type:'RESERVATION_PAY',draftId:draft.id}):onNext,children:payment?(arrival?'Подтвердить бронь':draft.status==='failed'?'Повторить оплату':'Оплатить · '+Te(total.total)):'Забронировать · '+Te(total.total)}),
   payment&&!um(draft.contact)&&n.jsx('p',{className:'keys-cart-helper',children:'Заполните данные гостя, чтобы продолжить'}),
@@ -24,11 +25,40 @@ function KeysBookingCart({draft,stage='rooms',onNext,booking,hiddenByFilters=fal
   payment&&!draft.paymentMethod&&n.jsx('p',{className:'keys-cart-helper',children:'Выберите способ оплаты'})
  ]});
 }
+let keysCheckoutValidation;
+function keysCheckoutValidationContext(){return keysCheckoutValidation||(keysCheckoutValidation=E.createContext(false));}
+function keysCheckoutStep(state,step){
+ const draft=state.reservation;
+ if(!draft||!['details','services','payment'].includes(step)||draft.status==='confirmed')return state;
+ if(step==='payment'&&(!um(draft.contact)||!keysAdditionalGuestComplete(draft)))return state;
+ return {...state,reservation:{...draft,keysCheckoutStep:step,error:''}};
+}
+function KeysCheckoutAmounts({draft}){
+ const {state}=J(),total=YA(draft),quote=keysReservationDiscountQuote(draft,state.search,state.discovery.priceTick),connected=keysConnectedHotelSavings(draft),hotelDiscount=Math.max(0,quote.usualTotal-total.room-connected);
+ const row=(label,value)=>n.jsxs('div',{children:[n.jsx('dt',{children:label}),n.jsx('dd',{children:value})]},label);
+ return n.jsxs('section',{className:'keys-checkout-amounts','aria-label':'Стоимость бронирования',children:[n.jsx('h2',{children:'Стоимость бронирования'}),n.jsxs('dl',{children:[row('Проживание',Te(quote.usualTotal)),hotelDiscount>0&&row('Скидка отеля','−'+Te(hotelDiscount)),connected>0&&row('Карта отеля · 10%','−'+Te(connected)),...draft.extras.map(extra=>row(Dg(draft.hotelId,extra.serviceId),Te(extra.price))),keysPointsUsed(draft)>0&&row('Баллы Ключей','−'+Te(keysPointsUsed(draft))),keysHotelPointsUsed(draft)>0&&row('Баллы отеля','−'+Te(keysHotelPointsUsed(draft))),row('Итого',Te(total.total))]}),n.jsx('p',{children:'Налоги и сборы включены'})]});
+}
 function KeysCheckoutLayout({draft,children,processing=false}){
- const desktop=useKeysDesktopBooking();
- if(!desktop)return n.jsx(n.Fragment,{children:processing?children:[children[0],children[1],children[3],children[2],children[4],children[5],children[7],children[6],children[8],children[9]]});
- if(processing)return n.jsx('div',{className:'keys-booking-desktop keys-checkout-desktop',children:n.jsxs('div',{className:'keys-booking-columns',children:[n.jsx('div',{className:'keys-booking-primary',children}),n.jsx(KeysBookingCart,{draft,stage:'processing'})]})});
- return n.jsxs('div',{className:'keys-booking-desktop keys-checkout-desktop',children:[children[0],n.jsxs('div',{className:'keys-booking-columns',children:[n.jsxs('div',{className:'keys-booking-primary',children:[children[3],children[2],children[4],children[5],children[7],children[8]]}),n.jsx(KeysBookingCart,{draft,stage:'payment'})]})]});
+ const desktop=useKeysDesktopBooking(),{dispatch,back}=J(),[attempted,setAttempted]=E.useState(0),content=E.useRef(null);
+ const step=draft.keysCheckoutStep||'details',total=YA(draft),arrival=draft.paymentMethod==='arrival';
+ const go=value=>{setAttempted(0);dispatch({type:'KEYS_CHECKOUT_STEP',step:value});};
+ E.useEffect(()=>{const el=content.current;if(!el)return;let parent=el.parentElement;while(parent&&parent.scrollHeight<=parent.clientHeight)parent=parent.parentElement;if(parent)parent.scrollTop=0;el.querySelector('h1')?.focus({preventScroll:true});},[step,desktop]);
+ const next=()=>{setAttempted(value=>value+1);if(!um(draft.contact)||!keysAdditionalGuestComplete(draft)){requestAnimationFrame(()=>{const first=content.current?.querySelector('[aria-invalid=true],input:invalid');first?.focus();first?.scrollIntoView({block:'center',behavior:'smooth'});});return;}go('payment');};
+ if(processing)return desktop?n.jsx('div',{className:'keys-booking-desktop keys-checkout-desktop',children:n.jsxs('div',{className:'keys-booking-columns',children:[n.jsx('div',{className:'keys-booking-primary',children}),n.jsx(KeysBookingCart,{draft,stage:'processing'})]})}):children;
+ const header=n.jsx(KeysPaymentStayHeader,{title:desktop?'Оформление брони':step==='services'?'Добавить к поездке':'Оформление брони',onBack:desktop?back:step==='details'?back:()=>go('details')});
+ if(desktop)return n.jsxs('div',{className:'keys-booking-desktop keys-checkout-desktop',children:[header,n.jsxs('div',{className:'keys-booking-columns',children:[n.jsxs('div',{className:'keys-booking-primary',children:[children[7],children[3],children[2],n.jsx(KeysHotelLoyaltyBanner,{draft}),children[5],children[4],children[8]]}),n.jsx(KeysBookingCart,{draft,stage:'payment'})]})]});
+ const title=step==='details'?'Данные бронирования':'Подтверждение и оплата';
+ const contactInvalid=!um(draft.contact)||!keysAdditionalGuestComplete(draft);
+ const helper=contactInvalid?'Заполните данные гостей':!draft.paymentMethod?'Выберите способ оплаты':null;
+ const footer=n.jsx(children[9].type,{children:n.jsxs('div',{className:'keys-checkout-fixed',children:[
+  step!=='services'&&n.jsxs('div',{className:'keys-checkout-due','aria-live':'polite',children:[n.jsxs('span',{children:[step==='details'||!draft.paymentMethod?'Итого':'Сейчас',n.jsx('strong',{children:Te(step==='payment'&&arrival?0:total.total)})]}),step==='payment'&&draft.paymentMethod&&n.jsxs('span',{children:['В отеле',n.jsx('strong',{children:Te(arrival?total.total:0)})]})]}),
+  step==='payment'&&helper&&n.jsx('p',{className:'keys-checkout-help',children:helper}),
+  n.jsx(H,{className:'keys-checkout-next',disabled:step==='payment'&&!draft.paymentMethod&&!contactInvalid,onClick:step==='details'?next:step==='services'?()=>go('details'):contactInvalid?()=>go('details'):()=>dispatch({type:'RESERVATION_PAY',draftId:draft.id}),children:step==='details'?'Продолжить':step==='services'?'Готово':contactInvalid?'Заполнить данные гостей':arrival?'Подтвердить бронь':draft.status==='failed'?'Повторить оплату':'Перейти к оплате'})
+ ]})});
+ return n.jsxs('div',{ref:content,className:'keys-checkout-flow','data-checkout-step':step,children:[header,
+  step!=='services'&&n.jsxs('div',{className:'keys-checkout-step-heading','aria-label':(step==='details'?'Шаг 1 из 2: ':'Шаг 2 из 2: ')+title,children:[n.jsx('p',{className:'keys-checkout-step-title',children:title}),n.jsx('span',{children:step==='details'?'1 из 2':'2 из 2'}),n.jsxs('div',{className:'keys-checkout-progress','aria-hidden':true,children:[n.jsx('i',{className:'is-active'}),n.jsx('i',{className:step==='payment'?'is-active':''})]})]}),
+  step==='details'?n.jsxs(keysCheckoutValidationContext().Provider,{value:attempted,children:[children[1],children[7],children[3],attempted>0&&contactInvalid&&n.jsx('p',{role:'alert',className:'keys-checkout-error',children:'Проверьте обязательные поля: имя, фамилия, телефон и email. Для второго гостя заполните оба поля или оставьте их пустыми.'}),n.jsxs('button',{className:'keys-checkout-services-entry',type:'button',onClick:()=>go('services'),children:[n.jsx(D,{name:'coffee',className:'size-5'}),n.jsxs('span',{children:[n.jsx('strong',{children:'Добавить к поездке'}),n.jsx('small',{children:draft.extras.length?'Выбрано услуг: '+draft.extras.length+' · '+Te(total.extras):'Завтрак, ужин, спа и другие услуги'})]}),n.jsx(D,{name:'chevron',className:'size-4'})]})]}):step==='services'?n.jsx('div',{className:'keys-checkout-service-catalog',children:children[2]}):n.jsxs(n.Fragment,{children:[n.jsx(KeysHotelLoyaltyBanner,{draft}),children[5],children[4],n.jsx(KeysCheckoutAmounts,{draft}),children[8]]}),footer
+ ]});
 }
 function KeysBookingConfirmation({draft,booking,details,children,className}){
  const desktop=useKeysDesktopBooking();

@@ -120,6 +120,7 @@
   return new Blob([...local,...central,end],{type:'application/zip'});
  }
  function cancelBooking(trigger){
+  if(document.body.dataset.keysScenario!=='booked')return;
   if(booking.cancellation)return bookingDetails();
   const daysUntilArrival=(Date.parse(booking.arrival)-Date.parse(scenarioToday()))/86400000;
   const fee=daysUntilArrival<3?Math.round(booking.total/booking.nights):0;

@@ -264,3 +264,60 @@ html[data-desktop-account=true] #root .ki-page .ki-scene-card{padding:0}
  html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption h2{font-size:20px;line-height:24px}
  html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption p{display:none}
 }
+
+/* Shared company choices also render in dialogs portalled outside #root. */
+.ki-company-step{width:100%;max-width:640px;margin:16px auto 0;display:grid;gap:24px}
+.ki-company-options{display:grid;gap:10px;min-width:0}
+.ki-company-option{position:relative;display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 16px;border:1px solid var(--color-line);border-radius:var(--ui-button-radius,14px);background:var(--color-card);color:var(--color-ink);font:var(--ui-font-label);cursor:pointer;transition:border-color .18s,background .18s}
+.ki-company-option>input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0}
+.ki-company-option>.ki-art{width:40px;height:40px}
+.ki-company-option>span:not(.ki-company-radio){flex:1}
+.ki-company-radio{width:20px;height:20px;flex:none;border:1.5px solid var(--color-muted);border-radius:50%;display:grid;place-items:center}
+.ki-company-option:has(input:checked){border-color:var(--color-brand);background:var(--color-soft)}
+.ki-company-option:has(input:checked) .ki-company-radio{border-color:var(--color-brand);border-width:6px}
+.ki-company-option:has(input:focus-visible){outline:2px solid var(--color-brand);outline-offset:2px}
+.ki-tune>.ki-company-options{grid-column:1/-1}
+@media(min-width:900px){
+ html[data-desktop-account=true] .ki-company-step{margin-top:24px}
+ html[data-desktop-account=true] .ki-company-options{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){.ki-company-option{transition:none}}
+.ki-tune>.ki-company-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ki-tune .ki-company-option{min-height:60px;padding:10px;gap:8px}
+.ki-tune .ki-company-option>.ki-art{width:28px;height:28px}
+.ki-tune .ki-company-radio{width:16px;height:16px}
+.ki-tune .ki-company-option:has(input:checked) .ki-company-radio{border-width:5px}
+
+/* Single-tap company cards: the whole tile advances to preferences. */
+.ki-company-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ki-company-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-width:0;min-height:136px;padding:20px 12px;border:1px solid transparent;border-radius:var(--ui-card-radius,20px);background:var(--company-tint);color:var(--color-ink);font:var(--ui-font-label);cursor:pointer;transition:transform .16s,border-color .16s}
+.ki-company-card[data-company=solo]{--company-tint:#eaf5ee}
+.ki-company-card[data-company=couple]{--company-tint:#faedf0}
+.ki-company-card[data-company=friends]{--company-tint:#eee9fa}
+.ki-company-card[data-company=kids]{--company-tint:#fcf5df}
+.ki-company-card[data-company=work]{--company-tint:#ecf0fb;grid-column:1/-1;flex-direction:row;min-height:88px;gap:16px;padding:16px}
+.ki-company-card>.ki-art{width:56px;height:56px}
+.ki-company-card:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+.ki-company-card:active{transform:scale(.98)}
+@media(hover:hover){.ki-company-card:hover{border-color:var(--color-brand)}}
+@media(max-height:650px){.ki-company-step{gap:16px}.ki-company-card{min-height:108px;padding:12px;gap:8px}.ki-company-card>.ki-art{width:44px;height:44px}.ki-company-card[data-company=work]{min-height:68px;padding:12px}}
+@media(prefers-reduced-motion:reduce){.ki-company-card{transition:none}}
+
+/* Accessible two-thumb budget range, including portalled filter sheets. */
+.ki-budget-range{min-width:0;margin:0;padding:0;border:0;grid-column:1/-1}
+.ki-budget-range legend{padding:0;margin-bottom:12px;font:var(--ui-font-label);color:var(--color-ink)}
+.ki-budget-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ki-budget-values>div{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:10px 12px;background:var(--color-card);border:1px solid var(--color-line);border-radius:14px}
+.ki-budget-values span{font:var(--ui-font-caption);color:var(--color-muted)}
+.ki-budget-values output{font:var(--ui-font-label);color:var(--color-ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ki-budget-slider{position:relative;height:44px;margin-top:8px}
+.ki-budget-track{position:absolute;left:12px;right:12px;top:20px;height:4px;border-radius:99px;background:linear-gradient(to right,var(--color-line) var(--range-from),var(--color-brand) var(--range-from),var(--color-brand) var(--range-to),var(--color-line) var(--range-to))}
+.ki-budget-slider input[type=range]{position:absolute;inset:0;width:100%;height:44px;margin:0;padding:0;appearance:none;-webkit-appearance:none;pointer-events:none;background:transparent;border:0;box-shadow:none;outline:none}
+.ki-budget-slider input[type=range]::-webkit-slider-runnable-track{height:4px;background:transparent}
+.ki-budget-slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-10px;border:2px solid var(--color-brand);border-radius:50%;background:var(--color-card);box-shadow:0 2px 6px #24385818;pointer-events:auto;cursor:grab}
+.ki-budget-slider input[type=range]::-moz-range-track{height:4px;background:transparent}
+.ki-budget-slider input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2px solid var(--color-brand);border-radius:50%;background:var(--color-card);pointer-events:auto;cursor:grab}
+.ki-budget-slider input[type=range]:focus{z-index:2}
+.ki-budget-slider input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--color-brand);outline-offset:3px}
+.ki-budget-slider input[type=range]:focus-visible::-moz-range-thumb{outline:2px solid var(--color-brand);outline-offset:3px}
+.ki-budget-scale{display:flex;justify-content:space-between;font:var(--ui-font-caption);color:var(--color-muted)}

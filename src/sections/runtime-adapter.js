@@ -3,6 +3,13 @@ function keysPost(type, value) {
   if (window.parent !== window) window.parent.postMessage({source:'keys-arbana', type, ...value}, window.location.origin === 'null' ? '*' : window.location.origin);
 }
 function keysRouteToHost(action) {
+  if(globalThis.keysGuestMode){
+    if(action.type==='HOME'||action.type==='NAV_TAB'&&action.tab==='trips'){keysPost('guest-home',{});return true;}
+    const payment=action.type==='RESERVATION_NEXT'||action.type==='RESERVATION_PAY'||action.type==='OPEN'&&action.screen?.type==='reservation-payment';
+    if(!globalThis.keysGuestAuthorized&&payment){globalThis.keysGuestPendingAction=action;keysPost('guest-auth-required',{});return true;}
+    if(!globalThis.keysGuestAuthorized&&(action.type==='OPEN'&&action.screen?.type==='profile'||action.type==='NAV_TAB'&&['bonuses','chats'].includes(action.tab))){keysPost('guest-auth-required',{});return true;}
+  }
+
   if(globalThis.PoraDemo.state?.keysChangeSession){
     if(globalThis.PoraDemo.state?.keysCheckinSession&&action.type==='OPEN'&&action.screen?.type==='info'){keysPost('navigate',{target:'checkin-instruction'});return true;}
     if(action.type==='HOME'||action.type==='NAV_TAB'){keysPost('change-close',{});return true;}
@@ -13,8 +20,8 @@ function keysRouteToHost(action) {
   const tab = action.type === 'HOME' ? 'trips' : action.type === 'NAV_TAB' ? action.tab : null;
   let target = tab === 'trips' ? 'trips' : tab === 'bonuses' ? 'benefits' : null;
   if(action.type === 'OPEN' && action.screen?.type === 'profile') target='profile';
-  if(action.type==='HOTEL_OPEN'&&action.id==='maidens') target='stay-details';
-  if(action.type==='OPEN'&&action.screen?.type==='hotel'&&action.screen.hotelId==='maidens') target='stay-details';
+  if(!globalThis.keysGuestMode&&action.type==='HOTEL_OPEN'&&action.id==='maidens') target='stay-details';
+  if(!globalThis.keysGuestMode&&action.type==='OPEN'&&action.screen?.type==='hotel'&&action.screen.hotelId==='maidens') target='stay-details';
   if(action.type==='OPEN'&&action.screen?.type==='problem'&&globalThis.PoraDemo.state?.booking.hotelId==='maidens') target='problem';
   if(action.type === 'OPEN' && action.screen?.type === 'booking' && globalThis.PoraDemo.state?.booking.hotelId === 'maidens') target='stay-details';
   if(action.type==='OPEN'&&['stay-feedback','checkout-feedback'].includes(action.screen?.type)) target='feedback';
@@ -26,12 +33,33 @@ function KeysBridge() {
   const searchRef=E.useRef(state.search);searchRef.current=state.search;
   const notifications=Qg(),refresh=E.useRef(null);refresh.current=notifications?.refresh;
   E.useEffect(()=>{if(!state.keysProfileSaved)return;try{localStorage.setItem('keys-booking-profile-v1',JSON.stringify(state.profile));}catch{}keysPost('checkout-profile',{contact:state.profile});},[state.keysProfileSaved]);
+  E.useEffect(()=>{
+    keysPost('hotel-loyalty',{missing:!!state.keysHotelLoyaltyMissing,cards:Object.values(state.keysConnectedHotelCards||{}).map(card=>({hotelId:card.hotelId,name:eHotelName(card.hotelId),discount:card.discount}))});
+  },[state.keysHotelLoyaltyMissing,state.keysConnectedHotelCards]);
   E.useEffect(()=>keysPost('header',{unread:!!notifications?.page?.unread}),[notifications?.page?.unread]);
   E.useEffect(() => {
     const receive = event => {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
       const {tab,hotelId,screen,stayDay,discovery,bookingId} = event.data;
+      if(typeof event.data.guestMode==='boolean'){
+        const entering=event.data.guestMode&&!globalThis.keysGuestMode;
+        globalThis.keysGuestMode=event.data.guestMode;
+        globalThis.keysGuestAuthorized=!!event.data.guestAuthorized;
+        document.documentElement.dataset.guestSearch=String(globalThis.keysGuestMode);
+        if(event.data.resetGuest||entering){globalThis.keysGuestPendingAction=null;dispatch({type:'KEYS_GUEST_START'});}
+      }
+      if(event.data.cancelGuestAuth){globalThis.keysGuestPendingAction=null;return;}
+      if(event.data.guestLogin){
+        globalThis.keysGuestAuthorized=true;
+        dispatch({type:'KEYS_LOGIN_CONTACT',contact:event.data.guestLogin,preserveReservation:true});
+        const pending=globalThis.keysGuestPendingAction;globalThis.keysGuestPendingAction=null;
+        if(pending)dispatch(pending);return;
+      }
+      if(event.data.guestHome){dispatch({type:'NAV_TAB',tab:'find'});dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});return;}
+
+      if(typeof event.data.hotelLoyaltyMissing==='boolean')dispatch({type:'KEYS_HOTEL_LOYALTY_SCENARIO',enabled:event.data.hotelLoyaltyMissing});
+      if(event.data.loyaltyTier)dispatch({type:'KEYS_LOYALTY',tier:event.data.loyaltyTier});
       if(event.data.cancelledBooking){dispatch({type:'KEYS_BOOKING_CANCELLED',bookingId:event.data.cancelledBooking.id,result:event.data.cancelledBooking.result});return;}
       if(event.data.loginContact){dispatch({type:'KEYS_LOGIN_CONTACT',contact:event.data.loginContact});return;}
       if(event.data.openFavorites){dispatch({type:'OPEN',screen:{type:'saved'}});return;}
@@ -107,9 +135,13 @@ function keysInitialState() {
   state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Здесь можно задать вопрос об отеле или связаться с сотрудником.',bookingId:state.booking.id}]};
   state.chat.sequence=6;
   if(typeof location==='undefined')return state;
+  globalThis.keysGuestMode=new URLSearchParams(location.search).get('guestSearch')==='true';
+  globalThis.keysGuestAuthorized=false;
+  document.documentElement.dataset.guestSearch=String(globalThis.keysGuestMode);
+  if(globalThis.keysGuestMode){state.profile={firstName:'',lastName:'',phone:'',email:''};state.loyalty={...state.loyalty,balance:0};state.keysHotelPoints={more:0};state.reservation=null;}
   const linked=y8(state,new URLSearchParams(location.search));
   linked.keysPublicTrip=new URLSearchParams(location.search).get('hotel')==='maidens';
-  return linked;
+  return keysSetLoyalty(linked,new URLSearchParams(location.search).get('loyalty'));
 }
 function keysMaidensAnswer(text,context) {
   const sender=context.human?'staff':'ai';
@@ -302,7 +334,7 @@ function Ae(props) {
  if(props.title==='Оплата'&&!props.subtitle)return n.jsx(KeysPaymentStayHeader,props);
  if(props.subtitle)return n.jsxs('header',{className:'keys-room-page-header'+(desktop?' is-desktop':''),children:[
   desktop?n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}):n.jsx(cs,{onClick:props.onBack??back}),
-  n.jsxs('div',{className:'keys-room-header-copy',children:[n.jsx('h1',{children:props.title}),n.jsx('p',{title:props.subtitle,children:props.subtitle})]}),
+  n.jsxs('div',{className:'keys-room-header-copy',children:[n.jsx('h1',{tabIndex:-1,children:props.title}),n.jsx('p',{title:props.subtitle,children:props.subtitle})]}),
   props.action
  ]});
  if(!desktop)return n.jsx(KeysMobileScreenHeader,props);

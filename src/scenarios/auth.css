@@ -44,21 +44,21 @@ body[data-keys-new-guest="true"] #keysUnifiedPrototype [data-avatar-initials]{di
 @media(max-width:520px){#keysGuestPrototype{padding:0}#keysGuestPrototype .kauth-phone{height:calc(100dvh - 76px);border:0;border-radius:0;box-shadow:none}#keysGuestPrototype .kauth-main{padding-bottom:max(24px,env(safe-area-inset-bottom))}.kauth-prototype-note{position:fixed;bottom:8px;right:8px;padding:4px 8px;border-radius:8px;background:var(--color-card);z-index:101;font-size:11px}}
 @media(prefers-reduced-motion:reduce){#keysGuestPrototype .kauth-main{animation:none}#keysGuestPrototype button{transition:none}}
 
-/* Generated layered illustration; one headline and one form. */
-#keysGuestPrototype[data-auth-step="phone"] .kauth-main{padding-top:4px}
-#keysGuestPrototype .kauth-welcome-art{position:relative;isolation:isolate;margin:0;width:100%;height:220px;overflow:hidden}
-#keysGuestPrototype .kauth-art-hotels{position:absolute;top:0;right:0;width:92%;height:92%;object-fit:contain;animation:keys-hotels-float 7s ease-in-out infinite}
-#keysGuestPrototype .kauth-art-key{position:absolute;left:2%;bottom:0;width:44%;height:68%;object-fit:contain;transform-origin:50% 50%;animation:keys-master-key 6s ease-in-out infinite}
-#keysGuestPrototype .kauth-motion-toggle{position:absolute;right:0;bottom:0;width:44px;height:44px;display:grid;place-items:center;padding:0;border:0;background:transparent;color:var(--color-muted)}
-#keysGuestPrototype .kauth-motion-toggle svg{width:var(--ui-icon-control);height:var(--ui-icon-control);color:inherit}
-#keysGuestPrototype :is(.kauth-welcome-art[data-paused="true"],.kauth-main:has(input:focus) .kauth-welcome-art)>img{animation-play-state:paused}
-@keyframes keys-master-key{0%,100%{transform:translate(0,0) rotate(-5deg)}50%{transform:translate(8px,-12px) rotate(6deg)}}
-@keyframes keys-hotels-float{0%,100%{transform:translateY(2px)}50%{transform:translateY(-3px)}}
-@media(prefers-reduced-motion:reduce){#keysGuestPrototype .kauth-welcome-art>img{animation:none}#keysGuestPrototype .kauth-motion-toggle{display:none}}
-#keysGuestPrototype[data-auth-step="phone"] .kauth-intro{margin:24px 0}
-#keysGuestPrototype[data-auth-step="phone"] h1{margin:0}
-@media(max-height:760px){#keysGuestPrototype .kauth-welcome-art{height:190px}}
-@media(max-height:600px){#keysGuestPrototype .kauth-welcome-art{height:120px}#keysGuestPrototype[data-auth-step="phone"] .kauth-intro{margin:16px 0}}
+/* Welcome: one expressive route illustration and the existing phone form. */
+#keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] .kauth-phone{display:flex;flex-direction:column}
+#keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] .kauth-header{flex:none;padding-inline:24px}
+#keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] .kauth-main{display:flex;flex-direction:column;flex:1;min-height:0;padding:32px 24px max(32px,env(safe-area-inset-bottom));gap:16px}
+#keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] .kauth-intro{flex:none;margin:0}
+#keysGuestPrototype .kauth-welcome-art{position:relative;flex:1;min-height:132px;max-height:370px;margin:0 -24px;overflow:hidden}
+#keysGuestPrototype .kauth-art-ribbon{display:block;width:100%;height:100%;object-fit:contain;animation:keys-ribbon-enter 1s cubic-bezier(.22,1,.36,1) both}
+#keysGuestPrototype .kauth-welcome-caption{flex:none;margin:0 0 16px;font:var(--ui-font-body);color:var(--color-muted)}
+#keysGuestPrototype[data-auth-welcome="true"] form{flex:none}
+@keyframes keys-ribbon-enter{from{opacity:0;transform:translateY(10px) rotate(-2deg)}to{opacity:1;transform:none}}
+@media(max-height:760px){
+ #keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] .kauth-main{padding-top:12px;padding-bottom:20px;gap:10px}
+ #keysGuestPrototype .kauth-welcome-caption{margin-bottom:6px}
+}
+@media(prefers-reduced-motion:reduce){#keysGuestPrototype .kauth-art-ribbon{animation:none}}
 
 /* Keep auth roles above the legacy prototype's global heading/field rules. */
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype h1{font:var(--ui-font-display)!important;letter-spacing:-.5px!important}
@@ -71,3 +71,20 @@ body[data-keys-new-guest="true"] #keysUnifiedPrototype [data-avatar-initials]{di
 #keysGuestPrototype .kauth-code-contact strong{font:var(--ui-font-label)}
 #keysGuestPrototype .kauth-code-contact .kauth-link{flex:none}
 #keysGuestPrototype [data-auth-code-status]:empty{display:none}
+
+/* Desktop visitors can browse first; reuse phone auth as a focused dialog at checkout. */
+.keys-desktop-guest-login{display:none}
+body[data-keys-guest-search=true][data-keys-guest-authorized=false] #keysUnifiedPrototype .keys-desktop-guest-login{display:flex;align-items:center;justify-content:center;min-width:100px;height:48px;padding:0 20px;border:0;border-radius:12px;background:var(--color-brand);color:#fff;font:500 14px/20px var(--font-sans);cursor:pointer}
+body[data-keys-guest-search=true] #keysUnifiedPrototype :is(.kd-header-hotel,.kd-header-points,.keys-app-bell,.keys-app-favorites){display:none!important}
+body[data-keys-guest-search=true][data-keys-guest-authorized=false] #keysUnifiedPrototype .keys-app-profile{display:none!important}
+#keysGuestPrototype[data-desktop-auth=true]{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:24px;background:#14213b55;overscroll-behavior:contain}
+#keysGuestPrototype[data-desktop-auth=true] .kauth-phone{width:440px;max-width:100%;height:auto;max-height:calc(100dvh - 48px);border-radius:24px;box-shadow:0 24px 80px #14213b26}
+#keysGuestPrototype[data-desktop-auth=true] .kauth-header{padding:16px 24px;min-height:64px}
+#keysGuestPrototype[data-desktop-auth=true] .kauth-main{padding:8px 24px 28px}
+#keysGuestPrototype[data-desktop-auth=true] .kauth-close{display:grid;place-items:center;width:36px;height:36px;margin-left:auto;padding:0;border:0;border-radius:10px;background:transparent}
+#keysGuestPrototype[data-desktop-auth=true] .kauth-close svg{color:var(--color-muted);width:20px;height:20px}
+#keysGuestPrototype[data-desktop-auth=true] .kauth-demo-code{margin-top:16px;text-align:center;font:400 12px/18px var(--font-sans)}
+
+/* Display scale follows the chosen welcome artwork, while all form controls retain Keys tokens. */
+#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] h1{font:600 32px/1.15 var(--font-sans)!important;letter-spacing:-.8px!important}
+@media(max-width:360px){#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-auth-step="phone"][data-auth-welcome="true"] h1{font-size:28px!important}}

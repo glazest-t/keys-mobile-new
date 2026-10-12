@@ -8,6 +8,7 @@ import {adaptFindSearch} from './adapt-find-search.mjs';
 import {adaptHotelShare} from './adapt-hotel-share.mjs';
 import {adaptAdditionalGuest} from './adapt-additional-guest.mjs';
 import {adaptPayment,adaptPaymentSummaries,adaptPaymentContact,adaptReservationSuccess} from './adapt-payment.mjs';
+import {adaptGoldLoyalty} from './adapt-gold-loyalty.mjs';
 import {adaptHotelDetails} from './adapt-hotel-details.mjs';
 import {adaptResultMap} from './adapt-result-map.mjs';
 import {adaptFind} from './adapt-find.mjs';
@@ -30,7 +31,7 @@ export async function buildSections(){
  await writeFile(checkoutPage,await adaptCheckoutPage(await readFile(checkoutPage,'utf8')));
  const desktopCheckout=path.join(stage,'assets/DesktopApp-DR7F9ePm.js');
  await writeFile(desktopCheckout,adaptDesktopCheckout(await readFile(desktopCheckout,'utf8')));
- js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8'));
+ js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);
  js=adaptPaymentContact(js);
@@ -79,6 +80,7 @@ export async function buildSections(){
  js=adaptHotelDetails(js,await readFile(path.join(root,'src/sections/hotel-details.js'),'utf8'));
  js=adaptPhotoDiscovery(js,(await readFile(path.join(root,'src/sections/photo-gestures.mjs'),'utf8')).replace('export function','function')+'\n'+(await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8')));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
+ js=adaptGoldLoyalty(js,await readFile(path.join(root,'src/sections/gold-loyalty.js'),'utf8'));
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
  let runtime=adapt2gisRuntime(await readFile(path.join(stage,'runtime.js'),'utf8'));
@@ -119,7 +121,7 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

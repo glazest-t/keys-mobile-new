@@ -1,0 +1,116 @@
+{
+  "source": "https://test.llmteam.tech/",
+  "retrieved": "2026-10-12",
+  "scope": "Illustrations only. Existing Keys destinations, questions, topics, ranking and navigation are unchanged.",
+  "covers": [
+    {
+      "file": "covers/breakfast.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/breakfast.webp"
+    },
+    {
+      "file": "covers/hammam.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/hammam.webp"
+    },
+    {
+      "file": "covers/pool.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/pool.webp"
+    },
+    {
+      "file": "covers/sleep.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/sleep.webp"
+    },
+    {
+      "file": "covers/adults.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/adults.webp"
+    },
+    {
+      "file": "covers/terrace.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/terrace.webp"
+    },
+    {
+      "file": "covers/beach.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/beach.webp"
+    },
+    {
+      "file": "covers/yoga.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/yoga.webp"
+    },
+    {
+      "file": "covers/kidsclub.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/kidsclub.webp"
+    },
+    {
+      "file": "covers/workdesk.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/workdesk.webp"
+    },
+    {
+      "file": "covers/cable.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/cable.webp"
+    },
+    {
+      "file": "covers/waterfall.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/waterfall.webp"
+    },
+    {
+      "file": "covers/rafting.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/rafting.webp"
+    },
+    {
+      "file": "covers/quad.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/quad.webp"
+    },
+    {
+      "file": "covers/jeep.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/jeep.webp"
+    },
+    {
+      "file": "covers/paraglider.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/paraglider.webp"
+    },
+    {
+      "file": "covers/horse.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/horse.webp"
+    },
+    {
+      "file": "covers/yacht.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/yacht.webp"
+    },
+    {
+      "file": "covers/sup.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/sup.webp"
+    },
+    {
+      "file": "covers/diving.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/diving.webp"
+    },
+    {
+      "file": "covers/promenade.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/promenade.webp"
+    },
+    {
+      "file": "covers/gastro.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/gastro.webp"
+    },
+    {
+      "file": "covers/park.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/park.webp"
+    },
+    {
+      "file": "covers/tea.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/tea.webp"
+    },
+    {
+      "file": "covers/aquapark.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/aquapark.webp"
+    },
+    {
+      "file": "covers/ski.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/ski.webp"
+    },
+    {
+      "file": "covers/fun.webp",
+      "source": "https://test.llmteam.tech/images/ideas/covers/fun.webp"
+    }
+  ],
+  "motion": "640ms curved flight of preference icon from selected card to its existing removable chip; skipped for reduced motion."
+}

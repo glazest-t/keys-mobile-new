@@ -185,3 +185,82 @@ html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=results]>.
  html[data-desktop-account=true] #root .ki-results-query-title{font:var(--ui-font-display)}
  html[data-desktop-account=true] #root .ki-results-query-city{align-self:center;font:var(--ui-font-label)}
 }
+
+/* Updated reference artwork, within the existing Keys selection layout. */
+.ki-cover{object-fit:cover;object-position:center top;pointer-events:none;user-select:none}
+.ki-welcome-art>button{position:relative;overflow:hidden;isolation:isolate;background:var(--color-soft)}
+.ki-welcome-art>button>.ki-cover{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
+.ki-welcome-art>button:has(.ki-cover)::after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(16,24,39,.82));z-index:-1;pointer-events:none}
+.ki-welcome-art>button:has(.ki-cover)>span{margin-top:auto;padding:0 6px 12px;color:#fff;font:var(--ui-font-caption-medium)}
+#root .ki-page .ki-scene-card{display:flex;flex-direction:column;isolation:isolate;overflow:hidden;border:0;gap:12px}
+#root .ki-page .ki-scene-card>.ki-cover{position:absolute;inset:0;width:100%;height:100%;margin:0;z-index:-2;object-fit:cover;object-position:center 30%}
+#root .ki-page .ki-scene-card:has(.ki-cover)::after{content:"";position:absolute;inset:25% 0 0;z-index:-1;background:linear-gradient(transparent,rgba(16,24,39,.84));pointer-events:none}
+#root .ki-page .ki-scene-card>.ki-idea-kind{align-self:flex-start;max-width:100%;padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.92);color:var(--color-ink);font:var(--ui-font-caption)}
+#root .ki-page .ki-scene-card>div{margin-top:auto;position:relative;gap:6px}
+#root .ki-page .ki-scene-card:has(.ki-cover) h2{color:#fff}
+#root .ki-page .ki-scene-card:has(.ki-cover) p{color:rgba(255,255,255,.88)}
+html:not([data-desktop-account=true]) #root .ki-page .ki-scene-card{flex:1 1 auto;min-height:180px}
+html[data-desktop-account=true] #root .ki-page .ki-scene-card{display:flex;flex-direction:column;min-height:380px;padding:24px}
+html[data-desktop-account=true] #root .ki-page .ki-scene-card>.ki-cover{width:100%;height:100%;margin:0;grid-area:auto}
+html[data-desktop-account=true] #root .ki-page .ki-scene-card>.ki-idea-kind{width:max-content;grid-area:auto}
+html[data-desktop-account=true] #root .ki-page .ki-scene-card>div{align-self:stretch;grid-area:auto}
+.ki-preference-flight{position:fixed;z-index:1000;pointer-events:none;object-fit:contain;transform-origin:top left;will-change:transform;filter:drop-shadow(0 8px 14px #24385820)}
+#root .ki-preference-tag.is-arriving .ki-art{opacity:0}
+@media(prefers-reduced-motion:reduce){.ki-preference-flight{display:none}#root .ki-preference-tag.is-arriving .ki-art{opacity:1}}
+
+/* Reference-like welcome: bounded portrait cards, never stretched to the screen. */
+html:not([data-desktop-account=true]) #root main:has(>.ki-embedded)>.relative{margin-bottom:0}
+#root .ki-page .ki-welcome-card{padding:20px;gap:16px;border-radius:28px;grid-template-columns:minmax(0,1fr)}
+#root .ki-page .ki-welcome-art{--fan-height:clamp(120px,22dvh,180px);display:flex;flex:none;min-width:0;align-items:center;justify-content:center;height:calc(var(--fan-height) + 36px);padding:14px 0 22px}
+#root .ki-page .ki-welcome-art>button{flex:0 1 auto;width:calc(var(--fan-height) * .68);height:var(--fan-height);max-width:none;min-height:0;border-radius:16px}
+#root .ki-page .ki-welcome-art>button+button{margin-left:-6px}
+#root .ki-page .ki-welcome-art>button:nth-child(2){transform:translateY(-10px);z-index:2}
+#root .ki-page .ki-welcome-art>button>.ki-cover{object-position:top center}
+#root .ki-page .ki-welcome-card h2{font:var(--ui-font-title);max-width:280px}
+#root .ki-page .ki-welcome-card p{font:var(--ui-font-caption);margin-top:-8px}
+#root .ki-page .ki-welcome-card .ki-decisions{grid-template-columns:1.4fr 1fr}
+.ki-sr-title{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.ki-header-mode{flex:1;min-width:0;display:flex;justify-content:center}
+#root .ki-header-mode>[data-keys-tabs]{width:auto;min-width:0;margin:0}
+#root .ki-page .ki-scene-card{padding:0;border-radius:28px}
+#root .ki-page .ki-scene-card>.ki-cover{object-position:center top}
+#root .ki-page .ki-scene-card>.ki-scene-meta{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 14px 0;z-index:1}
+#root .ki-scene-meta .ki-location-action{min-height:32px;max-width:75%;border:0;border-radius:99px;background:rgba(255,255,255,.94);padding:4px 10px;gap:4px;font:var(--ui-font-caption)}
+#root .ki-scene-meta .ki-location-action>span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#root .ki-scene-meta .ki-idea-kind{border-radius:99px;padding:6px 10px;background:rgba(255,255,255,.94);color:var(--color-ink);white-space:nowrap}
+#root .ki-page .ki-scene-card>.ki-scene-caption{margin-top:auto;padding:72px 20px 20px;gap:6px;background:linear-gradient(transparent,rgba(16,24,39,.8));z-index:1}
+#root .ki-page .ki-scene-card:has(.ki-cover)::after{display:none}
+#root .ki-page .ki-scene-caption h2{font:600 28px/32px var(--font-sans);letter-spacing:-.5px;color:#fff;text-wrap:balance}
+#root .ki-page .ki-scene-caption p{font:400 14px/20px var(--font-sans);color:rgba(255,255,255,.88)}
+html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose]>.ki-header{padding:10px 16px 14px;gap:8px}
+html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose] .ki-choice-body:has(.ki-scene-card){overflow:hidden;padding-bottom:12px;gap:12px}
+html:not([data-desktop-account=true]) #root .ki-page .ki-scene-card{flex:1;min-height:140px;padding:0}
+html:not([data-desktop-account=true]) #root .ki-choice-body:has(.ki-scene-card)>.ki-decisions{grid-template-columns:1fr 1.3fr;padding:0;position:static}
+html:not([data-desktop-account=true]) #root .ki-choice-body:has(.ki-scene-card)>.ki-decisions>button{border-radius:99px;gap:8px}
+html:not([data-desktop-account=true]) #root .ki-workspace:has(.ki-scene-card)>.ki-bag{border:0;padding-top:8px}
+@media(max-height:650px){
+ html:not([data-desktop-account=true]) #root main:has(>.ki-embedded){padding-top:8px}
+ html:not([data-desktop-account=true]) #root main:has(>.ki-embedded)>.keys-find-heading{margin-bottom:8px}
+ html:not([data-desktop-account=true]) #root .ki-page.ki-embedded{margin-top:12px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-card{padding:14px;gap:10px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-art{--fan-height:clamp(90px,20dvh,130px);height:calc(var(--fan-height) + 24px);padding:10px 0 14px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-card h2{font:var(--ui-font-section)}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-card p{display:none}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption{padding:40px 16px 16px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption h2{font-size:24px;line-height:28px}
+ html:not([data-desktop-account=true]) #root .ki-page[data-ideas-stage=choose]>.ki-header{padding-block:8px}
+}
+
+html[data-desktop-account=true] #root .ki-page .ki-scene-card{padding:0}
+@media(max-height:520px){
+ html:not([data-desktop-account=true]) #root main:has(>.ki-embedded){padding-top:6px}
+ html:not([data-desktop-account=true]) #root main:has(>.ki-embedded)>.keys-find-heading h1{font-size:24px;line-height:30px}
+ html:not([data-desktop-account=true]) #root main:has(>.ki-embedded)>.relative{height:42px;min-height:42px}
+ html:not([data-desktop-account=true]) #root main:has(>.ki-embedded)>.relative>button{min-height:34px;padding-block:4px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-card{padding:12px;gap:8px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-art{--fan-height:clamp(64px,16dvh,84px);height:calc(var(--fan-height) + 16px);padding:6px 0 10px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-welcome-art>button:has(.ki-cover)>span{font-size:10px;line-height:12px;padding-bottom:6px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption{padding:28px 14px 14px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption h2{font-size:20px;line-height:24px}
+ html:not([data-desktop-account=true]) #root .ki-page .ki-scene-caption p{display:none}
+}

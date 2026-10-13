@@ -114,7 +114,7 @@
   if(!food||!cleaning)return;
   const requests=window.KeysActiveServices?.render();
   const active=requests?[requests]:[];
-  const free=[...content.querySelectorAll('.ksd-service-free button')];
+  const free=[...content.querySelectorAll('.ksd-service-free button')].filter(button=>button.querySelector('strong')?.textContent.trim()!=='Подготовка ко сну');
   const catalog=document.createElement('div');catalog.className='ksvc-catalog';
   catalog.append(group('Заказать в номер',[
    format(food,{photo:'restaurant',description:'Меню ресторана LEA'}),

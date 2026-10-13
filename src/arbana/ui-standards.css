@@ -193,7 +193,8 @@
 
 /* The same title role is used for a card regardless of its parent screen. */
 #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kh-hotel-summary h1,.kh-nearby-heading h2,.kh-pass-today>strong,.kpa-hotel-heading h1,.kpa-arrival-countdown,.kpa-total>strong,.ka-trip-copy h1,.ka-referral-copy>strong,.kse-benefits-heading>strong,.ksvc-orders-heading h2,.ksvc-orders-bill strong){font:var(--ui-font-section)!important;letter-spacing:0!important}
-#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-reward-amount strong,.ksvc-bill-summary>strong){font:var(--ui-font-title)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ksvc-bill-summary>strong{font:var(--ui-font-title)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-amount strong{font:var(--ui-font-section)!important;letter-spacing:0!important}
 #root :is(.keys-result-hotel-name,.keys-results-city,.keys-hotel-about h2){font:var(--ui-font-section);letter-spacing:0}
 #keysUnifiedPrototype#keysUnifiedPrototype .kf-chevron{display:grid;place-items:center;flex:none;width:14px;height:14px;min-width:14px}
 #keysUnifiedPrototype#keysUnifiedPrototype .kf-chevron svg{width:14px;height:14px;stroke-width:1.65}
@@ -295,3 +296,11 @@ html[data-desktop-account="true"] #root [data-keys-button="text"]{min-height:var
 :is(#root,dialog:has(.keys-guest-editor)) input[type="checkbox"]:not(.sr-only):disabled{opacity:.45;cursor:default}
 :is(#root,dialog:has(.keys-guest-editor)) input[type="checkbox"]:not(.sr-only):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 @media(forced-colors:active){:is(#root,dialog:has(.keys-guest-editor)) input[type="checkbox"]:not(.sr-only){appearance:auto;background-image:none}}
+
+/* Text fields keep their resting border on focus, without an extra ring.
+   Selection and validation styles remain controlled by their components. */
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,#root#root,dialog) :is(
+ input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]),
+ textarea,select
+):focus{outline:none!important;box-shadow:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kti-input,.ktd-share-input,.kfb-textarea,.ksd-booking-share-input,.ksd-other-text):focus{border-color:var(--color-line)}

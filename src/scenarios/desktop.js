@@ -12,20 +12,18 @@
  const side=document.createElement('aside');side.className='kd-planning-column';side.setAttribute('aria-label','Подготовка и привилегии');
  [...screen.children].forEach(el=>(el.matches('.kh-nearby-v2,[data-nearby-slot]')?side:main).append(el));screen.append(main,side);
  const intro=document.createElement('div');intro.className='kd-page-heading';intro.innerHTML='<h1>Ваша поездка</h1>';screen.before(intro);
- const cancelTrip=document.createElement('button');cancelTrip.type='button';cancelTrip.className='keys-cancel-entry kd-cancel-trip';cancelTrip.textContent='Отменить бронирование';
- cancelTrip.addEventListener('click',()=>{if(document.body.dataset.keysScenario==='booked')window.KeysBeforeCancellation.open(cancelTrip);});
  const header=home.querySelector('.keys-app-header');
  const search=document.createElement('form');search.className='kd-header-search kd-web-only';search.setAttribute('role','search');
  search.innerHTML=`<label class="kd-search-label" for="kd-destination">Найти новый отель</label><input id="kd-destination" name="city" placeholder="Город или направление" autocomplete="off"><button type="submit" aria-label="Найти отель">${icon('search')}</button>`;
- const hotel=document.createElement('button');hotel.type='button';hotel.className='kd-header-hotel kd-web-only';hotel.dataset.before='details';hotel.innerHTML=`<img src="./scenarios/maidens-hotel.jpg" alt=""><span><strong>Maidens Hotel</strong><small data-kd-arrival>8 дней до заезда</small></span>${icon('arrow')}`;
+ const hotel=document.createElement('button');hotel.type='button';hotel.className='kd-header-hotel kd-web-only';hotel.dataset.before='details';hotel.innerHTML=`<img src="./scenarios/maidens-hotel.jpg" alt=""><span><strong>Maidens Hotel</strong><small data-kd-arrival>Заезд сегодня</small></span>${icon('arrow')}`;
  const points=document.createElement('button');points.type='button';points.className='kd-header-points kd-web-only';points.dataset.desktopAction='benefits';points.setAttribute('aria-label','Ваши баллы Ключей');points.innerHTML=`${icon('gift')}<strong data-kd-points>2 400</strong>`;
  header.querySelector('.keys-app-actions').before(search,hotel,points);
  const profile=header.querySelector('.keys-app-profile');const identity=document.createElement('span');identity.className='kd-profile-name kd-web-only';identity.textContent='Татьяна';profile.querySelector('svg').before(identity);profile.setAttribute('aria-label','Профиль Татьяны');
  const about=document.createElement('button');about.type='button';about.className='kd-about-hotel kd-web-only';about.dataset.before='hotel';about.innerHTML=`Об отеле ${icon('arrow')}`;screen.querySelector('.kpa-hotel-visual').append(about);
  const action=(id,title,copy,ico,extra='')=>`<button type="button" data-before="${id}" ${extra}>${icon(ico)}<span><strong>${title}</strong><small>${copy}</small></span>${icon('arrow')}</button>`;
  const actions=document.createElement('section');actions.className='kd-before-actions kd-web-only';actions.setAttribute('aria-label','Управление поездкой');
- actions.innerHTML=`<div class="kd-before-management" role="group" aria-label="Управление бронированием"><button type="button" class="keys-cancel-entry" data-before="manage" data-kd-manage>Изменить бронь</button></div><div class="kd-before-buttons" role="group" aria-label="Подготовка к заезду"><button type="button" class="kd-before-button" data-before="route" data-kd-route hidden>Построить маршрут</button><button type="button" class="kd-before-button" data-kd-registration hidden>Онлайн-регистрация</button></div><div class="kd-before-links" role="group" aria-label="Бронь и связь с отелем">${action('details','Бронь и документы','','file')}${action('chat','Чат с отелем','','chat')}${action('instruction','Инструкция по заселению','','pin','data-kd-instruction hidden')}</div>`;
- const beforeButtons=actions.querySelector('.kd-before-buttons'),beforeManagement=actions.querySelector('.kd-before-management');
+ actions.innerHTML=`<div class="kd-before-buttons" role="group" aria-label="Подготовка к заезду"><button type="button" class="kd-before-button" data-before="route" data-kd-route hidden>Построить маршрут</button><button type="button" class="kd-before-button" data-kd-registration hidden>Онлайн-регистрация</button></div><div class="kd-before-links" role="group" aria-label="Бронь и связь с отелем">${action('details','Детали брони','','file')}${action('chat','Чат с отелем','','chat')}${action('instruction','Инструкция по заселению','','pin','data-kd-instruction hidden')}</div>`;
+ const beforeButtons=actions.querySelector('.kd-before-buttons');
  screen.querySelector('.kpa-reservation').after(actions);
  const checkin=document.createElement('section');checkin.className='kd-checkin kd-web-only';checkin.setAttribute('aria-labelledby','kd-checkin-title');
  checkin.innerHTML=`<header>${icon('shield')}<div><h2 id="kd-checkin-title">Онлайн-регистрация</h2><span data-kd-checkin-state>Пара минут — и всё готово</span></div></header><p data-kd-checkin-copy>Заполните данные заранее. В отеле останется только получить ключ.</p><button class="kd-primary" type="button" data-before="checkin"><span data-kd-checkin-label>Пройти онлайн-регистрацию</span>${icon('arrow')}</button>`;
@@ -86,7 +84,7 @@
  function render(){
   const guestSearch=document.body.dataset.keysGuestSearch==='true';
   if(guestSearch){view='desktop';const url=new URL(location.href);url.searchParams.set('view','desktop');history.replaceState(history.state,'',url);}
-  const scenario=document.body.dataset.keysScenario,inStay=scenario==='stay',supported=['stay','booked','search','after'].includes(scenario),desktop=view==='desktop'&&supported,arriving=document.body.dataset.keysArrivalDay==='arrival';
+  const scenario=document.body.dataset.keysScenario,inStay=scenario==='stay',supported=['stay','booked','search','after'].includes(scenario),desktop=view==='desktop'&&supported;
   document.body.dataset.keysView=desktop?'desktop':'mobile';document.body.dataset.keysDesktopHome=String(desktop&&!home.closest('.ku-section').hidden);
   // Move, rather than clone, shared discovery/loyalty so there is one source of state.
   syncScenarioLayouts(scenario,desktop);
@@ -106,22 +104,19 @@
    if(screen.nextElementSibling!==discovery)screen.after(discovery);
   }
   intro.hidden=scenario==='search';
-  if(cancelTrip.parentElement!==beforeManagement)beforeManagement.append(cancelTrip);
-  cancelTrip.hidden=scenario!=='booked';cancelTrip.textContent='Отменить бронь';
   intro.querySelector('h1').textContent=scenario==='after'?'Ваша поездка завершена':'Ваша поездка';
   hotel.hidden=scenario==='search';
   delete hotel.dataset.after;
   if(scenario==='after'){delete hotel.dataset.before;delete hotel.dataset.info;hotel.dataset.after='stay';hotel.querySelector('[data-kd-arrival]').textContent='Поездка завершена';}
-  else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до 12:00':`Проживание · день ${document.body.dataset.keysStayDay==='day-1'?'1':'2'} из 7`;}
+  else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до 12:00':'Проживает в отеле';}
   else{delete hotel.dataset.info;hotel.dataset.before='details';syncBooking();}
   discovery.querySelector('header p').textContent=scenario==='search'?'Выберите настроение — найдём подходящий отель':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
-  actions.querySelector('[data-kd-manage]').hidden=false;actions.querySelector('[data-kd-route]').hidden=!arriving;
-  const registrationAvailable=document.body.dataset.keysArrivalDay!=='day-8';
+  actions.querySelector('[data-kd-route]').hidden=false;
   checkin.hidden=true;
-  actions.querySelector('[data-kd-registration]').hidden=!registrationAvailable;
-  beforeButtons.hidden=!registrationAvailable;
-  actions.querySelector('[data-kd-instruction]').hidden=!registrationAvailable;
-  actions.classList.toggle('has-instruction',registrationAvailable);
+  actions.querySelector('[data-kd-registration]').hidden=false;
+  beforeButtons.hidden=false;
+  actions.querySelector('[data-kd-instruction]').hidden=false;
+  actions.classList.add('has-instruction');
   if(wallet.dataset.tier!==walletSource.dataset.tier){
    const programLink=wallet.querySelector('.kda-program-link');
    wallet.innerHTML=walletSource.innerHTML;wallet.dataset.tier=walletSource.dataset.tier;

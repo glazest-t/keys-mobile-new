@@ -256,7 +256,7 @@ function KeysPublicTrip(){
   canManage&&n.jsx('p',{className:'text-14 text-muted mt-5',children:'Добавьте поездку в приложение, чтобы изменять даты и гостей.'}),
   canManage&&n.jsx(H,{className:'mt-5',onClick:()=>{
    const url=new URL('../index.html',location.href);
-   url.search=new URLSearchParams({scenario:'booked',arrivalDay:'day-8',sharedTrip:'manage',arrival:state.search.arrival,departure:state.search.departure,adults:String(state.search.party.adults)}).toString();
+   url.search=new URLSearchParams({scenario:'booked',sharedTrip:'manage',arrival:state.search.arrival,departure:state.search.departure,adults:String(state.search.party.adults)}).toString();
    location.assign(url.href);
   },children:'Добавить поездку'})
  ]});

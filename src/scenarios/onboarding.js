@@ -1,7 +1,7 @@
 import {screens} from './onboarding/screens.js';
 const app=document.getElementById('keysUnifiedPrototype');
 const root=document.createElement('section');root.id='keysOnboardingPrototype';root.hidden=true;root.setAttribute('aria-label','Онбординг');
-root.innerHTML=`<div class="kon-phone"><header class="kon-header"><div class="kon-progress" role="status"><span class="kon-orbit" aria-hidden="true"><i></i></span><span data-onboard-progress>1 из 4</span></div><button type="button" data-onboard-skip>Пропустить</button></header><main class="kon-stage" aria-label="Знакомство с приложением">${screens.map((s,i)=>`<section class="kon-slide" data-slide="${i}" aria-labelledby="kon-title-${i}"><div class="kon-visual" aria-hidden="true">${s.visual}</div><div class="kon-copy"><h1 id="kon-title-${i}" tabindex="-1">${s.title}</h1><p>${s.body}</p></div></section>`).join('')}</main><footer class="kon-footer"><button type="button" class="kon-primary" data-onboard-next>Дальше</button><button type="button" class="kon-secondary" data-onboard-booking hidden>У меня уже есть бронь</button></footer></div>`;
+root.innerHTML=`<div class="kon-phone"><header class="kon-header"><div class="kon-brand" aria-label="Ключи"><span class="kon-orbit" aria-hidden="true"><i></i></span><img class="kon-wordmark" src="./brand/orbit/logo/keys-wordmark.svg" alt=""></div><button type="button" data-onboard-skip>Пропустить</button></header><main class="kon-stage" aria-label="Знакомство с приложением">${screens.map((s,i)=>`<section class="kon-slide" data-slide="${i}" aria-labelledby="kon-title-${i}"><div class="kon-visual" aria-hidden="true">${s.visual}</div><div class="kon-copy"><h1 id="kon-title-${i}" tabindex="-1">${s.title}</h1><p>${s.body}</p></div></section>`).join('')}</main><footer class="kon-footer"><button type="button" class="kon-primary" data-onboard-next><span data-onboard-label>Дальше</span><span class="kon-progress" data-onboard-progress>1 из 4</span></button><button type="button" class="kon-secondary" data-onboard-booking hidden>У меня уже есть бронь</button></footer></div>`;
 app.append(root);
 const slides=[...root.querySelectorAll('.kon-slide')],phone=root.querySelector('.kon-phone'),skip=root.querySelector('[data-onboard-skip]'),next=root.querySelector('[data-onboard-next]'),booking=root.querySelector('[data-onboard-booking]');
 let current=0,start=null,ignoreClick=false,splashTimer=0,loading=false;
@@ -9,8 +9,8 @@ function show(index,focus=false){
  current=Math.max(0,Math.min(screens.length-1,index));
  root.style.setProperty('--kon-step',current);phone.dataset.last=String(current===3);
  slides.forEach((slide,i)=>{slide.style.setProperty('--kon-offset',i-current);slide.inert=i!==current;slide.setAttribute('aria-hidden',String(i!==current));slide.classList.toggle('is-current',i===current);});
- root.querySelector('[data-onboard-progress]').textContent=`${current+1} из 4`;
- skip.hidden=current===3;booking.hidden=current!==3;next.textContent=current===3?'Начать':'Дальше';
+ root.querySelector('[data-onboard-progress]').textContent=`${current+1} из ${screens.length}`;
+ skip.hidden=current===3;booking.hidden=current!==3;next.querySelector('[data-onboard-label]').textContent=current===3?'Начать':'Дальше';
  if(focus)slides[current].querySelector('h1').focus({preventScroll:true});
 }
 function leave(hasBooking){

@@ -352,7 +352,7 @@ dialog:has(.keys-payment-service-title) :is(.text-11,.text-12,.text-13){font-siz
 .keys-guest-editor-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .keys-guest-editor-fields label{display:grid;gap:6px;min-width:0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
 .keys-guest-editor input:not([type=checkbox]){width:100%;min-width:0;height:48px;padding:12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);font:400 14px/21px var(--font-sans)}
-.keys-guest-editor input:not([type=checkbox]):focus{outline:2px solid var(--color-brand);outline-offset:1px}
+
 .keys-guest-editor-secondary{min-height:44px;margin-top:-8px;color:var(--color-muted);font:500 12px/18px var(--font-sans)}
 dialog:has(.keys-guest-editor) h2{font:500 20px/26px var(--font-sans);letter-spacing:0}
 .keys-guest-editor :is(.text-11,.text-12,.text-13){font:400 12px/18px var(--font-sans)}
@@ -370,7 +370,7 @@ dialog .keys-hotel-share-actions button{box-sizing:border-box;min-height:48px;pa
 .keys-hotel-share-actions button>svg{width:18px;height:18px;flex:none}
 .keys-hotel-share-fallback{display:grid;gap:8px;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
 .keys-hotel-share-fallback input{width:100%;min-height:48px;padding:12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);font:400 12px/18px var(--font-sans);color:var(--color-ink)}
-.keys-hotel-share-fallback input:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+
 .keys-hotel-share-content>.mb-5{margin-bottom:0}
 
 /* A single, distinct search surface; supporting discovery remains on white. */
@@ -417,7 +417,7 @@ dialog .keys-hotel-share-actions button{box-sizing:border-box;min-height:48px;pa
 .keys-selection-unsure svg{width:18px;height:18px;flex:none}
 #root .keys-selection-page>footer{bottom:max(16px,env(safe-area-inset-bottom));left:16px;right:16px}
 #root .keys-selection-page>footer form{padding:6px 6px 6px 14px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);box-shadow:0 4px 20px #15234c0a;backdrop-filter:none}
-#root .keys-selection-page>footer form:focus-within{border-color:var(--color-brand)}
+
 #root .keys-selection-page>footer textarea{min-height:44px;max-height:126px;padding:11px 0;font:400 14px/22px var(--font-sans);color:var(--color-ink);overflow-y:auto}
 #root .keys-selection-page>footer button{width:44px;height:44px;border-radius:14px;box-shadow:none;background:var(--color-brand);color:white}
 #root .keys-selection-page>footer button:disabled{background:var(--color-soft);color:var(--color-muted)}
@@ -801,7 +801,7 @@ html #root .keys-hotel-reviews-card .keys-hotel-review-period.is-recent h3{color
 .keys-price-bounds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .keys-price-bound{display:grid;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
 .keys-price-bound-control{display:flex;align-items:center;gap:8px;min-height:48px;padding:0 12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);font:var(--ui-font-body)}
-.keys-price-bound-control:focus-within{border-color:var(--color-brand);box-shadow:0 0 0 2px var(--color-brand-ring)}
+
 .keys-price-bound-control:has([aria-invalid="true"]){border-color:var(--color-danger)}
 .keys-price-bound-control input{width:100%;min-width:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--color-ink);font:var(--ui-font-body);outline:none;box-shadow:none}
 .keys-price-bound-control input::placeholder{color:var(--color-muted)}
@@ -933,7 +933,7 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 .keys-pay-field{display:grid;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
 .keys-pay-field.is-wide{grid-column:1/-1}
 .keys-pay-field input{width:100%;min-width:0;height:48px;padding:12px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-body,400 14px/21px 'Golos Text Variable',sans-serif);box-sizing:border-box}
-.keys-pay-field input:focus{outline:2px solid var(--color-brand);outline-offset:1px}
+
 .keys-pay-field input[aria-invalid=true]{border-color:var(--color-danger,#bd3232)}
 .keys-pay-field small{font:var(--ui-font-caption);color:var(--color-danger,#bd3232)}
 .keys-pay-hint{margin:0;padding:0 16px 16px 48px}
@@ -1027,7 +1027,7 @@ html[data-desktop-account="true"] .keys-room-tariff-track.is-single{grid-templat
 .keys-guest-contact-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}
 .keys-guest-contact-fields label{display:grid;align-content:start;gap:6px;min-width:0;font:var(--ui-font-caption);color:var(--color-muted)}
 .keys-guest-contact-fields input{width:100%;min-width:0;height:48px;padding:12px;border:1px solid var(--color-line);border-radius:var(--ui-field-radius,14px);background:var(--color-card);color:var(--color-ink);font:var(--ui-font-body)}
-.keys-guest-contact-fields input:focus{outline:2px solid var(--color-brand);outline-offset:1px}
+
 .keys-guest-contact-fields input[aria-invalid=true]{border-color:#b93838}
 .keys-guest-contact-fields small{font:var(--ui-font-caption);color:#b93838}
 .keys-guest-contact-fields label:nth-child(n+3){grid-column:1/-1}
@@ -1224,8 +1224,6 @@ button.keys-discovery-price.has-gold-price{padding:0;border:0;background:transpa
 #root .is-gold .keys-tariff-radio{border-color:#80601f}
 #root .is-gold .keys-tariff-radio:checked{border-color:#2446a6;background:radial-gradient(circle,#2446a6 0 4px,#fff 5px)}
 .keys-discount-points-note{margin:0;font:400 12px/18px var(--font-sans);color:#536078}
-.keys-pay-discount-summary{display:flex;align-items:center;gap:8px;width:100%;padding:12px 0 0;border:0;background:transparent;color:#2446a6;font:500 14px/20px var(--font-sans);text-align:left;cursor:pointer}
-.keys-pay-discount-summary strong{margin-left:auto;font-weight:500}
 /* Dialogs are portalled outside #root. */
 .keys-hotel-discount-row>span{color:#536078}
 .keys-hotel-discount-row strong,.keys-hotel-discount-total>span,.keys-hotel-discount-final>span{color:#202c42}
@@ -1262,7 +1260,7 @@ button.keys-discovery-price.has-gold-price{padding:0;border:0;background:transpa
 .keys-loyalty-login p{font:400 14px/21px var(--font-sans);margin:0;color:var(--color-muted)}
 .keys-loyalty-login label{display:grid;gap:8px;font:500 13px/20px var(--font-sans)}
 .keys-loyalty-login input{width:100%;height:48px;border:1px solid var(--color-line,#e3e8f1);border-radius:12px;padding:0 12px;font:400 15px/22px var(--font-sans);background:white;color:var(--color-ink)}
-.keys-loyalty-login input:focus-visible{outline:2px solid var(--color-accent,#3158ee);outline-offset:2px}
+
 .keys-loyalty-login small{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
 .keys-connect-text{justify-self:start;background:none;border:0;color:var(--color-accent,#3158ee);padding:0;min-height:32px;font:500 13px/20px var(--font-sans)}
 .keys-connected-card{display:grid;gap:12px;border:1px solid var(--color-line,#e3e8f1);border-radius:16px;padding:20px}
@@ -1391,7 +1389,6 @@ html:not([data-desktop-account=true]) #root .keys-checkout-flow{padding-bottom:0
 #root [data-screen-type="reservation-payment"] .keys-pay-use-points input[type=checkbox]{width:20px;height:20px;min-width:20px;min-height:20px;flex:0 0 20px;box-sizing:border-box}
 .keys-pay-points-details{margin-top:16px;padding:16px;border-radius:var(--ui-card-radius,20px);background:var(--color-soft)}
 #root .keys-pay-points-details .keys-pay-wallets{margin:0}
-#root .keys-pay-points-details .keys-pay-discount-summary{margin-top:8px;padding:8px 0;min-height:44px;font:var(--ui-font-label)}
 
 /* Explain price tracking beside its icon without adding a separate card. */
 #root .keys-hotel-sheet .keys-hotel-pricing-row .keys-hotel-watch{display:flex;align-items:center;justify-content:center;gap:6px;width:auto;max-width:158px;padding:0 8px;right:6px;top:0;font:var(--ui-font-caption-medium);white-space:nowrap}

@@ -37,7 +37,7 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions{grid-templ
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions button{flex-direction:row;justify-content:center;gap:12px;min-height:88px;padding:16px 12px}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions strong{max-width:124px;text-align:left}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward{padding:20px 20px 8px}
-body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-summary{grid-template-columns:96px minmax(0,1fr);gap:16px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-summary{grid-template-columns:104px minmax(0,1fr);gap:16px}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-actions{margin-top:12px;gap:12px}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-search{white-space:nowrap}
 /* Semantic type roles match the pre-arrival and in-stay desktop screens. */
@@ -46,7 +46,7 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#k
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-stay-details,.ka-referral-footer,.kse-card-action,.ka-actions strong,.ka-reward-search,.kse-benefits-item strong){font:var(--ui-font-label)!important;letter-spacing:0!important}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-referral-copy>span,.kse-benefits-item>span>span,.ka-reward-copy){font:var(--ui-font-body)!important;letter-spacing:0!important}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-status,.ka-city,.ka-trip-pass small,.ka-reward-status,.ka-reward-amount>span){font:var(--ui-font-caption)!important;letter-spacing:0!important}
-body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-amount strong{font:var(--kd-font-metric)!important;letter-spacing:0!important}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-amount strong{font:var(--ui-font-section)!important;letter-spacing:0!important}
 @media(min-width:800px) and (max-width:1100px){
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kse-home,.ka-home:not(.kpa-home)):not([hidden]){grid-template-columns:minmax(0,1fr) 300px;gap:20px}
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-inspiration{grid-template-columns:1fr;padding:24px}
@@ -63,8 +63,6 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#k
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions button{flex-direction:column;gap:8px}
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions strong{text-align:center}
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-summary{grid-template-columns:1fr}
- body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-badge{display:flex;gap:12px;min-height:72px}
- body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-amount{display:flex;align-items:baseline;gap:6px}
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward-actions{flex-wrap:wrap}
 }
 @media(max-width:799px){

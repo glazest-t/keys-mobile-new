@@ -1,5 +1,5 @@
 /* Advice: the reference interaction, expressed in shared Keys tokens. */
-#root .ki-page{display:flex;flex:1;flex-direction:column;min-height:0;width:100%;color:var(--color-ink);background:var(--color-card);font:var(--ui-font-body);overflow:hidden}
+#root .ki-page{--ki-advice-gradient:linear-gradient(145deg,var(--color-soft),#f6f5fb 60%,#fff8f1);display:flex;flex:1;flex-direction:column;min-height:0;width:100%;color:var(--color-ink);background:var(--color-card);font:var(--ui-font-body);overflow:hidden}
 #root .ki-page h1{font:var(--ui-font-title);margin:0}
 #root .ki-page h2{font:var(--ui-font-section);letter-spacing:0;margin:0}
 #root .ki-page p{font:var(--ui-font-body);line-height:1.5;margin:0;color:var(--color-muted)}
@@ -17,14 +17,14 @@
 #root .ki-trip-settings .keys-find-history-guests{max-width:160px}
 
 .ki-link{display:inline-flex;align-items:center;min-height:44px;color:var(--color-brand);font:var(--ui-font-label);background:transparent;white-space:nowrap}
-.ki-welcome-card{padding:20px;border-radius:var(--ui-card-radius);background:linear-gradient(145deg,var(--color-soft),#f6f5fb 60%,#fff8f1);display:grid;gap:12px}
+.ki-welcome-card{padding:20px;border-radius:var(--ui-card-radius);background:var(--ki-advice-gradient);display:grid;gap:12px}
 #root .ki-page .ki-welcome-card h2{font:var(--ui-font-section);letter-spacing:0}
 .ki-welcome-art{display:flex;align-items:center;justify-content:center;height:172px;padding:12px 4px 20px}
 .ki-welcome-art button{display:flex;flex-direction:column;align-items:center;gap:8px;width:108px;height:136px;justify-content:center;border-radius:20px;background:#ffffffd9;box-shadow:0 8px 24px #2c3c6610;font:var(--ui-font-label);transform:rotate(-7deg);transition:transform .2s}
 .ki-welcome-art button:nth-child(2){transform:translateY(-8px);z-index:1}.ki-welcome-art button:nth-child(3){transform:rotate(7deg)}.ki-welcome-art button:hover{transform:translateY(-8px)}.ki-welcome-art .ki-art{width:74px;height:74px}
 .ki-decisions{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:none}
 .ki-wish-form{display:flex;align-items:center;gap:8px;background:var(--color-soft);padding:6px 6px 6px 16px;border-radius:var(--ui-control-radius);border:1px solid transparent}
-.ki-wish-form:focus-within{border-color:var(--color-brand)}.ki-wish-form input{min-width:0;flex:1;border:0;outline:0;background:transparent;font:var(--ui-font-field);color:var(--color-ink)}.ki-wish-form button{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--color-brand);color:white}.ki-wish-form button:disabled{background:transparent;color:var(--color-muted);opacity:.6}
+.ki-wish-form input{min-width:0;flex:1;border:0;outline:0;background:transparent;font:var(--ui-font-field);color:var(--color-ink)}.ki-wish-form button{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--color-brand);color:white}.ki-wish-form button:disabled{background:transparent;color:var(--color-muted);opacity:.6}
 .ki-workspace{display:flex;flex-direction:column;min-height:100%;gap:16px}.ki-choice-body{flex:1;min-height:300px;display:flex;flex-direction:column;gap:12px}
 .ki-idea-card{position:relative;flex:1;min-height:300px;padding:16px 20px 20px;background:linear-gradient(135deg,#fff,var(--ki-tint,var(--color-soft)));border:1px solid var(--color-line);border-radius:var(--ui-card-radius);display:flex;flex-direction:column;gap:12px;touch-action:pan-y;transition:transform .18s ease,opacity .18s ease;animation:ki-enter .24s ease both}
 .ki-idea-kind{font:var(--ui-font-caption);color:var(--color-muted)}.ki-hero-art{width:144px;height:144px;align-self:center;margin:auto}.ki-idea-card>div{display:grid;gap:6px}
@@ -321,3 +321,16 @@ html[data-desktop-account=true] #root .ki-page .ki-scene-card{padding:0}
 .ki-budget-slider input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--color-brand);outline-offset:3px}
 .ki-budget-slider input[type=range]:focus-visible::-moz-range-thumb{outline:2px solid var(--color-brand);outline-offset:3px}
 .ki-budget-scale{display:flex;justify-content:space-between;font:var(--ui-font-caption);color:var(--color-muted)}
+
+/* A compact alternative to the guided preference flow. */
+#root .ki-request-card{display:grid;gap:14px;min-width:0;padding:4px 0 12px}
+#root .ki-page .ki-request-card h2{display:flex;align-items:center;justify-content:center;gap:12px;font:var(--ui-font-label);text-align:center;margin:0;color:var(--color-muted)}
+#root .ki-request-card h2::before,#root .ki-request-card h2::after{content:"";height:1px;flex:1;background:var(--color-line)}
+#root .ki-request-card .ki-wish-form{margin:0;align-items:flex-end;gap:8px;padding:12px;border-radius:18px;border-color:var(--color-line);background:var(--ki-advice-gradient);transition:border-color .18s ease,box-shadow .18s ease}
+#root .ki-request-card textarea{display:block;flex:1;min-width:0;width:100%;min-height:48px;max-height:160px;resize:none;padding:2px 0;border:0;outline:none;background:transparent;color:var(--color-ink);font:var(--ui-font-field)}
+#root .ki-request-card textarea::placeholder{color:var(--color-muted);opacity:1}
+
+#root .ki-request-card .ki-wish-form button{flex:none;border-radius:50%}
+#root .ki-request-card .ki-wish-form button svg{transform:rotate(-90deg)}
+#root .ki-page .ki-request-reply{font:var(--ui-font-caption);margin:0}
+html[data-desktop-account=true] #root .ki-request-card{max-width:680px;width:100%;margin-inline:auto}

@@ -1,4 +1,4 @@
-/* Pre-arrival and arrival-day home. Reuses approved home cards and the shared overlay. */
+/* Unified pre-arrival home. Reuses approved home cards and the shared overlay. */
 (() => {
  const app=document.getElementById('keysUnifiedPrototype'),home=document.getElementById('keysHomeVariantThree'),base=home.querySelector('.kh-home'),scroll=home.querySelector('.k3-scroll');
  const svg=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
@@ -14,9 +14,10 @@
  }
  const money=n=>n.toLocaleString('ru-RU')+' ₽',escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const date=value=>new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z'));
- const screen=document.createElement('section');screen.className='ka-home kpa-home';screen.hidden=true;screen.setAttribute('aria-label','За 8 дней до заезда');scroll.append(screen);
- let origin=null,active=false,currentBefore=null,detailsSession=false,arrivalDay='day-8',registration=null;
- const scenarioToday=()=>arrivalDay==='arrival'?'2026-09-12':arrivalDay==='day-3'?'2026-09-09':'2026-09-04';
+ const screen=document.createElement('section');screen.className='ka-home kpa-home';screen.hidden=true;screen.setAttribute('aria-label','Гость ещё не заехал');scroll.append(screen);
+ let origin=null,active=false,currentBefore=null,detailsSession=false,registration=null;
+ // One demo date; the countdown follows the booking, not a separate scenario.
+ const scenarioToday=()=>'2026-09-12';
  const beforeHistory=[];
  const fact=(label,value)=>`<div class="kh-fact"><span>${label}</span><strong>${escape(value)}</strong></div>`;
  const renderBefore=view=>{currentBefore=view;window.KeysHomeViews.open(view.title,view.html,'before-'+view.type,origin);const overlay=home.querySelector('.kh-overlay');overlay.querySelector('.kh-back').setAttribute('aria-label','Назад');if(view.formValues){const form=overlay.querySelector('[data-booking-change]');if(form)Object.entries(view.formValues).forEach(([key,value])=>{form.elements[key].value=value;});}if(view.scrollTop)overlay.scrollTop=view.scrollTop;};
@@ -33,7 +34,7 @@
   <header class="kpa-hotel-heading"><h1>Maidens Hotel</h1><span>${icons.pin} Москва</span></header>
  </div>
  <div class="kh-room-pass kpa-reservation-body">
-  <div class="kpa-stay-overview"><strong class="kpa-arrival-countdown"><b>8</b> дней до заезда</strong></div>
+  <div class="kpa-stay-overview" hidden><strong class="kpa-arrival-countdown">Заезд сегодня</strong></div>
   <div class="kpa-trip-schedule" aria-label="Проживание: 12–19 сентября, 7 ночей">
    <div class="kpa-schedule-stops">
     <div class="kpa-schedule-stop"><span class="kpa-stop-dot" aria-hidden="true"></span><div><span>Заезд</span><p><time datetime="2026-09-12T14:00">12 сентября</time><small>с 14:00</small></p></div></div>
@@ -42,12 +43,12 @@
    <div class="kpa-duration-count"><strong>7</strong><span>ночей</span></div>
   </div>
   <div class="kpa-payment"><div class="kpa-total"><strong>${money(booking.total)}</strong></div><div class="kpa-payment-status ${booking.paid>=booking.total?'is-paid':'is-partial'}">${booking.paid>=booking.total?`<strong>${icons.check} Оплачено полностью</strong>`:`<strong>Внесено ${money(booking.paid)}</strong><span>Осталось ${money(booking.total-booking.paid)}</span>`}</div></div>
+  <button type="button" class="kpa-reservation-control" data-before="manage-options">Изменить или отменить бронь ${icons.arrow}</button>
  </div>
 
  </article>
- <div class="kpa-reservation-actions" role="group" aria-label="Управление бронированием"><button type="button" class="kpa-manage" data-before="manage"><span data-manage-label>Изменить бронь</span></button><button type="button" class="keys-cancel-entry kpa-cancel-home" data-before="cancel">Отменить бронь</button></div>
  <div class="kpa-booking-buttons" role="group" aria-label="Подготовка к заезду" hidden><button type="button" class="kpa-manage kpa-route" data-before="route" hidden>Построить маршрут</button><button type="button" class="kpa-manage kpa-checkin" data-before="checkin" hidden>Онлайн-регистрация</button></div>
- <section class="kh-quick-actions kpa-actions" aria-label="Бронь и связь с отелем"><button type="button" data-before="details"><span>${icons.file}</span><strong>Бронь и документы</strong></button><button type="button" data-before="chat"><span>${icons.chat}</span><strong>Чат с отелем</strong></button><button type="button" data-before="instruction" hidden><span>${icons.pin}</span><strong>Инструкция по заселению</strong></button></section>
+ <section class="kh-quick-actions kpa-actions" aria-label="Бронь и связь с отелем"><button type="button" data-before="details"><span>${icons.file}</span><strong>Детали брони</strong></button><button type="button" data-before="chat"><span>${icons.chat}</span><strong>Чат с отелем</strong></button><button type="button" data-before="instruction" hidden><span>${icons.pin}</span><strong>Инструкция по заселению</strong></button></section>
  <section class="kpa-preparation" aria-labelledby="kpa-preparation-title"><header class="kpa-preparation-heading"><h2 id="kpa-preparation-title">Добавьте к поездке</h2><p>Услуги можно выбрать до заезда</p></header><div class="kpa-services"><div data-early-slot></div><div data-breakfast-slot></div></div><button type="button" class="kpa-services-all" data-info="services">Все услуги отеля ${icons.arrow}</button></section>
  <div data-nearby-slot></div>`;
  const earlyIcon=svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>');
@@ -73,7 +74,7 @@
  }
  function bookingDetails(){
   const detailRow=(label,value,hint='')=>`<div><dt>${label}</dt><dd>${escape(value)}${hint?`<span class="kpa-field-hint">${escape(hint)}</span>`:''}</dd></div>`;
-  show('Бронь и документы',`<div class="kpa-booking-details">
+  show('Детали брони',`<div class="kpa-booking-details">
    <section class="kpa-confirmation-sheet" aria-label="Подтверждение бронирования">
     <header class="kpa-sheet-header"><span class="kpa-booking-reference">№ ${escape(booking.id)}</span><span class="kpa-state-badge" aria-label="${booking.cancellation?'Бронь отменена':'Бронь подтверждена'}">${icons.check}${booking.cancellation?'Бронь отменена':'Бронь подтверждена'}</span></header>
     <section class="kpa-voucher-section" aria-labelledby="kpa-dates-title"><h3 id="kpa-dates-title">Проживание</h3><dl class="kpa-voucher-facts">${detailRow('Заезд',date(booking.arrival)+' · с 14:00')}${detailRow('Выезд',date(booking.departure)+' · до 12:00')}${detailRow('Срок',nightsLabel(booking.nights)+' · '+booking.arrival.slice(0,4)+' год')}</dl></section>
@@ -225,6 +226,11 @@
  home.addEventListener('click',async event=>{
   const button=event.target.closest('[data-before]');if(!button)return;event.preventDefault();event.stopPropagation();const action=button.dataset.before;
   if(screen.contains(button)||button.closest('.keys-app-header')){origin=button;detailsSession=action==='details';beforeHistory.length=0;currentBefore=null;}
+  if(action==='manage-options'){
+   if(booking.cancellation)return bookingDetails();
+   detailsSession=true;
+   show('Управление бронью',`<div class="kpa-management-options"><button type="button" class="kpa-manage" data-before="manage">Изменить бронь ${icons.arrow}</button><button type="button" class="keys-cancel-entry" data-before="cancel">Отменить бронирование ${icons.arrow}</button></div>`,'manage-options');
+  }
   if(action==='details')bookingDetails();
   if(action==='cancel')cancelBooking(button);
   if(action==='hotel')hotelAbout();
@@ -248,21 +254,17 @@
   if(action==='share')shareBooking(button);
  });
  app.addEventListener('keys-scenario-change',event=>{
-  const visible=event.detail.scenario==='booked'&&['day-8','day-3','arrival'].includes(event.detail.arrivalDay),changed=arrivalDay!==event.detail.arrivalDay;screen.hidden=!visible;
+  const visible=event.detail.scenario==='booked';screen.hidden=!visible;
   if(visible){
-   arrivalDay=event.detail.arrivalDay;const arriving=arrivalDay==='arrival',soon=arrivalDay!=='day-8';
-   screen.setAttribute('aria-label',arriving?'День заезда':soon?'За 3 дня до заезда':'За 8 дней до заезда');
-   screen.querySelector('.kpa-welcome-ribbon p').textContent=arriving?'Ждем вам':'Готовимся к вашему приезду';
-   screen.querySelector('.kpa-stay-overview').hidden=false;
-   const buttons=screen.querySelector('.kpa-booking-buttons'),manageButton=screen.querySelector('.kpa-manage[data-before="manage"]');
-   buttons.hidden=!soon;
-   manageButton.hidden=false;
-   screen.querySelector('.kpa-route').hidden=!arriving;
-   screen.querySelector('[data-before="checkin"]').hidden=!soon;
-   screen.querySelector('.kpa-actions [data-before="instruction"]').hidden=!soon;
-   screen.querySelector('.kpa-actions').classList.toggle('kpa-actions-three',soon);
+   screen.querySelector('.kpa-welcome-ribbon p').textContent='Готовимся к вашему приезду';
+   screen.querySelector('.kpa-stay-overview').hidden=true;
+   const buttons=screen.querySelector('.kpa-booking-buttons');
+   buttons.hidden=false;
+   screen.querySelector('.kpa-route').hidden=false;
+   screen.querySelector('[data-before="checkin"]').hidden=false;
+   screen.querySelector('.kpa-actions [data-before="instruction"]').hidden=false;
+   screen.querySelector('.kpa-actions').classList.add('kpa-actions-three');
    updateBookingSummary();
-   if(changed){detailsSession=false;beforeHistory.length=0;currentBefore=null;window.KeysHomeViews.close();scroll.scrollTop=0;}
   }
   if(active!==visible){detailsSession=false;beforeHistory.length=0;currentBefore=null;window.KeysHomeViews.close();if(visible||active){app.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s.dataset.unifiedSection!=='trips');scroll.scrollTop=0;}active=visible;}
  });

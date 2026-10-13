@@ -34,7 +34,7 @@
  'uploader':()=>`<div class="k-stack">${upload('demo-upload')}</div>`,
  'rating':()=>`<div class="k-stack">${rating('demo-stars')}</div>`,
  'header':()=>`<header class="k-header"><span class="k-wordmark">ключи</span><button class="k-icon-button k-icon-button--plain" aria-label="Уведомления" data-open-sheet="notifications">${icon('bell')}<span class="k-unread"></span></button><button class="k-icon-button k-icon-button--plain" aria-label="Профиль" data-open-sheet="profile"><img class="k-avatar" src="assets/avatar.jpg" alt=""></button></header>`,
- 'subheader':()=>`<header class="k-header k-subheader"><button class="k-icon-button" aria-label="Назад" data-toast="Возврат на исходный экран">${icon('back')}</button><h2 class="k-title">Бронь и документы</h2></header>`,
+ 'subheader':()=>`<header class="k-header k-subheader"><button class="k-icon-button" aria-label="Назад" data-toast="Возврат на исходный экран">${icon('back')}</button><h2 class="k-title">Детали брони</h2></header>`,
  'bottom-nav':()=>`<nav class="k-nav" aria-label="Основные разделы">${[['trips','Поездки'],['search','Найти'],['chat','Чаты'],['gift','Выгоды']].map(([ic,label],i)=>`<button ${i===0?'aria-current="page"':''} data-nav="${i}">${icon(ic)}<span>${label}</span></button>`).join('')}</nav>`,
  'card':()=>`<div class="k-stack"><div class="k-card"><h3 class="k-section">Депозит</h3><p class="k-muted">Белая поверхность и общая обводка</p></div><div class="k-card k-card--soft"><p class="k-label">Информационный акцент</p></div><div class="k-card k-card--positive"><p class="k-label">Баллы за рекомендацию</p></div></div>`,
  'data-rows':()=>`<div class="k-card">${rows([['Категория','Стандарт'],['Гости','2 взрослых'],['Завтрак','Включён'],['Wi-Fi','Включён']])}</div>`,

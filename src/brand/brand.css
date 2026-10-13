@@ -46,7 +46,7 @@ html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-aut
 .keys-login-field{display:flex;align-items:center;gap:10px;height:52px;padding:0 14px;background:#fff;border:1.5px solid #eceef2;border-radius:14px;transition:border-color .2s;cursor:text}
 .keys-login-field>span{font:500 16px/22px var(--font-sans);padding-right:10px;border-right:1px solid #eceef2}
 .keys-login-field[data-state=typing]{border-color:#c9d6fd}
-.keys-login-field:is([data-state=ready],:focus-within){border-color:#3a66f0}
+.keys-login-field[data-state=ready]{border-color:#3a66f0}
 html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype .keys-login-field input{height:48px;min-width:0;flex:1;padding:0;border:0!important;outline:none!important;background:transparent!important;box-shadow:none!important;font:400 16px/24px var(--font-sans)!important;letter-spacing:.3px;border-radius:0!important}
 html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] #keys-auth-name{height:52px;background:#fff;border-radius:14px;padding:0 14px}
 html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-primary{height:48px;min-height:48px;border-radius:14px;background:#3a66f0;color:#fff;font:500 14px/21px var(--font-sans)}
@@ -66,7 +66,7 @@ html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .keys-lo
 html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=code] .kauth-intro{margin-bottom:32px}
 html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-code-fields{gap:8px}
 html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] input.kauth-code-digit{height:60px;border:1.5px solid #eceef2!important;background:#fff!important;border-radius:14px!important;font:500 26px/1 var(--font-sans)!important}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] input.kauth-code-digit:focus{border-color:#3a66f0!important;outline:none!important}
+
 html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=checking] input.kauth-code-digit{background:#eef2fe!important;border-color:#3a66f0!important;color:#3a66f0}
 html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=success] input.kauth-code-digit{background:#e6f6ee!important;border-color:#16865a!important;color:#16865a}
 html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=error] input.kauth-code-digit{border-color:var(--color-danger)!important}

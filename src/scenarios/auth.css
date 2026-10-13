@@ -17,7 +17,7 @@ body:is([data-keys-scenario="guest"],[data-keys-scenario="guest-returning"],[dat
 #keysGuestPrototype form{margin:0;display:flex;flex-direction:column}
 #keysGuestPrototype label{font:var(--ui-font-label);margin-bottom:8px}
 #keysUnifiedPrototype #keysGuestPrototype input{width:100%;height:var(--ui-control-height);padding:12px 16px;border:1px solid var(--color-line);border-radius:var(--ui-field-radius);background:var(--color-surface);color:var(--color-ink);font:var(--ui-font-field);outline:none;box-shadow:none}
-#keysUnifiedPrototype #keysGuestPrototype input:focus-visible{border-color:var(--color-brand);outline:2px solid var(--color-soft);outline-offset:2px}
+
 #keysUnifiedPrototype #keysGuestPrototype input[aria-invalid="true"]{border-color:var(--color-danger,#bc3544)}
 #keysGuestPrototype .kauth-hint{font:var(--ui-font-caption);margin-top:12px}
 #keysGuestPrototype .kauth-error{margin:8px 0 16px;color:var(--color-danger,#bc3544);font:var(--ui-font-caption)}
@@ -34,7 +34,7 @@ body:is([data-keys-scenario="guest"],[data-keys-scenario="guest-returning"],[dat
 #keysGuestPrototype .kauth-code-label{display:block;margin-bottom:8px;font:var(--ui-font-label)}
 #keysGuestPrototype .kauth-code-fields{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
 #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input.kauth-code-digit{min-width:0;height:var(--ui-control-height);padding:0;font-size:24px!important;font-weight:500!important;letter-spacing:0!important;text-align:center;border-radius:var(--ui-field-radius)!important;caret-color:var(--color-brand)}
-#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input.kauth-code-digit:focus{border-color:var(--color-brand);outline:2px solid var(--color-soft);outline-offset:2px}
+
 #keysGuestPrototype .kauth-center{text-align:center}
 .kauth-prototype-note{margin:4px auto;text-align:center;font:var(--ui-font-caption);color:var(--color-muted)}
 body[data-keys-new-guest="true"] #keysUnifiedPrototype :is([data-header-avatar],[data-profile-image]){display:none!important}
@@ -63,7 +63,7 @@ body[data-keys-new-guest="true"] #keysUnifiedPrototype [data-avatar-initials]{di
 /* Keep auth roles above the legacy prototype's global heading/field rules. */
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype h1{font:var(--ui-font-display)!important;letter-spacing:-.5px!important}
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input{border-color:var(--color-line)!important;background:var(--color-card)!important}
-#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input:focus-visible{border-color:var(--color-brand)!important}
+
 #keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype input[aria-invalid="true"]{border-color:var(--color-danger)!important}
 
 /* Contact details belong together; changing the number remains a text action. */

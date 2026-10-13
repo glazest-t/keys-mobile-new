@@ -37,7 +37,7 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype#keysUnifiedPrototype .kpa-arrival-countdown b{display:block;font:500 36px/45px var(--font-sans)!important;margin-bottom:2px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-trip-schedule{margin:0;gap:20px;grid-template-columns:minmax(0,1fr) 64px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-schedule-stops{gap:16px}
-body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-payment{grid-column:1/-1;margin:20px 0 0;padding-top:20px;border-top:1px solid #ffffff30}
+body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-payment{grid-column:1/-1;margin:20px 0 0;padding-top:20px;border-top:1px solid #ffffff40}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-total>strong{font:500 20px/26px var(--font-sans)!important}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-status strong{font:500 14px/21px var(--font-sans)!important}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-actions{margin:0;min-height:96px;border:1px solid var(--color-line);border-radius:20px;padding:8px;background:#fff}
@@ -120,7 +120,7 @@ body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-reservation-body{grid-template-columns:128px minmax(0,1fr);column-gap:24px;padding:20px 24px}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-trip-schedule{grid-template-columns:minmax(0,1fr) 58px;gap:20px;align-items:center}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-schedule-stops{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-schedule-stops:before{display:block;position:absolute;left:4px;right:4px;top:5px;bottom:auto;height:1px;background:#ffffff55;border:0}
+body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-schedule-stops:before{display:block;position:absolute;left:4px;right:4px;top:5px;bottom:auto;height:2px;background:#ffffff80;border:0}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-schedule-stop{display:flex;flex-direction:column;gap:8px;position:relative}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-schedule-stop:last-child{align-items:flex-end;text-align:right}
 body:is([data-keys-desktop-home="true"],[data-keys-desktop-profile="true"],[data-keys-desktop-secondary]) #keysUnifiedPrototype .kpa-stop-dot{width:10px;height:10px;margin:0;border:2px solid #fff;background:var(--color-brand);z-index:1}
@@ -448,3 +448,9 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-management{di
 body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-management>button{width:100%;min-width:0;min-height:48px}
 body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-buttons[hidden],
 body[data-keys-booking-cancelled=true][data-keys-scenario=booked] #keysUnifiedPrototype .kd-before-management{display:none!important}
+
+/* Keep the hotel photo flush with the taller panel containing management. */
+@media(min-width:1000px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-visual{height:auto;min-height:268px;align-self:stretch}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-hotel-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+}

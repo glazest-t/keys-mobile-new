@@ -27,16 +27,13 @@ function KeysPaymentOptions(){
  return n.jsxs('section',{className:'keys-checkout-panel keys-pay-section','aria-label':'Способ оплаты',children:[n.jsx('h2',{children:'Способ оплаты'}),n.jsxs('div',{className:'keys-pay-methods',children:[main.map(item=>option(item)),selectedExtra&&option(selectedExtra),n.jsxs('button',{type:'button',className:'keys-pay-other','aria-haspopup':'dialog',onClick:()=>setOther(true),children:[n.jsx('span',{children:'Другие способы'}),n.jsx(D,{name:'chevron',className:'size-4'})]})]}),other&&n.jsx(ct,{title:'Другие способы оплаты',onClose:()=>setOther(false),children:n.jsx('div',{className:'keys-pay-methods',children:extra.map(item=>option(item,true))})})]});
 }
 function KeysPaymentPoints({draft}){
- const {state,dispatch}=J(),[discountOpen,setDiscountOpen]=E.useState(false),keys=state.loyalty.balance,hotel=keysHotelPointsBalance(state,draft.hotelId),total=keys+hotel,available=total>0&&total<=Ul(draft);
- const quote=keysReservationDiscountQuote(draft,state.search,state.discovery.priceTick);
+ const {state,dispatch}=J(),keys=state.loyalty.balance,hotel=keysHotelPointsBalance(state,draft.hotelId),total=keys+hotel,available=total>0&&total<=Ul(draft);
  E.useEffect(()=>{if(draft.usePoints&&!keysPointsValid(state,draft))dispatch({type:'RESERVATION_POINTS',enabled:true});},[draft.usePoints,draft.pointsAmount,draft.hotelPointsAmount,keys,hotel,draft.hotelId,Ul(draft)]);
  const wallet=(label,value,icon)=>n.jsxs('div',{className:'keys-pay-wallet',children:[n.jsx(D,{name:icon,className:'size-5'}),n.jsx('dt',{children:label}),n.jsx('dd',{children:ln(value)+' баллов'})]});
  return n.jsxs('section',{className:'keys-checkout-panel keys-pay-section keys-pay-points','aria-label':'Списание баллов',children:[
   n.jsxs('div',{className:'keys-pay-points-head',children:[n.jsxs('div',{children:[n.jsx('h2',{children:'Баллы'}),n.jsx('p',{children:'Доступно '+ln(total)+' баллов'})]}),n.jsxs('label',{className:'keys-pay-use-points',children:[n.jsx('span',{children:'Списать все'}),n.jsx('input',{type:'checkbox',checked:draft.usePoints,disabled:!available,onChange:event=>dispatch({type:'RESERVATION_POINTS',enabled:event.target.checked})})]})]}),
   draft.usePoints?n.jsxs('div',{className:'keys-pay-points-details',children:[
    n.jsxs('div',{className:'keys-pay-wallets',children:[n.jsxs('dl',{children:[wallet('Баллы Ключей',keys,'coins'),hotel>0&&wallet('Баллы отеля',hotel,'hotel')]}),n.jsxs('p',{className:'keys-pay-wallet-total','aria-live':'polite',children:[n.jsx('span',{children:'Спишем все '+ln(total)+' баллов'}),n.jsx('strong',{children:'−'+Te(total)})]})]}),
-   n.jsxs('button',{type:'button',className:'keys-pay-discount-summary','aria-haspopup':'dialog',onClick:()=>setDiscountOpen(true),children:[n.jsx('span',{children:'Общая скидка'}),n.jsx('strong',{children:'−'+Te(quote.usualTotal-quote.total)}),n.jsx(D,{name:'chevron',className:'size-4'})]})
   ]}):total>0&&!available&&n.jsx('p',{className:'keys-pay-wallet-hint',children:'Баллов больше стоимости проживания. Полное списание недоступно.'}),
-  discountOpen&&n.jsx(KeysHotelDiscount,{price:quote,onClose:()=>setDiscountOpen(false)})
  ]});
 }

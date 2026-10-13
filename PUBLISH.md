@@ -35,11 +35,8 @@ npm run preview
 К адресу сайта можно добавить:
 
 - `?scenario=search` — брони ещё нет.
-- `?scenario=booked&arrivalDay=day-8` — за 8 дней до заезда.
-- `?scenario=booked&arrivalDay=day-3` — за 3 дня до заезда.
-- `?scenario=booked&arrivalDay=arrival` — день заезда.
-- `?scenario=stay&stayDay=day-1` — первый день проживания.
-- `?scenario=stay&stayDay=day-2` — второй день проживания.
+- `?scenario=booked` — гость ещё не заехал (единая страница со всеми действиями до заезда).
+- `?scenario=stay&stayDay=day-2` — проживает в отеле (единое состояние на основе второго дня).
 - `?scenario=stay&stayDay=checkout` — день выезда.
 - `?scenario=after` — поездка завершена.
 

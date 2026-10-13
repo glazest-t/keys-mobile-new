@@ -16,7 +16,7 @@ body[data-keys-scenario="booked"] #keysUnifiedPrototype .kh-home{display:none!im
 #keysUnifiedPrototype .kpa-stay-overview span{white-space:nowrap;font-size:var(--text-12);line-height:1.5;color:#ffffffd9}
 #keysUnifiedPrototype .kpa-trip-schedule{display:grid;grid-template-columns:minmax(0,1fr) 58px;align-items:center;gap:12px;margin-top:14px}
 #keysUnifiedPrototype .kpa-schedule-stops{position:relative;display:grid;gap:10px}
-#keysUnifiedPrototype .kpa-schedule-stops:before{content:"";position:absolute;left:3px;top:12px;bottom:29px;border-left:1px solid #ffffff55}
+#keysUnifiedPrototype .kpa-schedule-stops:before{content:"";position:absolute;left:2.5px;top:12px;bottom:29px;border-left:2px solid #ffffff80}
 #keysUnifiedPrototype .kpa-schedule-stop{display:flex;align-items:flex-start;gap:10px}
 #keysUnifiedPrototype .kpa-stop-dot{position:relative;flex:none;box-sizing:border-box;width:7px;height:7px;margin-top:6px;border:1.5px solid var(--color-on-brand);border-radius:50%;background:var(--color-brand-solid)}
 #keysUnifiedPrototype .kpa-schedule-stop>div{min-width:0}
@@ -28,7 +28,7 @@ body[data-keys-scenario="booked"] #keysUnifiedPrototype .kh-home{display:none!im
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-duration-count strong{font:var(--font-weight-medium) var(--text-24)/1.15 var(--font-sans)!important;color:inherit}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-duration-count span{font:400 var(--text-12)/1.5 var(--font-sans)!important;color:inherit}
 @media(max-width:359px){#keysUnifiedPrototype .kpa-trip-schedule{grid-template-columns:minmax(0,1fr) 48px;gap:8px}#keysUnifiedPrototype .kpa-schedule-stop{gap:7px}#keysUnifiedPrototype#keysUnifiedPrototype .kpa-schedule-stop p{column-gap:5px}}
-#keysUnifiedPrototype .kpa-payment{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+#keysUnifiedPrototype .kpa-payment{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid #ffffff40}
 #keysUnifiedPrototype .kpa-total{display:grid;gap:3px;flex:none}
 #keysUnifiedPrototype .kpa-total>span{font-size:var(--text-12);line-height:1.5;color:#ffffffd9}
 #keysUnifiedPrototype .kpa-payment-status{display:grid;gap:3px;text-align:right;min-width:0}
@@ -302,3 +302,16 @@ body:not([data-keys-desktop-home=true]) #keysUnifiedPrototype#keysUnifiedPrototy
 #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation-actions>.kpa-manage:hover{
  border-color:var(--color-brand);background:var(--color-soft);
 }
+
+/* Shared management entry stays inside the blue reservation panel. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation-control{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;margin:16px 0 0;padding:10px 12px;border:1px solid #ffffff66;border-radius:12px;background:transparent;color:#fff;font:var(--ui-font-label);text-align:left;cursor:pointer;box-sizing:border-box;transition:background-color .18s ease}
+#keysUnifiedPrototype .kpa-reservation-control>svg{width:16px;height:16px;flex:none}
+#keysUnifiedPrototype .kpa-reservation-control:hover{background:#ffffff14}
+#keysUnifiedPrototype .kpa-reservation-control:focus-visible{outline:2px solid #fff;outline-offset:3px}
+#keysUnifiedPrototype .kpa-management-options{display:grid;gap:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-management-options>button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;margin:0;padding:12px 16px;font:var(--ui-font-label)}
+#keysUnifiedPrototype .kpa-management-options>button>svg{width:18px;height:18px;flex:none}
+body[data-keys-booking-cancelled=true] #keysUnifiedPrototype .kpa-reservation-control{display:none}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-reservation-control{margin-top:0}
+
+#keysUnifiedPrototype .kpa-stay-overview[hidden]{display:none!important}

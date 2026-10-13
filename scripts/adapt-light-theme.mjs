@@ -19,3 +19,21 @@ export function adaptLightTheme(source) {
 }`);
  return source;
 }
+
+// The imported HTML runs before the deferred app bundle. Keep its first paint
+// on the same light palette instead of briefly restoring a saved dark theme.
+export function adaptLightThemeDocument(html) {
+ let replaced=0;
+ const result=html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,script=>{
+  if(!script.includes("localStorage.getItem('pora-theme')")||!script.includes('prefers-color-scheme: dark'))return script;
+  replaced++;
+  return `<script>
+      document.documentElement.dataset.theme = 'light';
+      document.documentElement.style.colorScheme = 'light only';
+      var themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.content = '#2C5DEB';
+    </script>`;
+ });
+ if(replaced!==1)throw new Error('Expected one imported theme bootstrap, found '+replaced);
+ return result.replace(/<!--\s*Тема ставится до загрузки приложения[\s\S]*?-->/,'<!-- Keys supports only the light theme, including the first paint. -->');
+}

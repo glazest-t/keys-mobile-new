@@ -1,7 +1,7 @@
 import {adaptCheckoutEngine,adaptCheckoutPage,adaptCheckoutExtras,adaptDesktopCheckout} from './adapt-checkout-options.mjs';
 import {adaptPhotoDiscovery} from './adapt-photo-discovery.mjs';
 import {adapt2gis,adapt2gisRuntime} from './adapt-2gis.mjs';
-import {adaptLightTheme} from './adapt-light-theme.mjs';
+import {adaptLightTheme,adaptLightThemeDocument} from './adapt-light-theme.mjs';
 import {adaptFindCollections} from './adapt-find-collections.mjs';
 import {adaptSelectionStyle} from './adapt-selection-style.mjs';
 import {adaptFindSearch} from './adapt-find-search.mjs';
@@ -103,7 +103,7 @@ export async function buildSections(){
  const escapedDiscoveryTitle=[...oldDiscoveryTitle].map(c=>c.charCodeAt(0)>127?'\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0'):c).join('');
  bundle=bundle.replaceAll(oldDiscoveryTitle,'Отели свайпом').replaceAll(escapedDiscoveryTitle,'Отели свайпом');
  await writeFile(bundlePath,bundle);
- let html=await readFile(path.join(dist,'index.html'),'utf8');
+ let html=adaptLightThemeDocument(await readFile(path.join(dist,'index.html'),'utf8'));
  html=html.replace('<html lang="ru">','<html lang="ru" data-theme="light">');
  html=html.replace('<head>','<head><meta name="color-scheme" content="light only">');
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');

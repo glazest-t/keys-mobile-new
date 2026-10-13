@@ -33,3 +33,18 @@ test('both generated documents declare light before application mounts',async()=
   assert.match(html,/<meta name="color-scheme" content="light(?: only)?"/);
  }
 });
+
+test('embedded first paint ignores dark system, saved and URL preferences',async()=>{
+ const html=await readFile(new URL('../dist/sections/index.html',import.meta.url),'utf8');
+ const scripts=[...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match=>match[1]).filter(code=>code.includes('document.documentElement.dataset.theme'));
+ assert.equal(scripts.length,1,'Exactly one light-only bootstrap before the deferred app');
+ for(const query of ['', '?theme=dark', '?theme=system']){
+  const root={dataset:{},style:{}},meta={content:'#0e0f11'};
+  const context=vm.createContext({document:{documentElement:root,querySelector:()=>meta},location:{search:query},URLSearchParams,
+   localStorage:{getItem:()=> 'dark'},matchMedia:()=>({matches:true})});
+  vm.runInContext(scripts[0],context);
+  assert.equal(root.dataset.theme,'light');
+  assert.equal(root.style.colorScheme,'light only');
+  assert.equal(meta.content,'#2C5DEB');
+ }
+});

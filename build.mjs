@@ -12,7 +12,7 @@ const document = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light only">
   <meta name="theme-color" content="#f7f7f5">
   <meta name="description" content="Интерактивный прототип мобильного приложения «Ключи» для путешественников.">
   <title>Ключи — интерактивный прототип</title>

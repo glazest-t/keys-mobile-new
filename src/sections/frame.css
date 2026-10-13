@@ -1398,3 +1398,8 @@ html:not([data-desktop-account=true]) #root .keys-checkout-flow{padding-bottom:0
 
 /* Without a loyalty banner, the step heading already supplies the section gap. */
 #root [data-screen-type="reservation-payment"] .keys-checkout-flow[data-checkout-step="payment"]>.keys-checkout-step-heading+.keys-pay-points{margin-top:0}
+
+/* Grab tariffs in the mobile prototype; touch keeps native scrolling. */
+html:not([data-desktop-account=true]) .keys-room-tariff-track{cursor:grab;user-select:none;-webkit-user-select:none}
+html:not([data-desktop-account=true]) .keys-room-tariff-track.is-dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing}
+html:not([data-desktop-account=true]) .keys-room-tariff-track.is-dragging *{cursor:grabbing!important}

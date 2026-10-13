@@ -164,6 +164,10 @@
       if(event.data.target!=='feedback'){notificationOrigin=null;notificationOpened=false;}
       if(event.data.target==='feedback')feedbackTripOrigin=null;
       if(event.data.target==='feedback')root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('keys-feedback-context',{detail:{kind:event.data.feedbackKind??'first-night'}}));
+      if(event.data.target==='trips'&&event.data.scenario==='booked'){
+        window.KeysScenarios.select('booked',{preserveView:true});
+        root.querySelector('#keysHomeVariantThree .k3-scroll').scrollTop=0;
+      }
       go(event.data.target);
       runtimeReturn=['stay-details','problem'].includes(event.data.target)?event.data.target:null;
     }

@@ -364,13 +364,49 @@ function keysRoomTariffFacts(offer){
   {icon:'calendar',title:offer.changesAllowed?'Можно изменить бронь':'Без изменений',detail:offer.changesAllowed?'Даты и состав гостей':'Даты и состав гостей фиксированы'}
  ];
 }
+// Mouse dragging supplements native touch/trackpad scrolling in the phone preview.
+function useKeysTariffDrag(enabled){
+ const gesture=E.useRef(null),suppressClick=E.useRef(false);
+ const finish=event=>{
+  const start=gesture.current;if(!start)return;
+  gesture.current=null;event.currentTarget.classList.remove('is-dragging');
+  if(event.currentTarget.hasPointerCapture?.(start.id))event.currentTarget.releasePointerCapture(start.id);
+ };
+ return {
+  onPointerDown:event=>{
+   suppressClick.current=false;
+   if(!enabled||event.pointerType!=='mouse'||event.button!==0||!event.isPrimary||event.currentTarget.scrollWidth<=event.currentTarget.clientWidth)return;
+   gesture.current={id:event.pointerId,x:event.clientX,y:event.clientY,scroll:event.currentTarget.scrollLeft,dragging:false};
+  },
+  onPointerMove:event=>{
+   const start=gesture.current;if(!start||start.id!==event.pointerId)return;
+   if(!(event.buttons&1)){finish(event);return;}
+   const dx=event.clientX-start.x,dy=event.clientY-start.y;
+   if(!start.dragging){
+    if(Math.abs(dy)>6&&Math.abs(dy)>Math.abs(dx)){gesture.current=null;return;}
+    if(Math.abs(dx)<6)return;
+    start.dragging=true;suppressClick.current=true;
+    event.currentTarget.classList.add('is-dragging');event.currentTarget.setPointerCapture(event.pointerId);
+   }
+   event.preventDefault();event.currentTarget.scrollLeft=start.scroll-dx;
+  },
+  onPointerUp:finish,onPointerCancel:finish,onLostPointerCapture:finish,
+  onPointerLeave:event=>{if(!gesture.current?.dragging)finish(event);},
+  onClickCapture:event=>{if(suppressClick.current&&event.detail!==0){event.preventDefault();event.stopPropagation();suppressClick.current=false;}},
+  onDragStart:event=>{if(enabled)event.preventDefault();}
+ };
+}
+function KeysRoomInfoIcon(){
+ return n.jsxs('svg',{viewBox:'0 0 24 24',className:'size-5 shrink-0',fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6'}),n.jsx('circle',{cx:12,cy:7,r:.9,fill:'currentColor',stroke:'none'})]});
+}
 function KeysRoomOfferCard({room,offers,draft,onOpenPhotos,onChoose,onSelect}){
  const [terms,setTerms]=E.useState(null),[amenitiesOpen,setAmenitiesOpen]=E.useState(false),desktop=useKeysDesktopBooking();
+ const drag=useKeysTariffDrag(!desktop);
  return n.jsxs('article',{id:pk(room.id),className:'keys-room-offer-card'+(offers.some(offer=>offer.selected)?' has-selected-rate':''),'aria-label':'Номер '+room.name,children:[
   n.jsxs('div',{className:'keys-room-summary',children:[n.jsx(RY,{photos:room.photos,area:room.area,name:room.name,onOpen:onOpenPhotos}),
-  n.jsxs('div',{className:'keys-room-identity',children:[n.jsxs('div',{className:'keys-room-title-row',children:[n.jsx('h2',{children:room.name}),n.jsx('button',{type:'button',className:'keys-room-info','aria-label':'Оснащение номера '+room.name,'aria-haspopup':'dialog',onClick:()=>setAmenitiesOpen(true),children:n.jsx(D,{name:'help',className:'size-5'})})]}),n.jsxs('p',{children:[room.area!=null&&n.jsxs('span',{children:[n.jsx(D,{name:'area',className:'size-4'}),room.area+' м²']}),n.jsx('span',{children:room.description}),room.bedType&&n.jsx('span',{children:room.bedType==='twin'?'Две отдельные кровати':'Двуспальная кровать'})]})]}),
+  n.jsxs('div',{className:'keys-room-identity',children:[n.jsxs('div',{className:'keys-room-title-row',children:[n.jsx('h2',{children:room.name}),n.jsx('button',{type:'button',className:'keys-room-info','aria-label':'Оснащение номера '+room.name,'aria-haspopup':'dialog',onClick:()=>setAmenitiesOpen(true),children:n.jsx(KeysRoomInfoIcon,{})})]}),n.jsxs('p',{children:[room.area!=null&&n.jsxs('span',{children:[n.jsx(D,{name:'area',className:'size-4'}),room.area+' м²']}),n.jsx('span',{children:room.description}),room.bedType&&n.jsx('span',{children:room.bedType==='twin'?'Две отдельные кровати':'Двуспальная кровать'})]})]}),
   ]}),
-  n.jsxs('div',{className:'keys-room-tariff-track'+(offers.length===1?' is-single':'')+(desktop?' keys-tariff-comparison':''),role:'radiogroup','aria-label':'Тарифы номера '+room.name,children:[...offers.map(offer=>n.jsx(KeysRoomTariff,{offer,room,draft,onChoose:()=>onChoose(offer),onSelect:()=>onSelect(offer),onTerms:()=>setTerms(offer)},offer.id))]}),
+  n.jsxs('div',{...drag,className:'keys-room-tariff-track'+(offers.length===1?' is-single':'')+(desktop?' keys-tariff-comparison':''),role:'radiogroup','aria-label':'Тарифы номера '+room.name,children:[...offers.map(offer=>n.jsx(KeysRoomTariff,{offer,room,draft,onChoose:()=>onChoose(offer),onSelect:()=>onSelect(offer),onTerms:()=>setTerms(offer)},offer.id))]}),
   amenitiesOpen&&n.jsx(ct,{title:'Оснащение номера',onClose:()=>setAmenitiesOpen(false),children:n.jsxs('div',{className:'keys-room-equipment',children:[n.jsx('h3',{children:room.name}),room.area!=null&&n.jsx('p',{children:'Площадь — '+room.area+' м²'}),n.jsx('ul',{children:keysRoomAmenities([room]).map(item=>n.jsxs('li',{children:[n.jsx(D,{name:'check',className:'size-4'}),item]},item))})]})}),
   terms&&n.jsx(ct,{title:'Условия тарифа',onClose:()=>setTerms(null),children:n.jsxs('div',{className:'keys-tariff-details',children:[n.jsx('h3',{children:terms.name}),n.jsx('p',{children:room.name}),n.jsx('ul',{children:[terms.includesBreakfast?'Завтрак включён в стоимость':'Питание не включено',...terms.terms].map((term,index)=>n.jsx('li',{children:term},index))})]})})
  ]});

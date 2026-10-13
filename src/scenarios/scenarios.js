@@ -61,7 +61,7 @@
  }
  const scenarioControl=control('keys-scenario',availablePresets(),'Вводные условия','sliders',id=>{selected=id;render();});
  const dayControl=control('keys-stay-day',days,'Состояние проживания','calendar',id=>{stayDay=id;render();});
- function render(updateURL=true){
+ function render(updateURL=true,resetView=updateURL){
   const label=presets.find(([key])=>key===selected)[1],dayLabel=days.find(([key])=>key===stayDay)[1];
   scenarioControl.configure(availablePresets(),'Вводные условия');
   scenarioControl.set(selected);
@@ -75,8 +75,8 @@
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:label)+' — пустой сценарий');
-  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);url.searchParams.set('view',selected==='search-guest'?'desktop':'mobile');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
-  app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,resetView:updateURL,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null}}));
+  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);if(resetView)url.searchParams.set('view',selected==='search-guest'?'desktop':'mobile');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
+  app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,resetView,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null}}));
  }
  function fromURL(){
   const params=new URLSearchParams(location.search);orbitEnabled=orbitFromURL();
@@ -91,7 +91,7 @@
  document.addEventListener('pointerdown',event=>{if(!toolbar.contains(event.target))controls.forEach(item=>item.close());});
  window.addEventListener('popstate',fromURL);
  window.KeysScenarios={
-  select(id){selected=valid(availablePresets(),id,selected);render();},
+  select(id,{preserveView=false}={}){selected=valid(availablePresets(),id,selected);render(true,!preserveView);},
   setBrand(value){
    const next=value==='orbit';if(next===orbitEnabled)return;orbitEnabled=next;
    if(selected==='onboarding'&&!orbitEnabled){selected='guest';render();}

@@ -37,6 +37,23 @@ test('Trips, Benefits and Profile return to host, Find and Chats remain in origi
  for(const [action,target] of [[{type:'NAV_TAB',tab:'trips'},'trips'],[{type:'NAV_TAB',tab:'bonuses'},'benefits'],[{type:'OPEN',screen:{type:'profile'}},'profile'],[{type:'OPEN',screen:{type:'stay-feedback'}},'feedback']]){assert.equal(e.keysRouteToHost(action),true);assert.equal(messages.at(-1).target,target);}
  assert.equal(e.keysRouteToHost({type:'NAV_TAB',tab:'find'}),false);assert.equal(e.keysRouteToHost({type:'NAV_TAB',tab:'chats'}),false);
 });
+test('confirmed booking CTA opens pre-arrival, including the guest checkout entry',()=>{
+ const messages=[];globalThis.window={parent:{postMessage:m=>messages.push(m)},location:{origin:'http://127.0.0.1:8765'}};
+ let state=e.keysInitialState();state=run(state,{type:'HOTEL_OPEN',id:'more'});state=run(state,{type:'RESERVATION_START'});state=run(state,{type:'RESERVATION_NEXT'});state=completeGuest(state);state=run(state,{type:'RESERVATION_METHOD',method:'arrival'});state=run(state,{type:'RESERVATION_PAY',draftId:state.reservation.id});
+ const previous=globalThis.PoraDemo.state,guest=globalThis.keysGuestMode;
+ try{
+  globalThis.PoraDemo.state=state;
+  for(const guestMode of [false,true]){
+   globalThis.keysGuestMode=guestMode;
+   assert.equal(e.keysRouteToHost({type:'HOME',confirmedBookingId:state.booking.id}),true);
+   assert.deepEqual(messages.at(-1),{source:'keys-arbana',type:'navigate',target:'trips',scenario:'booked',bookingId:state.booking.id});
+  }
+  globalThis.keysGuestMode=false;
+  e.keysRouteToHost({type:'HOME'});assert.equal(messages.at(-1).scenario,undefined);
+  e.keysRouteToHost({type:'HOME',confirmedBookingId:'not-confirmed'});assert.equal(messages.at(-1).scenario,undefined);
+  assert.equal(state.keysCreatedBookings[state.booking.id].booking.id,state.booking.id);
+ }finally{globalThis.PoraDemo.state=previous;globalThis.keysGuestMode=guest;}
+});
 test('base prototype retains logic and approved home edits',async()=>{
  const manifest=JSON.parse(await readFile(new URL('../design/sections-migration.json',import.meta.url),'utf8'));
  const baseline=await readFile(new URL('../'+manifest.backup+'/src/prototype.html',import.meta.url),'utf8');

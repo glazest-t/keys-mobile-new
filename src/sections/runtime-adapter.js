@@ -3,6 +3,10 @@ function keysPost(type, value) {
   if (window.parent !== window) window.parent.postMessage({source:'keys-arbana', type, ...value}, window.location.origin === 'null' ? '*' : window.location.origin);
 }
 function keysRouteToHost(action) {
+  // Only the success CTA advances the demo scenario; ordinary Home keeps its context.
+  if(action.type==='HOME'&&action.confirmedBookingId&&globalThis.PoraDemo.state?.keysCreatedBookings?.[action.confirmedBookingId]){
+    keysPost('navigate',{target:'trips',scenario:'booked',bookingId:action.confirmedBookingId});return true;
+  }
   if(globalThis.keysGuestMode){
     if(action.type==='HOME'||action.type==='NAV_TAB'&&action.tab==='trips'){keysPost('guest-home',{});return true;}
     const payment=action.type==='RESERVATION_NEXT'||action.type==='RESERVATION_PAY'||action.type==='OPEN'&&action.screen?.type==='reservation-payment';

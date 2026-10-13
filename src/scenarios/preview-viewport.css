@@ -6,3 +6,60 @@ body[data-keys-view="mobile"] #keysScenarioEmpty{height:var(--keys-preview-heigh
  body[data-keys-view="mobile"]{padding:0}
  body[data-keys-view="mobile"] #keysScenarioControls{margin-bottom:0}
 }
+
+/* One compact toolbar, independent of the selected application brand. */
+body #keysScenarioControls#keysScenarioControls{
+ display:grid;grid-template-columns:156px minmax(0,1fr) 188px auto;align-items:center;
+ width:940px;max-width:100%;height:auto;min-height:0;gap:6px;padding:6px;
+ margin:0 auto 8px;border:1px solid #e4e7ee;border-radius:14px;background:#f4f5f8;
+ color:#263146;font:500 12px/18px 'Golos Text Variable',sans-serif;
+}
+body #keysScenarioControls#keysScenarioControls:has(.keys-scenario-toggle:disabled){width:740px;grid-template-columns:156px minmax(0,1fr) auto}
+#keysScenarioControls#keysScenarioControls .keys-scenario-control:has(.keys-scenario-toggle:disabled){display:none}
+#keysScenarioControls#keysScenarioControls .keys-brand-control{display:flex;min-width:0}
+#keysScenarioControls#keysScenarioControls :is(.keys-scenario-toggle,.keys-brand-control select,.kd-view-switch){
+ height:36px;min-height:36px;margin:0;border:1px solid #e4e7ee;border-radius:9px;background:#fff;box-shadow:none;
+ color:#263146;font:500 12px/18px 'Golos Text Variable',sans-serif;
+}
+#keysScenarioControls#keysScenarioControls .keys-scenario-toggle{padding:0 10px;gap:7px}
+#keysScenarioControls#keysScenarioControls .keys-scenario-label{font:inherit;white-space:nowrap}
+#keysScenarioControls#keysScenarioControls .keys-brand-control select{
+ width:100%;max-width:100%;padding:0 28px 0 10px;cursor:pointer;appearance:none;
+ background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='1.65' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 9px center/14px no-repeat;
+}
+#keysScenarioControls#keysScenarioControls .kd-view-switch{grid-column:auto;justify-self:stretch;display:flex;gap:2px;padding:3px}
+#keysScenarioControls#keysScenarioControls .kd-view-switch button{height:28px;min-height:28px;padding:0 9px;gap:5px;border-radius:6px;font:inherit;white-space:nowrap;color:#6b7280}
+#keysScenarioControls#keysScenarioControls .kd-view-switch button[aria-pressed=true]{background:#eef2fe;color:#3159cf}
+#keysScenarioControls#keysScenarioControls svg{width:14px;height:14px;color:#6b7280}
+#keysScenarioControls#keysScenarioControls .kd-view-switch button[aria-pressed=true] svg{color:inherit}
+#keysScenarioControls#keysScenarioControls :is(.keys-scenario-toggle,.keys-brand-control select):hover{border-color:#c5cddc}
+#keysScenarioControls#keysScenarioControls :is(.keys-scenario-toggle,.keys-brand-control select):focus-visible{outline:2px solid #3a66f0;outline-offset:2px}
+#keysScenarioControls#keysScenarioControls .keys-scenario-list{width:max-content;min-width:100%;max-width:min(360px,calc(100vw - 24px));max-height:min(480px,calc(100dvh - 130px));overflow:auto;border:1px solid #e4e7ee;border-radius:12px;background:#fff;padding:5px;box-shadow:0 12px 32px #20385d1a}
+#keysScenarioControls#keysScenarioControls .keys-scenario-group{font:500 11px/16px 'Golos Text Variable',sans-serif;text-transform:none;letter-spacing:0;color:#6b7280;padding:6px 8px}
+#keysScenarioControls#keysScenarioControls .keys-scenario-list [role=option]{min-height:36px;padding:8px;border-radius:7px;font:400 12px/18px 'Golos Text Variable',sans-serif;color:#263146}
+#keysScenarioControls#keysScenarioControls .keys-scenario-list [aria-selected=true]{background:#eef2fe;color:#3159cf;font-weight:500}
+#keysScenarioControls#keysScenarioControls .keys-scenario-list [role=option]:is(:hover,:focus-visible){background:#f0f2f7}
+@media(max-width:760px){
+ body #keysScenarioControls#keysScenarioControls,
+ body #keysScenarioControls#keysScenarioControls:has(.keys-scenario-toggle:disabled){width:100%;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:6px;padding:6px;margin-bottom:6px}
+ #keysScenarioControls#keysScenarioControls .keys-brand-control{grid-column:1;grid-row:1}
+ #keysScenarioControls#keysScenarioControls .keys-scenario-control:has(#keys-scenario-toggle){grid-column:2;grid-row:1;min-width:0}
+ #keysScenarioControls#keysScenarioControls .keys-scenario-control:has(#keys-stay-day-toggle){grid-column:1;grid-row:2}
+ #keysScenarioControls#keysScenarioControls .kd-view-switch{grid-column:2;grid-row:2}
+ #keysScenarioControls#keysScenarioControls:has(.keys-scenario-toggle:disabled) .keys-scenario-control:has(#keys-scenario-toggle){grid-column:1/-1;grid-row:1}
+ #keysScenarioControls#keysScenarioControls:has(.keys-scenario-toggle:disabled) .keys-brand-control{grid-column:1;grid-row:2}
+ #keysScenarioControls#keysScenarioControls .keys-scenario-toggle>svg:first-child{display:none}
+ #keysScenarioControls#keysScenarioControls .keys-scenario-list{left:auto;right:0;min-width:250px}
+ #keysScenarioControls#keysScenarioControls .keys-scenario-control:has(#keys-stay-day-toggle) .keys-scenario-list{left:0;right:auto}
+ #keysScenarioControls#keysScenarioControls .keys-scenario-list [role=option]{min-height:40px}
+}
+@media(max-width:360px){#keysScenarioControls#keysScenarioControls .kd-view-switch button{padding-inline:6px}#keysScenarioControls#keysScenarioControls .kd-view-switch svg{display:none}}
+/* Style picker uses the shared scenario popover, including its WIP marker. */
+#keysScenarioControls#keysScenarioControls .keys-brand-control{position:relative}
+#keysScenarioControls#keysScenarioControls .keys-brand-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:1px;text-align:left;line-height:15px}
+#keysScenarioControls#keysScenarioControls .keys-brand-copy>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#keysScenarioControls#keysScenarioControls .keys-brand-progress{display:flex;align-items:center;gap:4px;color:#16865a;font:400 10px/12px 'Golos Text Variable',sans-serif;white-space:nowrap}
+#keysScenarioControls#keysScenarioControls .keys-brand-progress svg{width:11px;height:11px;visibility:visible;color:#16865a}
+#keysScenarioControls#keysScenarioControls .keys-brand-control .keys-scenario-list{min-width:240px;left:0;right:auto}
+#keysScenarioControls#keysScenarioControls .keys-brand-control [role=option]{min-height:44px}
+#keysScenarioControls#keysScenarioControls .keys-brand-control [role=option] .keys-brand-progress{font-size:11px;line-height:16px}

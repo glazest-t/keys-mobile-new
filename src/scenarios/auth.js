@@ -1,5 +1,5 @@
 import {createAuthFlow,formatPhone,PROTOTYPE_CODE} from './auth-model.mjs';
-import {createPartnerInvite} from './partner-invite.js';
+import {createPartnerInvite} from './partner-invite.js?v=orbit-20261013';
 import {bindOtpFields} from './otp-fields.mjs';
 const root=document.getElementById('keysUnifiedPrototype');
 const toolbar=document.getElementById('keysScenarioControls');
@@ -14,6 +14,7 @@ const partnerSessionKey='keys-partner-session-v1';
 const savePartnerSession=approved=>{try{sessionStorage.setItem(partnerSessionKey,JSON.stringify({name:flow.state.name,phone:flow.state.phone,approved}));}catch{}};
 const clearPartnerSession=()=>{try{sessionStorage.removeItem(partnerSessionKey);}catch{}};
 let desktopAuth=false,desktopAuthOrigin=null;
+let authRenderVersion=0,authSubmitting=false;
 let flow=createAuthFlow(),timer=null,background=[],completed=false,finishing=false,originals=[],invited=false,resuming=false,resumeOrigin=null,codeFields=null;
 const partner=createPartnerInvite({guest,header,main,svg,onStartAuth:()=>render(),onReady:()=>finishLogin(true),onSkip:()=>finishLogin(false,true)});
 const rememberText=(selector,value)=>root.querySelectorAll(selector).forEach(el=>{const children=[...el.childNodes];originals.push(()=>el.replaceChildren(...children));el.textContent=value;});
@@ -78,6 +79,7 @@ guest.addEventListener('keydown',event=>{
  }
 });
 function finishLogin(hotelier=false,deferred=false){
+ if(document.documentElement.dataset.keysBrand==='orbit'){root.classList.add('keys-orbit-login-arrival');setTimeout(()=>root.classList.remove('keys-orbit-login-arrival'),550);}
  clearInterval(timer);
  const loginContact={firstName:flow.state.name||'Татьяна',lastName:'',phone:formatPhone(flow.state.phone),email:''};
  try{sessionStorage.setItem('keys-login-contact-v1',JSON.stringify(loginContact));}catch{}
@@ -108,11 +110,13 @@ function resumePartner(trigger){
  guest.hidden=false;partner.resume();
 }
 function error(message){
+ if(!message)delete main.dataset.orbitVerification;
  main.querySelector('[data-auth-error]').textContent=message||'';
  main.querySelectorAll('input').forEach(field=>field.setAttribute('aria-invalid',String(Boolean(message))));
 }
 function tick(){const button=main.querySelector('[data-auth-resend]');if(!button)return;const seconds=flow.remaining();button.disabled=seconds>0;button.textContent=seconds?`Новый код через ${seconds} с`:'Получить новый код';}
 function render(focus=true){
+ const renderVersion=++authRenderVersion;authSubmitting=false;delete main.dataset.orbitVerification;
  clearInterval(timer);codeFields=null;const {step,phone}=flow.state;guest.dataset.authStep=step;
  note.hidden=step!=='code'||guest.hidden;
  guest.dataset.authWelcome=String(step==='phone'&&!invited&&!desktopAuth);
@@ -140,15 +144,19 @@ function render(focus=true){
  }
  const input=main.querySelector('input');if(step==='phone')input.value=phone?formatPhone(phone):'';
  if(step==='name')input.value=flow.state.name;
- if(step==='code'){tick();timer=setInterval(tick,1000);codeFields=bindOtpFields(main.querySelector('.kauth-code-fields'),()=>error(''));}
- else input.addEventListener('input',()=>error(''));
- main.querySelector('form').addEventListener('submit',event=>{
-  event.preventDefault();const message=step==='phone'?flow.send(input.value):step==='code'?(codeFields.value().length<6?'Введите все 6 цифр кода.':flow.verify(codeFields.value())):flow.complete(input.value);
+ if(step==='code'){tick();timer=setInterval(tick,1000);codeFields=bindOtpFields(main.querySelector('.kauth-code-fields'),()=>{error('');if(document.documentElement.dataset.keysBrand==='orbit')queueMicrotask(()=>{if(renderVersion===authRenderVersion&&codeFields?.value().length===6&&!authSubmitting)main.querySelector('form')?.requestSubmit();});});}
+ else input.addEventListener('input',()=>{error('');if(document.documentElement.dataset.keysBrand==='orbit')queueMicrotask(()=>{if(renderVersion===authRenderVersion&&codeFields?.value().length===6&&!authSubmitting)main.querySelector('form')?.requestSubmit();});});
+ main.querySelector('form').addEventListener('submit',async event=>{
+  event.preventDefault();if(authSubmitting)return;
+  const animated=step==='code'&&codeFields.value().length===6&&document.documentElement.dataset.keysBrand==='orbit';
+  if(animated){authSubmitting=true;await window.KeysBrand?.verification(main,'checking');if(renderVersion!==authRenderVersion||guest.hidden)return;}
+  const message=step==='phone'?flow.send(input.value):step==='code'?(codeFields.value().length<6?'Введите все 6 цифр кода.':flow.verify(codeFields.value())):flow.complete(input.value);
   if(!message&&desktopAuth&&step==='phone'){
    let known=flow.state.phone==='+79001234567'?'Татьяна':'';
    try{const saved=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(saved?.phone?.replace(/\D/g,'')===flow.state.phone.replace(/\D/g,''))known=saved.firstName;}catch{}
    flow.state.registered=!!known;flow.state.name=known||'';
   }
+  if(animated){if(!message)await window.KeysBrand?.verification(main,'success');else await window.KeysBrand?.verification(main,'error');if(renderVersion!==authRenderVersion||guest.hidden)return;authSubmitting=false;}
   if(message){error(message);if(step==='code')codeFields.focusMissing();else input.focus();return;}
   if(flow.state.step==='done'){
    clearInterval(timer);note.hidden=true;
@@ -157,6 +165,7 @@ function render(focus=true){
  });
  guest.querySelector('.kauth-phone').scrollTop=0;
  if(focus)input.focus({preventScroll:true});
+ window.KeysBrand?.auth(guest);
 }
 guest.addEventListener('click',event=>{
  if(event.target.closest('[data-auth-invite]')){partner.invite();return;}
@@ -166,6 +175,7 @@ guest.addEventListener('click',event=>{
  }
 });
 function scenarioChanged(event){
+ authRenderVersion++;authSubmitting=false;
  const scenario=document.body.dataset.keysScenario;
  if(desktopAuth)closeDesktopAuth();
  const guestSearch=document.body.dataset.keysGuestSearch==='true';

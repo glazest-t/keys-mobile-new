@@ -4,7 +4,14 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype');
  if(!app)return;
- const presets=[['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
+ const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
+ const basePresets=presets.filter(([key])=>key!=='onboarding');
+ function orbitFromURL(){
+  const value=new URLSearchParams(location.search).get('brand');if(value)return value==='orbit';
+  try{return localStorage.getItem('keys-brand-variant')==='orbit';}catch{return false;}
+ }
+ let orbitEnabled=orbitFromURL();
+ const availablePresets=()=>orbitEnabled?presets:basePresets;
  const days=[['day-1','Проживание 1 день'],['day-2','Проживание 2 день'],['checkout','День выезда']];
  const arrivalDays=[['day-8','За 8 дней до заезда'],['day-3','За 3 дня до заезда'],['arrival','День заезда']];
  const valid=(items,id,fallback)=>items.some(([key])=>key===id)?id:fallback;
@@ -46,17 +53,18 @@
   },set(key,disabled=false){
    value=key;toggle.disabled=disabled;
    const label=disabled?'День проживания':items.find(([item])=>item===key)[1];
-   toggle.querySelector('span').textContent=label;toggle.setAttribute('aria-label',group+': '+label);
+   toggle.querySelector('span').textContent=id==='keys-stay-day'&&!disabled?({'day-1':'1-й день','day-2':'2-й день','checkout':'День выезда','day-8':'За 8 дней','day-3':'За 3 дня','arrival':'День заезда'}[key]||label):label;toggle.setAttribute('aria-label',group+': '+label);
    toggle.title=disabled?'Выберите сценарий до заезда или проживания':label;
    options.forEach(option=>option.setAttribute('aria-selected',String(option.dataset.value===value)));
    if(disabled)close();
   }};
   controls.push(result);return result;
  }
- const scenarioControl=control('keys-scenario',presets,'Вводные условия','sliders',id=>{selected=id;render();});
+ const scenarioControl=control('keys-scenario',availablePresets(),'Вводные условия','sliders',id=>{selected=id;render();});
  const dayControl=control('keys-stay-day',days,'День проживания','calendar',id=>{if(selected==='booked')arrivalDay=id;else stayDay=id;render();});
  function render(updateURL=true){
   const label=presets.find(([key])=>key===selected)[1],dayLabel=days.find(([key])=>key===stayDay)[1];
+  scenarioControl.configure(availablePresets(),'Вводные условия');
   scenarioControl.set(selected);
   dayControl.configure(selected==='booked'?arrivalDays:days,selected==='booked'?'До заезда':'День проживания');
   dayControl.set(selected==='booked'?arrivalDay:stayDay,!['stay','booked'].includes(selected));
@@ -65,16 +73,28 @@
   document.body.dataset.keysGuestSearch=String(selected==='search-guest');
   document.body.dataset.keysLoyalty=selected==='search-gold'?'Gold':'Silver';
   document.body.dataset.keysScenario=scenario;document.body.dataset.keysStayDay=stayDay;document.body.dataset.keysArrivalDay=arrivalDay;
-  const implemented=selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked'&&['day-8','day-3','arrival'].includes(arrivalDay);
+  const implemented=selected==='onboarding'||selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked'&&['day-8','day-3','arrival'].includes(arrivalDay);
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:selected==='booked'?label+' · '+arrivalDays.find(([key])=>key===arrivalDay)[1]:label)+' — пустой сценарий');
-  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);if(selected==='search-guest')url.searchParams.set('view','desktop');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');if(selected==='booked')url.searchParams.set('arrivalDay',arrivalDay);else url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
-  app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null,arrivalDay:selected==='booked'?arrivalDay:null}}));
+  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);url.searchParams.set('view',selected==='search-guest'?'desktop':'mobile');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');if(selected==='booked')url.searchParams.set('arrivalDay',arrivalDay);else url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
+  app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,resetView:updateURL,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null,arrivalDay:selected==='booked'?arrivalDay:null}}));
  }
- function fromURL(){const params=new URLSearchParams(location.search);selected=valid(presets,params.get('scenario'),'stay');stayDay=valid(days,params.get('stayDay'),'day-2');arrivalDay=valid(arrivalDays,params.get('arrivalDay'),'day-8');controls.forEach(item=>item.close());render(false);}
+ function fromURL(){
+  const params=new URLSearchParams(location.search);orbitEnabled=orbitFromURL();
+  const requested=params.get('scenario');selected=valid(availablePresets(),requested,requested==='onboarding'?'guest':'stay');
+  stayDay=valid(days,params.get('stayDay'),'day-2');arrivalDay=valid(arrivalDays,params.get('arrivalDay'),'day-8');
+  controls.forEach(item=>item.close());render(requested==='onboarding'&&!orbitEnabled);
+ }
  document.addEventListener('pointerdown',event=>{if(!toolbar.contains(event.target))controls.forEach(item=>item.close());});
  window.addEventListener('popstate',fromURL);
- window.KeysScenarios={select(id){selected=valid(presets,id,selected);render();}};
+ window.KeysScenarios={
+  select(id){selected=valid(availablePresets(),id,selected);render();},
+  setBrand(value){
+   const next=value==='orbit';if(next===orbitEnabled)return;orbitEnabled=next;
+   if(selected==='onboarding'&&!orbitEnabled){selected='guest';render();}
+   else{scenarioControl.configure(availablePresets(),'Вводные условия');scenarioControl.set(selected);}
+  }
+ };
  fromURL();
 })();

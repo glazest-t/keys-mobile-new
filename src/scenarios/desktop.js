@@ -134,6 +134,6 @@
   modes.querySelectorAll('button').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.view===(desktop?'desktop':'mobile')));button.disabled=guestSearch?button.dataset.view==='mobile':button.dataset.view==='desktop'&&!supported;button.title=button.disabled?(guestSearch?'Этот сценарий доступен только на десктопе':'Веб-версия недоступна для этого сценария'):'';});
  }
  modes.addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(!button||button.disabled)return;view=button.dataset.view;const url=new URL(location.href);url.searchParams.set('view',view);history.replaceState(history.state,'',url);render();});
- window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',render);
+ window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',event=>{if(event.detail?.resetView)view='mobile';render();});
  new MutationObserver(render).observe(home.closest('.ku-section'),{attributes:true,attributeFilter:['hidden']});render();
 })();

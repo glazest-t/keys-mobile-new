@@ -1,0 +1,56 @@
+/* Supplied Orbit onboarding, adapted to the shared preview viewport. */
+#keysOnboardingPrototype[hidden]{display:none!important}
+body[data-keys-scenario=onboarding] #keysUnifiedPrototype>:not(#keysOnboardingPrototype){display:none!important}
+#keysOnboardingPrototype{display:flex;justify-content:center;padding:6px 0 22px;font-family:var(--font-sans);color:#14171f}
+#keysOnboardingPrototype *{box-sizing:border-box}
+#keysOnboardingPrototype .kon-phone{width:390px;max-width:100%;height:var(--keys-preview-height,844px);min-height:440px;display:flex;flex-direction:column;overflow:hidden;border:1px solid #eceef2;border-radius:30px;background:#f7f8fa;box-shadow:0 16px 60px #1c284112;container-type:size;touch-action:pan-y}
+#keysOnboardingPrototype button{font:500 14px/21px var(--font-sans);cursor:pointer;flex:none}
+#keysOnboardingPrototype button[hidden]{display:none!important}
+#keysOnboardingPrototype button:focus-visible{outline:2px solid #3a66f0;outline-offset:3px}
+#keysOnboardingPrototype .kon-header{height:60px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:8px 16px 0}
+#keysOnboardingPrototype .kon-header button{height:44px;border:0;background:none;color:#6b7280;padding:0 0 0 12px}
+.kon-progress{display:flex;align-items:center;gap:8px;font-size:12px;line-height:18px;font-weight:500;color:#6b7280}
+.kon-orbit{position:relative;width:22px;height:22px;border:4.1px solid #3a66f0;border-radius:50%;transform:rotate(calc(var(--kon-step)*90deg));transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.kon-orbit i{position:absolute;left:-5.7px;top:3.2px;width:7.3px;height:7.3px;border-radius:50%;background:#3a66f0;box-shadow:0 0 0 1.3px #f7f8fa}
+#keysOnboardingPrototype .kon-stage{position:relative;flex:1;min-height:0;overflow:hidden}
+.kon-slide{position:absolute;inset:0;display:flex;flex-direction:column;transform:translateX(calc(var(--kon-offset)*100%));transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .2s}
+#keysOnboardingPrototype .kon-visual{margin:12px 16px 0;height:clamp(230px,52cqh,356px);flex:none;position:relative}
+#keysOnboardingPrototype .kon-visual>div{height:100%!important;margin:0!important}
+#keysOnboardingPrototype .kon-copy{padding:24px 20px 16px;overflow:auto}
+#keysOnboardingPrototype .kon-copy h1{margin:0;font:500 24px/30px var(--font-sans)!important;letter-spacing:-.4px;text-wrap:balance;outline:none}
+#keysOnboardingPrototype .kon-copy p{margin:8px 0 0;font:400 14px/21px var(--font-sans);color:#6b7280;text-wrap:pretty}
+#keysOnboardingPrototype .kon-footer{padding:12px 16px max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px;flex:none;background:#f7f8fa}
+#keysOnboardingPrototype .kon-primary{height:48px;border:0;border-radius:14px;background:#3a66f0;color:#fff}
+#keysOnboardingPrototype .kon-secondary{height:36px;border:0;border-radius:14px;background:transparent;color:#3a66f0}
+#keysOnboardingPrototype [data-slide="3"] .kon-visual{height:clamp(240px,46cqh,316px)}
+#keysOnboardingPrototype [data-slide="3"] .kon-copy{padding-top:18px}
+/* Preserve the room visual's proportions without forcing a tall phone. */
+#keysOnboardingPrototype [data-slide="2"] .kon-visual>div>img{height:65%!important}
+#keysOnboardingPrototype [data-slide="2"] .kon-visual>div>div:first-of-type{top:34%!important}
+#keysOnboardingPrototype .kon-slide:not(.is-current) *{animation-play-state:paused!important}
+@keyframes keysOnboardGold{from{transform:rotate(50deg)}to{transform:rotate(410deg)}}
+@keyframes keysOnboardPlat{from{transform:rotate(200deg)}to{transform:rotate(-160deg)}}
+@keyframes keysOnboardPoints{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(-3px);opacity:.92}}
+@container(max-height:650px){
+ #keysOnboardingPrototype .kon-header{height:48px;padding-top:0}
+ #keysOnboardingPrototype .kon-visual{height:clamp(200px,48cqh,300px);margin-top:8px}
+ #keysOnboardingPrototype .kon-copy{padding-top:18px}
+ #keysOnboardingPrototype .kon-footer{padding-top:8px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+ #keysOnboardingPrototype [data-slide="3"] .kon-visual{height:clamp(208px,40cqh,260px)}
+ #keysOnboardingPrototype [data-slide="2"] .kon-visual>div>div:first-of-type{top:20%!important;padding:10px 12px!important;gap:6px!important}
+ #keysOnboardingPrototype [data-slide="2"] .kon-visual>div>div:last-child>div{padding:8px!important}
+}
+@media(max-width:520px){#keysOnboardingPrototype{padding:0}#keysOnboardingPrototype .kon-phone{width:100%;border:0;border-radius:0;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){#keysOnboardingPrototype *{animation:none!important}.kon-orbit{transition:none}.kon-slide{transform:none;opacity:0;transition:opacity .2s}.kon-slide.is-current{opacity:1}}
+
+/* The same key-to-orbit loading animation as login, then reveal the first slide. */
+#keysOnboardingPrototype .kon-phone{position:relative;isolation:isolate}
+#keysOnboardingPrototype .kon-splash{pointer-events:auto;animation:kon-splash-exit 2.6s both}
+#keysOnboardingPrototype .kon-splash .keys-login-flight{animation:none;top:calc(50% - 132px)}
+#keysOnboardingPrototype .kon-splash svg{display:block;width:160px!important;height:160px!important;overflow:visible}
+#keysOnboardingPrototype .kon-splash .keys-login-word{color:#fff;animation:kFade 2s cubic-bezier(.65,0,.35,1) both!important}
+#keysOnboardingPrototype .kon-splash>p{position:absolute;top:calc(50% + 108px);left:16px;right:16px;margin:0;text-align:center;color:#e3eaff;font:400 15px/22px var(--font-sans)}
+#keysOnboardingPrototype .kon-loading>:is(header,main,footer){animation:kon-content-enter .45s 2.1s both}
+@keyframes kon-splash-exit{0%,80%{opacity:1;background:#3a66f0}100%{opacity:0;background:#3a66f0}}
+@keyframes kon-content-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#keysOnboardingPrototype .kon-splash{display:none}}

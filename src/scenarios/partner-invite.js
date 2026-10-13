@@ -12,11 +12,12 @@ export function createPartnerInvite({guest,header,main,svg,onStartAuth,onReady,o
   header.innerHTML=`${canBack?`<button type="button" class="kauth-back" data-partner-back aria-label="Назад">${back}</button>`:'<span class="kauth-brand">ключи</span>'}<span class="kpi-edition">Для отельеров</span>`;
   main.innerHTML=`<div class="kauth-intro"><h1 tabindex="-1">${title}</h1></div>`;
  }
- function focus(){main.querySelector('input,h1')?.focus({preventScroll:true});guest.querySelector('.kauth-phone').scrollTop=0;}
+ function focus(){window.KeysBrand?.auth(guest);main.querySelector('input,h1')?.focus({preventScroll:true});guest.querySelector('.kauth-phone').scrollTop=0;}
  function invite(){
   model.reset();side.hidden=true;guest.classList.remove('has-extranet');shell('Свои отели.<br>Особые условия.',false,'invite');
   main.querySelector('.kauth-intro').insertAdjacentHTML('beforebegin','<div class="kpi-invite-art" aria-hidden="true"><img src="./scenarios/auth-art/hotels.png" alt=""><img src="./scenarios/auth-art/key.png" alt=""></div>');
   main.insertAdjacentHTML('beforeend',`<p class="kpi-lead">Закрытая версия «Ключей» для отельеров с тарифами <strong>Friendly Rate</strong>.</p><section class="kpi-invitation" aria-label="Персональное приглашение"><span class="kpi-kicker">Персональное приглашение</span><div><span>Приглашение от</span><strong>TravelLine Partners Club</strong></div><p>Действительно ещё <strong>6 дней</strong></p></section><button type="button" class="kauth-primary" data-partner-start>Принять приглашение</button>`);
+  window.KeysBrand?.auth(guest);
  }
  function introduction(){
   side.hidden=true;guest.classList.remove('has-extranet');shell('Вы работаете в отеле?',false);

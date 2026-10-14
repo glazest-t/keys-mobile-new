@@ -13,7 +13,7 @@
   const frame=document.createElement('iframe');frame.id='keysSectionsFrame';frame.title='Найти и Чаты';
   section.append(frame);root.append(section);
   let ready=false,pending=null,notificationOrigin=null,notificationOpened=false,feedbackFromNotifications=false,feedbackTripOrigin=null,profileOrigin=null,benefitsOrigin=null;
-  let chatOrigin=null,chatOpened=false,runtimeReturn=null;
+  let chatOrigin=null,chatOpened=false,runtimeReturn=null,entryOrigin=null;
   let profileMotionId=0,profileAnimations=[];
   const cancelProfileMotion=()=>{
     profileMotionId++;
@@ -48,10 +48,16 @@
     if(tab==='chats'&&hotelId&&section.hidden){
       chatOrigin=[...root.querySelectorAll(':scope>.ku-section')].map(el=>[el,el.hidden]);chatOpened=false;
     }else if(tab!=='chats'){chatOrigin=null;chatOpened=false;}
+    const entryReturn=section.hidden&&tab==='find'
+      ? (['saved','created-booking'].includes(screen)?{kind:'screen',screen}
+        : discovery?.searchRequest&&discovery.hotelId?{kind:'screen',screen:'hotel'}
+        : discovery&&(discovery.searchRequest||discovery.collection||discovery.city)?{kind:'results'}:null)
+      : null;
+    entryOrigin=entryReturn?{sections:[...root.querySelectorAll(':scope>.ku-section')].map(el=>[el,el.hidden]),focus:document.activeElement}:null;
     section.dataset.runtimeScreen=screen??'';section.dataset.runtimeTab=tab;
     root.querySelectorAll(':scope>.ku-section').forEach(s=>s.hidden=s!==section);
-    pending={tab,hotelId,screen,discovery,bookingId};
-    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=gold-loyalty-20261012&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(notificationDay())+'&guestSearch='+String(document.body.dataset.keysGuestSearch==='true');
+    pending={tab,hotelId,screen,discovery,bookingId,entryReturn};
+    if(!frame.hasAttribute('src')) frame.src='./sections/index.html?v=back-navigation-20261014&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(notificationDay())+'&guestSearch='+String(document.body.dataset.keysGuestSearch==='true');
     send();
   };
   const captureProfileOrigin=()=>{
@@ -123,9 +129,15 @@
       root.keysConnectedHotelCards=Array.isArray(event.data.cards)?event.data.cards.filter(card=>typeof card.hotelId==='string'&&typeof card.name==='string'&&Number.isFinite(card.discount)&&card.discount>0&&card.discount<=100):[];
       root.dispatchEvent(new CustomEvent('keys-hotel-loyalty-change'));
     }
+    if(event.data.type==='return-to-entry'){
+      const origin=entryOrigin;entryOrigin=null;
+      if(origin){origin.sections.forEach(([el,hidden])=>el.hidden=hidden);origin.focus?.focus({preventScroll:true});}
+      else go('trips');
+      return;
+    }
     if(event.data.type==='nav')window.KeysAppNav.setUnread(event.data.unread);
     if(event.data.type==='header')root.querySelectorAll('.keys-app-header').forEach(h=>window.KeysAppHeader.setUnread(h,event.data.unread));
-    if(event.data.type==='state'){section.dataset.runtimeScreen=event.data.screen??'';section.dataset.runtimeTab=event.data.tab??'find';}
+    if(event.data.type==='state'){section.dataset.runtimeResults=String(!!event.data.results);section.dataset.runtimeScreen=event.data.screen??'';section.dataset.runtimeTab=event.data.tab??'find';}
     if(event.data.type==='state'&&chatOrigin){
       if(event.data.tab==='chats'&&event.data.screen==='chat')chatOpened=true;
       else if(chatOpened&&event.data.tab==='chats'&&!event.data.screen){
@@ -277,7 +289,7 @@
     overview.addEventListener('click',event=>{const button=event.target.closest('[data-benefits-page]');if(button)showBenefitsPage(button.dataset.benefitsPage);});
     subheader.querySelector('button').addEventListener('click',()=>showBenefitsPage('overview'));
     root.addEventListener('keys-close-benefits',event=>{if(benefitsPage!=='overview'){event.stopImmediatePropagation();showBenefitsPage('overview');}},true);
-    root.addEventListener('keys-open-benefits',()=>showBenefitsPage('overview',false));
+    root.addEventListener('keys-open-benefits',event=>showBenefitsPage(event.detail?.page==='points'?'points':'overview',false));
     root.addEventListener('keys-scenario-change',()=>showBenefitsPage('overview',false));
     showBenefitsPage('overview',false);
     benefitsScroll.append(benefits);
@@ -400,7 +412,7 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
-    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=gold-loyalty-20261012&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(day);
+    if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=back-navigation-20261014&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(day);
     else if(ready)frame.contentWindow.postMessage({source:'keys-host',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,stayDay:day},location.protocol==='file:'?'*':location.origin);
   });
   root.addEventListener('keys-open-trip-review',event=>{

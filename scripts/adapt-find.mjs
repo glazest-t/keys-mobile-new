@@ -55,6 +55,22 @@ export function adaptFind(source, recentComponent, resultsComponent) {
   const form='n.jsxs("form", { onSubmit:',footer='className: "sticky bottom-0 z-10 -mx-(--gutter) border-t border-line bg-card px-(--gutter) pt-3 pb-[max(14px,env(safe-area-inset-bottom))]"';
   if(!part.includes(form)||!part.includes(footer))throw Error('Filter action layout missing: '+name);
   part=part.replace(form,'n.jsxs("form", { className: "keys-filter-form", onSubmit:').replace(footer,footer.replace('"sticky','"keys-filter-footer sticky'));
+  // The desktop sidebar uses these exact mobile controls with immediate updates.
+  part=part.replace('function '+name+'() {','function '+name+'({inline=false}={}) {');
+  if(name==='vV'){
+   part=part.replace('[r, l] = E.useState(e.search.filters), [c, u] = E.useState(e.search.sort ?? "recommended")', '[draft, setDraft] = E.useState(e.search.filters), [sortDraft, setSortDraft] = E.useState(e.search.sort ?? "recommended"), r=inline?e.search.filters:draft, c=inline?(e.search.sort??"recommended"):sortDraft, l=value=>inline?t({type:"SEARCH_PATCH",patch:{filters:value}}):setDraft(value), u=value=>inline?t({type:"SEARCH_PATCH",patch:{sort:value}}):setSortDraft(value)');
+   part=part.replaceAll('=> fE(', '=> inline || fE(');
+   part=part.replace('n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l}', 'n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l,compact:inline}');
+  }else{
+   part=part.replace('[r, l] = E.useState(() => Sw(e.search.filters))', '[draft, setDraft] = E.useState(() => Sw(e.search.filters)), r=inline?Sw(e.search.filters):draft, l=value=>inline?t({type:"SEARCH_PATCH",patch:{filters:value}}):setDraft(value)');
+  }
+  const headerStart=part.indexOf('n.jsx(Ae, { title: "Фильтры"'),headerEnd=part.indexOf('n.jsxs("form",',headerStart);
+  if(headerStart<0||headerEnd<0)throw Error('Inline filter header missing');
+  const mobileHeader=part.slice(headerStart,headerEnd).replace(/, $/,'');
+  const inlineHeader='n.jsxs("header",{className:"keys-filter-sidebar-heading",children:[n.jsx("h2",{children:"Фильтры"}),n.jsx("button",{type:"button",disabled:!r.length&&(!e.search.sort||e.search.sort==="recommended"),onClick:()=>t({type:"SEARCH_PATCH",patch:{filters:[],sort:"recommended"}}),children:"Сбросить"})]})';
+  part=part.slice(0,headerStart)+'inline?'+inlineHeader+':'+mobileHeader+', '+part.slice(headerEnd);
+  part=part.replace('className: "keys-filter-footer sticky', 'hidden:inline, className: "keys-filter-footer sticky');
+  part=part.replace(' }), a();', ' }), !inline&&a();');
   js=js.slice(0,start)+part+js.slice(end);
  }
  return js;

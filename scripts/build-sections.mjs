@@ -45,6 +45,7 @@ export async function buildSections(){
  replace('const a = gw(t), r = t.personaId;', 'const a = e.keysCheckoutIdentity ? e.profile : gw(t), r = t.personaId;');
  replace('const Gv = typeof window < "u" && true','const Gv = false'); // Host owns browser history; reducer keeps screen history.
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "KEYS_CHANGE_START") return keysChangeInitial(e,t.booking);');
+ replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "OPEN" && keysSameScreen(e.navigation.screen,t.screen)) return e;\n  if(t.type === "KEYS_SEARCH_BACK") return {...e,search:{...e.search,results:false,keysMapExpanded:false,keysCollection:null}};');
  replace('FE = (e, t, a = 0) => Math.round(Rg(e, a) * BE(t))','FE = (e, t, a = 0) => e.keysNightly ?? Math.round(Rg(e, a) * BE(t))');
  replace('function CH({ compact: e = false }) {','function OriginalArbanaHeader({ compact: e = false }) {');
  replace('function EV() {','function OriginalArbanaNotifications() {');
@@ -121,7 +122,7 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

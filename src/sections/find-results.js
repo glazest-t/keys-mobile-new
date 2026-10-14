@@ -17,7 +17,8 @@ function KeysResultsLayout({children}){
   const container=list.current,top=card.getBoundingClientRect().top-container.getBoundingClientRect().top+container.scrollTop;
   container.scrollTo({top:Math.max(0,top-4),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
  },[desktop,selected]);
- return n.jsx(keysResultsContext().Provider,{value:desktop?selected:null,children:n.jsxs(n.Fragment,{children:[children[0],n.jsxs('div',{className:'keys-results-workspace',children:[
+ return n.jsx(keysResultsContext().Provider,{value:desktop?selected:null,children:n.jsxs(n.Fragment,{children:[children[0],n.jsxs('div',{className:'keys-results-workspace'+(desktop?' has-sidebar':''),children:[
+  desktop&&n.jsx('aside',{className:'keys-results-sidebar','aria-label':'Фильтры отелей',children:n.jsx(tt().source==='travelline'?xV:vV,{inline:true})}),
   n.jsx(KeysResultsMap,{desktop,onSelectionChange:setSelected}),
   n.jsx('div',{ref:list,className:'keys-results-list','aria-label':'Отели в результатах поиска',children:children.slice(1)})
  ]})]})});
@@ -83,7 +84,7 @@ function FU() {
  return n.jsxs(n.Fragment,{children:[
   n.jsxs('div',{className:'keys-results-sticky',children:[
   n.jsxs('div',{className:'keys-results-header',children:[
-   n.jsx(cs,{onClick:()=>dispatch({type:'SEARCH_PATCH',patch:{results:false,keysMapExpanded:false,keysCollection:null}})}),
+   n.jsx(cs,{onClick:()=>dispatch({type:'KEYS_SEARCH_BACK'})}),
    n.jsxs('button',{type:'button',className:'keys-results-query','aria-label':'Изменить параметры поиска','aria-haspopup':'dialog',onClick:()=>setEditing(true),children:[
     n.jsxs('span',{className:'keys-results-city',children:[n.jsx('span',{className:'keys-results-city-name',title:collection?.title||search.city||'Все отели',children:collection?.title||search.city||'Все отели'}),n.jsx(D,{name:'down',className:'size-4'})]}),
     n.jsx('span',{className:'keys-results-dates',children:(collection?(search.city||'Все направления')+' · ':'')+zt(search.arrival,search.departure)+' · '+Bm(search.party)})
@@ -122,10 +123,8 @@ function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impression
  const reviews=local?Zc(local).reviews.length:null;
  const location=keysHotelLocation(locationCity??(state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'?(local?.city||summary?.city||''):state.search.city),local||summary);
  return n.jsxs('article',{ref:impressionRef,className:'keys-result-hotel'+(selected?' is-map-selected':''),'aria-label':selected?hotel.name+' — выбран на карте':undefined,'data-hotel-id':hotel.id,children:[
-  n.jsxs('div',{className:'keys-result-hotel-photo',children:[
-   n.jsx(jO,{photos:hotel.photos,name:hotel.name,onOpen}),
-   n.jsx('button',{type:'button',className:'keys-result-hotel-save','aria-label':saved?'Убрать '+hotel.name+' из сохранённых':'Сохранить '+hotel.name,'aria-pressed':saved,onClick:()=>dispatch({type:'FAVORITE_TOGGLE',id:hotel.id}),children:n.jsx(D,{name:'heart',className:F('size-[18px]',saved&&'fill-current')})})
-  ]}),
+  n.jsx('div',{className:'keys-result-hotel-photo',children:n.jsx(jO,{photos:hotel.photos,name:hotel.name,onOpen})}),
+  n.jsx('button',{type:'button',className:'keys-result-hotel-save','aria-label':saved?'Убрать '+hotel.name+' из сохранённых':'Сохранить '+hotel.name,'aria-pressed':saved,onClick:()=>dispatch({type:'FAVORITE_TOGGLE',id:hotel.id}),children:n.jsx(D,{name:'heart',className:F('size-[18px]',saved&&'fill-current')})}),
   n.jsxs(priceDetails?'div':'button',{type:priceDetails?undefined:'button',className:'keys-result-hotel-body'+(priceDetails?' has-gold-price':''),'aria-label':priceDetails?undefined:'Подробнее об отеле '+hotel.name,onClick:priceDetails?undefined:onOpen,children:[
    priceDetails&&n.jsx('button',{type:'button',className:'keys-result-hotel-open','aria-label':'Подробнее об отеле '+hotel.name,onClick:onOpen}),
    n.jsx('span',{className:'keys-result-hotel-title',children:n.jsx('span',{className:'keys-result-hotel-name',role:'heading','aria-level':3,children:hotel.name})}),
@@ -218,16 +217,35 @@ function keysNightlyPriceMatches(price,filters){
  if(min===null&&max===null)return true;
  return Number.isFinite(price)&&(min===null||price>=min)&&(max===null||price<=max);
 }
-function KeysNightlyPriceFilter({filters,onChange}){
+function keysNightlySliderBounds(filters){
+ const {min,max}=keysNightlyPriceRange(filters);
+ const limit=Math.max(30000,Math.ceil(Math.max(min||0,max||0)/10000)*10000);
+ return {low:min??0,high:max??limit,limit};
+}
+function keysMoveNightlySlider(filters,edge,value,limit){
+ const {low,high}=keysNightlySliderBounds(filters);
+ const next=Math.max(0,Math.min(limit,Number(value)||0));
+ return edge==='min'
+  ?keysSetNightlyPrice(filters,Math.min(next,high)||null,high===limit?null:high)
+  :keysSetNightlyPrice(filters,low||null,Math.max(next,low)===limit?null:Math.max(next,low));
+}
+function KeysNightlyPriceFilter({filters,onChange,compact=false}){
  const {min,max}=keysNightlyPriceRange(filters),invalid=min!==null&&max!==null&&min>max;
- const errorId=E.useId();
+ const errorId=E.useId(),{low,high,limit}=keysNightlySliderBounds(filters);
  const field=(label,value,key)=>n.jsxs('label',{className:'keys-price-bound',children:[
   n.jsx('span',{children:label}),
-  n.jsxs('span',{className:'keys-price-bound-control',children:[n.jsx('input',{type:'text',inputMode:'numeric',autoComplete:'off','aria-label':'Цена за ночь '+label.toLowerCase(),value:value??'',placeholder:key==='min'?'0':'Без лимита',maxLength:9,'aria-invalid':invalid,'aria-describedby':invalid?errorId:undefined,onChange:event=>{const clean=event.target.value.replace(/[^0-9]/g,'');onChange(keysSetNightlyPrice(filters,key==='min'?clean:min,key==='max'?clean:max));}}),n.jsx('span',{'aria-hidden':true,children:'₽'})]})
+  n.jsxs('span',{className:'keys-price-bound-control',children:[n.jsx('input',{type:'text',inputMode:'numeric',autoComplete:'off','aria-label':'Цена за ночь '+label.toLowerCase(),value:value??'',placeholder:key==='min'?'0':compact?'∞':'Без лимита',maxLength:9,'aria-invalid':invalid,'aria-describedby':invalid?errorId:undefined,onChange:event=>{const clean=event.target.value.replace(/[^0-9]/g,'');onChange(keysSetNightlyPrice(filters,key==='min'?clean:min,key==='max'?clean:max));}}),n.jsx('span',{'aria-hidden':true,children:'₽'})]})
  ]});
  return n.jsxs('fieldset',{className:'keys-nightly-price',children:[
   n.jsx('legend',{children:'Цена за ночь, ₽'}),
   n.jsxs('div',{className:'keys-price-bounds',children:[field('От',min,'min'),field('До',max,'max')]}),
+  compact&&n.jsxs('div',{className:'keys-nightly-slider',children:[
+   n.jsxs('div',{className:'ki-budget-slider',style:{'--range-from':(low/limit*100)+'%','--range-to':(high/limit*100)+'%'},children:[
+    n.jsx('div',{className:'ki-budget-track','aria-hidden':true}),
+    ...['min','max'].map(edge=>n.jsx('input',{type:'range',min:0,max:limit,step:100,value:edge==='min'?low:high,'aria-label':edge==='min'?'Минимальная цена за ночь':'Максимальная цена за ночь','aria-valuetext':edge==='max'&&high===limit?'Без ограничения':(edge==='min'?low:high).toLocaleString('ru-RU')+' рублей',onChange:event=>onChange(keysMoveNightlySlider(filters,edge,event.target.value,limit))},edge))
+   ]}),
+   n.jsxs('div',{className:'ki-budget-scale','aria-hidden':true,children:[n.jsx('span',{children:'0 ₽'}),n.jsx('span',{children:limit.toLocaleString('ru-RU')+' ₽+'})]})
+  ]}),
   invalid&&n.jsx('p',{id:errorId,role:'alert',className:'keys-price-range-error',children:'Цена «До» должна быть не меньше цены «От».'}),
   n.jsx('div',{className:'keys-price-presets',children:[null,6000,8000,10000].map(value=>n.jsx('button',{type:'button','aria-pressed':min===null&&max===value,onClick:()=>onChange(keysSetNightlyPrice(filters,null,value)),children:value===null?'Любая':'До '+value.toLocaleString('ru-RU')},value??'any'))})
  ]});

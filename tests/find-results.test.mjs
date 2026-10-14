@@ -70,3 +70,20 @@ test('nightly filtering includes boundary prices and handles one-sided, empty an
  assert.equal(match(100000,[]),true);
  assert.equal(match(1,set(null,0)),false);
 });
+
+test('nightly slider prevents crossed bounds, supports unlimited maximum and preserves other filters',()=>{
+ const read=context.keysNightlyPriceRange,move=context.keysMoveNightlySlider;
+ let filters=move(['Со спа'],'max',8000,30000);
+ assert.equal(read(filters).max,8000);
+ filters=move(filters,'min',10000,30000);
+ assert.equal(read(filters).min,8000);
+ assert.equal(read(filters).max,8000);
+ assert.ok(filters.includes('Со спа'));
+ filters=move(filters,'max',30000,30000);
+ assert.equal(read(filters).max,null);
+ filters=move(filters,'min',0,30000);
+ assert.deepEqual(Array.from(filters),['Со спа']);
+ const bounds=context.keysNightlySliderBounds(context.keysSetNightlyPrice([],120000,250000));
+ assert.equal(bounds.limit,250000);
+ assert.equal(bounds.high,250000);
+});

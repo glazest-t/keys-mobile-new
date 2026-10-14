@@ -164,7 +164,7 @@ html.keys-share-sheet .keys-module-screen{background:transparent}
 .keys-results-map:not(.is-expanded) .hotel-map-pin small{font-size:10px}
 
 /* Wide photo gallery with a compact, two-column hotel summary. */
-.keys-result-hotel{overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);color:var(--color-ink);cursor:pointer}
+.keys-result-hotel{position:relative;overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);color:var(--color-ink);cursor:pointer}
 .keys-result-hotel-photo{position:relative;aspect-ratio:2 / 1;overflow:hidden}
 .keys-result-hotel-photo>div:first-child{position:absolute;inset:0}
 .keys-result-hotel-photo img{object-position:center}

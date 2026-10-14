@@ -83,3 +83,27 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#k
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions strong{text-align:center}
 }
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-actions{box-shadow:none}
+
+/* Primary desktop search sits in the page, leaving navigation in the masthead. */
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kd-header-points{margin-left:auto}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot{position:relative;height:112px;margin:8px 0 28px;z-index:60}
+#keysHomeSearchFrame{display:block;position:absolute;inset:0 0 auto;width:100%;height:var(--search-frame-height,112px);border:0;background:transparent;color-scheme:light}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot.is-modal{position:static}
+.kd-home-search-slot.is-modal #keysHomeSearchFrame{position:fixed;inset:0;width:100vw;height:100dvh;z-index:10000}
+@media(max-width:799px){body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot{height:234px;margin-inline:16px}}
+
+/* A single rewards card on the no-booking desktop home. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-home :is(.kse-benefits,.kd-wallet){display:none}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-search-rewards{padding:24px;border:1px solid var(--color-line,#e8ebf0);border-radius:24px;background:#fff;color:var(--color-ink,#202a3f)}
+.kd-search-rewards header{display:flex;align-items:center;gap:12px;margin:0 0 20px}
+#keysUnifiedPrototype .kd-search-rewards h2{margin:0;font:500 18px/24px var(--font-sans)}
+.kd-rewards-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--color-soft,#f1f3ff);color:var(--color-brand,#3e5de7)}
+.kd-rewards-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype .kd-rewards-balance{display:flex;align-items:baseline;gap:8px;margin:0}
+#keysUnifiedPrototype .kd-rewards-balance strong{font:500 32px/40px var(--font-sans);letter-spacing:-.7px}
+#keysUnifiedPrototype .kd-rewards-balance span{font:400 14px/21px var(--font-sans);color:var(--color-muted,#707989)}
+#keysUnifiedPrototype .kd-rewards-caption{margin:4px 0 20px;font:400 14px/21px var(--font-sans);color:var(--color-muted,#707989)}
+#keysUnifiedPrototype .kd-rewards-link{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:36px;padding:0;border:0;background:transparent;color:var(--color-brand,#3e5de7);font:500 14px/21px var(--font-sans);text-align:left;cursor:pointer}
+.kd-rewards-link svg{width:18px;height:18px}
+.kd-rewards-link:hover span{text-decoration:underline;text-underline-offset:3px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-home .kd-scenario-side>.kd-wallet{display:none!important}

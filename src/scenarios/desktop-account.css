@@ -63,3 +63,8 @@ body[data-keys-desktop-secondary="find"]{overflow-anchor:none}
 /* Reused referral card: the same body and action roles as on Trips. */
 body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-copy>span{font:var(--ui-font-body)!important}
 body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.ka-referral-footer,.kb-action-link){font:var(--ui-font-label)!important}
+
+/* Results use the available desktop width; detail and checkout keep their reading width. */
+@media(min-width:900px){
+ body[data-keys-desktop-secondary="find"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"][data-runtime-results="true"]{max-width:none;width:100%}
+}

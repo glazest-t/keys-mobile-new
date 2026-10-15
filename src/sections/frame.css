@@ -1411,3 +1411,10 @@ html:not([data-desktop-account=true]) #root .keys-room-selection>.keys-room-tool
  background:var(--color-card);border-bottom:1px solid var(--color-line);
 }
 #root .keys-connect-action{white-space:normal;text-wrap:balance;text-align:center}
+
+/* A potential hotel-member discount, confirmed after connecting the programme. */
+#root .keys-connect-loyalty:not(.is-connected){grid-template-columns:52px minmax(0,1fr);align-items:start;gap:12px}
+#root .keys-connect-loyalty .keys-connect-discount{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:14px;background:#fff;color:#2344bc;font:600 17px/24px var(--font-sans);letter-spacing:-.3px}
+#root .keys-connect-loyalty:not(.is-connected)>div{align-self:center}
+#root .keys-connect-loyalty:not(.is-connected) .keys-connect-action{grid-column:1/-1;width:100%;margin:2px 0 0}
+#root .keys-connect-loyalty:not(.is-connected) p{max-width:none;font:400 13px/19px var(--font-sans)}

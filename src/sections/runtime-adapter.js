@@ -358,6 +358,13 @@ function KeysFavorites(){
 // header occupies its own row, so galleries cannot cover its controls.
 function Ae(props) {
  const {back}=J();
+ const roomHeaderRef=E.useRef(null);
+ E.useLayoutEffect(()=>{
+  const header=roomHeaderRef.current,parent=header?.parentElement;if(!parent)return;
+  const measure=()=>parent.style.setProperty('--keys-room-header-height',header.getBoundingClientRect().height+'px');
+  const observer=new ResizeObserver(measure);observer.observe(header);measure();
+  return()=>{observer.disconnect();parent.style.removeProperty('--keys-room-header-height');};
+ },[props.subtitle]);
  const [desktop,setDesktop]=E.useState(()=>document.documentElement.dataset.desktopAccount==='true');
  E.useEffect(()=>{
   const sync=()=>setDesktop(document.documentElement.dataset.desktopAccount==='true');
@@ -366,7 +373,7 @@ function Ae(props) {
   sync();return()=>observer.disconnect();
  },[]);
  if(props.title==='Оплата'&&!props.subtitle)return n.jsx(KeysPaymentStayHeader,props);
- if(props.subtitle)return n.jsxs('header',{className:'keys-room-page-header'+(desktop?' is-desktop':''),children:[
+ if(props.subtitle)return n.jsxs('header',{ref:roomHeaderRef,className:'keys-room-page-header'+(desktop?' is-desktop':''),children:[
   desktop?n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}):n.jsx(cs,{onClick:props.onBack??back}),
   n.jsxs('div',{className:'keys-room-header-copy',children:[n.jsx('h1',{tabIndex:-1,children:props.title}),n.jsx('p',{title:props.subtitle,children:props.subtitle})]}),
   props.action

@@ -1403,3 +1403,11 @@ html:not([data-desktop-account=true]) #root .keys-checkout-flow{padding-bottom:0
 html:not([data-desktop-account=true]) .keys-room-tariff-track{cursor:grab;user-select:none;-webkit-user-select:none}
 html:not([data-desktop-account=true]) .keys-room-tariff-track.is-dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing}
 html:not([data-desktop-account=true]) .keys-room-tariff-track.is-dragging *{cursor:grabbing!important}
+
+/* Room filters stay joined to the measured booking header on mobile. */
+html:not([data-desktop-account=true]) #root .keys-room-selection>.keys-room-tools{
+ position:sticky;top:var(--keys-room-header-height,63px);z-index:29;
+ margin:0 -16px 20px;padding:12px 16px;
+ background:var(--color-card);border-bottom:1px solid var(--color-line);
+}
+#root .keys-connect-action{white-space:normal;text-wrap:balance;text-align:center}

@@ -35,6 +35,7 @@ function B4() {
  }).slice(0,2);
  const hotels=history.hotels.flatMap(hotel=>JB(hotel,remote,Sa())).slice(0,WB);
  return n.jsxs(n.Fragment,{children:[
+  globalThis.keysGuestMode&&n.jsx(KeysDesktopPointsCard,{}),
   searches.length>0 && n.jsxs('section',{className:'keys-find-history','aria-label':'Предыдущие поиски',children:[
    n.jsx('div',{className:'keys-find-history-track',children:searches.map(search=>{
     const adults=search.party.adults;
@@ -87,4 +88,14 @@ function KeysFindCollections(){
   type:'button',className:'keys-find-collection',onClick:()=>keysOpenCollection(dispatch,state.search,item.id),
   children:[n.jsx('img',{src:'./collections/'+item.image+'.svg',alt:'',width:160,height:128}),n.jsx('span',{children:item.title})]
  },item.id))});
+}
+
+function KeysDesktopPointsCard(){
+ const {state}=J(),signedIn=!!globalThis.keysGuestAuthorized;
+ return n.jsxs('section',{className:'kd-points-card kd-points-runtime','aria-label':'Баллы Ключей',children:[
+  n.jsxs('header',{children:[n.jsx('span',{className:'kd-points-icon',children:n.jsx(D,{name:'gift'})}),n.jsx('h2',{children:'Баллы Ключей'})]}),
+  signedIn&&n.jsxs('div',{className:'kd-points-balance',children:[n.jsx('strong',{children:ln(state.loyalty.balance)}),n.jsx('span',{children:'баллов доступно'})]}),
+  n.jsx('p',{className:'kd-points-copy',children:signedIn?'1 балл = 1 ₽ скидки':'Копите баллы за бронирования и оплачивайте ими следующие поездки.'}),
+  n.jsxs('button',{type:'button',className:'kd-points-link',onClick:()=>keysPost('points-program',{}),children:[n.jsx('span',{children:'Как использовать'}),n.jsx(D,{name:'chevron'})]})
+ ]});
 }

@@ -121,6 +121,7 @@ ${fragment}
 <script src="./scenarios/desktop-profile.js"></script>
 <link rel="stylesheet" href="./scenarios/desktop-account.css">
 <script src="./scenarios/desktop-account.js"></script>
+<link rel="stylesheet" href="./scenarios/desktop-rewards.css">
 <link rel="stylesheet" href="./scenarios/auth.css?v=journey-ribbon">
 <link rel="stylesheet" href="./scenarios/partner-invite.css">
 <script type="module" src="./scenarios/auth.js?v=journey-ribbon"></script>

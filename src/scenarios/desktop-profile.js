@@ -6,6 +6,7 @@
  const account=phone.closest('.ku-section'),page=phone.closest('.kf-grid>section'),scroll=phone.querySelector(':scope>.kf-scroll');
  const header=home.querySelector('.keys-app-header');
  const children=[...scroll.children],identity=scroll.querySelector('.kf-profile'),loyalty=scroll.querySelector('.keys-profile-loyalty');
+ const pointsCard=window.KeysDesktopPoints.create();pointsCard.classList.add('kd-points-desktop-only');
  const rail=document.createElement('aside');rail.className='kdp-personal';rail.setAttribute('aria-label','Ваш профиль и лояльность');
  const settings=document.createElement('div');settings.className='kdp-settings';
  const groups=children.filter(el=>el.matches('.kf-section')).map((title,i)=>{
@@ -19,7 +20,7 @@
   if(enabled!==active){
    active=enabled;document.body.dataset.keysDesktopProfile=String(enabled);
    if(enabled){
-    rail.append(identity,loyalty);groups.forEach(({title,card,group})=>{group.append(title,card);settings.append(group);});
+    rail.append(identity,pointsCard,loyalty);window.KeysDesktopPoints.sync(pointsCard);groups.forEach(({title,card,group})=>{group.append(title,card);settings.append(group);});
     scroll.append(rail,settings);
    }else{
     children.forEach(el=>scroll.append(el));rail.remove();settings.remove();header.inert=false;

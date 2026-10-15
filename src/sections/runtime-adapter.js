@@ -98,7 +98,11 @@ function KeysBridge() {
       if(['booking','notifications','saved'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
       if(tab==='find'&&discovery){
-        if(discovery.searchRequest){
+        if(typeof discovery.wish==='string'&&discovery.wish.trim()){
+          dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});
+          dispatch({type:'OPEN',screen:{type:'describe',keysWish:discovery.wish.trim()}});
+        }
+        else if(discovery.searchRequest){
           const request=discovery.searchRequest;
           dispatch({type:'SEARCH_PATCH',patch:{city:request.city,arrival:request.arrival,departure:request.departure,party:request.party,intent:'known',results:false,keysCollection:null}});
           if(typeof discovery.hotelId==='string')dispatch({type:'HOTEL_OPEN',id:discovery.hotelId});
@@ -107,6 +111,7 @@ function KeysBridge() {
         else if(['deals','weekend','anywhere'].includes(discovery.collection)) keysOpenCollection(dispatch,searchRef.current,discovery.collection);
         else if(discovery.mode==='photo') dispatch({type:'OPEN',screen:{type:'swipe'}});
         else if(discovery.mode==='advice') dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});
+        else if(discovery.mode==='known') dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false,keysCollection:null}});
         else if(typeof discovery.city==='string'&&discovery.city.trim()){
           const city=discovery.city.trim().slice(0,120);
           dispatch({type:'SEARCH_PATCH',patch:{city,keysCollection:null,intent:'known',results:false}});
@@ -129,6 +134,7 @@ function KeysBridge() {
   return null;
 }
 function PH({children}) {
+  if(new URLSearchParams(location.search).has('headerSearch'))return n.jsx(KeysHeaderSearchPopup,{});
   if(new URLSearchParams(location.search).has('homeSearch'))return n.jsx(KeysHomeSearchWidget,{});
   RH(); LH();
   const scrollRef=E.useRef(null);

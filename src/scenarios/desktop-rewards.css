@@ -1,0 +1,40 @@
+/* One points summary across the desktop home, account and search runtime. */
+.kd-points-desktop-only,.kd-points-runtime{display:none}
+body[data-keys-view="desktop"] .kd-points-desktop-only,
+html[data-desktop-account="true"] .kd-points-runtime{display:block}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kd-points-mobile-original,
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kdp-personal>.keys-profile-loyalty,
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-reward{display:none!important}
+:is(#keysUnifiedPrototype,#root) .kd-points-card{
+ box-sizing:border-box;min-width:0;margin:0;padding:24px;border:1px solid var(--color-line,#e7eaf0);border-radius:20px;background:var(--color-card,#fff);color:var(--color-ink,#202938);text-align:left;
+}
+:is(#keysUnifiedPrototype,#root) .kd-points-card>header{display:flex;align-items:center;gap:12px;margin:0 0 20px;padding:0;background:none;border:0}
+:is(#keysUnifiedPrototype,#root) .kd-points-icon{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:12px;background:var(--color-soft,#f0f3ff);color:var(--color-brand,#3d63ff)}
+:is(#keysUnifiedPrototype,#root) .kd-points-icon svg{width:22px;height:22px}
+body :is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,#root#root) .kd-points-card h2{margin:0!important;padding:0;font:500 20px/26px var(--font-sans,Arial,sans-serif)!important;letter-spacing:0!important;color:inherit}
+:is(#keysUnifiedPrototype,#root) .kd-points-balance{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0}
+:is(#keysUnifiedPrototype,#root) .kd-points-balance[hidden]{display:none!important}
+body :is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,#root#root) .kd-points-balance strong{font:500 28px/34px var(--font-sans,Arial,sans-serif)!important;letter-spacing:-.4px!important;color:var(--color-ink,#202938)}
+body :is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,#root#root) .kd-points-balance span,
+body :is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,#root#root) .kd-points-copy{font:400 14px/20px var(--font-sans,Arial,sans-serif)!important;color:var(--color-muted,#687386);letter-spacing:0!important}
+:is(#keysUnifiedPrototype,#root) .kd-points-copy{margin:8px 0 0;padding:0}
+:is(#keysUnifiedPrototype,#root) .kd-points-card .kd-points-link{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;margin:16px 0 0;padding:0;border:0;border-radius:8px;background:transparent;color:var(--color-brand,#3d63ff);text-align:left;cursor:pointer;font:500 14px/20px var(--font-sans,Arial,sans-serif)}
+:is(#keysUnifiedPrototype,#root) .kd-points-link svg{width:18px;height:18px;flex:none}
+:is(#keysUnifiedPrototype,#root) .kd-points-link:hover{color:var(--color-ink,#202938)}
+:is(#keysUnifiedPrototype,#root) .kd-points-link:focus-visible{outline:2px solid var(--color-brand,#3d63ff);outline-offset:4px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-overview{gap:24px;border:0;border-radius:0;background:transparent;align-items:stretch;overflow:visible}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-overview>.keys-benefits-entry{border:1px solid var(--color-line);border-radius:20px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-keys-group>.kd-points-card{margin-bottom:24px}
+html[data-desktop-account="true"] [data-find-layout="landing"] main>.kd-points-runtime{grid-column:1/-1;width:100%;max-width:420px}
+
+body[data-keys-view="desktop"][data-keys-guest-search="true"][data-keys-guest-authorized="false"] #keysUnifiedPrototype .keys-benefits-overview>[data-benefits-page="hotels"]{display:none}
+
+/* Points and referrals use the same desktop card action and spacing. */
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-card{padding:24px;border-radius:20px}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .ka-referral-main{padding-bottom:0;gap:16px}
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-copy>strong{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important}
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-referral-copy>span{font:400 14px/20px var(--font-sans)!important;letter-spacing:0!important}
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-points-link,.ka-referral-footer){display:flex!important;align-items:center;justify-content:space-between!important;gap:12px;width:100%;min-height:44px;margin:16px 0 0;padding:0;border:0;border-radius:8px;background:transparent;color:var(--color-brand);font:500 14px/20px var(--font-sans)!important;letter-spacing:0!important;text-align:left;white-space:normal}
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-points-link,.ka-referral-footer) svg{width:18px;height:18px;flex:none}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kd-points-link:hover,
+body[data-keys-view="desktop"] #keysUnifiedPrototype .ka-referral-card:hover .ka-referral-footer{color:var(--color-ink)}

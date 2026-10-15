@@ -454,3 +454,31 @@ body[data-keys-booking-cancelled=true][data-keys-scenario=booked] #keysUnifiedPr
  body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-visual{height:auto;min-height:268px;align-self:stretch}
  body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-hotel-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 }
+
+/* New-trip search is available in the desktop masthead without changing the current booking. */
+.kd-trip-search-toggle{display:none}
+body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .kd-trip-search-toggle{display:flex;align-items:center;gap:10px;flex:1;max-width:390px;min-width:190px;height:48px;padding:0 16px;border:1px solid var(--color-line);border-radius:16px;background:var(--color-card,#fff);color:var(--color-ink);font:var(--ui-font-label);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kd-trip-search-toggle svg{width:18px;height:18px;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .kd-trip-search-toggle strong{font:inherit;white-space:nowrap}
+#keysUnifiedPrototype .kd-trip-search-toggle span{font:var(--ui-font-caption);color:var(--color-muted);white-space:nowrap}
+#keysUnifiedPrototype .kd-trip-search-toggle:hover{background:var(--color-soft)}
+.kd-trip-search-overlay{position:fixed;inset:0;z-index:20000;background:transparent}
+.kd-trip-search-overlay[hidden]{display:none}
+.kd-trip-search-overlay iframe{display:block;width:100%;height:100%;border:0;background:transparent;color-scheme:light}
+@media(max-width:1150px){#keysUnifiedPrototype .kd-trip-search-toggle span{display:none}}
+@media(max-width:799px){body[data-keys-view=desktop] #keysUnifiedPrototype .kd-trip-search-toggle{order:3;max-width:none;flex-basis:100%}}
+
+/* Share the available masthead width between search and the active trip. */
+@media(min-width:800px){
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header{justify-content:flex-start;gap:16px}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .keys-app-logo{margin-right:0}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .kd-trip-search-toggle{flex:1.5 1 290px;max-width:none;min-width:190px;border-radius:14px;box-sizing:border-box}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .kd-header-hotel{flex:1 1 210px;min-width:180px;margin:0}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .kd-header-hotel>span{flex:1;min-width:0}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .kd-header-hotel strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .kd-header-points{flex:0 0 100px;justify-content:center;margin:0}
+ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=stay],[data-keys-scenario=after]) #keysUnifiedPrototype .keys-app-header .keys-app-actions{flex:none;margin-left:0}
+}
+/* Reveal the search frame only after its anchored layout and fonts are ready. */
+.kd-trip-search-overlay iframe{opacity:0}
+.kd-trip-search-overlay.is-ready iframe{opacity:1}

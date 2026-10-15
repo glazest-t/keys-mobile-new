@@ -793,3 +793,50 @@ html[data-home-search="true"] .keys-search-fields [role="listbox"]{position:abso
  html[data-desktop-account=true] #root .keys-booking-cart .keys-pay-wallet-total>span{white-space:nowrap;font:var(--ui-font-caption)}
  html[data-desktop-account=true] #root .keys-booking-cart .keys-pay-wallet-total>strong{white-space:nowrap;font-variant-numeric:tabular-nums}
 }
+/* Header search uses the established fields and pickers in a wide, compact dialog. */
+html[data-header-search=true],html[data-header-search=true] :is(body,#root){height:100%;overflow:hidden}
+html[data-header-search=true] dialog.discovery-sheet:has(.keys-header-search-body){position:fixed;inset:auto;top:var(--header-search-top,140px);left:var(--header-search-left,16px);margin:0;transform:none;width:calc(100% - 32px);max-width:960px;max-height:calc(100dvh - var(--header-search-top,140px) - 16px);border-radius:24px;box-shadow:0 16px 48px rgb(27 38 64 / 16%)}
+html[data-header-search=true] dialog.discovery-sheet:has(.keys-header-search-body)::backdrop{background:rgb(28 38 58 / 12%)}
+html[data-header-search=true] dialog.discovery-sheet:has(.keys-header-search-body)>.p-5{padding:24px}
+html[data-header-search=true] dialog.discovery-sheet:has(.keys-header-search-body) h2{font:var(--ui-font-title);letter-spacing:0}
+.keys-header-search-body{position:relative}
+.keys-header-search-modes{display:flex;gap:4px;width:max-content;margin:0 0 20px;padding:4px;border-radius:14px;background:var(--color-soft)}
+.keys-header-search-modes button{min-height:36px;padding:8px 16px;border:0;border-radius:10px;background:transparent;color:var(--color-muted);font:var(--ui-font-label);cursor:pointer}
+.keys-header-search-modes button[aria-pressed=true]{background:var(--color-card);color:var(--color-ink);box-shadow:0 1px 4px rgb(28 40 65 / 8%)}
+html[data-header-search=true] #root~dialog .keys-search-hero{display:flex;align-items:center;gap:12px;margin:0;padding:0;background:transparent;border-radius:0}
+html[data-header-search=true] [data-find-layout=landing] .keys-search-fields{grid-template-columns:minmax(170px,1fr) minmax(300px,1.3fr);background:var(--color-soft);border-radius:16px;padding:0 12px}
+html[data-header-search=true] #root~dialog .keys-search-submit{width:160px;min-width:160px;min-height:64px;flex:none;margin:0;border-radius:14px}
+.keys-header-search-suggestions{margin-top:20px;min-width:0}
+.keys-header-search-suggestions h3{margin:0 0 10px;font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-header-search-track{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.keys-header-search-track button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;flex:0 0 auto;min-width:190px;padding:12px 16px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-label);text-align:left;cursor:pointer}
+.keys-header-search-track strong{font:inherit}
+.keys-header-search-track small{font:var(--ui-font-caption);color:var(--color-muted);white-space:nowrap}
+.keys-header-search-track button[aria-pressed=true]{border-color:var(--color-brand);background:var(--color-soft)}
+.keys-header-wish{display:flex;align-items:flex-end;gap:20px;padding:18px 20px;border:1px solid var(--color-line);border-radius:16px;background:var(--color-soft)}
+.keys-header-wish label{flex:1;min-width:0;display:grid;gap:8px}
+.keys-header-wish label>span{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-header-wish textarea{width:100%;padding:0;border:0;outline:none;box-shadow:none;resize:none;background:transparent;font:var(--ui-font-body);color:var(--color-ink)}
+.keys-header-wish>button{width:auto;min-width:140px;flex:none;margin:0}
+.keys-header-wish-examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.keys-header-wish-examples button{padding:9px 14px;border:1px solid var(--color-line);border-radius:24px;background:var(--color-card);font:var(--ui-font-caption);color:var(--color-ink);cursor:pointer}
+@media(max-width:850px){html[data-header-search=true] #root~dialog .keys-search-hero{flex-wrap:wrap}html[data-header-search=true] .keys-search-fields{flex-basis:100%}html[data-header-search=true] [data-find-layout=landing] .keys-search-fields{grid-template-columns:minmax(160px,1fr) minmax(280px,1.3fr)}}
+.keys-header-popular-cities{display:flex;flex-wrap:wrap;gap:10px}
+.keys-header-popular-cities button{display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-label);cursor:pointer}
+.keys-header-popular-cities svg{color:var(--color-brand);flex:none}
+.keys-header-popular-cities button:hover{background:var(--color-soft);border-color:var(--color-brand)}
+/* Suggestions participate in the form layout, so the dialog can scroll them safely. */
+html[data-header-search=true] dialog.discovery-sheet,
+html[data-header-search=true] dialog.discovery-sheet::backdrop{animation:none!important;transition:none!important}
+html[data-header-search=true] dialog.discovery-sheet:focus{outline:none}
+html[data-header-search=true] #root~dialog .keys-search-hero{align-items:flex-start}
+html[data-header-search=true] .keys-search-fields>div:first-child{display:contents}
+html[data-header-search=true] .keys-search-fields>div:first-child>label{grid-column:1;grid-row:1}
+html[data-header-search=true] .keys-search-parameters{grid-column:2;grid-row:1}
+html[data-header-search=true] .keys-search-fields [role=listbox]{position:static;grid-column:1/-1;grid-row:2;width:auto;max-height:280px;margin:0 0 12px;padding:6px;border:1px solid var(--color-line);border-radius:12px;box-shadow:none;overflow:auto;overscroll-behavior:contain}
+html[data-header-search=true] .keys-search-fields [role=option]{font:var(--ui-font-body);min-height:48px;border-radius:10px}
+html[data-header-search=true] .keys-search-fields [role=option] .text-12{font:var(--ui-font-caption)}
+html[data-header-search=true] dialog.discovery-sheet:has(.keys-header-search-body)>.p-5>.mb-4{margin-bottom:16px}
+html[data-header-search=true] .keys-header-search-modes{margin-bottom:20px}
+html[data-header-search=true] .keys-header-search-body:has([role=listbox])>.keys-header-search-suggestions{display:none}
+html[data-header-search=true] dialog.discovery-sheet button:focus:not(:focus-visible){outline:none;box-shadow:none}

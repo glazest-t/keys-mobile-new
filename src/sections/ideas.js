@@ -65,7 +65,7 @@ function KeysIdeaBudget({ideas,onChange}){
 }
 function KeysIdeasPage({onBack,embedded=false}){
  const {state,dispatch,open}=J(), engine=KeysIdeas;
- const initial=()=>{try{const saved=JSON.parse(sessionStorage.getItem('keys-ideas-v1'));if(saved?.ideas?.likes&&saved?.ideas?.current)return embedded?{...saved,stage:'welcome'}:saved;}catch{}return {ideas:engine.initial(engine.company(state.search.party),engine.month(state.search)),stage:'welcome'};};
+ const initial=()=>{if(!embedded&&state.navigation.screen?.keysWish){const text=state.navigation.screen.keysWish,search={...state.search,city:''},ideas={...engine.initial(engine.company(search.party),engine.month(search)),destination:'*'};return {ideas:engine.reduce({...state,search,ideas},{type:'IDEAS_WISH',...engine.parse(text)}).ideas,stage:'results',entry:'request',wish:text};}try{const saved=JSON.parse(sessionStorage.getItem('keys-ideas-v1'));if(saved?.ideas?.likes&&saved?.ideas?.current)return embedded?{...saved,stage:'welcome'}:saved;}catch{}return {ideas:engine.initial(engine.company(state.search.party),engine.month(state.search)),stage:'welcome'};};
  const [model,setModel]=E.useState(initial),[tune,setTune]=E.useState(false),[topic,setTopic]=E.useState(null),[text,setText]=E.useState(()=>model.entry==='request'?model.wish||'':''),[reply,setReply]=E.useState(''),[sort,setSort]=E.useState('fit'),[expanded,setExpanded]=E.useState(false),[swipe,setSwipe]=E.useState(0),[leaving,setLeaving]=E.useState(false),[cityDraft,setCityDraft]=E.useState('');
  const [flight,setFlight]=E.useState(null);
  const landed=E.useCallback(()=>setFlight(null),[]);

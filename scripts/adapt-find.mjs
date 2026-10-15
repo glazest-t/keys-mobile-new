@@ -17,11 +17,25 @@ export function adaptFind(source, recentComponent, resultsComponent) {
   if(start<0||end<0)throw Error('Destination input missing');
   let field=js.slice(start,end);
   const patch=(a,b)=>{if(!field.includes(a))throw Error('Destination anchor missing: '+a);field=field.replace(a,b);};
-  patch('onHotelChange: l })','onHotelChange: l, citiesOnly = false })');
+  patch('onHotelChange: l })','onHotelChange: l, citiesOnly = false, onActivate })');
   patch('].slice(0, 7), C =','].filter(I => !citiesOnly || I.place && I.caption.startsWith("Город")).slice(0, 7), C =');
+  patch('onFocus: () => h(true)', 'onFocus: () => { h(!onActivate); onActivate?.(); }, onClick: () => { if(onActivate){h(false);onActivate();} }');
   patch('"aria-label": "Город или отель"','"aria-label": citiesOnly ? "Город" : "Город или отель"');
   patch('placeholder: "Город или название отеля"','placeholder: citiesOnly ? "Введите город" : "Город или название отеля"');
   js=js.slice(0,start)+field+js.slice(end);
+ }
+ // Native showModal chooses the first button unless focus is explicitly placed on the dialog.
+ replace('m.showModal?.(), () => m?.close?.()', 'm.showModal?.(), new URLSearchParams(location.search).has("headerSearch") && m?.focus({preventScroll:true}), () => m?.close?.()');
+ // Initial pointer focus belongs to the search dialog, not its close button.
+ {
+  const start=js.indexOf('function ct('),end=js.indexOf('\nfunction ',start+12);
+  if(start<0||end<0)throw Error('Search dialog component missing');
+  let dialog=js.slice(start,end);
+  const focus='autoFocus: true, type: "button", "aria-label": "Закрыть"';
+  if(!dialog.includes(focus)||!dialog.includes('ref: u, "aria-label": e'))throw Error('Search dialog focus anchor missing');
+  dialog=dialog.replace('ref: u, "aria-label": e','ref: u, tabIndex: -1, autoFocus: new URLSearchParams(location.search).has("headerSearch"), "aria-label": e');
+  dialog=dialog.replace(focus,'autoFocus: !new URLSearchParams(location.search).has("headerSearch"), type: "button", "aria-label": "Закрыть"');
+  js=js.slice(0,start)+dialog+js.slice(end);
  }
  // Decorative filter icons stay blue on the plain surface in both checkbox states.
  for(const selected of ['h','v'])replace('className: F("grid size-8 shrink-0 place-items-center rounded-10", '+selected+' ? "bg-brand-solid text-on-brand" : "bg-card text-brand")','className: "keys-filter-option-icon"');

@@ -37,10 +37,11 @@
   if(event.data.type==='account-height'&&['notifications','find'].includes(document.body.dataset.keysDesktopSecondary)&&Number.isFinite(event.data.height)){frame.style.height=Math.max(560,Math.min(12000,event.data.height))+'px';if(resetFindScroll){resetFindScroll=false;requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));}}
  });
  title.querySelector('button').addEventListener('click',()=>root.dispatchEvent(new CustomEvent('keys-close-benefits')));
- // Make the same loyalty card an entry point in every desktop trip scenario.
- const wallet=home.querySelector('.kd-wallet .keys-benefits-wallet');
- const open=document.createElement('button');open.type='button';open.className='kda-program-link kh-detail-link';open.innerHTML='<span>Бонусная программа</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>';wallet.append(open);
- wallet.addEventListener('click',event=>{if(event.target.closest('summary,details,a'))return;root.dispatchEvent(new CustomEvent('keys-open-benefits'));});
+ // Desktop points summaries share one component; hotel loyalty remains separate.
+ const overviewPoints=content.querySelector('.keys-benefits-overview [data-benefits-page="points"]');
+ const detailsPoints=content.querySelector('.keys-benefits-wallet');
+ for(const source of [overviewPoints,detailsPoints]){source.classList.add('kd-points-mobile-original');const card=window.KeysDesktopPoints.create();card.classList.add('kd-points-desktop-only');source.before(card);}
+ window.addEventListener('message',event=>{if(event.source===frame.contentWindow&&event.origin===location.origin&&event.data?.source==='keys-arbana'&&event.data.type==='points-program')root.dispatchEvent(new CustomEvent('keys-open-benefits',{detail:{page:'points'}}));});
  root.addEventListener('click',event=>{
   if(document.body.dataset.keysView!=='desktop'||!event.target.closest('[data-after="points"]'))return;
   event.preventDefault();event.stopImmediatePropagation();root.dispatchEvent(new CustomEvent('keys-open-benefits'));

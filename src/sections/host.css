@@ -272,3 +272,88 @@ body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-
 
 #keysUnifiedPrototype .keys-benefits-entry-label{display:flex;align-items:center;gap:10px;min-width:0}
 #keysUnifiedPrototype .keys-benefits-entry-label>svg{width:22px;height:22px;flex:none;color:var(--color-brand)}
+
+/* Benefits: one app-points balance, independent hotel memberships. */
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-overview{display:grid;gap:24px;border:0;border-radius:0;background:transparent;overflow:visible}
+#keysUnifiedPrototype .keys-points-overview{position:relative;overflow:hidden;isolation:isolate;border-radius:20px;padding:20px;background:var(--color-brand);color:#fff;gap:8px}
+#keysUnifiedPrototype .keys-points-overview::after{content:"";position:absolute;z-index:-1;right:-50px;top:10px;width:160px;height:160px;border:22px solid #ffffff14;border-radius:50%;pointer-events:none}
+#keysUnifiedPrototype .keys-points-overview .keys-benefits-entry-top{margin-bottom:12px}
+#keysUnifiedPrototype .keys-points-overview .keys-benefits-entry-label>svg{color:#fff}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-points-overview>strong{font:500 36px/42px var(--font-sans)!important;color:#fff;letter-spacing:-.7px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-points-overview>strong>span{display:block;font:400 13px/20px var(--font-sans);letter-spacing:0;color:#fff}
+#keysUnifiedPrototype .keys-points-overview .keys-benefits-entry-note{color:#fff;font:400 13px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-points-overview-link{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;margin-top:12px;padding:10px 12px;border-radius:12px;background:#ffffff20;font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-points-overview-link svg{width:18px;height:18px;flex:none}
+#keysUnifiedPrototype .keys-points-overview:hover{background:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-preview{min-width:0}
+#keysUnifiedPrototype .keys-program-preview>header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-preview h2,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-section>h2{font:500 17px/24px var(--font-sans)!important;letter-spacing:0!important;margin:0!important}
+#keysUnifiedPrototype .keys-program-preview>header>button{display:flex;align-items:center;gap:4px;min-height:44px;padding:0;border:0;background:transparent;color:var(--color-brand);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-program-preview>header>button svg{width:16px;height:16px}
+#keysUnifiedPrototype .keys-program-preview>p{font:400 12px/18px var(--font-sans);color:var(--color-muted);margin:0 0 16px}
+#keysUnifiedPrototype .keys-program-preview-list{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .keys-program-preview-list:empty{display:none}
+#keysUnifiedPrototype .keys-program-row{display:flex;align-items:center;gap:12px;width:100%;min-height:100px;padding:16px;border:0;border-radius:0;background:var(--color-card);color:var(--color-ink);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .keys-program-row+.keys-program-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-program-symbol{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:10px;color:var(--color-brand);background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-symbol svg{width:20px;height:20px}
+#keysUnifiedPrototype .keys-program-copy{display:grid;gap:4px;min-width:0;flex:1}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-copy>strong{font:500 14px/20px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-program-copy>span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-benefit{display:grid;gap:2px;flex:none;max-width:84px;padding:6px 8px;border-radius:8px;color:#126749;background:#e8f6ef;font:500 14px/20px var(--font-sans);text-align:center}
+#keysUnifiedPrototype .keys-program-benefit small{font:400 11px/16px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-row>svg{width:16px;height:16px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-row:hover{background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-row:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+#keysUnifiedPrototype .keys-program-none{padding:20px;border:1px solid var(--color-line);border-radius:16px}
+#keysUnifiedPrototype .keys-program-detail{display:grid;gap:24px;margin:16px 0 0}
+#keysUnifiedPrototype .keys-program-hero{overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype .keys-program-photo{display:block;width:100%;height:144px;object-fit:cover}
+#keysUnifiedPrototype .keys-program-cover{display:grid;place-items:center;height:104px;background:linear-gradient(125deg,var(--color-soft),#e8f4f1);color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-cover svg{width:40px;height:40px}
+#keysUnifiedPrototype .keys-program-identity{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 16px 0}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-identity h2{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important;margin:0!important}
+#keysUnifiedPrototype .keys-program-identity p{margin:4px 0 0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-identity .keys-loyalty-tier{flex:none;padding:6px 10px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-stats{display:flex;justify-content:space-between;gap:16px;padding:16px;margin:16px;border-radius:12px;background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-stats>div{display:grid;gap:4px}
+#keysUnifiedPrototype .keys-program-stats>div+div{text-align:right}
+#keysUnifiedPrototype .keys-program-stats span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-stats strong{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-program-stats>div:first-child strong{color:var(--color-ink)}
+#keysUnifiedPrototype .keys-program-progress{padding:0 16px 20px}
+#keysUnifiedPrototype .keys-program-progress progress{display:block;appearance:none;border:0;border-radius:6px;overflow:hidden;width:100%;height:6px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-progress progress::-webkit-progress-bar{background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-progress progress::-webkit-progress-value{background:var(--color-brand);border-radius:6px}
+#keysUnifiedPrototype .keys-program-progress progress::-moz-progress-bar{background:var(--color-brand);border-radius:6px}
+#keysUnifiedPrototype .keys-program-progress>div{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-notice{display:flex;align-items:flex-start;gap:10px;margin:0;padding:16px;border-radius:16px;background:var(--color-soft);font:400 13px/20px var(--font-sans);color:var(--color-ink)}
+#keysUnifiedPrototype .keys-program-notice svg{width:20px;height:20px;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-section{display:grid;gap:12px}
+#keysUnifiedPrototype .keys-program-perks{list-style:none;margin:0;padding:16px;display:grid;gap:14px;border:1px solid var(--color-line);border-radius:20px}
+#keysUnifiedPrototype .keys-program-perks li{display:flex;gap:10px;font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-perks svg{width:18px;height:18px;flex:none;color:#126749}
+#keysUnifiedPrototype .keys-program-levels{border:1px solid var(--color-line);border-radius:20px;overflow:hidden}
+#keysUnifiedPrototype .keys-program-level{display:flex;gap:12px;align-items:center;padding:16px;font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-level+.keys-program-level{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-program-level.is-current{background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-level-letter{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:10px;background:var(--color-soft);font-weight:500;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-level.is-current .keys-program-level-letter{background:var(--color-brand);color:#fff}
+#keysUnifiedPrototype .keys-program-level>div{display:grid;gap:4px;flex:1;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-level strong{font:500 14px/20px var(--font-sans)!important}
+#keysUnifiedPrototype .keys-program-level>div>span{color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-level>small{max-width:56px;font:500 11px/16px var(--font-sans);color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-rules{border:1px solid var(--color-line);border-radius:16px;padding:0 16px}
+#keysUnifiedPrototype .keys-program-rules>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:52px;list-style:none;cursor:pointer;font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-rules>summary::-webkit-details-marker{display:none}
+#keysUnifiedPrototype .keys-program-rules>summary svg{width:18px;height:18px}
+#keysUnifiedPrototype .keys-program-rules[open]>summary svg{transform:rotate(90deg)}
+#keysUnifiedPrototype .keys-program-rules>p{font:400 13px/20px var(--font-sans);color:var(--color-muted);margin:0;padding-bottom:16px}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-benefits-overview{align-items:start}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-detail{max-width:760px;margin:0 auto}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-photo{height:220px}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-row{min-height:104px}
+#keysUnifiedPrototype .keys-program-preview [hidden]{display:none!important}
+body[data-keys-view=desktop] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-overview{align-items:start!important}
+body[data-keys-view=desktop] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-preview h2{font:500 20px/26px var(--font-sans)!important}

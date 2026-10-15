@@ -235,63 +235,72 @@
       <p class="keys-loyalty-empty" hidden>Ничего не найдено. Попробуйте другой отель или город.</p>
       <button type="button" class="keys-loyalty-more" aria-controls="keys-loyalty-list"></button>
       <span class="keys-loyalty-live" aria-live="polite" role="status"></span>`;
-    let filter='all',query='',expanded=false;
+    let filter='all',query='',benefitsPage='overview',detailOrigin='overview',selectedProgram=null;
     const list=hotels.querySelector('.keys-loyalty-list'),more=hotels.querySelector('.keys-loyalty-more');
+    more.hidden=true;
     const normalize=text=>text.toLocaleLowerCase('ru').replaceAll('ё','е').trim();
+    const escape=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const currentProgrammes=()=>{
+      if(document.body.dataset.keysGuestSearch==='true'&&document.body.dataset.keysGuestAuthorized!=='true')return [];
+      if(document.body.dataset.keysHotelLoyaltyMissing==='true')return (root.keysConnectedHotelCards||[]).map(card=>({id:card.hotelId,name:card.name,city:'',type:'discount',value:'−'+card.discount+'%',perks:['Скидка '+card.discount+'% на проживание','Применяется при бронировании в этом отеле']}));
+      return programmes.map(p=>p.id==='maidens'&&document.body.dataset.keysLoyalty==='Gold'?{...p,tier:'Gold',value:'Тариф Gold',perks:['Специальный тариф только для гостей уровня Gold','Фитнес-зал бесплатно','Бесплатная парковка','Скидка 10% в ресторане']}:p);
+    };
+    const programRow=p=>`<button type="button" class="keys-program-row" data-hotel-program="${escape(p.id)}"><span class="keys-program-symbol">${buildingIcon}</span><span class="keys-program-copy"><strong>${escape(p.name)}</strong><span>${escape(p.tier?'Уровень '+p.tier:p.type==='points'?'Баллы отеля':'Скидочная программа')}${p.city?' · '+escape(p.city):''}</span></span><span class="keys-program-benefit">${escape(p.value)}${p.type==='points'?'<small>баллов</small>':''}</span>${chevron}</button>`;
+    const overview=document.createElement('div');overview.className='keys-benefits-overview';
+    overview.innerHTML=`<button type="button" class="keys-benefits-entry keys-points-overview" data-benefits-page="points"><span class="keys-benefits-entry-top"><span class="keys-benefits-entry-label">${benefitIcon('<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13"/>')}<span>Баллы Ключей</span></span></span><strong>2 400 <span>баллов доступно</span></strong><span class="keys-benefits-entry-note">1 балл = 1 ₽ скидки</span><span class="keys-points-overview-link">Правила и история баллов ${chevron}</span></button><section class="keys-program-preview" aria-label="Ваша лояльность в отелях"><header><h2>Ваша лояльность в отелях</h2><button type="button" data-benefits-page="hotels">Все ${chevron}</button></header><p>Вы уже участвуете в этих программах. Здесь ваши уровни, скидки и накопленные баллы.</p><div class="keys-program-preview-list"></div><p class="keys-program-none" hidden>Карты лояльности пока не найдены. Подключите программу отеля при бронировании.</p></section>`;
+    const detail=document.createElement('section');detail.className='keys-program-detail keys-benefits-subpage';detail.hidden=true;
     function renderHotelProgrammes(){
-      const gold=document.body.dataset.keysLoyalty==='Gold';
+      const programmes=currentProgrammes();
       const matches=programmes.filter(p=>(filter==='all'||p.type===filter)&&normalize(p.name+' '+p.city).includes(normalize(query)));
-      const visible=matches;
-      list.innerHTML=visible.map(p=>{
-        const isGold=p.id==='maidens'&&gold,tier=isGold?'Gold':p.tier;
-        const perks=isGold?['Специальный тариф для уровня Gold','Фитнес-зал и парковка бесплатно','Скидка 10% в ресторане']:p.perks;
-        return `<details class="keys-loyalty-item" name="hotel-loyalty-program" data-program="${p.type}" data-program-id="${p.id}">
-          <summary><span class="keys-loyalty-hotel-icon">${buildingIcon}</span><span class="keys-loyalty-item-copy"><span class="keys-loyalty-name">${p.name}</span><span class="keys-loyalty-city">${p.city}</span><span class="keys-loyalty-value">${isGold?'Тарифы Gold':p.value}<span>${isGold?'':p.type==='points'?' баллов отеля':' на проживание'}</span></span></span><span class="keys-loyalty-item-end">${tier?`<span class="keys-loyalty-tier">${tier}</span>`:''}${chevron}</span></summary>
-          <div class="keys-loyalty-item-details"><p>${p.type==='points'?'Балльная программа':'Скидочная программа'}</p><ul>${perks.map(text=>`<li>${benefitIcon('<path d="m5 12 4 4L19 6"/>')}<span>${text}</span></li>`).join('')}</ul>${p.id==='maidens'&&!gold?'<p class="keys-loyalty-next-tier">До Gold — ещё 7 ночей · 18 из 25</p>':''}</div>
-        </details>`;
-      }).join('');
-      list.hidden=!matches.length;hotels.querySelector('.keys-loyalty-empty').hidden=!!matches.length;
-      more.hidden=true;
-      more.textContent=expanded?'Свернуть список':`Показать все программы · ${matches.length}`;
-      more.setAttribute('aria-expanded',String(expanded));
+      list.innerHTML=matches.map(programRow).join('');list.hidden=!matches.length;
+      hotels.querySelector('.keys-loyalty-empty').hidden=!!matches.length;
+      hotels.querySelector('.keys-loyalty-empty').textContent=programmes.length?'Ничего не найдено. Попробуйте другой отель или город.':'Карты лояльности пока не найдены. Подключите программу отеля при бронировании.';
       hotels.querySelector('.keys-loyalty-live').textContent=`Найдено программ: ${matches.length}`;
       hotels.querySelectorAll('[data-program-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.programFilter===filter)));
+      overview.querySelector('.keys-program-preview-list').innerHTML=programmes.slice(0,3).map(programRow).join('');
+      overview.querySelector('.keys-program-none').hidden=!!programmes.length;
+      overview.querySelector('.keys-program-preview>p').hidden=!programmes.length;
+      overview.querySelector('[data-benefits-page="hotels"]').hidden=programmes.length<=3;
+      if(selectedProgram){const updated=programmes.find(p=>p.id===selectedProgram.id);if(updated)renderProgramDetail(updated);else if(benefitsPage==='hotel')showBenefitsPage('overview',false);}
+    }
+    function renderProgramDetail(p){
+      selectedProgram=p;
+      const isPoints=p.type==='points',hasLevels=p.id==='maidens'&&!!p.tier,nightCount=p.tier==='Gold'?28:18,target=p.tier==='Gold'?50:25,next=p.tier==='Gold'?'Platinum':'Gold';
+      const check=benefitIcon('<path d="m5 12 4 4L19 6"/>');
+      detail.innerHTML=`<article class="keys-program-hero">${p.id==='maidens'?'<img class="keys-program-photo" src="./scenarios/maidens-hotel.jpg" alt="Maidens Hotel">':`<div class="keys-program-cover">${buildingIcon}</div>`}<div class="keys-program-identity"><div><h2>${escape(p.name)}</h2><p>Программа лояльности отеля</p></div></div><div class="keys-program-stats"><div><span>${isPoints?'Баллы отеля':p.tier?'Ваш уровень':'Ваша скидка'}</span><strong>${escape(isPoints?p.value:p.tier||p.value)}</strong></div>${p.tier&&p.tier!=='Gold'?`<div><span>Ваша скидка</span><strong>${escape(p.value)}</strong></div>`:''}${hasLevels?`<div><span>Ночей в отеле</span><strong>${nightCount}</strong></div>`:''}</div>${hasLevels?`<div class="keys-program-progress"><progress value="${nightCount}" max="${target}" aria-label="Прогресс до ${next}"></progress><div><span>Ещё ${target-nightCount} ${(target-nightCount)%10===1&&(target-nightCount)%100!==11?'ночь':(target-nightCount)%10>=2&&(target-nightCount)%10<=4&&((target-nightCount)%100<12||(target-nightCount)%100>14)?'ночи':'ночей'} до ${next}</span><span>${nightCount} / ${target}</span></div></div>`:''}</article><p class="keys-program-notice">${benefitIcon('<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>')}<span>${isPoints?'Баллы этой программы действуют только в '+escape(p.name)+'. Они учитываются отдельно от баллов «Ключей».':'Скидка отеля и баллы «Ключей» учитываются отдельно. Итоговую выгоду увидите перед подтверждением брони.'}</span></p><section class="keys-program-section"><h2>${isPoints?'Как использовать':'Ваши привилегии'}</h2><ul class="keys-program-perks">${p.perks.map(text=>`<li>${check}<span>${escape(text)}</span></li>`).join('')}</ul></section>${hasLevels?`<section class="keys-program-section"><h2>Уровни отеля</h2><div class="keys-program-levels">${[{name:'Silver',note:'С 1 ночи · скидка 10% на проживание'},{name:'Gold',note:'С 25 ночей · специальные тарифы, фитнес и парковка'},{name:'Platinum',note:'С 50 ночей · привилегии Gold и повышение категории при наличии'}].map(level=>`<div class="keys-program-level ${level.name===p.tier?'is-current':''}"><span class="keys-program-level-letter">${level.name[0]}</span><div><strong>${level.name}</strong><span>${level.note}</span></div>${level.name===p.tier?'<small>Ваш уровень</small>':''}</div>`).join('')}</div></section>`:''}<details class="keys-program-rules"><summary><span>Условия программы</span>${chevron}</summary><p>${isPoints?'Баллы начисляет отель по правилам своей программы. Доступную сумму списания покажем при бронировании.':'Привилегии действуют в выбранном отеле и зависят от тарифа и наличия услуг.'} ${hasLevels?'Учитываются завершённые ночи за последние 12 месяцев. ':''}В прототипе показаны демонстрационные условия.</p></details>`;
     }
     hotels.querySelector('input').addEventListener('input',event=>{query=event.target.value;renderHotelProgrammes();});
-    hotels.querySelector('.keys-loyalty-filters').addEventListener('click',event=>{const button=event.target.closest('[data-program-filter]');if(!button)return;filter=button.dataset.programFilter;expanded=false;renderHotelProgrammes();});
-    more.addEventListener('click',()=>{expanded=!expanded;renderHotelProgrammes();more.focus({preventScroll:true});});
-    root.addEventListener('keys-scenario-change',renderHotelProgrammes);
-    renderHotelProgrammes();
-    benefits.append(hotels);
-    const overview=document.createElement('div');overview.className='keys-benefits-overview';
-    overview.innerHTML=`<button type="button" class="keys-benefits-entry" data-benefits-page="points"><span class="keys-benefits-entry-top"><span class="keys-benefits-entry-label">${benefitIcon('<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13"/><path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"/>')}<span>Баллы Ключей</span></span>${chevron}</span><strong>2 400 <span>баллов</span></strong><span class="keys-benefits-entry-note">За бронирования в приложении</span></button><button type="button" class="keys-benefits-entry" data-benefits-page="hotels"><span class="keys-benefits-entry-top"><span class="keys-benefits-entry-label">${buildingIcon}<span>Лояльность отелей</span></span>${chevron}</span><strong>${programmes.length} <span>программ</span></strong><span class="keys-benefits-entry-note">Уровни, скидки и баллы отелей</span></button>`;
+    hotels.querySelector('.keys-loyalty-filters').addEventListener('click',event=>{const button=event.target.closest('[data-program-filter]');if(!button)return;filter=button.dataset.programFilter;renderHotelProgrammes();});
+    benefits.append(hotels,detail);
     const subheader=document.createElement('header');subheader.className='keys-benefits-subheader';subheader.hidden=true;
     subheader.innerHTML=`<button type="button" aria-label="Назад к выгодам">${benefitIcon('<path d="M19 12H5m7-7-7 7 7 7"/>')}</button><h1 tabindex="-1"></h1>`;
     benefits.prepend(subheader);benefits.querySelector('.keys-benefits-intro').after(overview);
     keysGroup.classList.add('keys-benefits-subpage');hotels.classList.add('keys-benefits-subpage');
     hotels.querySelector('.keys-benefits-hotels-heading').hidden=true;
-    let benefitsPage='overview';
     function showBenefitsPage(page,focus=true){
-      const previousPage=benefitsPage;
       benefitsPage=page;benefits.dataset.page=page;document.body.dataset.keysBenefitsPage=page;
-      const title=page==='points'?'Баллы Ключей':page==='hotels'?'Лояльность отелей':'Выгоды';
-      overview.hidden=page!=='overview';keysGroup.hidden=page!=='points';hotels.hidden=page!=='hotels';
+      const title=page==='points'?'Баллы Ключей':page==='hotels'?'Ваша лояльность в отелях':page==='hotel'?'Программа отеля':'Выгоды';
+      overview.hidden=page!=='overview';keysGroup.hidden=page!=='points';hotels.hidden=page!=='hotels';detail.hidden=page!=='hotel';
       benefits.querySelector('.keys-benefits-intro').hidden=page!=='overview';subheader.hidden=page==='overview';
-      subheader.querySelector('h1').textContent=title;
+      subheader.querySelector('h1').textContent=title;subheader.querySelector('button').setAttribute('aria-label',page==='hotel'&&detailOrigin==='hotels'?'Назад к программам отелей':'Назад к выгодам');
       const desktopTitle=benefitsScroll.querySelector('.kda-title h1');if(desktopTitle)desktopTitle.textContent=title;
       benefitsScroll.scrollTop=0;
       if(document.body.dataset.keysView==='desktop')window.scrollTo({top:0,behavior:'instant'});
-      if(focus){
-        if(page==='overview')(overview.querySelector(`[data-benefits-page="${previousPage}"]`)||overview.querySelector('button')).focus({preventScroll:true});
-        else {const heading=document.body.dataset.keysView==='desktop'&&desktopTitle?desktopTitle:subheader.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});}
-      }
+      if(focus){const heading=document.body.dataset.keysView==='desktop'&&desktopTitle?desktopTitle:page==='overview'?benefits.querySelector('.keys-benefits-intro h1'):subheader.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});}
     }
-    overview.addEventListener('click',event=>{const button=event.target.closest('[data-benefits-page]');if(button)showBenefitsPage(button.dataset.benefitsPage);});
-    subheader.querySelector('button').addEventListener('click',()=>showBenefitsPage('overview'));
-    root.addEventListener('keys-close-benefits',event=>{if(benefitsPage!=='overview'){event.stopImmediatePropagation();showBenefitsPage('overview');}},true);
+    benefits.addEventListener('click',event=>{
+      const program=event.target.closest('[data-hotel-program]');
+      if(program){const p=currentProgrammes().find(p=>p.id===program.dataset.hotelProgram);if(p){detailOrigin=benefitsPage;renderProgramDetail(p);showBenefitsPage('hotel');}return;}
+      const button=event.target.closest('[data-benefits-page]');if(button)showBenefitsPage(button.dataset.benefitsPage);
+    });
+    const backBenefits=()=>showBenefitsPage(benefitsPage==='hotel'?detailOrigin:'overview');
+    subheader.querySelector('button').addEventListener('click',backBenefits);
+    root.addEventListener('keys-close-benefits',event=>{if(benefitsPage!=='overview'){event.stopImmediatePropagation();backBenefits();}},true);
     root.addEventListener('keys-open-benefits',event=>showBenefitsPage(event.detail?.page==='points'?'points':'overview',false));
-    root.addEventListener('keys-scenario-change',()=>showBenefitsPage('overview',false));
-    showBenefitsPage('overview',false);
+    root.addEventListener('keys-scenario-change',()=>{selectedProgram=null;renderHotelProgrammes();showBenefitsPage('overview',false);});
+    root.addEventListener('keys-hotel-loyalty-change',renderHotelProgrammes);
+    new MutationObserver(renderHotelProgrammes).observe(document.body,{attributes:true,attributeFilter:['data-keys-guest-authorized']});
+    renderHotelProgrammes();showBenefitsPage('overview',false);
     benefitsScroll.append(benefits);
   }
   const profilePhone=root.querySelector('.kf-phone[data-screen="profile"]');

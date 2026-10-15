@@ -82,6 +82,9 @@ export async function buildSections(){
  js=adaptPhotoDiscovery(js,(await readFile(path.join(root,'src/sections/photo-gestures.mjs'),'utf8')).replace('export function','function')+'\n'+(await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8')));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js=adaptGoldLoyalty(js,await readFile(path.join(root,'src/sections/gold-loyalty.js'),'utf8'));
+ replace('function Pt(e, t) {','function keysFavoritesBaseReducer(e, t) {');
+ replace('const k = c(T);', 'if ((T.type==="FAVORITE_TOGGLE" && !l.current.discovery.savedIds.includes(T.id)) || (T.type==="SWIPE" && T.liked)) r({type:"KEYS_FAVORITE_INTENT",id:T.id});\n    const k = c(T);');
+ js+='\n'+await readFile(path.join(root,'src/sections/favorites.js'),'utf8');
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
  let runtime=adapt2gisRuntime(await readFile(path.join(stage,'runtime.js'),'utf8'));

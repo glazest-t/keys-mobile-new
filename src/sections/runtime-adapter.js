@@ -6,7 +6,7 @@ function keysPost(type, value) {
 function keysReturnsToHost(state,action,entry){
   if(!entry||!state)return false;
   if(action.type==='KEYS_SEARCH_BACK')return entry.kind==='results'&&!state.navigation.screen;
-  return action.type==='BACK'&&entry.kind==='screen'&&state.navigation.screen?.type===entry.screen&&state.navigation.history.length<=1;
+  return action.type==='BACK'&&entry.kind==='screen'&&state.navigation.screen?.type===entry.screen&&state.navigation.history.length<=1&&!state.navigation.screen?.collectionId;
 }
 function keysSameScreen(first,second){
   if(!first||!second)return false;
@@ -142,7 +142,7 @@ function PH({children}) {
   const favorites=screen?.type==='saved'||(!screen&&state.navigation.tab==='favorites');
   const conversation=screen?.type==='chat'||screen?.type==='describe';
   const full=['hotel-map','story','stories','friend-stories','swipe','shared-swipe'].includes(screen?.type);
-  E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,state.search.results]);
+  E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,screen?.collectionId,state.search.results]);
   E.useLayoutEffect(()=>{document.documentElement.classList.toggle('keys-share-sheet',!!state.keysShareSession&&screen?.type==='keys-trip-share');},[state.keysShareSession,screen?.type]);
   const results=!screen && state.navigation.tab==='find' && state.search.results && state.search.intent==='known';
   return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(screen?.type==='describe'?'advice':results?'results':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??'root',className:'keys-module-screen bg-card',children:[
@@ -151,7 +151,7 @@ function PH({children}) {
       !screen&&!results&&n.jsx(CH,{}),
       n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
-    !screen&&n.jsx(AH,{}),n.jsx(OH,{})
+    !screen&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{})
   ]});
 }
 function keysInitialState() {
@@ -168,6 +168,7 @@ function keysInitialState() {
   state.orders=[];
   state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Здесь можно задать вопрос об отеле или связаться с сотрудником.',bookingId:state.booking.id}]};
   state.chat.sequence=6;
+  keysRestoreFavorites(state);
   if(typeof location==='undefined')return state;
   globalThis.keysGuestMode=new URLSearchParams(location.search).get('guestSearch')==='true';
   globalThis.keysGuestAuthorized=false;
@@ -324,35 +325,6 @@ function KeysTripShare({onClose}){
   n.jsx(H,{disabled:busy,onClick:share,children:busy?'Подготовка…':'Поделиться ссылкой'})
  ]})});
 }
-
-// One saved-hotel collection, shared with every heart button in search and details.
-function KeysFavorites(){
- const {state,dispatch}=J(),resource=Dn('favorites'),ids=state.discovery.savedIds;
- const source=tt(),[city,setCity]=E.useState('');
- const hotels=ids.map(id=>{
-  const summary=resource.value?.items.find(item=>item.hotelId===id)?.hotel??source.getSummary?.(id);
-  const name=(_n.find(hotel=>hotel.id===id)?.city??summary?.city??'').trim();
-  return {id,summary,city:name,key:name.toLocaleLowerCase('ru-RU')};
- });
- const cities=[...new Map(hotels.filter(hotel=>hotel.city).map(hotel=>[hotel.key,hotel.city])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'ru'));
- const activeCity=cities.some(([key])=>key===city)?city:'';
- E.useEffect(()=>{if(city&&!activeCity)setCity('');},[city,activeCity]);
- const visibleHotels=activeCity?hotels.filter(hotel=>hotel.key===activeCity):hotels;
-
- const previous=E.useRef(ids.length);
- E.useEffect(()=>{
-  if(previous.current>0&&!ids.length){dispatch({type:'NAV_TAB',tab:'find'});dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});}
-  previous.current=ids.length;
- },[ids.length,dispatch]);
- return n.jsxs('section',{className:'keys-favorites-page','aria-label':'Избранные отели',children:[
-  n.jsx(Ae,{title:'Избранные отели'}),
-  cities.length>0&&n.jsx('div',{className:'keys-results-filters keys-favorites-cities',role:'group','aria-label':'Город отеля',children:[['','Все'],...cities].map(([key,label])=>n.jsx('button',{type:'button','aria-pressed':activeCity===key,onClick:()=>setCity(key),children:label},key))}),
-  resource.error&&n.jsxs('div',{role:'alert',children:[n.jsx('p',{children:'Не удалось обновить сохранённые отели.'}),n.jsx(H,{variant:'secondary',onClick:()=>resource.reload(),children:'Повторить'})]}),
-  n.jsx('div',{className:'keys-favorites-list',children:visibleHotels.map(hotel=>n.jsx(jx,{hotelId:hotel.id,summary:hotel.summary??undefined},hotel.id))}),
-  !ids.length&&n.jsxs('div',{className:'keys-favorites-empty',children:[n.jsx(D,{name:'heart'}),n.jsx('h2',{children:'Сохраняйте отели, которые нравятся'}),n.jsx('p',{children:'Они будут здесь — вернитесь к ним, когда будете готовы к поездке.'}),n.jsx(H,{onClick:()=>{dispatch({type:'NAV_TAB',tab:'find'});dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});},children:'Найти отель'})]})
- ]});
-}
-
 
 // Preserve each screen's own back handler and reducer history. On desktop the
 // header occupies its own row, so galleries cannot cover its controls.

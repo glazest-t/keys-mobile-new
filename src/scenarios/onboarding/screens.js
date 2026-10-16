@@ -5,21 +5,21 @@ const orbit=`<img class="kon-art-orbit" src="${assets}keys-orbit-symbol-blue.svg
 export const screens=[
  {
   theme:'trip', eyebrow:'Всё для поездки',
-  title:'Вся поездка.<br>В одних «Ключах».',
-  body:'Отели в разных городах, билеты, управление бронью и услуги в номер — в одном приложении.',
+  title:'Ваш ключ<br>к любому отелю.',
+  body:'Поиск отелей, управление бронью, Wi-Fi и услуги в номер — в одном приложении.',
   visual:`<div class="kon-scene kon-trip-scene">${orbit}
    <div class="kon-search-preview kon-appear">${icon('search')}<span>Куда поедем?</span><span class="kon-small-orbit"><img src="${assets}keys-orbit-symbol-blue.svg" alt=""></span></div>
    <div class="kon-booking-preview kon-appear"><img class="kon-hotel-photo" src="${assets}maidens-premium-king.jpg" alt=""><div class="kon-booking-info"><span class="kon-status">${icon('check')} Бронь подтверждена</span><strong>Ваше бронирование</strong><span>Москва · 12–19 сентября</span><div class="kon-booking-actions"><span>Детали брони</span><span>Изменить</span></div></div></div>
-   <div class="kon-ticket-preview kon-appear"><span class="kon-mini-icon">${icon('doc')}</span><div><strong>Ваши билеты</strong><span>Москва → Сочи</span></div><span class="kon-ticket-date">19<br>сент.</span></div>
+   <div class="kon-wifi-preview kon-appear"><span class="kon-mini-icon">${icon('wifi')}</span><div><strong>Wi-Fi в отеле</strong><span>Вы подключены</span></div></div>
    <div class="kon-service-preview kon-appear"><span class="kon-mini-icon">${icon('service')}</span><div><strong>Завтрак в номер</strong><span>${icon('check')} Уже готовим</span></div></div>
   </div>`
  },
  {
   theme:'benefits', eyebrow:'Больше выгоды',
-  title:'Ваши скидки<br>складываются.',
-  body:'Лучшие цены напрямую от отелей. Используйте накопленную лояльность отеля вместе с баллами «Ключей» — их можно тратить на любые отели.',
+  title:'Скидка отеля<br>+ баллы «Ключей».',
+  body:'Добавляйте баллы «Ключей» к вашей скидке по лояльности отеля. Баллы можно тратить на любые отели.',
   visual:`<div class="kon-scene kon-benefits-scene">${orbit}
-   <div class="kon-direct-label">${icon('shield')} Напрямую от отелей</div>
+   <div class="kon-direct-label">${icon('shield')} Цены напрямую от отелей</div>
    <div class="kon-hotel-member kon-appear"><div><span>Ваши привилегии</span><strong>Скидка отеля</strong><span class="kon-gold-label">Ваш уровень Gold</span></div><b>−15<span>%</span></b></div>
    <div class="kon-combine" aria-hidden="true">+</div>
    <div class="kon-app-points kon-appear"><div><span>Баллы «Ключей»</span><strong>2 400 <small>баллов</small></strong><span>На любой отель · 1 балл = 1 ₽</span></div><img src="${assets}keys-orbit-symbol-blue.svg" alt=""></div>
@@ -28,8 +28,8 @@ export const screens=[
  },
  {
   theme:'match', eyebrow:'Персональный подбор',
-  title:'Меньше поиска.<br>Больше совпадений.',
-  body:'Учитываем ваши предпочтения, лайки и просмотренные отели. Чем больше знакомимся, тем точнее подбираем то, что вам понравится.',
+  title:'Отели, которые<br>подходят вам.',
+  body:'Подбираем отели по вашим пожеланиям, лайкам и просмотрам.',
   visual:`<div class="kon-scene kon-match-scene">${orbit}
    <div class="kon-interest kon-interest-one kon-appear">${icon('heart')} Ваши лайки</div>
    <div class="kon-interest kon-interest-two kon-appear">${icon('sliders')} Предпочтения</div>

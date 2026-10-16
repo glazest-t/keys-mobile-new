@@ -45,13 +45,12 @@ body[data-keys-scenario=onboarding] #keysUnifiedPrototype>:not(#keysOnboardingPr
 #keysOnboardingPrototype .kon-status{display:flex;gap:3px;align-items:center;font-size:10px;color:#137351;white-space:nowrap}
 #keysOnboardingPrototype .kon-status svg{width:12px;height:12px}
 #keysOnboardingPrototype .kon-booking-actions{display:flex;gap:8px;margin-top:6px;font-size:10px;line-height:15px;color:#3456bd}
-#keysOnboardingPrototype .kon-ticket-preview,#keysOnboardingPrototype .kon-service-preview{position:absolute;display:flex;align-items:center;gap:10px;padding:13px;border-radius:18px;box-shadow:0 8px 24px #25488f12}
-#keysOnboardingPrototype .kon-ticket-preview{left:8px;top:236px;width:226px;background:#fff;transform:rotate(-3deg)}
+#keysOnboardingPrototype .kon-wifi-preview,#keysOnboardingPrototype .kon-service-preview{position:absolute;display:flex;align-items:center;gap:10px;padding:13px;border-radius:18px;box-shadow:0 8px 24px #25488f12}
+#keysOnboardingPrototype .kon-wifi-preview{left:8px;top:236px;width:226px;background:#fff;transform:rotate(-3deg)}
 #keysOnboardingPrototype .kon-mini-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#eef2ff;color:#3456bd}
-#keysOnboardingPrototype .kon-ticket-preview div,#keysOnboardingPrototype .kon-service-preview div{display:flex;flex-direction:column;gap:2px}
-#keysOnboardingPrototype .kon-ticket-preview strong,#keysOnboardingPrototype .kon-service-preview strong{font-size:13px}
-#keysOnboardingPrototype .kon-ticket-preview div>span{color:#697184;font-size:11px}
-#keysOnboardingPrototype .kon-ticket-date{margin-left:auto;border-left:1px dashed #cbd2e6;padding-left:10px;font-size:10px;line-height:14px;text-align:center}
+#keysOnboardingPrototype .kon-wifi-preview div,#keysOnboardingPrototype .kon-service-preview div{display:flex;flex-direction:column;gap:2px}
+#keysOnboardingPrototype .kon-wifi-preview strong,#keysOnboardingPrototype .kon-service-preview strong{font-size:13px}
+#keysOnboardingPrototype .kon-wifi-preview div>span{color:#697184;font-size:11px}
 #keysOnboardingPrototype .kon-service-preview{right:8px;bottom:9px;background:#3a66f0;color:#fff;transform:rotate(3deg)}
 #keysOnboardingPrototype .kon-service-preview .kon-mini-icon{background:#ffffff20;color:#fff}
 #keysOnboardingPrototype .kon-service-preview div>span{display:flex;align-items:center;gap:4px;color:#e4edff;font-size:11px}

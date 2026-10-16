@@ -130,6 +130,7 @@ ${fragment}
 <link rel="stylesheet" href="./brand/brand.css?v=orbit-1">
 <script src="./brand/brand.js?v=orbit-1"></script>
 <link rel="stylesheet" href="./scenarios/onboarding.css">
+<link rel="stylesheet" href="./scenarios/onboarding-v2.css">
 <script type="module" src="./scenarios/onboarding.js"></script>
 </body>
 </html>

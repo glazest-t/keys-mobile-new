@@ -1,12 +1,16 @@
-import {screens} from './onboarding/screens.js?v=three-stories-2';
+import {screens as variantOne} from './onboarding/screens.js';
+import {screens as variantTwo} from './onboarding/screens-v2.js';
+let screens=variantOne;
 import {icon} from './onboarding/icons.js';
+const renderSlides=()=>screens.map((s,i)=>`<section class="kon-slide" data-slide="${i}" data-theme="${s.theme}" aria-labelledby="kon-title-${i}"><div class="kon-visual" aria-hidden="true">${s.visual}</div><div class="kon-copy"><span class="kon-eyebrow">${s.eyebrow}</span><h1 id="kon-title-${i}" tabindex="-1">${s.title}</h1><p>${s.body}</p></div></section>`).join('');
 const app=document.getElementById('keysUnifiedPrototype');
 const root=document.createElement('section');root.id='keysOnboardingPrototype';root.hidden=true;root.setAttribute('aria-label','Онбординг');
-root.innerHTML=`<div class="kon-phone"><header class="kon-header"><button type="button" class="kon-back" data-onboard-back aria-label="Предыдущий шаг" hidden>${icon('back')}</button><div class="kon-brand" aria-label="Ключи"><span class="kon-orbit" aria-hidden="true"><i></i></span><img class="kon-wordmark" src="./brand/orbit/logo/keys-wordmark.svg" alt=""></div><button type="button" data-onboard-skip>Пропустить</button></header><main class="kon-stage" aria-label="Знакомство с приложением">${screens.map((s,i)=>`<section class="kon-slide" data-slide="${i}" data-theme="${s.theme}" aria-labelledby="kon-title-${i}"><div class="kon-visual" aria-hidden="true">${s.visual}</div><div class="kon-copy"><span class="kon-eyebrow">${s.eyebrow}</span><h1 id="kon-title-${i}" tabindex="-1">${s.title}</h1><p>${s.body}</p></div></section>`).join('')}</main><footer class="kon-footer"><button type="button" class="kon-primary" data-onboard-next><span data-onboard-label>Дальше</span><span class="kon-progress" data-onboard-progress>1 из ${screens.length}</span></button><button type="button" class="kon-secondary" data-onboard-booking hidden>У меня уже есть бронь</button></footer></div>`;
+root.innerHTML=`<div class="kon-phone"><header class="kon-header"><button type="button" class="kon-back" data-onboard-back aria-label="Предыдущий шаг" hidden>${icon('back')}</button><div class="kon-brand" aria-label="Ключи"><span class="kon-orbit" aria-hidden="true"><i></i></span><img class="kon-wordmark" src="./brand/orbit/logo/keys-wordmark.svg" alt=""></div><button type="button" data-onboard-skip>Пропустить</button></header><main class="kon-stage" aria-label="Знакомство с приложением">${renderSlides()}</main><footer class="kon-footer"><button type="button" class="kon-primary" data-onboard-next><span data-onboard-label>Дальше</span><span class="kon-progress" data-onboard-progress>1 из ${screens.length}</span></button><button type="button" class="kon-secondary" data-onboard-booking hidden>У меня уже есть бронь</button></footer></div>`;
 app.append(root);
-const slides=[...root.querySelectorAll('.kon-slide')],phone=root.querySelector('.kon-phone'),skip=root.querySelector('[data-onboard-skip]'),next=root.querySelector('[data-onboard-next]'),booking=root.querySelector('[data-onboard-booking]');
+let slides=[...root.querySelectorAll('.kon-slide')];
+const phone=root.querySelector('.kon-phone'),skip=root.querySelector('[data-onboard-skip]'),next=root.querySelector('[data-onboard-next]'),booking=root.querySelector('[data-onboard-booking]');
 const back=root.querySelector('[data-onboard-back]');
-const last=screens.length-1;
+let last=screens.length-1;
 let current=0,start=null,ignoreClick=false,splashTimer=0,loading=false;
 function show(index,focus=false){
  current=Math.max(0,Math.min(screens.length-1,index));
@@ -55,6 +59,15 @@ const resizeVisuals=new ResizeObserver(entries=>{for(const {target,contentRect} 
 root.querySelectorAll('.kon-visual').forEach(el=>resizeVisuals.observe(el));
 function sync(){
  finishSplash();root.hidden=document.body.dataset.keysScenario!=='onboarding';
- if(!root.hidden){show(0);startSplash();}
+ if(!root.hidden){
+  const variant=document.body.dataset.keysOnboardingVariant==='2'?'2':'1';
+  if(root.dataset.variant!==variant){
+   resizeVisuals.disconnect();screens=variant==='2'?variantTwo:variantOne;last=screens.length-1;
+   root.dataset.variant=variant;root.setAttribute('aria-label','Онбординг · Вариант '+variant);
+   root.querySelector('.kon-stage').innerHTML=renderSlides();slides=[...root.querySelectorAll('.kon-slide')];
+   root.querySelectorAll('.kon-visual').forEach(el=>resizeVisuals.observe(el));
+  }
+  show(0);startSplash();
+ }
 }
 app.addEventListener('keys-scenario-change',sync);sync();

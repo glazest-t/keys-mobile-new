@@ -63,3 +63,14 @@ body #keysScenarioControls#keysScenarioControls:has(.keys-scenario-toggle:disabl
 #keysScenarioControls#keysScenarioControls .keys-brand-control .keys-scenario-list{min-width:240px;left:0;right:auto}
 #keysScenarioControls#keysScenarioControls .keys-brand-control [role=option]{min-height:44px}
 #keysScenarioControls#keysScenarioControls .keys-brand-control [role=option] .keys-brand-progress{font-size:11px;line-height:16px}
+/* Onboarding variants share the prototype toolbar, outside the phone. */
+#keysScenarioControls .keys-scenario-control[hidden]{display:none!important}
+@media(min-width:761px){
+ body[data-keys-scenario="onboarding"] #keysScenarioControls#keysScenarioControls:has(#keys-onboarding-variant-toggle){width:max-content;grid-template-columns:156px 156px 140px auto}
+}
+@media(max-width:760px){
+ body[data-keys-scenario="onboarding"] #keysScenarioControls#keysScenarioControls:has(#keys-onboarding-variant-toggle){grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+ body[data-keys-scenario="onboarding"] #keysScenarioControls#keysScenarioControls:has(#keys-onboarding-variant-toggle) .keys-scenario-control:has(#keys-scenario-toggle){grid-column:2;grid-row:1}
+ body[data-keys-scenario="onboarding"] #keysScenarioControls#keysScenarioControls:has(#keys-onboarding-variant-toggle) .keys-brand-control{grid-column:1;grid-row:1}
+ body[data-keys-scenario="onboarding"] #keysScenarioControls#keysScenarioControls:has(#keys-onboarding-variant-toggle) .keys-scenario-control:has(#keys-onboarding-variant-toggle){grid-column:1;grid-row:2}
+}

@@ -12,6 +12,7 @@
  }
  let orbitEnabled=orbitFromURL();
  const availablePresets=()=>orbitEnabled?presets:basePresets;
+ const onboardingVariants=[['1','Вариант 1'],['2','Вариант 2']];
  const days=[['day-2','Проживает в отеле'],['checkout','День выезда']];
  const valid=(items,id,fallback)=>items.some(([key])=>key===id)?id:fallback;
  const svg=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
@@ -19,7 +20,7 @@
  const toolbar=document.createElement('div');toolbar.id='keysScenarioControls';toolbar.setAttribute('aria-label','Сценарий прототипа');
  const empty=document.createElement('main');empty.id='keysScenarioEmpty';empty.hidden=true;
  app.before(toolbar);app.after(empty);
- let selected='stay',stayDay='day-2';
+ let selected='stay',stayDay='day-2',onboardingVariant='1';
  const controls=[];
  function control(id,items,group,icon,onSelect){
   const wrapper=document.createElement('div');wrapper.className='keys-scenario-control';
@@ -43,7 +44,7 @@
    else if(event.key==='Tab')close();
   });
   wrapper.addEventListener('focusout',event=>{if(!wrapper.contains(event.relatedTarget))close();});
-  const result={close,configure(nextItems,nextGroup){
+  const result={close,setVisible(visible){wrapper.hidden=!visible;if(!visible)close();},configure(nextItems,nextGroup){
    if(items===nextItems&&group===nextGroup)return;
    close();items=nextItems;group=nextGroup;
    list.setAttribute('aria-label',group);
@@ -61,11 +62,14 @@
  }
  const scenarioControl=control('keys-scenario',availablePresets(),'Вводные условия','sliders',id=>{selected=id;render();});
  const dayControl=control('keys-stay-day',days,'Состояние проживания','calendar',id=>{stayDay=id;render();});
+ const onboardingControl=control('keys-onboarding-variant',onboardingVariants,'Вариант онбординга','sliders',id=>{onboardingVariant=id;render(true,false);});
  function render(updateURL=true,resetView=updateURL){
   const label=presets.find(([key])=>key===selected)[1],dayLabel=days.find(([key])=>key===stayDay)[1];
   scenarioControl.configure(availablePresets(),'Вводные условия');
   scenarioControl.set(selected);
   dayControl.set(stayDay,selected!=='stay');
+  onboardingControl.set(onboardingVariant);onboardingControl.setVisible(selected==='onboarding');
+  document.body.dataset.keysOnboardingVariant=onboardingVariant;
   const scenario=['search-gold','search-guest','search-no-loyalty'].includes(selected)?'search':selected;
   document.body.dataset.keysHotelLoyaltyMissing=String(selected==='search-no-loyalty');
   document.body.dataset.keysGuestSearch=String(selected==='search-guest');
@@ -75,13 +79,14 @@
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:label)+' — пустой сценарий');
-  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);if(resetView)url.searchParams.set('view',selected==='search-guest'?'desktop':'mobile');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');url.searchParams.delete('arrivalDay');history.replaceState(history.state,'',url);}
+  if(updateURL){const url=new URL(location.href);url.searchParams.set('scenario',selected);if(resetView)url.searchParams.set('view',selected==='search-guest'?'desktop':'mobile');if(selected==='stay')url.searchParams.set('stayDay',stayDay);else url.searchParams.delete('stayDay');url.searchParams.delete('arrivalDay');if(selected==='onboarding')url.searchParams.set('onboardingVariant',onboardingVariant);else url.searchParams.delete('onboardingVariant');history.replaceState(history.state,'',url);}
   app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,resetView,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null}}));
  }
  function fromURL(){
   const params=new URLSearchParams(location.search);orbitEnabled=orbitFromURL();
   const requested=params.get('scenario');selected=valid(availablePresets(),requested,requested==='onboarding'?'guest':'stay');
   stayDay=valid(days,params.get('stayDay'),'day-2');
+  onboardingVariant=valid(onboardingVariants,params.get('onboardingVariant'),'1');
   // The former first-day link opens the shared in-stay state without changing viewport.
   if(selected==='stay'&&params.get('stayDay')==='day-1'){const url=new URL(location.href);url.searchParams.set('stayDay','day-2');history.replaceState(history.state,'',url);}
   // Old pre-arrival links now resolve to the same page without resetting the chosen viewport.

@@ -40,6 +40,20 @@
  let origin=null,detail=null,problemFromHome=false,returnFromBreakfast=null;
  const close=()=>{overlay.hidden=true;scroll.inert=false;scroll.removeAttribute("aria-hidden");phone.querySelector('nav').inert=false;phone.querySelector('nav').removeAttribute("aria-hidden");origin?.focus({preventScroll:true});detail=null;const onReturn=returnFromBreakfast;returnFromBreakfast=null;onReturn?.();};
  const open=(title,html,type,trigger)=>{origin=trigger??origin;detail=type;overlay.querySelector('h2').textContent=title;overlay.querySelector('.kh-detail-content').innerHTML=html;overlay.querySelector('.kh-copy-status').textContent='';overlay.hidden=false;overlay.scrollTop=0;scroll.inert=true;phone.querySelector('nav').inert=true;overlay.querySelector('.kh-back').focus({preventScroll:true});scroll.setAttribute('aria-hidden','true');phone.querySelector('nav').setAttribute('aria-hidden','true');};
+ // Two hotel Wi-Fi configurations demonstrated by the in-stay and checkout states.
+ let wifiConnected=false;
+ const wifiNetwork='Maidens_Guest';
+ const showWifiConnected=trigger=>open('Вы подключены',`<div class="kh-wifi-connect kh-wifi-connected"><span class="kh-wifi-symbol">${icon('wifi')}</span><strong>${wifiNetwork}</strong><p>Можно пользоваться интернетом.</p></div><button type="button" class="kh-primary" data-wifi-close>Готово</button>`,'wifi-connected',trigger);
+ const openWifi=trigger=>{
+  const automatic=document.body.dataset.keysScenario==='stay'&&document.body.dataset.keysStayDay!=='checkout';
+  if(automatic){
+   if(wifiConnected){showWifiConnected(trigger);return;}
+   open('Подключиться к сети?',`<div class="kh-wifi-connect"><span class="kh-wifi-symbol">${icon('wifi')}</span><strong>${wifiNetwork}</strong><p>Wi-Fi вашего отеля</p></div><button type="button" class="kh-primary" data-wifi-connect>Подключиться</button><button type="button" class="kh-primary kh-wifi-secondary" data-wifi-close>Не сейчас</button>`,'wifi-confirm',trigger);
+   return;
+  }
+  open('Wi-Fi',`<p class="kh-intro">Выберите сеть отеля и введите данные для подключения.</p><section class="kh-credentials">${[['Сеть',wifiNetwork],['Логин','room_guest'],['Пароль','Maidens412']].map(([name,value])=>`<div><span><small>${name}</small><strong>${value}</strong></span><button type="button" data-copy="${value}" aria-label="Скопировать ${name.toLowerCase()}">${icon('copy')}</button></div>`).join('')}</section>`,'wifi',trigger);
+ };
+ root.addEventListener('keys-scenario-change',()=>{wifiConnected=false;});
  const breakfastStorageKey='keys-breakfast-MD-120926-v1';
  let breakfastAdded=false;
  try{breakfastAdded=localStorage.getItem(breakfastStorageKey)==='added';}catch{}
@@ -65,11 +79,12 @@
   const button=event.target.closest('button');if(!button)return;
   if(nearby.handle(button,event))return;
   if(button.classList.contains('kh-back')){event.preventDefault();if(!nearby.back(detail))close();return;}
-  if(button.hasAttribute('data-copy')){const value=button.dataset.copy;navigator.clipboard?.writeText(value).then(()=>overlay.querySelector('.kh-copy-status').textContent='Скопировано',()=>overlay.querySelector('.kh-copy-status').textContent='Не удалось скопировать. Выделите данные вручную.');return;}
-  if(button.hasAttribute('data-show-password')){overlay.querySelector('[data-wifi-password]').textContent='Maidens412';button.removeAttribute('data-show-password');button.dataset.copy='Maidens412';button.textContent='Копировать';button.setAttribute('aria-label','Скопировать пароль');return;}
+  if(button.hasAttribute('data-copy')){const value=button.dataset.copy;const status=overlay.querySelector('.kh-copy-status');if(!navigator.clipboard?.writeText){status.textContent='Выделите данные и скопируйте вручную.';return;}navigator.clipboard.writeText(value).then(()=>status.textContent='Скопировано',()=>status.textContent='Не удалось скопировать. Выделите данные вручную.');return;}
+  if(button.hasAttribute('data-wifi-connect')){wifiConnected=true;showWifiConnected();return;}
+  if(button.hasAttribute('data-wifi-close')){close();return;}
   const action=button.dataset.homeAction;if(!action)return;event.preventDefault();event.stopPropagation();
   if(action==='deposit')open('Депозит и счёт',`<div class="kh-balance"><small>Остаток на счёте</small><strong>9 520 ₽</strong><span>Из внесённых 10 000 ₽</span></div><h3>Движение средств</h3><div class="kh-ledger"><div><span><strong>Пополнение депозита</strong><small>12 сентября · при заселении</small></span><b>+10 000 ₽</b></div><div><span><strong>Сырники со сметаной</strong><small>13 сентября · ресторан LEA</small></span><b>−480 ₽</b></div></div><div class="kh-total"><span>Всего расходов</span><strong>480 ₽</strong></div><p class="kh-note">Проживание оплачено отдельно.</p>`,'deposit',button);
-  if(action==='wifi')open('Wi-Fi',`<p class="kh-intro">Подключитесь к сети отеля и введите данные на странице авторизации.</p><section class="kh-credentials">${[['Сеть','Maidens_Guest'],['Логин','room_guest']].map(([name,value])=>`<div><span><small>${name}</small><strong>${value}</strong></span><button data-copy="${value}" aria-label="Скопировать ${name.toLowerCase()}">${icon('copy')}</button></div>`).join('')}<div><span><small>Пароль</small><strong data-wifi-password>••••••••••</strong></span><button class="kh-text-button" data-show-password>Показать</button></div></section>`,'wifi',button);
+  if(action==='wifi')openWifi(button);
   if(action==='breakfast')openBreakfast(button);
   if(action==='nearby')showNearby(button);
   if(action==='problem'){

@@ -130,3 +130,20 @@ body[data-keys-view=mobile] #keysUnifiedPrototype .kpi-benefits-sheet{max-width:
 #keysUnifiedPrototype .kpi-member-dismiss{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--color-muted);cursor:pointer}
 #keysUnifiedPrototype .kpi-member-dismiss:hover{background:var(--color-card);color:var(--color-ink)}
 #keysUnifiedPrototype .kpi-member-dismiss:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+/* Share a colleague invitation after hotelier verification. */
+#keysUnifiedPrototype .kpi-profile-invite-card{margin:16px 0 0}
+#keysUnifiedPrototype .kpi-profile-invite-card .kf-row{width:100%;text-align:left;color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .kpi-share-dialog{overflow:clip;scroll-behavior:auto}
+#keysUnifiedPrototype .kpi-share-dialog .kpi-benefits-sheet{animation:none;scroll-behavior:auto}
+#keysUnifiedPrototype .kpi-share-symbol{display:grid;place-items:center;width:52px;height:52px;margin-bottom:16px;border-radius:16px;background:#e9f7f1;color:#12624c}
+#keysUnifiedPrototype .kpi-share-symbol svg{width:28px;height:28px}
+#keysUnifiedPrototype .kpi-share-label{display:block;margin:20px 0 8px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype input.kpi-share-link{box-sizing:border-box;display:block;width:100%;min-width:0;height:44px;padding:12px;border:1px solid var(--color-line);border-radius:12px;background:var(--color-soft);color:var(--color-muted);font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .kpi-share-actions{display:grid;gap:8px;margin-top:20px}
+#keysUnifiedPrototype .kpi-share-copy{width:100%;min-height:48px;border:0;border-radius:14px;background:var(--color-soft);color:var(--color-brand);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kpi-share-dialog .kpi-share-status{margin:12px 0 0;font:400 12px/18px var(--font-sans);color:#12624c}
+#keysUnifiedPrototype .kpi-share-status:empty{display:none}
+
+#keysUnifiedPrototype .kpi-club-invite{margin-bottom:12px}
+
+body[data-keys-desktop-profile=true] #keysUnifiedPrototype .kpi-profile-invite-card{margin:0}

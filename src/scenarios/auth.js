@@ -1,5 +1,6 @@
 import {createAuthFlow,formatPhone,PROTOTYPE_CODE} from './auth-model.mjs';
 import {createPartnerInvite} from './partner-invite.js?v=orbit-20261013';
+import {createPartnerShare} from './partner-share.js';
 import {createPartnerBenefits} from './partner-benefits.js';
 import {bindOtpFields} from './otp-fields.mjs';
 const root=document.getElementById('keysUnifiedPrototype');
@@ -19,6 +20,7 @@ let desktopAuth=false,desktopAuthOrigin=null;
 let authRenderVersion=0,authSubmitting=false;
 let flow=createAuthFlow(),timer=null,background=[],completed=false,finishing=false,originals=[],invited=false,resuming=false,resumeOrigin=null,codeFields=null;
 const partnerBenefits=createPartnerBenefits(root,svg);
+const partnerShare=createPartnerShare(root,svg);
 function syncPartnerRate(approved){document.body.dataset.keysPartnerApproved=String(approved);document.getElementById('keysSectionsFrame')?.contentWindow?.postMessage({source:'keys-host',partnerApproved:approved},location.origin);}
 const partner=createPartnerInvite({guest,header,main,svg,onStartAuth:()=>render(),onReady:()=>finishLogin(true),onSkip:()=>finishLogin(false,true),onStateChange:()=>{savePartnerSession(partner.approved);if(completed)showPartnerStatus(partner.approved);}});
 const rememberText=(selector,value)=>root.querySelectorAll(selector).forEach(el=>{const children=[...el.childNodes];originals.push(()=>el.replaceChildren(...children));el.textContent=value;});
@@ -55,6 +57,12 @@ function showPartnerStatus(approved){
  const badge=document.createElement('button');badge.type='button';badge.className='kpi-profile-badge';badge.dataset.partnerMembership='';badge.textContent=approved?'Отельер · Friendly Rate':pending?'Отельер · ожидаем подтверждение':rejected?'Отельер · привязка отклонена':'Подтвердить статус отельера';
  if(approved){badge.dataset.partnerBenefits='';badge.setAttribute('aria-haspopup','dialog');}else{badge.dataset.partnerResume='';}
  root.querySelector('.keys-profile-name').append(badge);
+ if(approved){
+  const card=document.createElement('div');card.className='kf-card kpi-profile-invite-card';card.dataset.partnerMembership='';
+  const invite=document.createElement('button');invite.type='button';invite.className='kf-row';invite.dataset.partnerShare='';invite.setAttribute('aria-haspopup','dialog');
+  invite.innerHTML='<span class="kf-icon blue">'+svg('<circle cx="9" cy="8" r="3"/><path d="M3 21v-2a6 6 0 0 1 12 0v2m4-13v6m-3-3h6"/>')+'</span><span><strong>Пригласить друга-отельера</strong></span><b class="kf-chevron" aria-hidden="true">›</b>';
+  card.append(invite);root.querySelector('.keys-profile-loyalty').after(card);originals.push(()=>card.remove());
+ }
  originals.push(()=>{banner.remove();badge.remove();});
 }
 const guestFrame=()=>document.getElementById('keysSectionsFrame');
@@ -197,7 +205,7 @@ function scenarioChanged(event){
  if(guestSearch)queueMicrotask(openGuestHome);
  const active=['guest','guest-returning','guest-invite'].includes(scenario);invited=scenario==='guest-invite';
  guest.dataset.authAudience=invited?'partner':'guest';
- if(!finishing){syncPartnerRate(false);partnerBenefits.close();if(event)clearPartnerSession();partner.reset();resuming=false;resumeOrigin=null;delete document.body.dataset.keysPartnerVerification;}
+ if(!finishing){syncPartnerRate(false);partnerBenefits.close();partnerShare.close();if(event)clearPartnerSession();partner.reset();resuming=false;resumeOrigin=null;delete document.body.dataset.keysPartnerVerification;}
  if(completed&&!finishing)restoreIdentity();
  if(active){
   flow=createAuthFlow(undefined,{registeredName:scenario==='guest-returning'?(root.querySelector('.keys-profile-name>strong')?.textContent.trim()||'Татьяна'):''});
@@ -210,6 +218,7 @@ function scenarioChanged(event){
 }
 document.addEventListener('click',event=>{
  if(document.body.dataset.keysGuestSearch==='true'&&event.target.closest('[data-header-action=home]')){event.preventDefault();event.stopImmediatePropagation();openGuestHome();return;}
+ const share=event.target.closest('[data-partner-share]');if(share){event.preventDefault();event.stopImmediatePropagation();const origin=share.closest('.kpi-benefits-dialog')?root.querySelector('.kpi-profile-invite-card [data-partner-share]'):share;partnerBenefits.close();partnerShare.open(origin||share,{name:flow.state.name||'Татьяна',hotel:'Maidens Hotel'});return;}
  const info=event.target.closest('[data-partner-benefits]');if(info){event.preventDefault();event.stopImmediatePropagation();partnerBenefits.open(info);return;}
  const resume=event.target.closest('[data-partner-resume]');
  if(resume){event.preventDefault();event.stopImmediatePropagation();resumePartner(resume);return;}

@@ -5,7 +5,7 @@
  if(!phone)return;
  const account=phone.closest('.ku-section'),page=phone.closest('.kf-grid>section'),scroll=phone.querySelector(':scope>.kf-scroll');
  const header=home.querySelector('.keys-app-header');
- const children=[...scroll.children],identity=scroll.querySelector('.kf-profile'),loyalty=scroll.querySelector('.keys-profile-loyalty');
+ const children=[...scroll.children].filter(el=>!el.matches('.kpi-profile-invite-card')),identity=scroll.querySelector('.kf-profile'),loyalty=scroll.querySelector('.keys-profile-loyalty');
  const pointsCard=window.KeysDesktopPoints.create();pointsCard.classList.add('kd-points-desktop-only');
  const rail=document.createElement('aside');rail.className='kdp-personal';rail.setAttribute('aria-label','Ваш профиль и лояльность');
  const settings=document.createElement('div');settings.className='kdp-settings';
@@ -23,10 +23,12 @@
     rail.append(identity,pointsCard,loyalty);window.KeysDesktopPoints.sync(pointsCard);groups.forEach(({title,card,group})=>{group.append(title,card);settings.append(group);});
     scroll.append(rail,settings);
    }else{
-    children.forEach(el=>scroll.append(el));rail.remove();settings.remove();header.inert=false;
+    children.forEach(el=>scroll.append(el));const invite=rail.querySelector('.kpi-profile-invite-card');if(invite)loyalty.after(invite);rail.remove();settings.remove();header.inert=false;
     if(sheetOpen){const passportOpen=!phone.querySelector('.keys-passport-page').hidden;scroll.inert=passportOpen;phone.querySelector('.keys-profile-header').inert=passportOpen;sheetOpen=false;sheetOrigin=null;}
    }
   }
+  const invite=phone.querySelector('.kpi-profile-invite-card'),anchor=active?pointsCard:loyalty;
+  if(invite&&anchor.nextElementSibling!==invite)anchor.after(invite);
   if(active){
    const passportOpen=!phone.querySelector('.keys-passport-page').hidden,sheet=phone.querySelector('.kf-sheet-layer'),nextSheetOpen=!sheet.hidden;
    header.inert=passportOpen||nextSheetOpen;
@@ -37,7 +39,7 @@
    }
   }
  }
- new MutationObserver(sync).observe(root,{subtree:true,attributes:true,attributeFilter:['hidden']});
+ new MutationObserver(sync).observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden']});
  new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['data-keys-view']});
  // Keep desktop subflows centered and retain their original close/save handlers.
  phone.addEventListener('keydown',event=>{

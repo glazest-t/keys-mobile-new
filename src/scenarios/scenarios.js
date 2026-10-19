@@ -4,7 +4,7 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype');
  if(!app)return;
- const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
+ const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
  const basePresets=presets.filter(([key])=>key!=='onboarding');
  function orbitFromURL(){
   const value=new URLSearchParams(location.search).get('brand');if(value)return value==='orbit';

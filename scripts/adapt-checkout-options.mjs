@@ -3,7 +3,7 @@ export function adaptCheckoutEngine(source,components){
  let js=source;
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Checkout anchor missing: '+a.slice(0,90));js=js.replace(a,b);};
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "KEYS_BOOKING_CANCELLED") return keysCancelCreatedBooking(e,t);');
- replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type==="KEYS_CHECKOUT_STEP")return keysCheckoutStep(e,t.step);\n if(t.type==="KEYS_HOTEL_LOYALTY_SCENARIO")return keysHotelLoyaltyScenario(e,!!t.enabled);\n if(t.type==="KEYS_CONNECT_HOTEL_LOYALTY")return keysConnectHotelLoyalty(e,t.email);');
+ replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type==="KEYS_CHECKOUT_STEP")return keysCheckoutStep(e,t.step);\n if(t.type==="KEYS_HOTEL_LOYALTY_SCENARIO")return keysHotelLoyaltyScenario(e,!!t.enabled);\n if(t.type==="KEYS_CONNECT_HOTEL_LOYALTY")return keysConnectHotelLoyalty(e,t.email,t.hotelId);');
  replace('* Sr(e.hotelId, t).multiplier)', '* Sr(e.hotelId, t).multiplier * (1-(e.hotelLoyaltyDiscount||0)))');
  replace('baseTotal: Yn(Ie(t), e.search, e.discovery.priceTick)', 'hotelLoyaltyDiscount:(e.keysConnectedHotelCards?.[t]?.discount||0)/100,baseTotal: Yn(Ie(t), e.search, e.discovery.priceTick)');
  replace('rs = { cost: 1e4, discount: 1e3 }','rs = { cost: 1e3, discount: 1e3 }');

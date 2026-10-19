@@ -68,3 +68,65 @@ body[data-keys-partner-verification="true"] #keysUnifiedPrototype>:not(#keysGues
 #keysUnifiedPrototype .kpi-verify-banner .kpi-verify-action{display:flex;align-items:center;margin-top:8px;min-height:var(--ui-link-height);font:var(--ui-font-label);color:var(--color-brand)}
 #keysUnifiedPrototype button.kpi-profile-badge{min-height:var(--ui-link-height);padding:8px 0;border:0;background:none;text-align:left;color:var(--color-brand);cursor:pointer}
 #keysUnifiedPrototype :is(button.kpi-member-banner,button.kpi-profile-badge):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+/* Verification may be left without discarding the submitted request. */
+#keysGuestPrototype .kpi-close{margin-left:12px;flex:none}
+#keysGuestPrototype .kpi-extranet-login{display:grid;gap:12px}
+#keysGuestPrototype .kpi-extranet-login label:not(:first-child){margin-top:12px}
+#keysGuestPrototype .kpi-request-card h2{margin:16px 0 12px;font:var(--ui-font-section)}
+#keysGuestPrototype .kpi-request-card .kpi-lead{margin-bottom:16px}
+#keysGuestPrototype .kpi-simulation{margin:0 0 20px}
+
+#keysGuestPrototype[data-partner-view=pending] .kauth-hint{margin:0 0 12px}
+/* Shared identity and spacing through the invitation and authentication steps. */
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-header{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:8px;height:auto;min-height:72px;padding:16px;flex:none}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-header .keys-login-logo{display:none}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-header .kauth-back{position:static;width:32px;height:40px;margin:0;flex:none;order:-1}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-header .kpi-close{order:2;margin-left:auto}
+#keysGuestPrototype .kpi-brand-lockup{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+#keysGuestPrototype .kpi-logo{display:flex;align-items:center;gap:6px;color:var(--color-brand);font:600 21px/1 var(--font-sans);letter-spacing:-.7px}
+#keysGuestPrototype .kpi-logo img{width:26px;height:26px}
+html[data-keys-brand=base] #keysGuestPrototype .kpi-logo img{display:none}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-header .kpi-edition{position:static;margin:0;padding:5px 8px;border-radius:8px;background:var(--color-soft);color:var(--color-brand);font:500 10px/14px var(--font-sans);white-space:nowrap}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-main{display:block;flex:1;padding:24px 24px 32px}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-intro{margin:0 0 24px}
+html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-intro>p{margin:12px 0 0;font:var(--ui-font-body);color:var(--color-muted)}
+html #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] h1{font:500 26px/32px var(--font-sans)!important;letter-spacing:-.5px!important;text-wrap:balance}
+#keysGuestPrototype[data-auth-audience=partner] .kpi-lead{margin:0 0 24px}
+#keysGuestPrototype[data-auth-audience=partner] .kpi-eyebrow{display:none}
+#keysGuestPrototype[data-auth-audience=partner] .kpi-invite-art{height:156px;margin:0 0 24px}
+#keysGuestPrototype[data-auth-audience=partner] .kpi-invitation{margin-bottom:24px}
+#keysGuestPrototype[data-auth-audience=partner] .kauth-primary{min-height:48px}
+#keysGuestPrototype .kpi-account-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#keysGuestPrototype .kpi-account-heading>span{font:var(--ui-font-caption);color:var(--color-muted)}
+#keysGuestPrototype .kpi-account-heading .kauth-link{min-height:36px;padding:8px 0;flex:none;font:500 12px/18px var(--font-sans)}
+#keysGuestPrototype .kpi-request-card .kpi-account{padding-top:8px}
+#keysGuestPrototype[data-auth-audience=partner] .kauth-error:empty{height:24px}
+@media(max-width:380px){html body #keysUnifiedPrototype #keysGuestPrototype[data-auth-audience=partner] .kauth-main{padding-inline:20px}#keysGuestPrototype .kpi-brand-lockup{gap:6px}#keysGuestPrototype .kpi-logo{font-size:19px}}
+
+html[data-keys-brand=orbit] #keysGuestPrototype .kpi-logo{color:var(--color-ink)}
+html[data-keys-brand=orbit] #keysGuestPrototype .kpi-logo span{text-transform:none!important}
+/* Friendly Rate is a partner benefit, separate from hotel loyalty tiers. */
+#keysUnifiedPrototype button.kpi-profile-badge[data-partner-benefits]{display:inline-flex;min-height:32px;padding:6px 10px;border:1px solid #acd9cd;border-radius:9px;background:#e9f7f1;color:#12624c;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .kpi-benefits-dialog{box-sizing:border-box;position:fixed;inset:auto;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;overflow:hidden;background:#15223a55;color:var(--color-ink);font:400 14px/21px var(--font-sans)}
+#keysUnifiedPrototype .kpi-benefits-dialog[open]{display:flex;align-items:flex-end;justify-content:center}
+#keysUnifiedPrototype .kpi-benefits-sheet{box-sizing:border-box;width:100%;max-width:480px;max-height:92%;padding:12px 24px max(24px,env(safe-area-inset-bottom));border-radius:24px 24px 0 0;overflow:auto;overscroll-behavior:contain;background:var(--color-card);box-shadow:0 -8px 40px #18233b26;animation:kpi-sheet-enter .24s ease-out}
+#keysUnifiedPrototype .kpi-sheet-handle{width:36px;height:4px;margin:0 auto 16px;border-radius:4px;background:var(--color-line)}
+@keyframes kpi-sheet-enter{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .kpi-benefits-sheet{animation:none}}
+#keysUnifiedPrototype .kpi-benefits-dialog::backdrop{background:transparent}
+#keysUnifiedPrototype .kpi-benefits-dialog header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+#keysUnifiedPrototype .kpi-club-label{color:#12624c;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .kpi-benefits-dialog header button{display:grid;place-items:center;flex:none;width:36px;height:36px;border:0;border-radius:50%;background:var(--color-soft);color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .kpi-benefits-dialog svg{width:20px;height:20px;flex:none}
+#keysUnifiedPrototype .kpi-benefits-dialog h2{margin:0 0 12px;font:600 24px/30px var(--font-sans)}
+#keysUnifiedPrototype .kpi-benefits-dialog p{margin:0 0 20px;font:400 14px/21px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kpi-inviter{display:grid;gap:4px;padding:16px;border:1px solid var(--color-line);border-radius:16px;font:400 13px/20px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kpi-inviter strong{font:500 16px/22px var(--font-sans);color:var(--color-ink)}
+#keysUnifiedPrototype .kpi-rate-note{display:flex;gap:10px;margin:16px 0 24px;color:#12624c;font:400 13px/20px var(--font-sans)}
+#keysUnifiedPrototype .kpi-benefits-done{display:block;width:100%;min-height:48px;border:0;border-radius:14px;background:var(--color-brand);color:#fff;font:500 14px/20px var(--font-sans);cursor:pointer}
+body[data-keys-view=mobile] #keysUnifiedPrototype .kpi-benefits-dialog{border-radius:28px}
+body[data-keys-view=mobile] #keysUnifiedPrototype .kpi-benefits-sheet{max-width:none;padding-inline:20px}
+#keysUnifiedPrototype .kpi-member-banner.is-confirmed{position:relative;padding-right:48px}
+#keysUnifiedPrototype .kpi-member-dismiss{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--color-muted);cursor:pointer}
+#keysUnifiedPrototype .kpi-member-dismiss:hover{background:var(--color-card);color:var(--color-ink)}
+#keysUnifiedPrototype .kpi-member-dismiss:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}

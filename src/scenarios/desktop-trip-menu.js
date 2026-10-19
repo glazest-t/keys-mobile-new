@@ -17,7 +17,7 @@
   const orders=window.KeysActiveServices?.getOrders()||[];
   panel.innerHTML=`<header><h2 id="kd-trip-menu-title">${after?'Завершённая поездка':'Ваша поездка'}</h2><button type="button" data-trip-menu-close aria-label="Закрыть окно поездки">${icon('close')}</button></header>
    <button type="button" class="kd-trip-menu-hotel" data-trip-menu-action="details"><img src="./scenarios/maidens-hotel.jpg" alt=""><span><strong>Maidens Hotel</strong><small>Москва · ${esc(dates)}</small><span class="kd-trip-menu-status">${icon(after?'check':stay?'key':'clock')}${esc(status)}</span></span>${icon('arrow')}</button>
-   ${stay?`<button type="button" class="kd-primary kd-trip-menu-primary" data-trip-menu-action="key">${icon('key')}Открыть номер 412</button>`:state==='booked'?`<button type="button" class="kd-primary kd-trip-menu-primary" data-trip-menu-action="checkin">${icon('check')}${home.querySelector('.kpa-checkin').classList.contains('is-complete')?'Регистрация пройдена':'Онлайн-регистрация'}</button>`:''}
+   ${stay?`<button type="button" class="kd-primary kd-trip-menu-primary" data-trip-menu-action="key">${icon('key')}Открыть номер 412</button>`:''}
    ${orders.length?`<div class="kd-trip-menu-orders"><div class="kd-trip-menu-label">Активные услуги · ${orders.length}</div>${orders.slice(0,1).map(order=>`<button type="button" data-trip-menu-action="services">${icon(order.state==='approved'?'check':'clock')}<span><strong>${esc(order.title)}</strong><small>${esc(order.time)}</small><span class="kd-trip-menu-order-status${order.state==='pending'?' is-pending':''}">${esc(order.status)}</span></span>${icon('arrow')}</button>`).join('')}</div>`:''}
    <nav aria-label="Действия с поездкой">${row('details',after?'Детали проживания':'Детали брони','file')}${after?row('documents','Документы поездки','file')+row('review','Оставить отзыв','star'):row('services','Все услуги отеля','service')+row('route','Как добраться','pin')}${after?row('chat','Связаться с отелем','chat'):''}${row('history','Прошлые поездки','history')}${state==='booked'&&!window.KeysBeforeCancellation?.getStatus()?'<button type="button" class="keys-cancel-entry" data-trip-menu-action="cancel">Отменить бронирование</button>':''}</nav>`;
  }
@@ -34,7 +34,6 @@
   if(action==='details'){if(state==='booked')click('.kpa-actions [data-before="details"]');else app.dispatchEvent(new CustomEvent('keys-open-stay-details'));}
   if(action==='key')click('.kh-open-door');
   if(action==='services')click(state==='booked'?'.kpa-services-all':'.kh-home>.kh-quick-actions [data-info="services"]');
-  if(action==='checkin')click('.kpa-checkin');
   if(action==='route')click('.kd-trip-actions [data-before="route"]');
   if(action==='chat')app.dispatchEvent(new CustomEvent('keys-open-hotel-chat'));
   if(action==='documents')window.KeysTripDocuments.open(trigger);

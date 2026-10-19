@@ -169,7 +169,7 @@ body[data-keys-scenario="booked"] #keysStayDetails .ksd-detail-content>:is(.ksd-
 #keysUnifiedPrototype .kpa-actions-three button>strong{display:flex;align-items:center;justify-content:center;text-align:center;line-height:18px}
 
 /* Equal secondary actions directly below the booking pass. */
-#keysUnifiedPrototype .kpa-booking-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#keysUnifiedPrototype .kpa-booking-buttons{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-booking-buttons>.kpa-manage{box-sizing:border-box;min-width:0;min-height:48px;height:auto;margin:0;padding:10px 12px;line-height:var(--leading-normal)}
 #keysUnifiedPrototype .kpa-booking-buttons>.kpa-manage>svg{display:none}
 

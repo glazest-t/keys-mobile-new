@@ -118,7 +118,9 @@ function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impression
  const {state,dispatch}=J();
  const selected=E.useContext(keysResultsContext())===hotel.id;
  const [discountOpen,setDiscountOpen]=E.useState(false);
- const priceDetails=!!(price?.goldDiscount||price?.registrationDiscount);
+ const missingLoyalty=!!state.keysHotelLoyaltyMissing;
+ const possibleHotelLoyalty=missingLoyalty&&!state.keysConnectedHotelCards?.[hotel.id];
+ const priceDetails=!!price&&(missingLoyalty||!!price.friendlyRate||!!price.goldDiscount||!!price.registrationDiscount);
  const saved=state.discovery.savedIds.includes(hotel.id);
  const reviews=local?Zc(local).reviews.length:null;
  const location=keysHotelLocation(locationCity??(state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'?(local?.city||summary?.city||''):state.search.city),local||summary);
@@ -133,16 +135,17 @@ function KeysResultsHotelCard({hotel,local,summary,price,offer,onOpen,impression
     n.jsx('span',{className:'keys-result-hotel-rating','aria-label':'Рейтинг '+local.rating,children:String(local.rating).replace('.',',')}),
     n.jsx('span',{children:Ym(reviews)})
    ]}),
-   n.jsxs(priceDetails?'button':'span',{type:priceDetails?'button':undefined,className:'keys-result-hotel-price','aria-label':priceDetails?(price.registrationDiscount?'Цена после регистрации ': 'Цена Gold ')+Te(price.total)+' — детали скидки':undefined,'aria-haspopup':priceDetails?'dialog':undefined,onClick:priceDetails?()=>setDiscountOpen(true):undefined,children:[
+   n.jsxs(priceDetails?'button':'span',{type:priceDetails?'button':undefined,className:'keys-result-hotel-price','aria-label':priceDetails?(price.registrationDiscount?'Цена после регистрации ':price.friendlyRate?'Цена Friendly Rate ':price.goldDiscount?'Цена Gold ':'Цена ')+Te(price.total)+' — детали скидки':undefined,'aria-haspopup':priceDetails?'dialog':undefined,onClick:priceDetails?()=>setDiscountOpen(true):undefined,children:[
     n.jsx('strong',{title:'Стоимость за всё проживание',children:local?(price?Te(price.total):be):n.jsx(Dz,{hotelId:hotel.id})}),
     price?.ownPrice&&n.jsxs(n.Fragment,{children:[
      n.jsx('s',{children:Te(price.usualTotal)}),
      n.jsx('span',{className:'keys-result-hotel-discount',children:'−'+eT(price.total,price.usualTotal)+'%'})
     ]}),
-    price?.registrationDiscount>0&&n.jsx('span',{className:'keys-registration-price-caption',children:'После регистрации'})
+    price?.registrationDiscount>0&&n.jsx('span',{className:'keys-registration-price-caption',children:'После регистрации'}),
+    missingLoyalty&&priceDetails&&n.jsxs('span',{className:'keys-result-price-details',children:['О цене',n.jsx(D,{name:'chevron',className:'size-3'})]})
    ]})
   ]}),
-  discountOpen&&n.jsx(KeysHotelDiscount,{price,onClose:()=>setDiscountOpen(false)})
+  discountOpen&&n.jsx(KeysHotelDiscount,{price:{...price,hotelId:hotel.id,possibleHotelLoyalty},onClose:()=>setDiscountOpen(false)})
  ]});
 }
 function KeysResultsMap({desktop=false,onSelectionChange=()=>{}}) {

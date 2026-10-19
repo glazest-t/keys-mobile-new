@@ -482,3 +482,17 @@ body[data-keys-view=desktop]:is([data-keys-scenario=booked],[data-keys-scenario=
 /* Reveal the search frame only after its anchored layout and fonts are ready. */
 .kd-trip-search-overlay iframe{opacity:0}
 .kd-trip-search-overlay.is-ready iframe{opacity:1}
+
+/* A single balanced action group after removing online check-in. */
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-actions.has-instruction .kd-before-links{grid-template-columns:repeat(4,minmax(0,1fr))}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>[data-kd-route]{background:var(--color-soft);border-radius:12px;color:var(--color-brand)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>[data-kd-route]+button{border-left:0}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .kd-before-links>[data-kd-route] strong{color:var(--color-brand)}
+body[data-keys-booking-cancelled=true][data-keys-scenario=booked] #keysUnifiedPrototype .kd-before-links>[data-kd-route]{display:none!important}
+body[data-keys-booking-cancelled=true][data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-actions.has-instruction .kd-before-links{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1100px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-actions.has-instruction .kd-before-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button+button{border-left:0}
+}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button{display:grid;grid-template-rows:22px minmax(42px,auto);align-content:center;justify-items:center}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button>span{display:flex;align-items:center;justify-content:center}

@@ -131,3 +131,6 @@ html[data-keys-brand="orbit"] img[src$="/collections/weekend.svg"]{content:url('
 html[data-keys-brand="orbit"] img[src$="/collections/anywhere.svg"]{content:url('./orbit/illustrations/anywhere.svg')}
 html[data-keys-brand="orbit"] .kd-advice-pick>img{content:url('./orbit/login/symbol.svg');object-fit:contain;padding:28px;filter:none;transform:none}
 html[data-keys-brand="orbit"] .kd-advice-pick{background:#eef2fe}
+
+html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-header .kpi-close{left:auto;right:16px}
+html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header:has(.kpi-close) .kpi-edition{right:68px}

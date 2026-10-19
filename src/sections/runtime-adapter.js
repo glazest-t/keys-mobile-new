@@ -39,8 +39,9 @@ function keysRouteToHost(action) {
   const tab = action.type === 'HOME' ? 'trips' : action.type === 'NAV_TAB' ? action.tab : null;
   let target = tab === 'trips' ? 'trips' : tab === 'bonuses' ? 'benefits' : null;
   if(action.type === 'OPEN' && action.screen?.type === 'profile') target='profile';
-  if(!globalThis.keysGuestMode&&action.type==='HOTEL_OPEN'&&action.id==='maidens') target='stay-details';
-  if(!globalThis.keysGuestMode&&action.type==='OPEN'&&action.screen?.type==='hotel'&&action.screen.hotelId==='maidens') target='stay-details';
+  const programmeHotel=globalThis.keysHostEntry?.kind==='screen'&&globalThis.keysHostEntry.screen==='hotel';
+  if(!globalThis.keysGuestMode&&!programmeHotel&&action.type==='HOTEL_OPEN'&&action.id==='maidens') target='stay-details';
+  if(!globalThis.keysGuestMode&&!programmeHotel&&action.type==='OPEN'&&action.screen?.type==='hotel'&&action.screen.hotelId==='maidens') target='stay-details';
   if(action.type==='OPEN'&&action.screen?.type==='problem'&&globalThis.PoraDemo.state?.booking.hotelId==='maidens') target='problem';
   if(action.type === 'OPEN' && action.screen?.type === 'booking' && globalThis.PoraDemo.state?.booking.hotelId === 'maidens') target='stay-details';
   if(action.type==='OPEN'&&['stay-feedback','checkout-feedback'].includes(action.screen?.type)) target='feedback';
@@ -79,6 +80,7 @@ function KeysBridge() {
       if(event.data.guestHome){dispatch({type:'NAV_TAB',tab:'find'});dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});return;}
 
       if(typeof event.data.hotelLoyaltyMissing==='boolean')dispatch({type:'KEYS_HOTEL_LOYALTY_SCENARIO',enabled:event.data.hotelLoyaltyMissing});
+      if(typeof event.data.partnerApproved==='boolean')dispatch({type:'KEYS_PARTNER',approved:event.data.partnerApproved});
       if(event.data.loyaltyTier)dispatch({type:'KEYS_LOYALTY',tier:event.data.loyaltyTier});
       if(event.data.cancelledBooking){dispatch({type:'KEYS_BOOKING_CANCELLED',bookingId:event.data.cancelledBooking.id,result:event.data.cancelledBooking.result});return;}
       if(event.data.loginContact){dispatch({type:'KEYS_LOGIN_CONTACT',contact:event.data.loginContact});return;}
@@ -96,7 +98,9 @@ function KeysBridge() {
       dispatch({type:'NAV_TAB',tab});
       if(screen==='created-booking'&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
       if(['booking','notifications','saved'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
-      if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
+      if(screen==='hotel-loyalty-connect'&&hotelId)dispatch({type:'OPEN',screen:{type:screen,hotelId}});
+      else if(screen==='hotel'&&hotelId)dispatch({type:'HOTEL_OPEN',id:hotelId});
+      else if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
       if(tab==='find'&&discovery){
         if(typeof discovery.wish==='string'&&discovery.wish.trim()){
           dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});
@@ -149,7 +153,7 @@ function PH({children}) {
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&n.jsx(CH,{}),
-      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
+      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
     !screen&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{})
   ]});

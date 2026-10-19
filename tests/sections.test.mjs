@@ -289,3 +289,23 @@ test('free cancellation returns each wallet to its source exactly once',()=>{
  const quote=e.keysBookingCancellationQuote(s.reservation,s.booking,'2020-01-01');assert.equal(quote.points,balance+1500);
  const action={type:'KEYS_BOOKING_CANCELLED',bookingId:s.booking.id,result:{...quote,status:'cancelled'}};s=run(s,action);assert.equal(s.loyalty.balance,balance);assert.equal(s.keysHotelPoints.more,1500);assert.equal(run(s,action),s);
 });
+
+test('hotel programme booking opens Maidens catalogue detail and returns to Benefits',()=>{
+ const previousEntry=globalThis.keysHostEntry,previousState=globalThis.PoraDemo.state,previousGuest=globalThis.keysGuestMode,previousWindow=globalThis.window;
+ const messages=[];
+ try{
+  globalThis.window={parent:{postMessage:m=>messages.push(m)},location:{origin:'http://127.0.0.1:8765'}};
+  globalThis.keysGuestMode=false;
+  globalThis.keysHostEntry={kind:'screen',screen:'hotel'};
+  let state=e.keysInitialState();globalThis.PoraDemo.state=state;
+  const open={type:'HOTEL_OPEN',id:'maidens'};
+  assert.equal(e.keysRouteToHost(open),false);
+  state=run(state,open);globalThis.PoraDemo.state=state;
+  assert.equal(state.navigation.screen.hotelId,'maidens');
+  assert.equal(e.keysRouteToHost({type:'BACK'}),true);
+  assert.equal(messages.at(-1).type,'return-to-entry');
+  assert.equal(globalThis.keysHostEntry,null);
+  assert.equal(e.keysRouteToHost(open),true);
+  assert.equal(messages.at(-1).target,'stay-details');
+ }finally{globalThis.keysHostEntry=previousEntry;globalThis.PoraDemo.state=previousState;globalThis.keysGuestMode=previousGuest;globalThis.window=previousWindow;}
+});

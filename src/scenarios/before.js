@@ -15,7 +15,7 @@
  const money=n=>n.toLocaleString('ru-RU')+' ₽',escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const date=value=>new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z'));
  const screen=document.createElement('section');screen.className='ka-home kpa-home';screen.hidden=true;screen.setAttribute('aria-label','Гость ещё не заехал');scroll.append(screen);
- let origin=null,active=false,currentBefore=null,detailsSession=false,registration=null;
+ let origin=null,active=false,currentBefore=null,detailsSession=false;
  // One demo date; the countdown follows the booking, not a separate scenario.
  const scenarioToday=()=>'2026-09-12';
  const beforeHistory=[];
@@ -47,7 +47,7 @@
  </div>
 
  </article>
- <div class="kpa-booking-buttons" role="group" aria-label="Подготовка к заезду" hidden><button type="button" class="kpa-manage kpa-route" data-before="route" hidden>Построить маршрут</button><button type="button" class="kpa-manage kpa-checkin" data-before="checkin" hidden>Онлайн-регистрация</button></div>
+ <div class="kpa-booking-buttons" role="group" aria-label="Подготовка к заезду" hidden><button type="button" class="kpa-manage kpa-route" data-before="route" hidden>Построить маршрут</button></div>
  <section class="kh-quick-actions kpa-actions" aria-label="Бронь и связь с отелем"><button type="button" data-before="details"><span>${icons.file}</span><strong>Детали брони</strong></button><button type="button" data-before="chat"><span>${icons.chat}</span><strong>Чат с отелем</strong></button><button type="button" data-before="instruction" hidden><span>${icons.pin}</span><strong>Инструкция по заселению</strong></button></section>
  <section class="kpa-preparation" aria-labelledby="kpa-preparation-title"><header class="kpa-preparation-heading"><h2 id="kpa-preparation-title">Добавьте к поездке</h2><p>Услуги можно выбрать до заезда</p></header><div class="kpa-services"><div data-early-slot></div><div data-breakfast-slot></div></div><button type="button" class="kpa-services-all" data-info="services">Все услуги отеля ${icons.arrow}</button></section>
  <div data-nearby-slot></div>`;
@@ -136,7 +136,6 @@
   if(booking.cancellation)return bookingDetails();
   window.KeysBookingChange.open({booking:{...structuredClone(booking),today:scenarioToday()},trigger,onComplete:updated=>{
    Object.assign(booking,updated,{adults:updated.party.adults,nights:Math.round((Date.parse(updated.departure)-Date.parse(updated.arrival))/86400000)});
-   registration=null;updateCheckinButton();
    updateBookingSummary();beforeHistory.length=0;currentBefore=null;detailsSession=false;
    window.KeysHomeViews.close();scroll.scrollTop=0;
    const heading=screen.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});
@@ -203,19 +202,6 @@
    <button type="button" class="kpa-manage" data-before="chat">${icons.chat}Чат с отелем</button>
   </div>`,'instruction');
  }
- function updateCheckinButton(){
-  const button=screen.querySelector('[data-before="checkin"]');
-  button.classList.toggle('is-complete',!!registration);
-  button.setAttribute('aria-label',registration?'Онлайн-регистрация пройдена':'Онлайн-регистрация');
-  button.innerHTML=registration?'<span class="kpa-checkin-title">Регистрация</span><span class="kpa-checkin-status">'+icons.check+'Пройдена</span>':'Онлайн-регистрация';
- }
- function checkin(trigger){
-  window.KeysBookingChange.open({flow:'checkin',booking:{...structuredClone(booking),today:scenarioToday()},registration,trigger,
-   onRegistered:value=>{registration=value;updateCheckinButton();},
-   onInstruction:()=>instruction()
-  });
- }
-
  let shareSocial=null;
  function shareBooking(trigger){
   window.KeysBookingChange.open({flow:'share',booking:structuredClone(booking),social:shareSocial,trigger,
@@ -234,7 +220,6 @@
   if(action==='details')bookingDetails();
   if(action==='cancel')cancelBooking(button);
   if(action==='hotel')hotelAbout();
-  if(action==='checkin')checkin(button);
   if(action==='instruction')instruction();
   if(action==='route')taxiRoute();
   if(action==='route-go')launchTaxi();
@@ -261,7 +246,6 @@
    const buttons=screen.querySelector('.kpa-booking-buttons');
    buttons.hidden=false;
    screen.querySelector('.kpa-route').hidden=false;
-   screen.querySelector('[data-before="checkin"]').hidden=false;
    screen.querySelector('.kpa-actions [data-before="instruction"]').hidden=false;
    screen.querySelector('.kpa-actions').classList.add('kpa-actions-three');
    updateBookingSummary();

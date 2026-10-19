@@ -24,3 +24,18 @@ test('skipping keeps the verified phone but does not approve hotelier access',()
  m.edit();m.request('name@hotel.ru');assert.equal(m.defer(),false);
  assert.equal(m.decide(m.state.requestId,true),true);assert.equal(m.defer(),false);
 });
+test('pending and rejected requests survive leaving and restoring the app',()=>{
+ const m=createPartnerVerification();m.start('+79001234567');m.request('work@hotel.ru');
+ const pending={...m.state},restored=createPartnerVerification();restored.restore(pending.phone,pending);
+ assert.equal(restored.state.status,'pending');assert.equal(restored.state.email,'work@hotel.ru');
+ assert.equal(restored.decide(pending.requestId,false),true);
+ const rejected={...restored.state};restored.restore(rejected.phone,rejected);assert.equal(restored.state.status,'rejected');
+ restored.request(rejected.email);assert.equal(restored.decide(pending.requestId,true),false);
+ assert.equal(restored.decide(restored.state.requestId,true),true);
+ const approved={...restored.state};restored.restore(approved.phone,approved);assert.equal(restored.state.status,'approved');
+});
+test('a fresh linking request gets a unique tab token and preserves it on restore',()=>{
+ const m=createPartnerVerification();m.start('+79001234567');m.request('work@hotel.ru');const old={...m.state};
+ m.restore(old.phone,old);assert.equal(m.state.requestToken,old.requestToken);
+ m.request(old.email);assert.notEqual(m.state.requestToken,old.requestToken);
+});

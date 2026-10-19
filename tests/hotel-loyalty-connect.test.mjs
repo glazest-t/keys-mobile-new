@@ -27,3 +27,21 @@ test('ordinary scenarios do not get hotel-connection discounts',()=>{
  s=run(s,{type:'KEYS_HOTEL_LOYALTY_SCENARIO',enabled:true});s=run(s,{type:'KEYS_CONNECT_HOTEL_LOYALTY',email:'guest@example.ru'});
  s=run(s,{type:'KEYS_HOTEL_LOYALTY_SCENARIO',enabled:false});assert.equal(s.reservation.hotelLoyaltyDiscount,0);
 });
+test('benefits can connect a hotel card before a booking and apply it to a future draft',()=>{
+ let s=run(e.keysInitialState(),{type:'KEYS_HOTEL_LOYALTY_SCENARIO',enabled:true});
+ const reservation=s.reservation;
+ s=run(s,{type:'KEYS_CONNECT_HOTEL_LOYALTY',hotelId:'maidens',email:'guest@example.ru'});
+ assert.equal(s.reservation,reservation);
+ assert.equal(s.keysConnectedHotelCards.maidens.discount,10);
+ s=run(s,{type:'RESERVATION_START',hotelId:'maidens'});
+ assert.equal(s.reservation.hotelLoyaltyDiscount,.1);
+ s=run(s,{type:'RESERVATION_START',hotelId:'more'});
+ assert.equal(s.reservation.hotelLoyaltyDiscount,0);
+ const other=s.reservation;
+ s=run(s,{type:'KEYS_CONNECT_HOTEL_LOYALTY',hotelId:'maidens',email:'guest@example.ru'});
+ assert.equal(s.reservation,other);
+});
+test('benefits connection cannot enable a discount outside the missing-loyalty scenario',()=>{
+ const state=e.keysInitialState();
+ assert.equal(run(state,{type:'KEYS_CONNECT_HOTEL_LOYALTY',hotelId:'maidens',email:'guest@example.ru'}),state);
+});

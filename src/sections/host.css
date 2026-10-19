@@ -357,3 +357,27 @@ body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-row{min-height:
 #keysUnifiedPrototype .keys-program-preview [hidden]{display:none!important}
 body[data-keys-view=desktop] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-overview{align-items:start!important}
 body[data-keys-view=desktop] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-preview h2{font:500 20px/26px var(--font-sans)!important}
+/* A possible hotel membership, distinct from the Keys points balance. */
+#keysUnifiedPrototype .keys-benefits-connect{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:20px;margin-top:12px;border-radius:20px;background:linear-gradient(125deg,#3159da,#2442af);color:#fff}
+#keysUnifiedPrototype .keys-benefits-connect-badge{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:white;color:#2344bc;font:600 17px/24px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-connect-hotel{display:block;margin-bottom:5px;color:#e3eaff;font:400 12px/17px var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-connect h3{margin:0;color:#fff;font:500 16px/22px var(--font-sans)!important}
+#keysUnifiedPrototype .keys-benefits-connect>p{grid-column:1/-1;margin:0;color:#fff;font:400 13px/19px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-connect>button{grid-column:1/-1;display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px;border:0;border-radius:14px;background:#fff;color:#2344bc;font:500 14px/20px var(--font-sans);text-align:center;cursor:pointer}
+#keysUnifiedPrototype .keys-benefits-connect>button:hover{background:#edf2ff}
+#keysUnifiedPrototype .keys-benefits-connect>button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* Hotel membership types share the same rows, detail cards and booking action. */
+#keysUnifiedPrototype .keys-program-network{display:grid;gap:16px;margin-top:16px}
+#keysUnifiedPrototype .keys-program-network-summary{display:flex;align-items:center;gap:12px;padding:20px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype .keys-program-network-summary>div{flex:1;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-network-summary h2{margin:0;font:500 20px/26px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-network-summary p{margin:4px 0 0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-network-summary>strong{font:500 20px/26px var(--font-sans);color:#126749}
+#keysUnifiedPrototype .keys-program-network-intro{margin:0;font:400 14px/20px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-progress>p{margin:8px 0 0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-book{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;margin:0;padding:12px 20px;border:0;border-radius:14px;background:var(--color-brand);color:var(--color-on-brand,#fff);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-program-book>svg{width:18px;height:18px}
+#keysUnifiedPrototype .keys-program-network[hidden]{display:none!important}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-network{max-width:760px;margin:0 auto}
+
+#keysUnifiedPrototype .keys-program-copy>.keys-program-network-badge{justify-self:start;padding:2px 7px;border-radius:6px;background:var(--color-soft);color:var(--color-brand);font:500 11px/16px var(--font-sans)}

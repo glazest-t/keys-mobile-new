@@ -20,7 +20,8 @@
  const toolbar=document.createElement('div');toolbar.id='keysScenarioControls';toolbar.setAttribute('aria-label','Сценарий прототипа');
  const empty=document.createElement('main');empty.id='keysScenarioEmpty';empty.hidden=true;
  app.before(toolbar);app.after(empty);
- let selected='stay',stayDay='day-2',onboardingVariant='1';
+ let selected='stay',stayDay='day-2',onboardingVariant='1',inviteEntered=false;
+ function savedInviteEntered(){try{const saved=JSON.parse(sessionStorage.getItem('keys-partner-session-v1')||'null');return saved?.appEntered===true&&/^\+7\d{10}$/.test(saved.phone);}catch{return false;}}
  const controls=[];
  function control(id,items,group,icon,onSelect){
   const wrapper=document.createElement('div');wrapper.className='keys-scenario-control';
@@ -60,7 +61,7 @@
   }};
   controls.push(result);return result;
  }
- const scenarioControl=control('keys-scenario',availablePresets(),'Вводные условия','sliders',id=>{selected=id;render();});
+ const scenarioControl=control('keys-scenario',availablePresets(),'Вводные условия','sliders',id=>{selected=id;inviteEntered=false;render();});
  const dayControl=control('keys-stay-day',days,'Состояние проживания','calendar',id=>{stayDay=id;render();});
  const onboardingControl=control('keys-onboarding-variant',onboardingVariants,'Вариант онбординга','sliders',id=>{onboardingVariant=id;render(true,false);});
  function render(updateURL=true,resetView=updateURL){
@@ -70,7 +71,8 @@
   dayControl.set(stayDay,selected!=='stay');
   onboardingControl.set(onboardingVariant);onboardingControl.setVisible(selected==='onboarding');
   document.body.dataset.keysOnboardingVariant=onboardingVariant;
-  const scenario=['search-gold','search-guest','search-no-loyalty'].includes(selected)?'search':selected;
+  const scenario=['search-gold','search-guest','search-no-loyalty'].includes(selected)||(selected==='guest-invite'&&inviteEntered)?'search':selected;
+  document.body.dataset.keysSelectedScenario=selected;
   document.body.dataset.keysHotelLoyaltyMissing=String(selected==='search-no-loyalty');
   document.body.dataset.keysGuestSearch=String(selected==='search-guest');
   document.body.dataset.keysLoyalty=selected==='search-gold'?'Gold':'Silver';
@@ -85,6 +87,7 @@
  function fromURL(){
   const params=new URLSearchParams(location.search);orbitEnabled=orbitFromURL();
   const requested=params.get('scenario');selected=valid(availablePresets(),requested,requested==='onboarding'?'guest':'stay');
+  inviteEntered=selected==='guest-invite'&&savedInviteEntered();
   stayDay=valid(days,params.get('stayDay'),'day-2');
   onboardingVariant=valid(onboardingVariants,params.get('onboardingVariant'),'1');
   // The former first-day link opens the shared in-stay state without changing viewport.
@@ -96,7 +99,8 @@
  document.addEventListener('pointerdown',event=>{if(!toolbar.contains(event.target))controls.forEach(item=>item.close());});
  window.addEventListener('popstate',fromURL);
  window.KeysScenarios={
-  select(id,{preserveView=false}={}){selected=valid(availablePresets(),id,selected);render(true,!preserveView);},
+  select(id,{preserveView=false}={}){selected=valid(availablePresets(),id,selected);inviteEntered=false;render(true,!preserveView);},
+  completeInvite(){if(selected!=='guest-invite')return;inviteEntered=true;render(true,false);},
   setBrand(value){
    const next=value==='orbit';if(next===orbitEnabled)return;orbitEnabled=next;
    if(selected==='onboarding'&&!orbitEnabled){selected='guest';render();}

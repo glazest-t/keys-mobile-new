@@ -2,12 +2,13 @@
 export function adaptGoldLoyalty(source,components){
  let js=source;
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Gold loyalty anchor missing: '+a);js=js.replace(a,b);};
- replace('hm = qc.tariffs.concat([','hm = qc.tariffs.concat([{id:"loyalty-gold",name:"Для уровня Gold",multiplier:0.8,includesBreakfast:true,refundable:false,freeCancellationDays:0,penaltyNights:0,changesAllowed:true,requiresPrepayment:false,loyaltyTier:"Gold"},');
- replace('_g = (e) => hm.filter(t => (!t.hotelId || t.hotelId === e) && (Ie(e).freeCancellation || !t.refundable))','_g = (e, tier) => hm.filter(t => (!t.loyaltyTier || t.loyaltyTier === tier) && (!t.hotelId || t.hotelId === e) && (Ie(e).freeCancellation || !t.refundable)).sort((a,b)=>Number(b.loyaltyTier === "Gold")-Number(a.loyaltyTier === "Gold"))');
- replace('tariffId: _g(t)[0].id','keysLoyaltyTier:e.keysLoyaltyTier, tariffId: _g(t,e.keysLoyaltyTier)[0].id');
- replace('_g(r.hotelId).some((c) => c.id === t.id)','_g(r.hotelId,e.keysLoyaltyTier).some((c) => c.id === t.id)');
- replace('_g(e.hotelId).map((a) =>','_g(e.hotelId,e.keysLoyaltyTier).map((a) =>');
- replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type === "KEYS_LOYALTY") return keysSetLoyalty(e,t.tier);');
+ replace('hm = qc.tariffs.concat([','hm = qc.tariffs.concat([{id:"friendly-rate",name:"Friendly Rate",multiplier:0.65,includesBreakfast:true,refundable:false,freeCancellationDays:0,penaltyNights:0,changesAllowed:true,requiresPrepayment:false,partnerOnly:true},{id:"loyalty-gold",name:"Для уровня Gold",multiplier:0.8,includesBreakfast:true,refundable:false,freeCancellationDays:0,penaltyNights:0,changesAllowed:true,requiresPrepayment:false,loyaltyTier:"Gold"},');
+ replace('_g = (e) => hm.filter(t => (!t.hotelId || t.hotelId === e) && (Ie(e).freeCancellation || !t.refundable))','_g = (e, tier, partnerApproved=false) => hm.filter(t => (!t.partnerOnly || partnerApproved===true) && (!t.loyaltyTier || t.loyaltyTier === tier) && (!t.hotelId || t.hotelId === e) && (Ie(e).freeCancellation || !t.refundable)).sort((a,b)=>Number(!!b.partnerOnly)-Number(!!a.partnerOnly)||Number(b.loyaltyTier === "Gold")-Number(a.loyaltyTier === "Gold"))');
+ replace('tariffId: _g(t)[0].id','keysPartnerApproved:e.keysPartnerApproved===true, keysLoyaltyTier:e.keysLoyaltyTier, tariffId: _g(t,e.keysLoyaltyTier,e.keysPartnerApproved)[0].id');
+ replace('_g(r.hotelId).some((c) => c.id === t.id)','_g(r.hotelId,e.keysLoyaltyTier,e.keysPartnerApproved).some((c) => c.id === t.id)');
+ replace('_g(e.hotelId).map((a) =>','_g(e.hotelId,e.keysLoyaltyTier,e.keysPartnerApproved).map((a) =>');
+ replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type === "KEYS_PARTNER") return keysSetPartner(e,t.approved);\n if(t.type === "KEYS_LOYALTY") return keysSetLoyalty(e,t.tier);');
+ replace('CY = () => Math.min(...hm.map((e) => e.multiplier))','CY = () => Math.min(...hm.filter(e=>!e.partnerOnly).map((e) => e.multiplier))');
  // Price filters use the amount displayed to this member, not the open rate.
  const listStart=js.indexOf('function ls('),listEnd=js.indexOf('\nconst ',listStart);
  if(listStart<0||listEnd<0)throw Error('Gold search filter missing');

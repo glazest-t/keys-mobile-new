@@ -1,5 +1,6 @@
 import {createAuthFlow,formatPhone,PROTOTYPE_CODE} from './auth-model.mjs';
 import {createPartnerInvite} from './partner-invite.js?v=orbit-20261013';
+import {createPartnerBenefits} from './partner-benefits.js';
 import {bindOtpFields} from './otp-fields.mjs';
 const root=document.getElementById('keysUnifiedPrototype');
 const toolbar=document.getElementById('keysScenarioControls');
@@ -11,12 +12,15 @@ root.append(guest);
 const note=document.createElement('p');note.className='kauth-prototype-note';note.hidden=true;note.textContent=`Код в прототипе: ${PROTOTYPE_CODE}`;toolbar.after(note);
 const header=guest.querySelector('header'),main=guest.querySelector('main');
 const partnerSessionKey='keys-partner-session-v1';
-const savePartnerSession=approved=>{try{sessionStorage.setItem(partnerSessionKey,JSON.stringify({name:flow.state.name,phone:flow.state.phone,approved}));}catch{}};
-const clearPartnerSession=()=>{try{sessionStorage.removeItem(partnerSessionKey);}catch{}};
+let partnerBannerDismissed=false;
+const savePartnerSession=approved=>{try{sessionStorage.setItem(partnerSessionKey,JSON.stringify({name:flow.state.name,phone:flow.state.phone,approved,appEntered:completed,bannerDismissed:partnerBannerDismissed,verification:partner.snapshot}));}catch{}};
+const clearPartnerSession=()=>{partnerBannerDismissed=false;try{sessionStorage.removeItem(partnerSessionKey);}catch{}};
 let desktopAuth=false,desktopAuthOrigin=null;
 let authRenderVersion=0,authSubmitting=false;
 let flow=createAuthFlow(),timer=null,background=[],completed=false,finishing=false,originals=[],invited=false,resuming=false,resumeOrigin=null,codeFields=null;
-const partner=createPartnerInvite({guest,header,main,svg,onStartAuth:()=>render(),onReady:()=>finishLogin(true),onSkip:()=>finishLogin(false,true)});
+const partnerBenefits=createPartnerBenefits(root,svg);
+function syncPartnerRate(approved){document.body.dataset.keysPartnerApproved=String(approved);document.getElementById('keysSectionsFrame')?.contentWindow?.postMessage({source:'keys-host',partnerApproved:approved},location.origin);}
+const partner=createPartnerInvite({guest,header,main,svg,onStartAuth:()=>render(),onReady:()=>finishLogin(true),onSkip:()=>finishLogin(false,true),onStateChange:()=>{savePartnerSession(partner.approved);if(completed)showPartnerStatus(partner.approved);}});
 const rememberText=(selector,value)=>root.querySelectorAll(selector).forEach(el=>{const children=[...el.childNodes];originals.push(()=>el.replaceChildren(...children));el.textContent=value;});
 const rememberAttribute=(selector,key,value)=>root.querySelectorAll(selector).forEach(el=>{const before=el.getAttribute(key);originals.push(()=>before===null?el.removeAttribute(key):el.setAttribute(key,before));el.setAttribute(key,value);});
 function restoreIdentity(){originals.forEach(restore=>restore());originals=[];delete document.body.dataset.keysNewGuest;root.querySelectorAll('[data-auth-initial]').forEach(el=>el.remove());completed=false;}
@@ -34,13 +38,22 @@ function applyIdentity(){
  document.body.dataset.keysNewGuest='true';completed=true;
 }
 function showPartnerStatus(approved){
+ syncPartnerRate(approved);
+ const status=partner.snapshot.status,pending=status==='pending',rejected=status==='rejected';
  root.querySelectorAll('[data-partner-membership]').forEach(el=>el.remove());
  const banner=document.createElement(approved?'section':'button');banner.className='kpi-member-banner';banner.dataset.partnerMembership='';
- if(approved)banner.innerHTML=`<span>${svg('<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>')}<strong>Отельер подтверждён</strong></span><p>Вам доступны тарифы Friendly Rate</p>`;
- else{banner.type='button';banner.dataset.partnerResume='';banner.classList.add('kpi-verify-banner');banner.innerHTML=`<span><strong>Откройте тарифы Friendly Rate</strong>${svg('<path d="m9 5 7 7-7 7"/>')}</span><p>Подтвердите, что вы работаете в отеле</p><span class="kpi-verify-action">Подтвердить статус</span>`;}
- root.querySelector('.kse-heading').after(banner);
- const badge=document.createElement(approved?'span':'button');badge.className='kpi-profile-badge';badge.dataset.partnerMembership='';badge.textContent=approved?'Отельер · подтверждён':'Подтвердить статус отельера';
- if(!approved){badge.type='button';badge.dataset.partnerResume='';}
+ if(approved)banner.innerHTML=`<span>${svg('<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>')}<strong>Отельер подтверждён</strong></span><p>Вам доступны тарифы Friendly Rate</p><button type="button" class="kpi-member-dismiss" aria-label="Закрыть баннер о подтверждении статуса">${svg('<path d="m6 6 12 12M6 18 18 6"/>')}</button>`;
+ else{banner.type='button';banner.dataset.partnerResume='';banner.classList.add('kpi-verify-banner');banner.innerHTML=`<span><strong>${pending?'Ожидаем подтверждение':rejected?'Привязка отклонена':'Откройте тарифы Friendly Rate'}</strong>${svg('<path d="m9 5 7 7-7 7"/>')}</span><p>${pending?'Подтвердите привязку в личном кабинете TravelLine':rejected?'Вы можете отправить запрос повторно':'Подтвердите, что вы работаете в отеле'}</p><span class="kpi-verify-action">${pending?'Открыть запрос':rejected?'Посмотреть статус':'Подтвердить статус'}</span>`;}
+ if(!approved||!partnerBannerDismissed)root.querySelector('.kse-heading').after(banner);
+ if(approved){
+  banner.classList.add('is-confirmed');
+  banner.querySelector('.kpi-member-dismiss').addEventListener('click',()=>{
+   partnerBannerDismissed=true;savePartnerSession(true);banner.remove();
+   const heading=root.querySelector('.kse-heading h1');heading?.setAttribute('tabindex','-1');heading?.focus({preventScroll:true});
+  });
+ }
+ const badge=document.createElement('button');badge.type='button';badge.className='kpi-profile-badge';badge.dataset.partnerMembership='';badge.textContent=approved?'Отельер · Friendly Rate':pending?'Отельер · ожидаем подтверждение':rejected?'Отельер · привязка отклонена':'Подтвердить статус отельера';
+ if(approved){badge.dataset.partnerBenefits='';badge.setAttribute('aria-haspopup','dialog');}else{badge.dataset.partnerResume='';}
  root.querySelector('.keys-profile-name').append(badge);
  originals.push(()=>{banner.remove();badge.remove();});
 }
@@ -66,7 +79,7 @@ window.addEventListener('message',event=>{
  if(event.source!==guestFrame()?.contentWindow||event.origin!==location.origin||event.data?.source!=='keys-arbana')return;
  if(event.data.type==='guest-auth-required')openDesktopAuth();
  if(event.data.type==='guest-home')openGuestHome();
- if(event.data.type==='ready')guestPost({guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true'});
+ if(event.data.type==='ready')guestPost({partnerApproved:document.body.dataset.keysPartnerApproved==='true',guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true'});
 });
 guest.addEventListener('keydown',event=>{
  if(!desktopAuth)return;
@@ -100,7 +113,7 @@ function finishLogin(hotelier=false,deferred=false){
   const target=root.querySelector(resumeOrigin==='profile'?'.keys-profile-name [data-partner-membership]':'.kse-home [data-partner-membership]');
   target?.setAttribute('tabindex','0');target?.focus({preventScroll:true});resumeOrigin=null;return;
  }
- finishing=true;window.KeysScenarios.select('search');finishing=false;
+ finishing=true;if(invited)window.KeysScenarios.completeInvite();else window.KeysScenarios.select('search');finishing=false;
  const heading=root.querySelector('.kse-heading h1');heading?.setAttribute('tabindex','-1');heading?.focus({preventScroll:true});
 }
 function resumePartner(trigger){
@@ -130,7 +143,7 @@ function render(focus=true){
   main.querySelector('.kauth-welcome-caption')?.remove();
   main.querySelector('.kauth-intro').innerHTML='<h1>Введите номер телефона</h1><p>Отправим код для входа в «Ключи».</p>';
  }
- if(invited){header.insertAdjacentHTML('beforeend','<span class="kpi-edition">Для отельеров</span>');if(step==='name')main.querySelector('.kauth-primary').textContent='Продолжить';}
+ if(invited){partner.decorateHeader();if(step==='name')main.querySelector('.kauth-primary').textContent='Продолжить';}
  if(desktopAuth){
   if(step==='phone'){
    main.querySelector('.kauth-welcome-art')?.remove();
@@ -184,7 +197,7 @@ function scenarioChanged(event){
  if(guestSearch)queueMicrotask(openGuestHome);
  const active=['guest','guest-returning','guest-invite'].includes(scenario);invited=scenario==='guest-invite';
  guest.dataset.authAudience=invited?'partner':'guest';
- if(!finishing){if(event)clearPartnerSession();partner.reset();resuming=false;resumeOrigin=null;delete document.body.dataset.keysPartnerVerification;}
+ if(!finishing){syncPartnerRate(false);partnerBenefits.close();if(event)clearPartnerSession();partner.reset();resuming=false;resumeOrigin=null;delete document.body.dataset.keysPartnerVerification;}
  if(completed&&!finishing)restoreIdentity();
  if(active){
   flow=createAuthFlow(undefined,{registeredName:scenario==='guest-returning'?(root.querySelector('.keys-profile-name>strong')?.textContent.trim()||'Татьяна'):''});
@@ -197,6 +210,7 @@ function scenarioChanged(event){
 }
 document.addEventListener('click',event=>{
  if(document.body.dataset.keysGuestSearch==='true'&&event.target.closest('[data-header-action=home]')){event.preventDefault();event.stopImmediatePropagation();openGuestHome();return;}
+ const info=event.target.closest('[data-partner-benefits]');if(info){event.preventDefault();event.stopImmediatePropagation();partnerBenefits.open(info);return;}
  const resume=event.target.closest('[data-partner-resume]');
  if(resume){event.preventDefault();event.stopImmediatePropagation();resumePartner(resume);return;}
  if(completed&&event.target.closest('[data-open="logout"]')){event.preventDefault();event.stopImmediatePropagation();window.KeysScenarios.select(document.body.dataset.keysGuestSearch==='true'?'search-guest':flow.state.registered?'guest-returning':'guest');}
@@ -210,8 +224,9 @@ if(document.body.dataset.keysScenario==='search'&&document.body.dataset.keysGues
   const saved=JSON.parse(sessionStorage.getItem(partnerSessionKey)||'null');
   if(saved&&typeof saved.name==='string'&&saved.name.length<=40&&/^\+7\d{10}$/.test(saved.phone)&&typeof saved.approved==='boolean'){
    Object.assign(flow.state,{name:saved.name,phone:saved.phone,step:'done',verified:true});
-   partner.restore(saved.phone);
-   guest.hidden=true;applyIdentity();showPartnerStatus(saved.approved);
+   partnerBannerDismissed=saved.bannerDismissed===true;
+   partner.restore(saved.phone,saved.verification);
+   guest.hidden=true;applyIdentity();showPartnerStatus(partner.approved||saved.approved);
   }
  }catch{clearPartnerSession();}
 }

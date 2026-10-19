@@ -1,3 +1,12 @@
+function keysSetPartner(state,value){
+ const approved=value===true;
+ if(state.keysPartnerApproved===approved&&state.search.keysPartnerApproved===approved)return state;
+ const reservation=state.reservation;
+ return {...state,keysPartnerApproved:approved,search:{...state.search,keysPartnerApproved:approved},reservation:reservation&&reservation.status!=='confirmed'?{...reservation,keysPartnerApproved:approved,tariffId:reservation.tariffId==='friendly-rate'&&!approved?'flexible':reservation.tariffId}:reservation};
+}
+function KeysFriendlyRateNote(){
+ return n.jsxs('div',{className:'keys-friendly-rate-note',children:[n.jsx(D,{name:'gift',className:'size-4'}),n.jsxs('span',{children:[n.jsx('strong',{children:'Для отельеров'}),n.jsx('span',{children:'TravelLine Partners Club'})]})]});
+}
 function keysSetLoyalty(state,value){
  const tier=value==='Gold'?'Gold':'Silver';
  if(state.keysLoyaltyTier===tier&&state.search.keysLoyaltyTier===tier)return state;
@@ -12,6 +21,7 @@ function keysRegistrationPrice(price){
 }
 function tx(hotel,search,tick=0){
  const price={...keysStandardHotelPrice(hotel,search,tick),hotelId:hotel.id};
+ if(search.keysPartnerApproved){const total=Math.round(price.total*Sr(hotel.id,'friendly-rate').multiplier);return {...price,total,nightly:Math.round(total/Math.max(1,price.count)),ownPrice:true,friendlyRate:true,partnerDiscount:price.total-total,beforePartner:price.total};}
  if(search.keysLoyaltyTier!=='Gold')return keysRegistrationPrice(price);
  const total=Math.round(price.total*Sr(hotel.id,'loyalty-gold').multiplier);
  return {...price,total,nightly:Math.round(total/Math.max(1,price.count)),ownPrice:true,hotelTier:'Gold',goldDiscount:price.total-total,beforeGold:price.total};
@@ -24,10 +34,10 @@ function KeysGoldPrivileges(){
 }
 function KeysPhotoPrice({hotel,price,nights}){
  const {state}=J(),[opened,setOpened]=E.useState(false);
- const quote=tx(hotel,state.search,state.discovery.priceTick),registration=!!quote.registrationDiscount,gold=state.keysLoyaltyTier==='Gold'||registration;
+ const quote=tx(hotel,state.search,state.discovery.priceTick),registration=!!quote.registrationDiscount,gold=state.keysLoyaltyTier==='Gold'||registration||!!quote.friendlyRate;
  return n.jsxs(n.Fragment,{children:[n.jsxs(gold?'button':'div',{
   type:gold?'button':undefined,className:'keys-discovery-price'+(gold?' has-gold-price':''),
-  'aria-label':gold?(registration?'Цена после регистрации ':'Цена Gold ')+Te(quote.total)+' — детали скидки':undefined,'aria-haspopup':gold?'dialog':undefined,
+  'aria-label':gold?(registration?'Цена после регистрации ':quote.friendlyRate?'Цена Friendly Rate ':'Цена Gold ')+Te(quote.total)+' — детали скидки':undefined,'aria-haspopup':gold?'dialog':undefined,
   onPointerDown:gold?event=>event.stopPropagation():undefined,
   onClick:gold?event=>{event.stopPropagation();setOpened(true);}:undefined,
   children:[gold&&n.jsx('span',{className:'keys-photo-gold',children:'−'+eT(quote.total,quote.usualTotal)+'%'}),n.jsx('strong',{children:Te(gold?quote.total:price)}),n.jsx('span',{children:registration?'После регистрации':'за '+Xe(nights)})]

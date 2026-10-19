@@ -64,6 +64,7 @@
   if(!phone||!main)return;
   delete guest.dataset.orbitAuth;
   const isPartner=guest.dataset.authStep==='partner';
+  if(guest.dataset.partnerView?.startsWith('extranet'))return;
   if(brand!=='orbit'||guest.hidden||(!isPartner&&!main.querySelector('#keys-auth-phone,.kauth-code-fields,#keys-auth-name')))return;
   const entry=document.body.dataset.keysScenario;
   if(lastEntry!==entry){played=false;lastEntry=entry;}
@@ -91,7 +92,7 @@
    updatePhone();input.addEventListener('input',updatePhone);
    restore.push(()=>{input.removeEventListener('input',updatePhone);input.placeholder=placeholder;button.disabled=false;field.before(input);field.remove();window.KeysPhoneMask?.refresh(input);});
   }
-  if(guest.dataset.authStep==='code'){
+  if(guest.dataset.authStep==='code'&&guest.dataset.authAudience!=='partner'){
    const intro=main.querySelector('.kauth-intro'),oldNodes=[...intro.childNodes];
    const number=intro.querySelector('strong')?.textContent||'';
    const back=header.querySelector('[data-auth-back]'),next=back?.nextSibling;

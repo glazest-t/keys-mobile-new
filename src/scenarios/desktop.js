@@ -4,7 +4,7 @@
  const screen=home?.querySelector('.kpa-home'),toolbar=document.getElementById('keysScenarioControls');
  if(!root||!screen||!toolbar)return;
  const svg=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
- const paths={monitor:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/>',mobile:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>',arrow:'<path d="m9 5 7 7-7 7"/>',gift:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M12 7v14M3 7h18v4H3zM12 7C7 7 5 6 5 4a2 2 0 0 1 4-1l3 4Zm0 0c5 0 7-1 7-3a2 2 0 0 0-4-1l-3 4Z"/>',file:'<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>',chat:'<path d="M21 11a8 8 0 0 1-8 8H7l-4 3V5a2 2 0 0 1 2-2h8a8 8 0 0 1 8 8ZM7 8h10M7 12h7"/>',edit:'<path d="M12 4H4v16h16v-8M10 14l1-4L19 2l3 3-8 8-4 1Z"/>',check:'<path d="m5 12 4 4L19 6"/>',shield:'<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/>',pin:'<path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/>'};
+ const paths={route:'<path d="m21 3-6 18-4-8-8-4 18-6Z"/>',monitor:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/>',mobile:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>',arrow:'<path d="m9 5 7 7-7 7"/>',gift:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M12 7v14M3 7h18v4H3zM12 7C7 7 5 6 5 4a2 2 0 0 1 4-1l3 4Zm0 0c5 0 7-1 7-3a2 2 0 0 0-4-1l-3 4Z"/>',file:'<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>',chat:'<path d="M21 11a8 8 0 0 1-8 8H7l-4 3V5a2 2 0 0 1 2-2h8a8 8 0 0 1 8 8ZM7 8h10M7 12h7"/>',edit:'<path d="M12 4H4v16h16v-8M10 14l1-4L19 2l3 3-8 8-4 1Z"/>',check:'<path d="m5 12 4 4L19 6"/>',shield:'<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/>',pin:'<path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/>'};
  const icon=name=>svg(paths[name]);
  const modes=document.createElement('div');modes.className='kd-view-switch';modes.setAttribute('role','group');modes.setAttribute('aria-label','Формат прототипа');
  modes.innerHTML=`<button type="button" data-view="desktop" aria-pressed="false">${icon('monitor')}<span>Десктоп</span></button><button type="button" data-view="mobile" aria-pressed="true">${icon('mobile')}<span>Мобильная</span></button>`;toolbar.append(modes);
@@ -54,12 +54,8 @@
  const about=document.createElement('button');about.type='button';about.className='kd-about-hotel kd-web-only';about.dataset.before='hotel';about.innerHTML=`Об отеле ${icon('arrow')}`;screen.querySelector('.kpa-hotel-visual').append(about);
  const action=(id,title,copy,ico,extra='')=>`<button type="button" data-before="${id}" ${extra}>${icon(ico)}<span><strong>${title}</strong><small>${copy}</small></span>${icon('arrow')}</button>`;
  const actions=document.createElement('section');actions.className='kd-before-actions kd-web-only';actions.setAttribute('aria-label','Управление поездкой');
- actions.innerHTML=`<div class="kd-before-buttons" role="group" aria-label="Подготовка к заезду"><button type="button" class="kd-before-button" data-before="route" data-kd-route hidden>Построить маршрут</button><button type="button" class="kd-before-button" data-kd-registration hidden>Онлайн-регистрация</button></div><div class="kd-before-links" role="group" aria-label="Бронь и связь с отелем">${action('details','Детали брони','','file')}${action('chat','Чат с отелем','','chat')}${action('instruction','Инструкция по заселению','','pin','data-kd-instruction hidden')}</div>`;
- const beforeButtons=actions.querySelector('.kd-before-buttons');
+ actions.innerHTML=`<div class="kd-before-links" role="group" aria-label="Действия с поездкой">${action('route','Построить маршрут','','route','data-kd-route')}${action('details','Детали брони','','file')}${action('chat','Чат с отелем','','chat')}${action('instruction','Инструкция по заселению','','pin','data-kd-instruction hidden')}</div>`;
  screen.querySelector('.kpa-reservation').after(actions);
- const checkin=document.createElement('section');checkin.className='kd-checkin kd-web-only';checkin.setAttribute('aria-labelledby','kd-checkin-title');
- checkin.innerHTML=`<header>${icon('shield')}<div><h2 id="kd-checkin-title">Онлайн-регистрация</h2><span data-kd-checkin-state>Пара минут — и всё готово</span></div></header><p data-kd-checkin-copy>Заполните данные заранее. В отеле останется только получить ключ.</p><button class="kd-primary" type="button" data-before="checkin"><span data-kd-checkin-label>Пройти онлайн-регистрацию</span>${icon('arrow')}</button>`;
- side.prepend(checkin);
  const walletSource=root.querySelector('.keys-benefits-wallet');
  const pointsMarkup=`<header><span class="kd-points-icon">${icon('gift')}</span><h2>Баллы Ключей</h2></header><div class="kd-points-balance"><strong></strong><span>баллов доступно</span></div><p class="kd-points-copy"></p><button type="button" class="kd-points-link" data-desktop-action="points-program"><span>Как использовать</span>${icon('arrow')}</button>`;
  const syncPoints=card=>{
@@ -71,7 +67,7 @@
  };
  const createPoints=()=>{const card=document.createElement('section');card.className='kd-points-card';card.dataset.desktopPoints='';card.setAttribute('aria-label','Баллы Ключей');card.innerHTML=pointsMarkup;syncPoints(card);return card;};
  window.KeysDesktopPoints={create:createPoints,sync:syncPoints};
- const benefits=document.createElement('div');benefits.className='kd-wallet kd-web-only';const wallet=createPoints();benefits.append(wallet);checkin.after(benefits);wallet.id='kd-loyalty';wallet.tabIndex=-1;
+ const benefits=document.createElement('div');benefits.className='kd-wallet kd-web-only';const wallet=createPoints();benefits.append(wallet);side.prepend(benefits);wallet.id='kd-loyalty';wallet.tabIndex=-1;
  const discovery=document.createElement('section');discovery.className='kd-discovery kd-web-only';discovery.setAttribute('aria-labelledby','kd-discovery-title');
  discovery.innerHTML=`<header><div><h2 id="kd-discovery-title">Подборки для новых впечатлений</h2><p>Пока ждёте эту поездку — найдите следующую</p></div><button type="button" class="kd-text-link" data-desktop-action="search">Перейти к поиску ${icon('arrow')}</button></header><div class="kd-discovery-features"><button type="button" class="kd-photo-pick" data-discovery-mode="photo"><span class="kd-photo-stack" aria-hidden="true"><img src="./sections/images/sochi/swissotel/92b13884e717.webp" alt=""><img src="./sections/images/sochi/seagalaxy/73d929a6ee5c.webp" alt=""></span><span><strong>Отели свайпом</strong><small>Листайте отели, сохраняйте любимые.</small><span class="kd-feature-link">Найти свой отель ${icon('arrow')}</span></span></button><button type="button" class="kd-advice-pick" data-discovery-mode="advice"><span><strong>Нужен совет?</strong><small>Расскажите, какой отдых хотите. Подберём подходящие отели.</small><span class="kd-feature-link">Подобрать отель ${icon('arrow')}</span></span><img src="./scenarios/ai-hotel-match.png" alt=""></button></div><div class="kd-theme-collections" aria-label="Тематические подборки">${[['deals','Горячие скидки','Выгоднее прямо сейчас'],['weekend','На пару дней','Маленькая перезагрузка'],['anywhere','Куда угодно','Главное — новые впечатления']].map(([id,title,copy])=>`<button type="button" data-discovery-collection="${id}"><span><strong>${title}</strong><small>${copy}</small></span><img src="./sections/collections/${id}.svg" alt="">${icon('arrow')}</button>`).join('')}</div>`;
  screen.after(discovery);
@@ -117,7 +113,7 @@
  const searchSlot=document.createElement('div');searchSlot.className='kd-home-search-slot kd-web-only';
  const searchFrame=document.createElement('iframe');searchFrame.title='Поиск отеля на главной';searchFrame.id='keysHomeSearchFrame';searchSlot.append(searchFrame);
  let searchContext=null,searchReady=false,searchModal=false,modalBackground=[];
- const syncHomeSearch=()=>{if(searchReady&&searchContext)searchFrame.contentWindow.postMessage({source:'keys-home-search-host',search:searchContext},location.origin);};
+ const syncHomeSearch=()=>{if(searchReady&&searchContext)searchFrame.contentWindow?.postMessage({source:'keys-home-search-host',search:searchContext},location.origin);};
  const setSearchModal=active=>{
   if(searchModal===active)return;searchModal=active;searchSlot.classList.toggle('is-modal',active);
   if(active){
@@ -142,10 +138,6 @@
    searchOpen({searchRequest:searchContext,hotelId:event.data.hotelId});
   }
  });
- const originalCheckin=screen.querySelector('.kpa-checkin');
- actions.querySelector('[data-kd-registration]').addEventListener('click',()=>originalCheckin.click());
- function syncCheckin(){const complete=originalCheckin.classList.contains('is-complete');actions.querySelector('[data-kd-registration]').textContent=complete?'Регистрация пройдена':'Онлайн-регистрация';checkin.classList.toggle('is-complete',complete);checkin.querySelector('[data-kd-checkin-state]').textContent=complete?'Регистрация пройдена':'Пара минут — и всё готово';checkin.querySelector('[data-kd-checkin-copy]').textContent=complete?'Данные переданы отелю. Мы готовы к вашему приезду.':'Заполните данные заранее. В отеле останется только получить ключ.';checkin.querySelector('[data-kd-checkin-label]').textContent=complete?'Посмотреть данные':'Пройти онлайн-регистрацию';}
- new MutationObserver(syncCheckin).observe(originalCheckin,{attributes:true,attributeFilter:['class'],childList:true,subtree:true});syncCheckin();
  function syncBooking(){if(document.body.dataset.keysScenario!=='booked')return;hotel.querySelector('[data-kd-arrival]').textContent=screen.querySelector('.kpa-arrival-countdown').textContent.replace(/\s+/g,' ').trim();}
  new MutationObserver(syncBooking).observe(screen.querySelector('.kpa-arrival-countdown'),{childList:true,subtree:true,characterData:true});syncBooking();
  const searchOpen=detail=>root.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail}));
@@ -175,7 +167,7 @@
    if(stay.nextElementSibling!==discovery)stay.after(discovery);
   }else{
    if(stayNearby.parentElement!==stay)nearbyAnchor.after(stayNearby);
-   if(benefits.parentElement!==side)checkin.after(benefits);
+   if(benefits.parentElement!==side)side.prepend(benefits);
    if(intro.nextElementSibling!==screen)screen.before(intro);
    if(screen.nextElementSibling!==discovery)screen.after(discovery);
   }
@@ -188,9 +180,6 @@
   else{delete hotel.dataset.info;hotel.dataset.before='details';syncBooking();}
   discovery.querySelector('header p').textContent=scenario==='search'?'Выберите настроение — найдём подходящий отель':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
   actions.querySelector('[data-kd-route]').hidden=false;
-  checkin.hidden=true;
-  actions.querySelector('[data-kd-registration]').hidden=false;
-  beforeButtons.hidden=false;
   actions.querySelector('[data-kd-instruction]').hidden=false;
   actions.classList.add('has-instruction');
   root.querySelectorAll('[data-desktop-points]').forEach(syncPoints);

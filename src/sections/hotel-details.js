@@ -36,7 +36,7 @@ function KeysHotelReviewHighlights({hotel,heading=false,preview=false}) {
 }
 function keysHotelRatingLabel(value){
  const rating=Number(String(value).replace(',','.'));
- return !Number.isFinite(rating)?'Отзывы гостей':rating>=9?'Очень хорошо':rating>=8?'Хорошо':rating>=7?'Неплохо':'Есть замечания';
+ return !Number.isFinite(rating)?'Отзывы гостей':rating>=4.5?'Очень хорошо':rating>=4?'Хорошо':rating>=3.5?'Неплохо':'Есть замечания';
 }
 function TY({hotel,showAll=true}) {
  const {state,open}=J();

@@ -16,13 +16,14 @@ export function adaptSelectionStyle(source, welcome, ideas = '') {
  if(ideas){
   const entry='return tt().source === "travelline" ? n.jsx(w4, {}) : n.jsx(LB, { onBack: e });';
   if(!source.includes(entry))throw Error('Advice entry missing');
-  source=source.replace(entry,'return n.jsx(KeysIdeasPage, {onBack:e});');
+  source=source.replace(entry,'const screen=J().state.navigation.screen; return n.jsx(KeysIdeasPage, {onBack:e}, screen?.keysIdeasEntry||screen?.keysWish||"advice");');
   const landing='return e.search.intent === "discover" ? n.jsx(C4, {}) : n.jsxs(n.Fragment, { children:';
   if(!source.includes(landing))throw Error('Advice landing missing');
   source=source.replace(landing,'return n.jsxs(n.Fragment, { children:');
   const body='n.jsx(sF, {})] });';
   if(!source.includes(body))throw Error('Find content missing');
-  source=source.replace(body,'e.search.intent === "discover" ? n.jsx(KeysIdeasPage, {embedded:true}) : n.jsx(sF, {})] });');
+  // Find always renders its search landing. Advice only mounts on its own route;
+  // a transient intent update must not create an embedded questionnaire and overwrite its draft.
 
  }
  return source;

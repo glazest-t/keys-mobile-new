@@ -43,9 +43,11 @@ test('room amenities are deduplicated and room-specific descriptions remain avai
 
 
 test('rating wording handles the catalog comma notation and numeric ratings',()=>{
- assert.equal(helpers.keysHotelRatingLabel('9,4'),'Очень хорошо');
- assert.equal(helpers.keysHotelRatingLabel(9.4),'Очень хорошо');
- assert.equal(helpers.keysHotelRatingLabel('8,6'),'Хорошо');
+ assert.equal(helpers.keysHotelRatingLabel('4,7'),'Очень хорошо');
+ assert.equal(helpers.keysHotelRatingLabel(4.7),'Очень хорошо');
+ assert.equal(helpers.keysHotelRatingLabel('4,3'),'Хорошо');
+ assert.equal(helpers.keysHotelRatingLabel(3.8),'Неплохо');
+ assert.equal(helpers.keysHotelRatingLabel(3),'Есть замечания');
  assert.equal(helpers.keysHotelRatingLabel('—'),'Отзывы гостей');
 });
 

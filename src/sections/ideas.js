@@ -67,13 +67,13 @@ function KeysIdeasPage({onBack,embedded=false}){
  const {state,dispatch,open}=J(), engine=KeysIdeas;
  const initial=()=>{
   const screen=state.navigation.screen;
-  if(!embedded&&screen?.keysWish){const text=screen.keysWish,search={...state.search,city:''},ideas={...engine.initial(engine.company(search.party),engine.month(search)),destination:'*'};return {ideas:engine.reduce({...state,search,ideas},{type:'IDEAS_WISH',...engine.parse(text)}).ideas,stage:'results',entry:'request',wish:text,wishOrigin:screen.keysWishOrigin||'known'};}
-  let saved;try{saved=JSON.parse(sessionStorage.getItem('keys-ideas-v1'));}catch{}
-  const ideas=saved?.ideas?.likes&&saved?.ideas?.current?saved.ideas:engine.initial(engine.company(state.search.party),engine.month(state.search));
-  if(embedded||screen?.keysStartMode)return {ideas,stage:'destination',destinationReturn:'choose',pendingAction:{type:'IDEAS_START',mode:screen?.keysStartMode||'feed',like:screen?.keysStartLike}};
-  return saved?.ideas?.current?saved:{ideas,stage:'destination',pendingAction:{type:'IDEAS_START',mode:'feed'}};
+  if(!embedded&&screen?.keysWish){
+   const saved=KeysIdeasSession.read();if(saved?.entry==='request'&&saved.wish===screen.keysWish)return saved;
+   const text=screen.keysWish,search={...state.search,city:''},ideas={...engine.initial(engine.company(search.party),engine.month(search)),destination:'*'};return {ideas:engine.reduce({...state,search,ideas},{type:'IDEAS_WISH',...engine.parse(text)}).ideas,stage:'results',entry:'request',wish:text,wishOrigin:screen.keysWishOrigin||'known'};
+  }
+  return KeysIdeasSession.initial({screen:screen||{},embedded,fresh:engine.initial(engine.company(state.search.party),engine.month(state.search))});
  };
- const [model,setModel]=E.useState(initial),[tune,setTune]=E.useState(false),[topic,setTopic]=E.useState(null),[text,setText]=E.useState(()=>model.entry==='request'?model.wish||'':''),[reply,setReply]=E.useState(''),[sort,setSort]=E.useState('fit'),[expanded,setExpanded]=E.useState(false),[swipe,setSwipe]=E.useState(0),[leaving,setLeaving]=E.useState(false),[cityDraft,setCityDraft]=E.useState('');
+ const [model,setModel]=E.useState(initial),[tune,setTune]=E.useState(false),[topic,setTopic]=E.useState(()=>model.topic||null),[text,setText]=E.useState(()=>model.text??(model.entry==='request'?model.wish||'':'')),[reply,setReply]=E.useState(''),[sort,setSort]=E.useState(()=>model.sort||'fit'),[expanded,setExpanded]=E.useState(()=>!!model.expanded),[swipe,setSwipe]=E.useState(0),[leaving,setLeaving]=E.useState(false),[cityDraft,setCityDraft]=E.useState(()=>model.cityDraft||'');
  const [flight,setFlight]=E.useState(null);
  const landed=E.useCallback(()=>setFlight(null),[]);
  const touch=E.useRef(null),timer=E.useRef(null),scroll=E.useRef(null);
@@ -82,8 +82,9 @@ function KeysIdeasPage({onBack,embedded=false}){
  const regional=engine.regionalDestination({...ideas,destination});
  const env=E.useCallback(value=>({...state,search,ideas:{...value,destination:value.destination??destination},navigation:{...state.navigation,screen:{type:'ideas'}}}),[state,search,destination]);
  const act=action=>setModel(prev=>({...prev,ideas:engine.reduce(env(prev.ideas),action).ideas}));
- const go=next=>{if(embedded&&next!=='welcome'){sessionStorage.setItem('keys-ideas-v1',JSON.stringify({ideas,stage:next}));open({type:'describe'});return;}setModel(prev=>({...prev,stage:next}));setTopic(null);setReply('');scroll.current?.scrollTo({top:0});};
- E.useEffect(()=>{try{sessionStorage.setItem('keys-ideas-v1',JSON.stringify({...model,ideas}));}catch{}},[model,destination]);
+ const snapshot=next=>({...next,cityDraft,topic,text,sort,expanded});
+ const go=next=>{if(embedded&&next!=='welcome'){KeysIdeasSession.save(snapshot({...model,ideas,stage:next}));open({type:'describe'});return;}setModel(prev=>({...prev,stage:next}));setTopic(null);setReply('');scroll.current?.scrollTo({top:0});};
+ E.useEffect(()=>{KeysIdeasSession.save(snapshot({...model,ideas}));keysPost('ideas-draft',{});},[model,destination,cityDraft,topic,text,sort,expanded]);
  E.useEffect(()=>()=>clearTimeout(timer.current),[]);
  E.useLayoutEffect(()=>{if(document.documentElement.dataset.desktopAccount==='true')scroll.current?.closest('.keys-module-scroll')?.scrollTo({top:0});},[stage]);
  E.useEffect(()=>{setModel(prev=>({...prev,ideas:engine.refresh({search},prev.ideas)}));},[search.arrival,search.departure,destination]);
@@ -93,17 +94,17 @@ function KeysIdeasPage({onBack,embedded=false}){
  const requestDestination=(pendingAction=null)=>{
   const next={...model,ideas,stage:'destination',pendingAction,destinationReturn:pendingAction?'choose':stage};
   setTune(false);setTopic(null);setReply('');
-  if(embedded){sessionStorage.setItem('keys-ideas-v1',JSON.stringify(next));open({type:'describe'});}else setModel(next);
+  if(embedded){KeysIdeasSession.save(snapshot(next));open({type:'describe'});}else setModel(next);
  };
  const confirmDestination=city=>{
   let next=engine.reduce(env(ideas),{type:'IDEAS_DESTINATION',city}).ideas;
-  setModel(model.pendingAction?{...model,ideas:next,stage:'company'}:{ideas:next,stage:model.destinationReturn==='where'?'choose':model.destinationReturn||'choose'});
+  setModel(model.pendingAction?{...model,ideas:next,stage:'company'}:{...model,ideas:next,stage:model.destinationReturn==='where'?'choose':model.destinationReturn||'choose'});
   setTopic(null);setExpanded(false);setSort('fit');setReply('');setText('');
  };
  const confirmCompany=company=>{
   let next=engine.reduce(env(ideas),{type:'IDEAS_COMPANY',company}).ideas;
   if(model.pendingAction)next=engine.reduce(env(next),model.pendingAction).ideas;
-  setModel({ideas:next,stage:model.pendingAction?.type==='IDEAS_WISH'?'results':'choose'});setTopic(null);scroll.current?.scrollTo({top:0});
+  setModel({...model,ideas:next,stage:model.pendingAction?.type==='IDEAS_WISH'?'results':'choose',pendingAction:null});setTopic(null);scroll.current?.scrollTo({top:0});
  };
  const start=(mode='feed',like)=>requestDestination({type:'IDEAS_START',mode,like});
  const back=()=>{
@@ -111,13 +112,12 @@ function KeysIdeasPage({onBack,embedded=false}){
   if(stage==='company'){requestDestination(model.pendingAction||{type:'IDEAS_START',mode:ideas.mode});return;}
   if(stage==='destination'){
    if(!model.pendingAction&&model.destinationReturn){go(model.destinationReturn);return;}
-   onBack?onBack():dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});return;
+   dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});onBack?.();return;
   }
   if(topic){setTopic(null);return;}
   if(stage==='results'&&model.entry==='request'){
-   sessionStorage.setItem('keys-ideas-v1',JSON.stringify({...model,ideas,stage:'welcome'}));
    dispatch({type:'NAV_TAB',tab:'find'});
-   dispatch({type:'SEARCH_PATCH',patch:{intent:model.wishOrigin||'known',results:false}});
+   dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});
    return;
   }
   if(stage==='results'||stage==='where'){go('choose');return;}
@@ -128,7 +128,7 @@ function KeysIdeasPage({onBack,embedded=false}){
   const fresh={...engine.initial(ideas.company,engine.month(search)),destination};
   const next={ideas:engine.reduce(env(fresh),{type:'IDEAS_WISH',...wish}).ideas,stage:'results',entry:'request',wish:text.trim()};
   setReply('');setText('');setExpanded(false);setSort('fit');
-  if(embedded){sessionStorage.setItem('keys-ideas-v1',JSON.stringify(next));open({type:'describe'});}else{setModel(next);scroll.current?.scrollTo({top:0});}
+  if(embedded){KeysIdeasSession.save(next);open({type:'describe'});}else{setModel(next);scroll.current?.scrollTo({top:0});}
   return;
  }act({type:'IDEAS_WISH',...wish});setText('');setReply('Пожелания добавлены. Подборка обновилась.');};
  const flightFrom=(card,element)=>{
@@ -136,7 +136,14 @@ function KeysIdeasPage({onBack,embedded=false}){
   const box=element.getBoundingClientRect(),size=Math.min(120,box.width,box.height);
   return {id:card.id,icon:card.icon,from:{x:box.x+(box.width-size)/2,y:box.y+Math.min((box.height-size)/2,box.height*.25),size}};
  };
- const decide=liked=>{if(leaving)return;const nextFlight=liked?flightFrom(item,scroll.current?.querySelector('.ki-hero-art')):null;setLeaving(true);setSwipe(liked?150:-150);timer.current=setTimeout(()=>{act({type:'IDEAS_ANSWER',id:step.id,liked});setFlight(nextFlight);setSwipe(0);setLeaving(false);},window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:180);};
+ const decide=liked=>{
+  if(leaving)return;
+  const next={...model,ideas:engine.reduce(env(ideas),{type:'IDEAS_ANSWER',id:step.id,liked}).ideas};
+  // Save the accepted answer before the animation, including an immediate tab exit.
+  KeysIdeasSession.save(snapshot(next));
+  const nextFlight=liked?flightFrom(item,scroll.current?.querySelector('.ki-hero-art')):null;setLeaving(true);setSwipe(liked?150:-150);
+  timer.current=setTimeout(()=>{setModel(next);setFlight(nextFlight);setSwipe(0);setLeaving(false);},window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:180);
+ };
  const switchMode=value=>{act({type:'IDEAS_MODE',mode:value});setTopic(null);};
  const tabs=n.jsx(ru,{variant:'pill',label:'Как выбирать',value:ideas.mode,options:[{value:'feed',label:'Лента'},{value:'topics',label:'По темам'}],onChange:switchMode});
  const form=n.jsxs('form',{className:'ki-wish-form',onSubmit:e=>{e.preventDefault();sendWish();},children:[n.jsx(stage==='welcome'?'textarea':'input',{value:text,onChange:e=>{setText(e.target.value);if(reply)setReply('');},rows:stage==='welcome'?2:undefined,onKeyDown:e=>{if(stage==='welcome'&&e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();if(text.trim())sendWish();}},placeholder:stage==='welcome'?'Например, тишина, спа и бассейн…':'Напишите, чего хочется…','aria-label':'Пожелания к отдыху',maxLength:500}),n.jsx('button',{type:'submit',disabled:!text.trim(),'aria-label':stage==='welcome'?'Отправить запрос':'Добавить пожелания',title:stage==='welcome'?'Подобрать отели':undefined,children:n.jsx(D,{name:'arrow',className:'size-5'})})]});

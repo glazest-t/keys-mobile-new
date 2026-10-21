@@ -3,6 +3,7 @@
 #keysUnifiedPrototype .kf-phone.kpf-open>.keys-profile-header{display:none!important}
 #keysUnifiedPrototype .kpf[hidden],#keysUnifiedPrototype .kpf [hidden],#keysUnifiedPrototype .kpf-toast[hidden]{display:none!important}
 #keysUnifiedPrototype .kpf{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;min-width:0;background:var(--color-card);color:var(--color-ink);font:400 14px/1.5 var(--font-sans);text-align:left;overflow:hidden}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kpf{bottom:var(--keys-bottom-clearance)}
 #keysUnifiedPrototype .kpf *{box-sizing:border-box}
 #keysUnifiedPrototype .kpf :where(button,input,select,textarea){font:inherit;color:inherit}
 #keysUnifiedPrototype .kpf button{cursor:pointer;-webkit-tap-highlight-color:transparent}

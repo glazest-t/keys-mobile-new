@@ -127,7 +127,7 @@ function setup(){
   if(entry&&(map[target.dataset.open]||target.dataset.kpfPage||target.dataset.kpfTraveler)){
    event.preventDefault();event.stopImmediatePropagation();navigate(target.dataset.kpfTraveler?'traveler':target.dataset.kpfPage||map[target.dataset.open],target.dataset.kpfTraveler||(target.dataset.open==='travelerProfile'?'primary':null));return;
   }
-  if(route&&target.closest('.keys-app-header')){
+  if(route&&target.closest('.keys-app-header,.keys-bottom-nav')){
    if(dirty){event.preventDefault();event.stopImmediatePropagation();guard(()=>target.click());return;}
    close();const url=new URL(location.href);url.hash='';history.replaceState({...history.state,keysProfileDepth:0},'',url);
   }

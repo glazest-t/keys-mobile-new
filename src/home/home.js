@@ -42,7 +42,15 @@
  overlay.innerHTML=`<header class="kh-detail-header"><button class="kh-back" aria-label="Назад">${icon('back')}</button><div><h2 id="kh-detail-title"></h2></div></header><div class="kh-detail-content"></div><p class="kh-copy-status" role="status"></p>`;phone.append(overlay);
  let origin=null,detail=null,problemFromHome=false,returnFromBreakfast=null;
  const close=()=>{overlay.hidden=true;scroll.inert=false;scroll.removeAttribute("aria-hidden");phone.querySelector('nav').inert=false;phone.querySelector('nav').removeAttribute("aria-hidden");origin?.focus({preventScroll:true});detail=null;const onReturn=returnFromBreakfast;returnFromBreakfast=null;onReturn?.();};
- const open=(title,html,type,trigger)=>{origin=trigger??origin;detail=type;overlay.querySelector('h2').textContent=title;overlay.querySelector('.kh-detail-content').innerHTML=html;overlay.querySelector('.kh-copy-status').textContent='';overlay.hidden=false;overlay.scrollTop=0;scroll.inert=true;phone.querySelector('nav').inert=true;overlay.querySelector('.kh-back').focus({preventScroll:true});scroll.setAttribute('aria-hidden','true');phone.querySelector('nav').setAttribute('aria-hidden','true');};
+ const open=(title,html,type,trigger)=>{
+  origin=trigger??origin;detail=type;overlay.querySelector('h2').textContent=title;overlay.querySelector('.kh-detail-content').innerHTML=html;overlay.querySelector('.kh-copy-status').textContent='';overlay.hidden=false;overlay.scrollTop=0;scroll.inert=true;
+  const modal=document.body.dataset.keysView==='desktop'||!!overlay.querySelector('.kpa-route-chooser,.kpa-go-preview,.kpa-go-launch');
+  overlay.setAttribute('role',modal?'dialog':'region');
+  if(modal)overlay.setAttribute('aria-modal','true');else overlay.removeAttribute('aria-modal');
+  const nav=phone.querySelector('nav');nav.inert=modal;
+  if(modal)nav.setAttribute('aria-hidden','true');else nav.removeAttribute('aria-hidden');
+  overlay.querySelector('.kh-back').focus({preventScroll:true});scroll.setAttribute('aria-hidden','true');
+ };
  // Two hotel Wi-Fi configurations demonstrated by the in-stay and checkout states.
  let wifiConnected=false;
  const wifiNetwork='Maidens_Guest';
@@ -104,7 +112,7 @@
    notifyService(breakfastAdded?'Услуга добавлена':'Завтрак убран из поездки');
   }
  });
- overlay.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!nearby.back(detail))close();}if(event.key==='Tab'){const nodes=[...overlay.querySelectorAll('button,a[href],input,[tabindex="0"]')];const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
+ overlay.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!nearby.back(detail))close();}if(event.key==='Tab'&&overlay.getAttribute('aria-modal')==='true'){const nodes=[...overlay.querySelectorAll('button,a[href],input,[tabindex="0"]')];const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
  // Returning from a problem opened on the dashboard returns directly to its origin.
  document.addEventListener('click',event=>{
   if(!problemFromHome)return;

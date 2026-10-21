@@ -22,6 +22,15 @@
    <span class="kse-card-action"><span>Все преимущества</span>${arrow}</span>
   </button>`;
  scroll.append(screen);
+ const continueAdvice=screen.querySelector('[data-advice-mode="feed"]');
+ const refreshAdvice=()=>{
+  const draft=window.KeysIdeasSession.questionnaire();
+  continueAdvice.textContent=draft?'Продолжить':'Начать';
+  continueAdvice.dataset.adviceResume=String(!!draft);
+ };
+ refreshAdvice();
+ app.addEventListener('keys-ideas-draft-change',refreshAdvice);
+ window.addEventListener('storage',event=>{if([KeysIdeasSession.currentKey,KeysIdeasSession.draftKey].includes(event.key))refreshAdvice();});
  // All referral cards open the same flow, including the completed trip.
  const referralView=document.createElement('section');referralView.className='kh-overlay kse-referral-view';referralView.hidden=true;
  referralView.setAttribute('role','dialog');referralView.setAttribute('aria-modal','true');referralView.setAttribute('aria-labelledby','keys-referral-title');
@@ -57,7 +66,7 @@
 
  screen.addEventListener('click',event=>{
   const advice=event.target.closest('[data-advice-mode],[data-advice-card]');
-  if(advice){app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'advice',start:true,ideaMode:advice.dataset.adviceMode||'feed',ideaLike:advice.dataset.adviceCard}}));return;}
+  if(advice){app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'advice',start:true,resume:advice.dataset.adviceResume==='true',ideaMode:advice.dataset.adviceMode||'feed',ideaLike:advice.dataset.adviceCard}}));return;}
   const button=event.target.closest('[data-empty-action]');if(!button)return;
   if(button.dataset.emptyAction==='find')app.dispatchEvent(new CustomEvent('keys-open-hotel-search'));
   if(button.dataset.emptyAction==='benefits')home.querySelector('nav [data-bottom-tab="bonuses"],nav [data-nav="benefits"]')?.click();
@@ -78,6 +87,7 @@
  });
  let active=false;
  app.addEventListener('keys-scenario-change',event=>{
+  refreshAdvice();
   if(!referralView.hidden)closeReferral();
   const visible=event.detail.scenario==='search';screen.hidden=!visible;
   if(visible!==active){

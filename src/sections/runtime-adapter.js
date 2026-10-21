@@ -18,6 +18,7 @@ function keysRouteToHost(action) {
   if(keysReturnsToHost(globalThis.PoraDemo.state,action,globalThis.keysHostEntry)){
     globalThis.keysHostEntry=null;keysPost('return-to-entry',{});return true;
   }
+  if(action.type==='NAV_TAB'||action.type==='HOME')globalThis.keysHostEntry=null;
 
   // Only the success CTA advances the demo scenario; ordinary Home keeps its context.
   if(action.type==='HOME'&&action.confirmedBookingId&&globalThis.PoraDemo.state?.keysCreatedBookings?.[action.confirmedBookingId]){
@@ -32,7 +33,8 @@ function keysRouteToHost(action) {
 
   if(globalThis.PoraDemo.state?.keysChangeSession){
     if(globalThis.PoraDemo.state?.keysCheckinSession&&action.type==='OPEN'&&action.screen?.type==='info'){keysPost('navigate',{target:'checkin-instruction'});return true;}
-    if(action.type==='HOME'||action.type==='NAV_TAB'){keysPost('change-close',{});return true;}
+    if(action.type==='NAV_TAB'){keysPost('bottom-navigate',{tab:action.tab});return true;}
+    if(action.type==='HOME'){keysPost('change-close',{});return true;}
     if(action.type==='HANDOFF'||action.type==='OPEN'&&action.screen?.type==='chat'){keysPost('navigate',{target:'change-chat'});return true;}
     if(action.type==='OPEN'&&action.screen?.type==='booking'){keysPost('change-close',{});return true;}
     return false;
@@ -95,8 +97,8 @@ function KeysBridge() {
         if(changed)refresh.current?.();
       }
       if(!['find','chats','favorites'].includes(tab)) return;
-      globalThis.keysHostEntry=event.data.entryReturn||null;
       dispatch({type:'NAV_TAB',tab});
+      globalThis.keysHostEntry=event.data.entryReturn||null;
       if(screen==='created-booking'&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
       if(['booking','notifications','saved'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(screen==='hotel-loyalty-connect'&&hotelId)dispatch({type:'OPEN',screen:{type:screen,hotelId}});
@@ -115,7 +117,10 @@ function KeysBridge() {
         }
         else if(['deals','weekend','anywhere'].includes(discovery.collection)) keysOpenCollection(dispatch,searchRef.current,discovery.collection);
         else if(discovery.mode==='photo') dispatch({type:'OPEN',screen:{type:'swipe'}});
-        else if(discovery.mode==='advice'){dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});if(discovery.start)dispatch({type:'OPEN',screen:{type:'describe',keysStartMode:discovery.ideaMode==='topics'?'topics':'feed',keysStartLike:discovery.ideaLike}});}
+        else if(discovery.mode==='advice'){
+          dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});
+          dispatch({type:'OPEN',screen:{type:'describe',keysIdeasEntry:Date.now(),...(discovery.resume?{keysIdeasResume:true}:{keysStartMode:discovery.ideaMode==='topics'?'topics':'feed',keysStartLike:discovery.ideaLike})}});
+        }
         else if(discovery.mode==='known') dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false,keysCollection:null}});
         else if(typeof discovery.city==='string'&&discovery.city.trim()){
           const city=discovery.city.trim().slice(0,120);
@@ -138,6 +143,13 @@ function KeysBridge() {
   },[state.navigation.tab,state.navigation.screen?.type,state.search.intent,state.search.results]);
   return null;
 }
+function keysShowBottomNav(state){
+  if(state.keysShareSession)return false;
+  const {screen,history=[]}=state.navigation;
+  if(!screen)return true;
+  const bookingScreen=page=>page&&(['hotel','hotel-reviews','hotel-loyalty-connect','shopping-checkout','reservation-payment','reservation-success'].includes(page.type)||page.type==='hotel-map'&&page.selectedOnly);
+  return !bookingScreen(screen)&&!history.some(bookingScreen);
+}
 function PH({children}) {
   if(new URLSearchParams(location.search).has('headerSearch'))return n.jsx(KeysHeaderSearchPopup,{});
   if(new URLSearchParams(location.search).has('homeSearch'))return n.jsx(KeysHomeSearchWidget,{});
@@ -156,7 +168,7 @@ function PH({children}) {
       !screen&&!results&&n.jsx(CH,{}),
       n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
-    !screen&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{})
+    keysShowBottomNav(state)&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{})
   ]});
 }
 function keysInitialState() {
@@ -210,7 +222,7 @@ function CH() {
 }
 
 // The same items, SVGs and CSS are used by the host's existing navigation buttons.
-function AH() {
+function AH({beforeNavigate}={}) {
   const {state,selectTab}=J();
   const active=state.navigation.screen?.type==='saved'?'favorites':state.navigation.tab;
   const unread=zA(state)>0;
@@ -218,7 +230,7 @@ function AH() {
   return n.jsx('nav',{className:'keys-bottom-nav','aria-label':'Разделы приложения',children:window.KeysAppNav.getItems(state.discovery.savedIds.length).map(item=>n.jsx('button',{
     type:'button',className:'keys-bottom-tab','data-bottom-tab':item.id,
     'aria-current':active===item.id?'page':undefined,
-    onClick:()=>selectTab(item.id),dangerouslySetInnerHTML:{__html:window.KeysAppNav.content(item,unread)}
+    onClick:()=>{beforeNavigate?.();selectTab(item.id);},dangerouslySetInnerHTML:{__html:window.KeysAppNav.content(item,unread)}
   },item.id))});
 }
 

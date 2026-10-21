@@ -50,7 +50,7 @@
     }else if(tab!=='chats'){chatOrigin=null;chatOpened=false;}
     const entryReturn=section.hidden&&tab==='find'
       ? (['saved','created-booking','hotel-loyalty-connect','hotel'].includes(screen)?{kind:'screen',screen}
-        : discovery?.mode==='advice'&&discovery.start?{kind:'screen',screen:'describe'}
+        : discovery?.mode==='advice'?{kind:'screen',screen:'describe'}
         : discovery?.searchRequest&&discovery.hotelId?{kind:'screen',screen:'hotel'}
         : discovery&&(discovery.searchRequest||discovery.collection||discovery.city)?{kind:'results'}:null)
       : null;
@@ -97,9 +97,19 @@
       (dest??root.querySelector('[data-unified-section="trips"]')).hidden=false;
     }
   };
+  const navigateBottom=tab=>{
+    if(!['trips','find','chats','bonuses'].includes(tab))return;
+    if(root.querySelector('.kh-overlay:not([hidden])'))window.KeysHomeViews?.close();
+    if(tab==='find'||tab==='chats')show(tab);
+    else go(tab==='bonuses'?'benefits':'trips');
+  };
+  root.addEventListener('keys-bottom-navigate',event=>navigateBottom(event.detail.tab));
   document.addEventListener('click',event=>{
     const button=event.target.closest('button');if(!button||!root.contains(button))return;
     const label=button.textContent.trim();
+    if(button.matches('.keys-bottom-tab')){
+      event.preventDefault();event.stopImmediatePropagation();navigateBottom(button.dataset.bottomTab);return;
+    }
     if(button.closest('nav')&&['Найти','Чаты'].includes(label)){
       event.preventDefault();event.stopImmediatePropagation();show(label==='Найти'?'find':'chats');
     }
@@ -127,6 +137,7 @@
     if(event.source!==frame.contentWindow||event.data?.source!=='keys-arbana')return;
     if(event.origin!==location.origin&&location.protocol!=='file:')return;
     if(event.data.type==='profile-settings'){window.KeysProfile?.open('notifications');return;}
+    if(event.data.type==='ideas-draft')root.dispatchEvent(new CustomEvent('keys-ideas-draft-change'));
     if(event.data.type==='hotel-loyalty'&&event.data.missing===(document.body.dataset.keysHotelLoyaltyMissing==='true')){
       root.keysConnectedHotelCards=Array.isArray(event.data.cards)?event.data.cards.filter(card=>typeof card.hotelId==='string'&&typeof card.name==='string'&&Number.isFinite(card.discount)&&card.discount>0&&card.discount<=100):[];
       root.dispatchEvent(new CustomEvent('keys-hotel-loyalty-change'));

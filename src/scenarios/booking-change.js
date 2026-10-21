@@ -33,6 +33,10 @@
   if(event.data.type==='checkin-complete')session.onRegistered?.(event.data.registration);
   if(event.data.type==='change-close')close();
   if(event.data.type==='change-complete')close(event.data.booking);
+  if(event.data.type==='bottom-navigate'){
+   const tab=event.data.tab;close(null,false);
+   app.dispatchEvent(new CustomEvent('keys-bottom-navigate',{detail:{tab}}));
+  }
   if(event.data.type==='navigate'){
    const target=event.data.target,onInstruction=session.onInstruction;close();
    if(target==='checkin-instruction')onInstruction?.();

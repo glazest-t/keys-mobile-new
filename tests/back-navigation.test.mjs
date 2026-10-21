@@ -46,3 +46,37 @@ test('results opened from home return home; ordinary search returns to its form 
  assert.equal(e.keysReturnsToHost(s,{type:'KEYS_SEARCH_BACK'},null),false);
  s=run(s,{type:'KEYS_SEARCH_BACK'});assert.equal(s.search.results,false);assert.equal(s.search.city,query.city);assert.deepEqual(s.search.party,query.party);
 });
+
+test('bottom menu is available in search, hides from hotel details through checkout, and returns on exit',()=>{
+ let s=search();
+ assert.equal(e.keysShowBottomNav(s),true);
+ s=run(s,{type:'OPEN',screen:{type:'hotel-map'}});
+ assert.equal(e.keysShowBottomNav(s),true);
+ s=run(s,{type:'HOTEL_OPEN',id:'more'});
+ assert.equal(e.keysShowBottomNav(s),false);
+ for(const screen of [{type:'hotel-reviews',hotelId:'more'},{type:'hotel-map',hotelId:'more',selectedOnly:true},{type:'price-watch',hotelId:'more'}]){
+  const nested=run(s,{type:'OPEN',screen});
+  assert.equal(e.keysShowBottomNav(nested),false);
+  assert.equal(e.keysShowBottomNav(run(nested,{type:'BACK'})),false);
+ }
+ s=run(s,{type:'OPEN',screen:{type:'hotel',hotelId:'more',rooms:true}});
+ s=run(s,{type:'RESERVATION_START',hotelId:'more'});
+ assert.equal(e.keysShowBottomNav(s),false);
+ s=run(s,{type:'RESERVATION_NEXT'});
+ assert.equal(s.navigation.screen.type,'reservation-payment');
+ assert.equal(e.keysShowBottomNav(s),false);
+ for(let step=0;step<3;step++)s=run(s,{type:'BACK'});
+ assert.equal(s.navigation.screen.type,'hotel-map');
+ assert.equal(e.keysShowBottomNav(s),true);
+ for(const tab of ['trips','find','chats','bonuses'])assert.equal(e.keysShowBottomNav(run(s,{type:'NAV_TAB',tab})),true);
+});
+
+test('direct booking routes hide the menu without relying on prior navigation history',()=>{
+ const state=search();
+ for(const type of ['hotel','hotel-reviews','hotel-loyalty-connect','shopping-checkout','reservation-payment','reservation-success']){
+  assert.equal(e.keysShowBottomNav({...state,navigation:{...state.navigation,screen:{type},history:[]}}),false,type);
+ }
+ for(const type of ['saved','chat','profile','checkin','booking','created-booking','notifications','describe']){
+  assert.equal(e.keysShowBottomNav({...state,navigation:{...state.navigation,screen:{type},history:[]}}),true,type);
+ }
+});

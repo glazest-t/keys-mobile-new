@@ -12,6 +12,7 @@ import {adaptGoldLoyalty} from './adapt-gold-loyalty.mjs';
 import {adaptHotelDetails} from './adapt-hotel-details.mjs';
 import {adaptResultMap} from './adapt-result-map.mjs';
 import {adaptFind} from './adapt-find.mjs';
+import {adaptRatings} from './adapt-ratings.mjs';
 import {adaptTripShare} from "./adapt-trip-share.mjs";
 import {styleCheckin} from './style-checkin.mjs';
 import {adaptCheckin} from './adapt-checkin.mjs';
@@ -45,6 +46,7 @@ export async function buildSections(){
  replace('const a = gw(t), r = t.personaId;', 'const a = e.keysCheckoutIdentity ? e.profile : gw(t), r = t.personaId;');
  replace('const Gv = typeof window < "u" && true','const Gv = false'); // Host owns browser history; reducer keeps screen history.
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "KEYS_CHANGE_START") return keysChangeInitial(e,t.booking);');
+ replace('case "NAV_TAB":\n      return { ...e, navigation:', 'case "NAV_TAB":\n      if(t.tab === "find" && e.search.intent === "discover") e={...e,search:{...e.search,intent:"known",results:false,keysMapExpanded:false,keysCollection:null}};\n      return { ...e, navigation:');
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "OPEN" && keysSameScreen(e.navigation.screen,t.screen)) return e;\n  if(t.type === "KEYS_SEARCH_BACK") return {...e,search:{...e.search,results:false,keysMapExpanded:false,keysCollection:null}};');
  replace('FE = (e, t, a = 0) => Math.round(Rg(e, a) * BE(t))','FE = (e, t, a = 0) => e.keysNightly ?? Math.round(Rg(e, a) * BE(t))');
  replace('function CH({ compact: e = false }) {','function OriginalArbanaHeader({ compact: e = false }) {');
@@ -54,6 +56,7 @@ export async function buildSections(){
  replace('function PH({ children: e }) {','function OriginalArbanaLayout({ children: e }) {');
  replace('f ? G0(c.current, e) : b8(e, null, Date.now())','G0(c.current, e)');
  replace('n.jsx(yH, {})','null'); // Original demo scenario toolbar, outside application sections.
+ replace(', n.jsx(H, { variant: "text", icon: "assistant", className: "mt-2", onClick: () => {\n    t({ type: "NAV_TAB", tab: "find" }), t({ type: "SEARCH_PATCH", patch: { intent: "discover", results: false } });\n  }, children: "Ещё не выбрали отель? Посоветуем" })','');
  replace('const k = c(T);','if (keysRouteToHost(T)) return;\n    const k = c(T);');
  replace('function F_(e, t) {','function F_(e, t) {\n  if(t.hotelId === "maidens") return keysMaidensAnswer(e,t);');
  replace('{ id: "bonuses", label: "Бонусы", icon: "gift" }','{ id: "bonuses", label: "Выгоды", icon: "gift" }');
@@ -82,6 +85,7 @@ export async function buildSections(){
  js=adaptPhotoDiscovery(js,(await readFile(path.join(root,'src/sections/photo-gestures.mjs'),'utf8')).replace('export function','function')+'\n'+(await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8')));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js=adaptGoldLoyalty(js,await readFile(path.join(root,'src/sections/gold-loyalty.js'),'utf8'));
+ js=adaptRatings(js);
  replace('function Pt(e, t) {','function keysFavoritesBaseReducer(e, t) {');
  replace('const k = c(T);', 'if ((T.type==="FAVORITE_TOGGLE" && !l.current.discovery.savedIds.includes(T.id)) || (T.type==="SWIPE" && T.liked)) r({type:"KEYS_FAVORITE_INTENT",id:T.id});\n    const k = c(T);');
  js+='\n'+await readFile(path.join(root,'src/sections/favorites.js'),'utf8');
@@ -115,7 +119,7 @@ export async function buildSections(){
  html=html.replace('<html lang="ru">','<html lang="ru" data-theme="light">');
  html=html.replace('<head>','<head><meta name="color-scheme" content="light only">');
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
- html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script>');
+ html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script><script src="../scenarios/ideas-session.js"></script>');
  html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");
  html=html.replace('</head>','<script src="../scenarios/phone-mask.js"></script><script src="../scenarios/demo-form-defaults.js"></script><link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../scenarios/desktop-rewards.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"><link rel="stylesheet" href="../brand/brand.css?v=orbit-1"><script src="../brand/brand.js?v=orbit-1"></script></head>');
  await writeFile(path.join(dist,'index.html'),html);
@@ -130,6 +134,7 @@ export async function buildSections(){
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
  engine+='\nexport {keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysShowBottomNav,keysFivePointRating,keysRatingText,Zc as hotelReviews,qI as sortReviews,Lc as ratingLabel};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

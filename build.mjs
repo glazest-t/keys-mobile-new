@@ -19,6 +19,7 @@ const document = `<!doctype html>
   <script src="./boot.js"></script>
   <script src="./scenarios/phone-mask.js"></script>
   <script src="./scenarios/demo-form-defaults.js"></script>
+  <script src="./scenarios/ideas-session.js"></script>
   <script src="./maps/config.js"></script>
   <script src="./maps/2gis.js"></script>
   <style>html[data-keys-boot="loading"] body { visibility: hidden !important; }</style>

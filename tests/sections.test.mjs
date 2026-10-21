@@ -37,6 +37,22 @@ test('Trips, Benefits and Profile return to host, Find and Chats remain in origi
  for(const [action,target] of [[{type:'NAV_TAB',tab:'trips'},'trips'],[{type:'NAV_TAB',tab:'bonuses'},'benefits'],[{type:'OPEN',screen:{type:'profile'}},'profile'],[{type:'OPEN',screen:{type:'stay-feedback'}},'feedback']]){assert.equal(e.keysRouteToHost(action),true);assert.equal(messages.at(-1).target,target);}
  assert.equal(e.keysRouteToHost({type:'NAV_TAB',tab:'find'}),false);assert.equal(e.keysRouteToHost({type:'NAV_TAB',tab:'chats'}),false);
 });
+test('bottom navigation leaves booking changes and check-in for the selected section',()=>{
+ const messages=[];
+ const previousWindow=globalThis.window,previousState=globalThis.PoraDemo.state;
+ try{
+  globalThis.window={parent:{postMessage:message=>messages.push(message)},location:{origin:'http://127.0.0.1:8765'}};
+  for(const keysCheckinSession of [false,true]){
+   globalThis.PoraDemo.state={...e.keysInitialState(),keysChangeSession:true,keysCheckinSession};
+   for(const tab of ['trips','find','chats','bonuses']){
+    assert.equal(e.keysRouteToHost({type:'NAV_TAB',tab}),true);
+    assert.deepEqual(messages.at(-1),{source:'keys-arbana',type:'bottom-navigate',tab});
+   }
+   assert.equal(e.keysRouteToHost({type:'HOME'}),true);
+   assert.deepEqual(messages.at(-1),{source:'keys-arbana',type:'change-close'});
+  }
+ }finally{globalThis.window=previousWindow;globalThis.PoraDemo.state=previousState;}
+});
 test('confirmed booking CTA opens pre-arrival, including the guest checkout entry',()=>{
  const messages=[];globalThis.window={parent:{postMessage:m=>messages.push(m)},location:{origin:'http://127.0.0.1:8765'}};
  let state=e.keysInitialState();state=run(state,{type:'HOTEL_OPEN',id:'more'});state=run(state,{type:'RESERVATION_START'});state=run(state,{type:'RESERVATION_NEXT'});state=completeGuest(state);state=run(state,{type:'RESERVATION_METHOD',method:'arrival'});state=run(state,{type:'RESERVATION_PAY',draftId:state.reservation.id});

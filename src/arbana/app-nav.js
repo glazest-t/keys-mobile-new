@@ -14,6 +14,14 @@
     document.querySelectorAll('.keys-bottom-unread').forEach(dot=>dot.hidden=!unread);
   };
   function enhance(root) {
+    // These full-page flows originally had only a Back button.
+    root.querySelectorAll('.kti-phone,.kdf-phone,.kfb-phone').forEach(phone=>{
+      if(phone.querySelector(':scope>.keys-bottom-nav'))return;
+      const nav=document.createElement('nav');
+      nav.className='keys-bottom-nav keys-flow-nav';nav.setAttribute('aria-label','Разделы приложения');
+      nav.innerHTML=items.map(item=>`<button type="button" class="keys-bottom-tab" data-bottom-tab="${item.id}"${item.id==='trips'?' aria-current="page"':''}>${content(item,unread)}</button>`).join('');
+      phone.append(nav);
+    });
     root.querySelectorAll('.k3-nav,.kp-nav,.kf-nav,.ktd-nav,.ksd-nav').forEach(nav=>{
       if(!nav.classList.contains('keys-bottom-nav'))nav.classList.add('keys-bottom-nav');
       nav.setAttribute('aria-label','Разделы приложения');

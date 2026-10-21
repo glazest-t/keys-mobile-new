@@ -1,5 +1,6 @@
-/* One bottom-navigation geometry, shared by every screen that retains navigation. */
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav {
+/* One bottom-navigation geometry shared by the application pages. */
+:root{--keys-bottom-clearance:calc(74px + max(14px,env(safe-area-inset-bottom)))}
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav {
   box-sizing:border-box!important;position:absolute!important;z-index:20!important;
   display:grid!important;grid-template-columns:repeat(var(--keys-nav-count,4),minmax(0,1fr))!important;
   left:16px!important;right:16px!important;bottom:max(14px,env(safe-area-inset-bottom))!important;
@@ -9,7 +10,7 @@
   box-shadow:inset 0 0 0 1px #ffffff8c,0 6px 22px #1c284117!important;
   -webkit-backdrop-filter:blur(30px) saturate(1.5)!important;backdrop-filter:blur(30px) saturate(1.5)!important;isolation:isolate;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab {
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-tab {
   box-sizing:border-box!important;position:relative!important;display:flex!important;
   flex-direction:column!important;align-items:center!important;justify-content:center!important;
   width:100%!important;height:50px!important;min-height:50px!important;min-width:0!important;
@@ -19,25 +20,32 @@
   font-family:var(--font-sans)!important;font-size:var(--keys-nav-text,12px)!important;line-height:1.2!important;font-weight:500!important;
   letter-spacing:normal!important;text-align:center!important;transform:none!important;cursor:pointer;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab:is([aria-current="page"],.active) {
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-tab:is([aria-current="page"],.active) {
   background:transparent!important;color:var(--color-brand)!important;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-icon {
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-icon {
   position:relative!important;display:block!important;width:24px!important;height:24px!important;
   flex:none!important;padding:0!important;margin:0!important;background:none!important;line-height:0!important;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav svg {
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav svg {
   display:block!important;width:24px!important;height:24px!important;margin:0!important;stroke-width:1.65!important;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-label {
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-label {
   display:block!important;font:inherit!important;color:inherit!important;padding:0!important;margin:0!important;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-unread {
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-unread {
   position:absolute;right:-2px;top:0;width:7px;height:7px;border-radius:50%;background:var(--color-brand);border:1px solid var(--color-card);
 }
 .keys-bottom-unread[hidden]{display:none!important}
 .keys-bottom-tab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
-.keys-module-screen:has(>.keys-bottom-nav)>.keys-module-scroll{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.keys-module-screen[data-screen-type="root"]:has(>.keys-bottom-nav)>.keys-module-scroll{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+/* Full-page forms and conversations keep their actions above the navigation. */
+html:not([data-desktop-account="true"]) .keys-module-screen:has(>.keys-bottom-nav)>.keys-module-scroll{margin-bottom:var(--keys-bottom-clearance);padding-bottom:0}
+html:not([data-desktop-account="true"]) #root .keys-module-screen:has(>.keys-bottom-nav) .keys-selection-page>footer{bottom:calc(var(--keys-bottom-clearance) + 16px)}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kti-view,.kdf-view,.kfb-view){height:calc(100% - var(--keys-bottom-clearance))!important}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kh-overlay:not(:has(.kpa-route-chooser,.kpa-go-preview,.kpa-go-launch)){bottom:var(--keys-bottom-clearance)}
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-flow-nav{display:none!important}
+html[data-desktop-account="true"] :is(#root#root#root,.keys-hotel-album) .keys-bottom-nav{display:none!important}
 /* Keep the outer document from shifting when navigation focuses a new section. */
 body:has(>#keysUnifiedPrototype){box-sizing:border-box}
 @media(max-width:520px){body:has(>#keysUnifiedPrototype){padding:0!important}}
@@ -47,7 +55,7 @@ body:has(>#keysUnifiedPrototype){box-sizing:border-box}
 
 /* Original Arbana AH / glass / glass-cap: the white cap moves independently
    of the buttons, including transitions between host and embedded sections. */
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav::before{
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav::before{
   content:"";position:absolute;z-index:0;pointer-events:none;
   top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/var(--keys-nav-count,4));
   background:#ffffffeb;border-radius:999px;box-shadow:0 1px 3px #1c28410f;
@@ -55,20 +63,20 @@ body:has(>#keysUnifiedPrototype){box-sizing:border-box}
   opacity:var(--keys-nav-visible,1);
   transition:transform var(--keys-nav-duration,.38s) cubic-bezier(.2,.8,.2,1),opacity .2s;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab{
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-tab{
   z-index:1!important;
   transition:scale .22s cubic-bezier(.34,1.56,.64,1),color .2s ease,background-color .2s ease!important;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab:active{
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-tab:active{
   scale:.96;transition-duration:80ms!important;
 }
-:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-unread{
+:is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-unread{
   right:-4px;top:-2px;width:6px;height:6px;border:0;
   background:var(--color-brand-solid);box-shadow:0 0 0 2px #fffffff2;
 }
 
 @media(prefers-reduced-motion:reduce){
-  :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav::before,
-  :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab{transition:none!important}
-  :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab:active{scale:1}
+  :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav::before,
+  :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-tab{transition:none!important}
+  :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen,.keys-hotel-album) .keys-bottom-nav .keys-bottom-tab:active{scale:1}
 }

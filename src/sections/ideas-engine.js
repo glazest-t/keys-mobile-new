@@ -52,7 +52,7 @@ function K0(e, t, a, r = 0) {
 const HI = (e, t, a = 0) => destinationHotels(e,t).filter((r) => K0(r, e, t, a)).length;
 function BI(e, t, a, r, l) {
   const o = Cu(e);
-  let u = parseFloat(e.rating.replace(",", ".")) / 50;
+  let u = parseFloat(e.rating.replace(",", ".")) / 25;
   for (const f of t.likes) {
     const p = An.get(f);
     if (p) {

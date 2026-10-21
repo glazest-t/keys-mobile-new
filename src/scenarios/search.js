@@ -7,14 +7,10 @@
  const screen=document.createElement('section');screen.className='kse-home';screen.hidden=true;screen.setAttribute('aria-label','Поездки без бронирования');
  screen.innerHTML=`
   <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span><h1>Куда отправимся?</h1></header>
-  <article class="kse-inspiration" aria-labelledby="kse-inspiration-title">
-   <div class="kse-inspiration-top"><h2 id="kse-inspiration-title">За новыми впечатлениями</h2></div>
-   <div class="kse-visual" aria-label="Вдохновение для следующей поездки">
-    <figure class="kse-postcard kse-postcard-sea"><img src="./scenarios/next-trip.jpg" width="1200" height="876" alt="Солнечная терраса и бассейн у моря"><figcaption>Ближе к морю</figcaption></figure>
-    <figure class="kse-postcard kse-postcard-city"><img src="./home/nearby/nearby-cafe-generated.jpg" alt="Уютное кафе для неспешного утра"><figcaption>Без будильника</figcaption></figure>
-    <span class="kse-spark" aria-hidden="true">${svg('<path d="M12 2v20M2 12h20M5 5l14 14M5 19 14-14"/>')}</span>
-   </div>
-   <div class="kse-inspiration-copy"><p>Цены напрямую от отелей<br>и баллы на будущие поездки.</p><button type="button" class="kse-find" data-empty-action="find">Подобрать отель ${svg('<path d="M5 12h14m-6-6 6 6-6 6"/>')}</button></div>
+  <article class="kse-inspiration kse-advice-home" aria-label="Подбор отеля по предпочтениям">
+   <div class="kse-advice-art">${[['sleep','Выспаться'],['pool','К бассейну'],['hammam','В спа']].map(([id,label])=>`<button type="button" data-advice-card="${id}" aria-label="Хочу: ${label}"><img src="./sections/ideas-art/covers/${id}.webp" alt=""><span>${label}</span></button>`).join('')}</div>
+   <div class="kse-advice-copy"><p>Выберите впечатления — найдём подходящий отель.</p></div>
+   <div class="kse-advice-actions"><button type="button" data-advice-mode="feed">Начать</button><button type="button" data-advice-mode="topics">По темам</button></div>
   </article>
   ${window.KeysReferralCard.render()}
   <button type="button" class="kse-benefits" data-empty-action="benefits">
@@ -60,6 +56,8 @@
  });
 
  screen.addEventListener('click',event=>{
+  const advice=event.target.closest('[data-advice-mode],[data-advice-card]');
+  if(advice){app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'advice',start:true,ideaMode:advice.dataset.adviceMode||'feed',ideaLike:advice.dataset.adviceCard}}));return;}
   const button=event.target.closest('[data-empty-action]');if(!button)return;
   if(button.dataset.emptyAction==='find')app.dispatchEvent(new CustomEvent('keys-open-hotel-search'));
   if(button.dataset.emptyAction==='benefits')home.querySelector('nav [data-bottom-tab="bonuses"],nav [data-nav="benefits"]')?.click();

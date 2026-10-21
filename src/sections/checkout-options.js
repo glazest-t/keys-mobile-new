@@ -1,5 +1,5 @@
 // Checkout selects a payment method; card details belong to the later payment step.
-const keysCheckoutMethods=[{id:'arrival',name:'При заселении',detail:'Сейчас ничего платить не нужно',icon:'hotel'},{id:'card',name:'Картой',detail:'Данные карты — на следующем шаге',icon:'card'},{id:'sbp',name:'СБП',detail:'Через приложение банка',icon:'qr'},{id:'digital-ruble',name:'Цифровой рубль',detail:'Через цифровой кошелёк',icon:'coins'},{id:'sberpay',name:'SberPay',detail:'Через СберБанк Онлайн',icon:'card'},{id:'yandexpay',name:'Яндекс Пэй',detail:'Через приложение Яндекс',icon:'card'}];
+const keysCheckoutMethods=[{id:'sbp',name:'СБП',detail:'Через приложение банка',icon:'qr'},{id:'card',name:'Картой',detail:'Данные карты — на следующем шаге',icon:'card'},{id:'arrival',name:'При заселении',detail:'Сейчас ничего платить не нужно',icon:'hotel'},{id:'digital-ruble',name:'Цифровой рубль',detail:'Через цифровой кошелёк',icon:'coins'},{id:'sberpay',name:'SberPay',detail:'Через СберБанк Онлайн',icon:'card'},{id:'yandexpay',name:'Яндекс Пэй',detail:'Через приложение Яндекс',icon:'card'}];
 // Separate wallets: hotel points are usable only at their issuing hotel.
 // Demo balance until a hotel loyalty account is connected.
 function keysHotelPointsBalance(state,hotelId){return Math.max(0,Math.floor(state.keysHotelPoints?.[hotelId]??(hotelId==='more'?1500:0)));}
@@ -19,12 +19,26 @@ function KeysCancellationPolicy({draft}){
 }
 function KeysPaymentOptions(){
  const {state,dispatch}=J(),draft=state.reservation,[other,setOther]=E.useState(false),desktop=useKeysDesktopBooking(),extraId=E.useId();
- const method=draft.paymentMethod,main=keysCheckoutMethods.slice(0,2),extra=keysCheckoutMethods.slice(2),selectedExtra=extra.find(item=>item.id===method);
- const select=id=>{dispatch({type:'RESERVATION_METHOD',method:id});if(!desktop)setOther(false);};
- const option=(item,modal=false)=>n.jsxs('div',{className:'keys-pay-method-item'+(method===item.id?' is-selected':''),children:[
-  n.jsxs('label',{className:'keys-pay-method',children:[n.jsx(D,{name:item.icon,className:'size-5'}),n.jsxs('span',{children:[n.jsx('strong',{children:item.name}),n.jsx('small',{children:item.id==='arrival'?'Сейчас 0 ₽ · в отеле '+Te(YA(draft).total):'Сейчас '+Te(YA(draft).total)})]}),n.jsx('input',{type:'radio',name:modal?'keys-pay-method-dialog':'keys-pay-method',value:item.id,checked:method===item.id,onChange:()=>select(item.id),'aria-label':item.name})]})
+ const method=draft.paymentMethod,main=keysCheckoutMethods.slice(0,3),extra=keysCheckoutMethods.slice(3),selected=keysCheckoutMethods.find(item=>item.id===method),selectedExtra=extra.find(item=>item.id===method);
+ E.useEffect(()=>{if(!draft.paymentMethod)dispatch({type:'RESERVATION_METHOD',method:'sbp'});},[draft.id,draft.paymentMethod]);
+ const select=id=>{dispatch({type:'RESERVATION_METHOD',method:id});setOther(false);};
+ const option=(item,compact=false)=>n.jsxs('label',{className:compact?'keys-payment-tile'+(method===item.id?' is-selected':''):'keys-pay-method',children:[
+  n.jsx(D,{name:item.icon,className:compact?'keys-payment-icon':'size-5'}),
+  compact?n.jsx('strong',{children:item.name}):n.jsxs('span',{children:[n.jsx('strong',{children:item.name}),n.jsx('small',{children:item.detail})]}),
+  n.jsx('input',{type:'radio',name:compact?'keys-pay-method':'keys-pay-method-extra',value:item.id,checked:method===item.id,onChange:()=>select(item.id),'aria-label':item.name})
  ]},item.id);
- return n.jsxs('section',{className:'keys-checkout-panel keys-pay-section','aria-label':'Способ оплаты',children:[n.jsx('h2',{children:'Способ оплаты'}),n.jsxs('div',{className:'keys-pay-methods',children:[main.map(item=>option(item)),selectedExtra&&(!desktop||!other)&&option(selectedExtra),n.jsxs('button',{type:'button',className:'keys-pay-other',...(desktop?{'aria-expanded':other,'aria-controls':extraId}:{'aria-haspopup':'dialog'}),onClick:()=>setOther(!other),children:[n.jsx('span',{children:desktop&&other?'Скрыть другие способы':'Другие способы'}),n.jsx(D,{name:'chevron',className:'size-4'+(desktop?' keys-pay-disclosure'+(other?' is-open':''):'')})]}),desktop&&other&&n.jsx('div',{id:extraId,className:'keys-pay-extra-inline',children:extra.map(item=>option(item))})]}),!desktop&&other&&n.jsx(ct,{title:'Другие способы оплаты',onClose:()=>setOther(false),children:n.jsx('div',{className:'keys-pay-methods',children:extra.map(item=>option(item,true))})})]});
+ return n.jsxs('section',{className:'keys-checkout-panel keys-pay-section','aria-label':'Способ оплаты',children:[
+  n.jsx('h2',{children:'Способ оплаты'}),
+  n.jsxs('div',{className:'keys-payment-tiles',children:[main.map(item=>option(item,true)),
+   n.jsxs('button',{type:'button',className:'keys-payment-tile keys-payment-more'+(selectedExtra?' is-selected':''),'aria-label':selectedExtra?'Другое: '+selectedExtra.name:'Другое',...(desktop?{'aria-expanded':other,'aria-controls':extraId}:{'aria-haspopup':'dialog'}),onClick:()=>setOther(!other),children:[
+    selectedExtra?n.jsx(D,{name:selectedExtra.icon,className:'keys-payment-icon'}):n.jsx('img',{src:'../brand/orbit-new/icons/more.svg',alt:'',className:'keys-payment-icon'}),
+    n.jsx('strong',{children:selectedExtra?selectedExtra.name:'Другое'}),n.jsx(D,{name:'chevron',className:'keys-payment-more-chevron'+(other?' is-open':'')})
+   ]})
+  ]}),
+  n.jsx('p',{className:'keys-payment-description','aria-live':'polite',children:method==='arrival'?'Сейчас 0 ₽ · в отеле '+Te(YA(draft).total):selected?.detail||'Через приложение банка'}),
+  desktop&&other&&n.jsx('div',{id:extraId,className:'keys-pay-methods keys-pay-extra-inline',children:extra.map(item=>option(item))}),
+  !desktop&&other&&n.jsx(ct,{title:'Другие способы оплаты',onClose:()=>setOther(false),children:n.jsx('div',{className:'keys-pay-methods',children:extra.map(item=>option(item))})})
+ ]});
 }
 function KeysPaymentPoints({draft,toggle=false}){
  const {state,dispatch}=J(),keys=state.loyalty.balance,hotel=keysHotelPointsBalance(state,draft.hotelId),total=keys+hotel,available=total>0&&total<=Ul(draft);

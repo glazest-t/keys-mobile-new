@@ -18,6 +18,17 @@
  checkout.querySelector('[data-checkout-actions-slot]').replaceWith(dashboard.querySelector('.kh-quick-actions').cloneNode(true));
  const deposit=dashboard.querySelector('.kh-account-row').cloneNode(true);
  checkout.querySelector('[data-deposit-slot]').replaceWith(deposit);dashboard.querySelector('.kh-stay-card').after(checkout);
+ let shareSocial=null;
+ dashboard.addEventListener('click',event=>{
+  const trigger=event.target.closest('[data-stay-share]');
+  if(!trigger)return;
+  window.KeysBookingChange.open({
+   flow:'share',trigger,social:shareSocial,
+   booking:{brand:new URLSearchParams(location.search).get('brand')||'base',stayDay:document.body.dataset.keysStayDay||'day-2',id:'keys-maidens-412',arrival:'2026-09-12',departure:'2026-09-19',nights:7,total:56000,paid:56000,guest:'Татьяна Глазырина',room:'Премиум Кинг',adults:1,today:document.body.dataset.keysStayDay==='checkout'?'2026-09-19':'2026-09-13'},
+   onSocial:value=>{shareSocial=value;},
+   onCopied:()=>window.KeysHomeViews.notifyService('Ссылка на отель и даты скопирована')
+  });
+ });
  const today=pass.querySelector('.kh-pass-today'),progress=pass.querySelector('.kh-pass-progress');
  function update({detail}){
   if(detail.scenario!=='stay')return;

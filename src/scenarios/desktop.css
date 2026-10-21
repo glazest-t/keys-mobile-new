@@ -496,3 +496,5 @@ body[data-keys-booking-cancelled=true][data-keys-desktop-home=true] #keysUnified
 }
 body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button{display:grid;grid-template-rows:22px minmax(42px,auto);align-content:center;justify-items:center}
 body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button>span{display:flex;align-items:center;justify-content:center}
+#keysUnifiedPrototype .kd-theme-collections{grid-template-columns:1fr}
+#keysUnifiedPrototype .kd-theme-collections button{background:linear-gradient(115deg,#fce8d5,#fff3df 60%,#f4e8ff);border:0}

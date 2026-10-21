@@ -58,3 +58,5 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ksc-checkout>.kh-quic
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home>:is(.ksc-checkout,.kh-daily){order:2}
  body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-side{order:3}
 }
+
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-booking-actions{grid-column:1/-1;margin:0;padding:12px 20px}

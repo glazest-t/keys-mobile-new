@@ -1,3 +1,4 @@
+import KeysShareQRCode from 'qrcode';
 /* React integration inside the isolated Arbana runtime. Upstream components and reducers are retained. */
 function keysPost(type, value) {
   if (window.parent !== window) window.parent.postMessage({source:'keys-arbana', type, ...value}, window.location.origin === 'null' ? '*' : window.location.origin);
@@ -114,7 +115,7 @@ function KeysBridge() {
         }
         else if(['deals','weekend','anywhere'].includes(discovery.collection)) keysOpenCollection(dispatch,searchRef.current,discovery.collection);
         else if(discovery.mode==='photo') dispatch({type:'OPEN',screen:{type:'swipe'}});
-        else if(discovery.mode==='advice') dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});
+        else if(discovery.mode==='advice'){dispatch({type:'SEARCH_PATCH',patch:{intent:'discover',results:false,keysCollection:null}});if(discovery.start)dispatch({type:'OPEN',screen:{type:'describe',keysStartMode:discovery.ideaMode==='topics'?'topics':'feed',keysStartLike:discovery.ideaLike}});}
         else if(discovery.mode==='known') dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false,keysCollection:null}});
         else if(typeof discovery.city==='string'&&discovery.city.trim()){
           const city=discovery.city.trim().slice(0,120);
@@ -252,7 +253,7 @@ function EV() {
 function keysChangeInitial(state, source) {
  const base=Xg('booked',Date.now()),party=source.party??{adults:source.adults,childrenAges:[],pet:false,business:true};
  const hotel=Ie('maidens');hotel.keysNightly=8000;
- return {...base,keysChangeSession:true,keysShareSession:source.flow==='share',social:source.social??base.social,keysCheckinSession:source.flow==='checkin',keysChangeRevision:source.revision??0,
+ return {...base,keysChangeSession:true,keysShareSession:source.flow==='share',keysShareStayDay:source.stayDay??null,keysShareBrand:source.brand??null,social:source.social??base.social,keysCheckinSession:source.flow==='checkin',keysChangeRevision:source.revision??0,
   discovery:{...base.discovery,priceTick:0},orders:[],
   tripContext:{...base.tripContext,preset:'booked',today:source.today??'2026-09-04',hasBooking:true},
   booking:{...base.booking,id:source.id,hotelId:'maidens',arrival:source.arrival,departure:source.departure,party:sn(party),paid:source.paid,revision:source.revision??0,pointsDiscount:0,refunds:source.refunds??[],changeRequest:null,updated:false,keyOpened:false,checkedIn:source.flow==='checkin'&&!!source.registration,arrivalTime:source.registration?.time??'14:00–16:00',guestName:source.registration?.name??source.guest,checkedOut:false,stayStarted:false,
@@ -283,7 +284,7 @@ function KeysChangeBridge({state,dispatch}) {
 
 // A shared link contains only the hotel's public information and selected dates.
 function KeysPublicTrip(){
- const {state}=J(),hotel=Ie('maidens'),canManage=new URLSearchParams(location.search).get('access')==='manage';
+ const {state}=J(),hotel=Ie('maidens'),params=new URLSearchParams(location.search),canManage=params.get('access')==='manage',stayDay=params.get('stayDay');
  return n.jsxs('article',{className:'keys-public-trip',children:[
   n.jsx('img',{src:hotel.photos[0].src,alt:hotel.name}),
   n.jsx('p',{className:'text-12 text-muted mt-5',children:'Поездка · Ключи'}),
@@ -292,10 +293,10 @@ function KeysPublicTrip(){
   n.jsx('p',{className:'text-17 font-medium mt-5',children:it(state.search.arrival,state.search.departure)}),
   n.jsx('p',{className:'text-12 text-muted mt-2',children:Xe(Ge(state.search.arrival,state.search.departure))}),
   n.jsx('p',{className:'text-14 mt-5',children:hotel.address}),
-  canManage&&n.jsx('p',{className:'text-14 text-muted mt-5',children:'Добавьте поездку в приложение, чтобы изменять даты и гостей.'}),
+  canManage&&n.jsx('p',{className:'text-14 text-muted mt-5',children:stayDay?'Добавьте поездку, чтобы открывать номер, заказывать услуги и управлять проживанием.':'Добавьте поездку в приложение, чтобы изменять даты и гостей.'}),
   canManage&&n.jsx(H,{className:'mt-5',onClick:()=>{
    const url=new URL('../index.html',location.href);
-   url.search=new URLSearchParams({scenario:'booked',sharedTrip:'manage',arrival:state.search.arrival,departure:state.search.departure,adults:String(state.search.party.adults)}).toString();
+   url.search=new URLSearchParams({scenario:stayDay?'stay':'booked',...(stayDay?{stayDay}:{}),brand:params.get('brand')||'base',sharedTrip:'manage',arrival:state.search.arrival,departure:state.search.departure,adults:String(state.search.party.adults)}).toString();
    location.assign(url.href);
   },children:'Добавить поездку'})
  ]});
@@ -305,7 +306,29 @@ function KeysPublicTrip(){
 function KeysTripShare({onClose}){
  const {state}=J(),hotel=Ie(state.booking.hotelId);
  const [access,setAccess]=E.useState('read'),[busy,setBusy]=E.useState(false),[fallback,setFallback]=E.useState(false);
- const url=new URL(WH(state));url.searchParams.set('access',access);
+ const inStay=!!state.keysShareStayDay;
+ const url=new URL(keysTripShareUrl(WH(state),access,{stayDay:state.keysShareStayDay,brand:state.keysShareBrand||new URLSearchParams(location.search).get('brand')}));
+ const [qr,setQr]=E.useState(null);
+ E.useEffect(()=>{
+  let active=true;setQr(null);
+  KeysShareQRCode.toDataURL(url.href,{width:600,margin:4,errorCorrectionLevel:'M',color:{dark:'#111827',light:'#ffffff'}}).then(src=>{if(active)setQr({url:url.href,src});}).catch(()=>{if(active)setQr({url:url.href,error:true});});
+  return()=>{active=false;};
+ },[url.href]);
+ // Reveal the host iframe only after the sheet, fonts and QR have settled.
+ const shown=E.useRef(false);
+ E.useEffect(()=>{
+  if(shown.current||qr?.url!==url.href)return;
+  let active=true;
+  const reveal=async()=>{
+   await document.fonts.ready;
+   const dialog=document.querySelector('dialog[aria-label="Поделиться поездкой"]');
+   if(!dialog)return;
+   await Promise.allSettled([...dialog.querySelectorAll('img')].map(img=>img.decode()));
+   await Promise.allSettled(dialog.getAnimations().filter(animation=>animation.effect?.getTiming().iterations!==Infinity).map(animation=>animation.finished));
+   if(active){shown.current=true;keysPost('share-ready',{});}
+  };
+  reveal();return()=>{active=false;};
+ },[qr,url.href]);
  const share=async()=>{
   if(busy)return;setBusy(true);setFallback(false);
   try{
@@ -319,12 +342,16 @@ function KeysTripShare({onClose}){
    }
   }finally{setBusy(false);}
  };
- return n.jsx(ct,{title:'Поделиться поездкой',onClose,children:n.jsxs('div',{className:'keys-trip-share',children:[
+ return n.jsx(ct,{title:'Поделиться поездкой',onClose,children:n.jsxs('div',{className:'keys-trip-share keys-trip-share--stay',children:[
   n.jsxs('div',{className:'keys-trip-share-hotel',children:[n.jsx('img',{src:hotel.photos[0].src,alt:''}),n.jsxs('div',{children:[n.jsx('strong',{children:hotel.name}),n.jsx('p',{children:hotel.city+' · '+it(state.booking.arrival,state.booking.departure)})]})]}),
-  n.jsxs('fieldset',{disabled:busy,children:[n.jsx('legend',{children:'Тип ссылки'}),...[
-   ['read','Только просмотр','Получатель сможет только посмотреть поездку.'],
-   ['manage','Управление поездкой','Получатель сможет добавить поездку к себе и изменять её.']
-  ].map(([value,title,copy])=>n.jsxs('label',{className:'keys-trip-share-option',children:[n.jsx('input',{type:'radio',name:'trip-link-access',value,checked:access===value,onChange:()=>{setAccess(value);setFallback(false);}}),n.jsxs('span',{children:[n.jsx('strong',{children:title}),n.jsx('small',{children:copy})]})]},value))]}),
+  n.jsxs('fieldset',{className:'keys-share-access-cards',disabled:busy,children:[n.jsx('legend',{className:'sr-only',children:'Доступ к поездке'}),...[
+   ['read','Просмотр','Посмотреть отель и даты поездки.','doc'],
+   ['manage','Управление',inStay?'Открывать номер, заказывать услуги и управлять поездкой.':'Добавить поездку к себе, изменять даты и гостей.','key']
+  ].map(([value,title,copy,icon])=>n.jsxs('label',{className:'keys-share-access-card',children:[n.jsx('input',{type:'radio',name:'trip-link-access',value,checked:access===value,onChange:()=>{setAccess(value);setFallback(false);}}),n.jsx(D,{name:icon,className:'keys-share-access-icon'}),n.jsx('strong',{children:title}),n.jsx('small',{children:copy})]},value))]}),
+  n.jsxs('figure',{className:'keys-share-qr',children:[
+   n.jsx('div',{className:'keys-share-qr-image',children:qr?.url===url.href&&qr.src?n.jsx('img',{src:qr.src,alt:access==='manage'?'QR-код для управления поездкой':'QR-код для просмотра поездки',width:184,height:184}):n.jsx('span',{role:'status',children:qr?.error?'Не удалось создать QR-код. Поделитесь ссылкой.':'Готовим QR-код…'})}),
+   n.jsxs('figcaption',{'aria-live':'polite',children:[n.jsx('strong',{children:access==='manage'?'QR-код для управления':'QR-код для просмотра'}),n.jsx('span',{children:'Покажите код вашему спутнику'})]})
+  ]}),
   fallback&&n.jsxs('label',{className:'keys-trip-share-fallback',children:['Скопируйте ссылку',n.jsx('input',{readOnly:true,value:url.href,onFocus:event=>event.target.select()})]}),
   n.jsx(H,{disabled:busy,onClick:share,children:busy?'Подготовка…':'Поделиться ссылкой'})
  ]})});

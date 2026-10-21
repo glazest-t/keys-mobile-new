@@ -13,6 +13,12 @@ export async function stampAssets(root) {
   visiting.add(path);
   if(/\.m?js$/.test(path)){
    let js=content.toString();
+   // The search UI lives in an iframe. Version its HTML too, otherwise an
+   // existing browser cache can keep the old module URLs after a page reload.
+   if(js.includes('./sections/index.html?v=')){
+    const sectionVersion=hash(await readFile(resolve(root,'sections/index.html')));
+    js=js.replace(/(\.\/sections\/index\.html\?v=)[^&'"\s]+/g,'$1'+sectionVersion);
+   }
    const imports=[...js.matchAll(/((?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s*)['"])(\.{1,2}\/[^'"?]+\.m?js)(?:\?[^'"]*)?(['"])/g)];
    for(const [reference,prefix,url,quote] of imports){
     const version=await assetVersion(resolve(dirname(path),url));
@@ -23,7 +29,8 @@ export async function stampAssets(root) {
   visiting.delete(path);
   const version=hash(content);versions.set(path,version);return version;
  }
- for (const page of ['index.html','home-calendar.html','header-concepts.html','sections/index.html']) {
+ // Stamp the iframe's dependencies before hashing its HTML in the host script.
+ for (const page of ['sections/index.html','index.html','home-calendar.html','header-concepts.html']) {
   const path=resolve(root,page);
   let html=await readFile(path,'utf8');
   const refs=[...html.matchAll(/(?:src|href)="(\.\.?\/[^"?]+\.(?:js|css))(?:\?[^"#]*)?"/g)];

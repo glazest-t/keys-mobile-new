@@ -1,7 +1,7 @@
 @import url("./orbit/login/splash-animation.css");
 /* Orbit is opt-in. Base retains its original cascade and assets. */
 .keys-brand-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-:root[data-keys-brand="orbit"]{
+:root:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]){
  --font-sans:'Golos Text Variable',sans-serif;--default-font-family:var(--font-sans);
  --color-brand:#3a66f0;--color-brand-solid:#3a66f0;--color-brand-dark:#2951c9;--color-brand-hover:#2951c9;
  --color-brand-tint:#eef2fe;--color-soft:#eef2fe;--color-soft-2:#eef2fe;--color-soft-3:#eef2fe;--color-soft-4:#eef2fe;
@@ -16,66 +16,66 @@
  --ui-font-display:500 24px/30px var(--font-sans);--ui-font-title:500 24px/30px var(--font-sans);--ui-font-section:500 20px/26px var(--font-sans);
  --ui-font-body:400 14px/21px var(--font-sans);--ui-font-label:500 14px/21px var(--font-sans);--ui-font-caption:400 12px/18px var(--font-sans);
 }
-html[data-keys-brand="orbit"] :is(#keysUnifiedPrototype,#root){font-family:var(--font-sans);color:var(--color-ink)}
-html[data-keys-brand="orbit"] :is(#keysUnifiedPrototype,#root) :is(h1,h2,h3,h4,strong,b){font-weight:500!important}
-html[data-keys-brand="orbit"] :is(.keys-app-logo,.kauth-brand){background:url('./orbit/logo/keys-logo-horizontal-blue.svg') left center/contain no-repeat!important;width:124px;min-width:124px;height:36px;font-size:24px!important;overflow:hidden;text-indent:-9999px;letter-spacing:0!important;color:transparent!important}
-html[data-keys-brand="orbit"] .keys-app-logo>*{visibility:hidden}
-html[data-keys-brand="orbit"] :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav{background:rgba(255,255,255,.77)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important}
-html[data-keys-brand="orbit"] :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab:is([aria-current="page"],.active){background:#eef2fe!important;color:#3a66f0!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) :is(#keysUnifiedPrototype,#root){font-family:var(--font-sans);color:var(--color-ink)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) :is(#keysUnifiedPrototype,#root) :is(h1,h2,h3,h4,strong,b){font-weight:500!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) :is(.keys-app-logo,.kauth-brand){background:url('./orbit/logo/keys-logo-horizontal-blue.svg') left center/contain no-repeat!important;width:124px;min-width:124px;height:36px;font-size:24px!important;overflow:hidden;text-indent:-9999px;letter-spacing:0!important;color:transparent!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) .keys-app-logo>*{visibility:hidden}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav{background:rgba(255,255,255,.77)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav .keys-bottom-tab:is([aria-current="page"],.active){background:#eef2fe!important;color:#3a66f0!important}
 /* Login export, 13 October. Same app model; the OS owns the numeric keyboard. */
-html[data-keys-brand="orbit"] :is(.keys-app-logo,.kauth-brand){background:url('./orbit/login/symbol.svg') left center/28px 28px no-repeat!important;color:var(--color-ink)!important;width:auto;min-width:112px;height:40px;padding-left:35px!important;text-indent:0;font:600 24px/1 var(--font-sans)!important;letter-spacing:-1px!important}
-html[data-keys-brand="orbit"] .keys-app-logo>*{visibility:visible}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) :is(.keys-app-logo,.kauth-brand){background:url('./orbit/login/symbol.svg') left center/28px 28px no-repeat!important;color:var(--color-ink)!important;width:auto;min-width:112px;height:40px;padding-left:35px!important;text-indent:0;font:600 24px/1 var(--font-sans)!important;letter-spacing:-1px!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) .keys-app-logo>*{visibility:visible}
 /* Login export v2 artwork/motion with the app’s relaxed auth spacing. */
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true]{--keys-login-dock-top:44px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-phone{position:relative;isolation:isolate;display:flex;flex-direction:column;background:#f7f8fa!important;overflow:auto}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-header{position:relative;display:flex;justify-content:center;align-items:flex-start;flex:none;min-height:0;height:220px;padding:54px 24px 20px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] :is(.kauth-brand,.kauth-header-title,.kauth-welcome-art,.kauth-welcome-caption){display:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-header :is(.kauth-back,.kauth-close){position:absolute;top:16px;left:16px;margin:0}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-close{left:auto!important;right:16px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true]{--keys-login-dock-top:44px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-phone{position:relative;isolation:isolate;display:flex;flex-direction:column;background:#f7f8fa!important;overflow:auto}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-header{position:relative;display:flex;justify-content:center;align-items:flex-start;flex:none;min-height:0;height:220px;padding:54px 24px 20px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] :is(.kauth-brand,.kauth-header-title,.kauth-welcome-art,.kauth-welcome-caption){display:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-header :is(.kauth-back,.kauth-close){position:absolute;top:16px;left:16px;margin:0}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-close{left:auto!important;right:16px}
 .keys-login-logo{display:flex;flex-direction:column;align-items:center;gap:20px}
 .keys-login-logo img{display:block;width:60px;height:60px}
 .keys-login-logo span{font:600 20px/20px var(--font-sans)!important;letter-spacing:-.9px;color:#14171f}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-main{flex:none;min-height:0;display:block;padding:0 24px 32px;animation:keys-auth-enter .3s ease}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-intro{display:block;margin:0 0 32px}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] h1{margin:0;font:500 24px/30px var(--font-sans)!important;letter-spacing:-.4px!important}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-intro>p{margin:10px 0 0;font:400 14px/21px var(--font-sans);color:#6b7280}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] :is(label[for=keys-auth-phone],label[for=keys-auth-name],.kauth-code-label){position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] :is(#keys-auth-hint,[data-auth-step=name] .kauth-intro>p){display:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=name] .kauth-intro>p{display:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=name] .kauth-intro{margin-bottom:32px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-main{flex:none;min-height:0;display:block;padding:0 24px 32px;animation:keys-auth-enter .3s ease}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-intro{display:block;margin:0 0 32px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] h1{margin:0;font:500 24px/30px var(--font-sans)!important;letter-spacing:-.4px!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-intro>p{margin:10px 0 0;font:400 14px/21px var(--font-sans);color:#6b7280}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] :is(label[for=keys-auth-phone],label[for=keys-auth-name],.kauth-code-label){position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] :is(#keys-auth-hint,[data-auth-step=name] .kauth-intro>p){display:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=name] .kauth-intro>p{display:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=name] .kauth-intro{margin-bottom:32px}
 .keys-login-field{display:flex;align-items:center;gap:10px;height:52px;padding:0 14px;background:#fff;border:1.5px solid #eceef2;border-radius:14px;transition:border-color .2s;cursor:text}
 .keys-login-field>span{font:500 16px/22px var(--font-sans);padding-right:10px;border-right:1px solid #eceef2}
 .keys-login-field[data-state=typing]{border-color:#c9d6fd}
 .keys-login-field[data-state=ready]{border-color:#3a66f0}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype .keys-login-field input{height:48px;min-width:0;flex:1;padding:0;border:0!important;outline:none!important;background:transparent!important;box-shadow:none!important;font:400 16px/24px var(--font-sans)!important;letter-spacing:.3px;border-radius:0!important}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] #keys-auth-name{height:52px;background:#fff;border-radius:14px;padding:0 14px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-primary{height:48px;min-height:48px;border-radius:14px;background:#3a66f0;color:#fff;font:500 14px/21px var(--font-sans)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-primary:disabled{background:#b8c6f4;opacity:1;cursor:default}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-error:empty{height:32px;margin:0}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-error:not(:empty){margin:10px 0 24px;font:400 13px/20px var(--font-sans)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-hint{font:400 14px/21px var(--font-sans)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .keys-login-terms{margin:20px 0 0;text-align:center;color:#6b7280;font:400 12px/18px var(--font-sans)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype .keys-login-field input{height:48px;min-width:0;flex:1;padding:0;border:0!important;outline:none!important;background:transparent!important;box-shadow:none!important;font:400 16px/24px var(--font-sans)!important;letter-spacing:.3px;border-radius:0!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] #keys-auth-name{height:52px;background:#fff;border-radius:14px;padding:0 14px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-primary{height:48px;min-height:48px;border-radius:14px;background:#3a66f0;color:#fff;font:500 14px/21px var(--font-sans)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-primary:disabled{background:#b8c6f4;opacity:1;cursor:default}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-error:empty{height:32px;margin:0}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-error:not(:empty){margin:10px 0 24px;font:400 13px/20px var(--font-sans)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-hint{font:400 14px/21px var(--font-sans)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .keys-login-terms{margin:20px 0 0;text-align:center;color:#6b7280;font:400 12px/18px var(--font-sans)}
 .keys-login-terms button{padding:0;border:0;background:none;color:#3a66f0;font:inherit;text-decoration:underline;text-underline-offset:2px}
 .keys-login-terms-dialog{width:min(340px,calc(100vw - 32px));padding:24px;border:1px solid #eceef2;border-radius:20px;background:#fff;color:#14171f;font:400 14px/21px var(--font-sans)}
 .keys-login-terms-dialog::backdrop{background:rgba(20,23,31,.3)}
 .keys-login-terms-dialog h2{margin:0 0 12px;font:500 20px/26px var(--font-sans)}
 .keys-login-terms-dialog p{margin:0 0 24px;color:#6b7280}
 .keys-login-terms-dialog button{width:100%;height:48px;border:0;border-radius:14px;background:#3a66f0;color:white;font:500 14px/21px var(--font-sans)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .keys-login-heading{display:flex;align-items:center;gap:8px;min-height:32px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .keys-login-heading .kauth-back{position:static;width:32px;height:32px;min-width:32px;min-height:32px;margin:0 0 0 -6px;padding:0;background:none;border:0;box-shadow:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=code] .kauth-intro{margin-bottom:32px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-code-fields{gap:8px}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] input.kauth-code-digit{height:60px;border:1.5px solid #eceef2!important;background:#fff!important;border-radius:14px!important;font:500 26px/1 var(--font-sans)!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .keys-login-heading{display:flex;align-items:center;gap:8px;min-height:32px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .keys-login-heading .kauth-back{position:static;width:32px;height:32px;min-width:32px;min-height:32px;margin:0 0 0 -6px;padding:0;background:none;border:0;box-shadow:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=code] .kauth-intro{margin-bottom:32px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-code-fields{gap:8px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] input.kauth-code-digit{height:60px;border:1.5px solid #eceef2!important;background:#fff!important;border-radius:14px!important;font:500 26px/1 var(--font-sans)!important}
 
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=checking] input.kauth-code-digit{background:#eef2fe!important;border-color:#3a66f0!important;color:#3a66f0}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=success] input.kauth-code-digit{background:#e6f6ee!important;border-color:#16865a!important;color:#16865a}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=error] input.kauth-code-digit{border-color:var(--color-danger)!important}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=checking] input.kauth-code-digit{background:#eef2fe!important;border-color:#3a66f0!important;color:#3a66f0}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=success] input.kauth-code-digit{background:#e6f6ee!important;border-color:#16865a!important;color:#16865a}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype [data-orbit-verification=error] input.kauth-code-digit{border-color:var(--color-danger)!important}
 #keysGuestPrototype [data-orbit-verification=error] .kauth-code-fields{animation:keys-code-error .3s ease}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=code] .kauth-primary{display:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-resend{margin:0;min-height:44px;padding:8px 0;text-align:left;font:400 14px/21px var(--font-sans);align-self:flex-start}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-resend:disabled{color:#6b7280;opacity:1}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=code] .kauth-primary{display:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-resend{margin:0;min-height:44px;padding:8px 0;text-align:left;font:400 14px/21px var(--font-sans);align-self:flex-start}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-resend:disabled{color:#6b7280;opacity:1}
 #keysGuestPrototype :is([data-orbit-verification=checking],[data-orbit-verification=success]) .kauth-resend{display:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] [data-auth-code-status]{text-align:left;margin:8px 0 0}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] [data-auth-code-status]{text-align:left;margin:8px 0 0}
 #keysGuestPrototype [data-orbit-verification=checking] [data-auth-code-status]{display:flex;align-items:center;gap:8px;color:#3a66f0}
 #keysGuestPrototype [data-orbit-verification=checking] [data-auth-code-status]:before{content:'';width:16px;height:16px;background:url('./orbit/login/symbol.svg') center/contain no-repeat;animation:keys-login-spin .9s linear infinite}
 #keysGuestPrototype [data-orbit-verification=success] [data-auth-code-status]{color:#16865a}
@@ -89,8 +89,8 @@ html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] [data-au
 #keysGuestPrototype .keys-login-flight .k-halo{animation:kHalo var(--k-d) var(--k-ease) both,keys-login-halo-color .6s 2.05s both}
 .keys-login-word{font:600 40px/40px var(--font-sans);letter-spacing:-1.8px;color:#fff;animation:kFade var(--k-d) var(--k-ease) backwards,keys-login-word-color .6s 2.05s both!important}
 #keysGuestPrototype .keys-login-splash>p{position:absolute;top:calc(50% + 108px);left:16px;right:16px;margin:0;text-align:center;color:#e3eaff;font:400 15px/22px var(--font-sans);animation:kFade var(--k-d) var(--k-ease) backwards,keys-login-caption .3s 2.05s both}
-html[data-keys-brand="orbit"] #keysGuestPrototype .keys-login-entering .kauth-header{animation:keys-login-header 3s both}
-html[data-keys-brand="orbit"] #keysGuestPrototype .keys-login-entering .kauth-main{animation:keys-login-form .5s 2.45s both}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype .keys-login-entering .kauth-header{animation:keys-login-header 3s both}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype .keys-login-entering .kauth-main{animation:keys-login-form .5s 2.45s both}
 @keyframes keys-login-surface{0%,68%{background:#3a66f0}89%,96%{background:transparent;opacity:1}100%{background:transparent;opacity:0}}
 @keyframes keys-login-lift{from{top:calc(50% - 132px);transform:scale(1)}to{top:var(--keys-login-dock-top,44px);transform:scale(.5)}}
 @keyframes keys-login-ring-color{from{stroke:#fff}to{stroke:#3a66f0}}
@@ -102,35 +102,35 @@ html[data-keys-brand="orbit"] #keysGuestPrototype .keys-login-entering .kauth-ma
 @keyframes keys-login-header{0%,96%{opacity:0}100%{opacity:1}}
 @keyframes keys-login-spin{to{transform:rotate(360deg)}}
 @keyframes keys-code-error{25%,75%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
-html[data-keys-brand="orbit"] #keysUnifiedPrototype.keys-orbit-login-arrival #keysHomeVariantThree{animation:keys-login-arrival .5s cubic-bezier(.32,.72,0,1) both}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype.keys-orbit-login-arrival #keysHomeVariantThree{animation:keys-login-arrival .5s cubic-bezier(.32,.72,0,1) both}
 @keyframes keys-login-arrival{from{transform:translateX(100%)}to{transform:none}}
-@media(max-height:620px){html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true]{--keys-login-dock-top:14px}html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-header{height:152px;padding-top:24px}}
-@media(max-width:360px){html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-code-fields{gap:6px}}
-@media(prefers-reduced-motion:reduce){.keys-login-splash{display:none}html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-main,html[data-keys-brand="orbit"] #keysUnifiedPrototype.keys-orbit-login-arrival #keysHomeVariantThree,#keysGuestPrototype [data-orbit-verification=error] .kauth-code-fields,#keysGuestPrototype [data-orbit-verification=checking] [data-auth-code-status]:before{animation:none}.keys-login-logo,.keys-login-field{transition:none}}
-html[data-keys-brand="orbit"]:has(#keysGuestPrototype[data-orbit-auth=true]:not([hidden])){min-width:0!important}
+@media(max-height:620px){html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true]{--keys-login-dock-top:14px}html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-header{height:152px;padding-top:24px}}
+@media(max-width:360px){html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-code-fields{gap:6px}}
+@media(prefers-reduced-motion:reduce){.keys-login-splash{display:none}html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-main,html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysUnifiedPrototype.keys-orbit-login-arrival #keysHomeVariantThree,#keysGuestPrototype [data-orbit-verification=error] .kauth-code-fields,#keysGuestPrototype [data-orbit-verification=checking] [data-auth-code-status]:before{animation:none}.keys-login-logo,.keys-login-field{transition:none}}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]):has(#keysGuestPrototype[data-orbit-auth=true]:not([hidden])){min-width:0!important}
 
 /* Partner invitation and verification reuse the same Orbit entrance shell. */
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-invite-art{display:none}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-edition{position:absolute;top:16px;right:24px;margin:0;font:500 12px/18px var(--font-sans);color:var(--color-muted)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header{height:196px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-intro{margin-bottom:12px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-lead{font:400 14px/21px var(--font-sans);margin:0 0 24px;color:var(--color-muted)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] :is(.kpi-invitation,.kpi-request-card){border-color:#eceef2;background:#fff;border-radius:20px;padding:20px;margin-bottom:24px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-invitation>div>strong{font:500 18px/24px var(--font-sans)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-eyebrow{margin-bottom:12px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] #keys-partner-email{height:52px;border:1.5px solid #eceef2;border-radius:14px;background:#fff;font:400 16px/24px var(--font-sans)}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-confirmed{background:#e6f6ee;color:#16865a;border-radius:20px;margin:24px 0}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kpi-skip{margin-top:12px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner][data-partner-view=pending] .keys-login-logo img{animation:keys-login-spin 5s linear infinite}
-@media(max-height:740px){html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner]{--keys-login-dock-top:14px}html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header{height:152px;padding-top:24px}html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kpi-edition{top:12px;right:16px}html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kpi-invitation{padding:16px;margin-bottom:20px}}
-@media(prefers-reduced-motion:reduce){html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner][data-partner-view=pending] .keys-login-logo img{animation:none}}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-invite-art{display:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-edition{position:absolute;top:16px;right:24px;margin:0;font:500 12px/18px var(--font-sans);color:var(--color-muted)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header{height:196px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-intro{margin-bottom:12px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-lead{font:400 14px/21px var(--font-sans);margin:0 0 24px;color:var(--color-muted)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] :is(.kpi-invitation,.kpi-request-card){border-color:#eceef2;background:#fff;border-radius:20px;padding:20px;margin-bottom:24px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-invitation>div>strong{font:500 18px/24px var(--font-sans)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-eyebrow{margin-bottom:12px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] #keys-partner-email{height:52px;border:1.5px solid #eceef2;border-radius:14px;background:#fff;font:400 16px/24px var(--font-sans)}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-confirmed{background:#e6f6ee;color:#16865a;border-radius:20px;margin:24px 0}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kpi-skip{margin-top:12px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner][data-partner-view=pending] .keys-login-logo img{animation:keys-login-spin 5s linear infinite}
+@media(max-height:740px){html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner]{--keys-login-dock-top:14px}html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header{height:152px;padding-top:24px}html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kpi-edition{top:12px;right:16px}html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kpi-invitation{padding:16px;margin-bottom:20px}}
+@media(prefers-reduced-motion:reduce){html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner][data-partner-view=pending] .keys-login-logo img{animation:none}}
 
 /* Same semantic collection artwork, in the Orbit palette, on host and embedded pages. */
-html[data-keys-brand="orbit"] img[src$="/collections/deals.svg"]{content:url('./orbit/illustrations/deals.svg')}
-html[data-keys-brand="orbit"] img[src$="/collections/weekend.svg"]{content:url('./orbit/illustrations/weekend.svg')}
-html[data-keys-brand="orbit"] img[src$="/collections/anywhere.svg"]{content:url('./orbit/illustrations/anywhere.svg')}
-html[data-keys-brand="orbit"] .kd-advice-pick>img{content:url('./orbit/login/symbol.svg');object-fit:contain;padding:28px;filter:none;transform:none}
-html[data-keys-brand="orbit"] .kd-advice-pick{background:#eef2fe}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) img[src$="/collections/deals.svg"]{content:url('./orbit/illustrations/deals.svg')}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) img[src$="/collections/weekend.svg"]{content:url('./orbit/illustrations/weekend.svg')}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) img[src$="/collections/anywhere.svg"]{content:url('./orbit/illustrations/anywhere.svg')}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) .kd-advice-pick>img{content:url('./orbit/login/symbol.svg');object-fit:contain;padding:28px;filter:none;transform:none}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) .kd-advice-pick{background:#eef2fe}
 
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true] .kauth-header .kpi-close{left:auto;right:16px}
-html[data-keys-brand="orbit"] #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header:has(.kpi-close) .kpi-edition{right:68px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true] .kauth-header .kpi-close{left:auto;right:16px}
+html:is([data-keys-brand="orbit"],[data-keys-brand="orbit-new"]) #keysGuestPrototype[data-orbit-auth=true][data-auth-step=partner] .kauth-header:has(.kpi-close) .kpi-edition{right:68px}

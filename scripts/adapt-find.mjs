@@ -17,11 +17,12 @@ export function adaptFind(source, recentComponent, resultsComponent) {
   if(start<0||end<0)throw Error('Destination input missing');
   let field=js.slice(start,end);
   const patch=(a,b)=>{if(!field.includes(a))throw Error('Destination anchor missing: '+a);field=field.replace(a,b);};
-  patch('onHotelChange: l })','onHotelChange: l, citiesOnly = false, onActivate })');
+  patch('onHotelChange: l })','onHotelChange: l, citiesOnly = false, onActivate, caption })');
+  patch('n.jsx("input", { ref: x', 'caption && n.jsx("small", {className:"keys-search-city-caption",children:caption}), n.jsx("input", { ref: x');
   patch('].slice(0, 7), C =','].filter(I => !citiesOnly || I.place && I.caption.startsWith("Город")).slice(0, 7), C =');
   patch('onFocus: () => h(true)', 'onFocus: () => { h(!onActivate); onActivate?.(); }, onClick: () => { if(onActivate){h(false);onActivate();} }');
   patch('"aria-label": "Город или отель"','"aria-label": citiesOnly ? "Город" : "Город или отель"');
-  patch('placeholder: "Город или название отеля"','placeholder: citiesOnly ? "Введите город" : "Город или название отеля"');
+  patch('placeholder: "Город или название отеля"','placeholder: citiesOnly ? "Введите город" : caption ? "Город или отель" : "Город или название отеля"');
   js=js.slice(0,start)+field+js.slice(end);
  }
  // Native showModal chooses the first button unless focus is explicitly placed on the dialog.

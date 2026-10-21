@@ -3,11 +3,13 @@
  const root=document.getElementById('keysUnifiedPrototype'),home=document.getElementById('keysHomeVariantThree');
  const scroll=home.querySelector('.k3-scroll'),phone=home.querySelector('.k3-phone');
  const paths={coffee:"<path d=\"M5 8h12v7a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V8Zm12 1h2a3 3 0 0 1 0 6h-2M7 3v2m4-2v2m4-2v2M3 22h17\"></path>",arrow:'<path d="m9 5 7 7-7 7"/>',wallet:'<rect x="3" y="5" width="18" height="15" rx="3"/><path d="M3 8h15m3 4h-6v5h6m-3-2.5h.01"/>',wifi:'<path d="M3 8a14 14 0 0 1 18 0M6 12a9 9 0 0 1 12 0m-9 4a4.5 4.5 0 0 1 6 0"/><circle cx="12" cy="20" r=".7" fill="currentColor"/>',food:'<path d="M5 4v6a2 2 0 0 0 4 0V4M7 4v17M18 21V4c-3 1-4 5-4 9h4"/>',service:'<path d="M3 17h18M5 17v-2a7 7 0 0 1 14 0v2M12 5v3M10 5h4M5 21h14"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 4h.01"/>',pin:'<path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/>',back:'<path d="M20 12H5m6-6-6 6 6 6"/>',copy:'<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>'};
+ paths.file='<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>';
+ paths.share='<path d="M12 16V3m-4 4 4-4 4 4M5 13v8h14v-8"/>';
  const icon=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
  const arrow=`<span class="kh-chevron">${icon('arrow')}</span>`;
  const dashboard=document.createElement('div');dashboard.className='kh-home';
  dashboard.innerHTML=`
-  <section class="kh-stay-card" aria-label="Текущее проживание"><div class="kh-stay-heading"><div class="kh-hotel-summary"><span class="kh-live"><i aria-hidden="true"></i> Проживание</span><h1>Maidens Hotel</h1></div><button data-info="stay" class="kh-booking-link kh-detail-link">Детали брони ${arrow}</button></div>
+  <section class="kh-stay-card" aria-label="Текущее проживание"><div class="kh-stay-heading"><div class="kh-hotel-summary"><span class="kh-live"><i aria-hidden="true"></i> Проживание</span><h1>Maidens Hotel</h1></div></div>
   <section class="kh-room-pass" aria-label="Ваше проживание и цифровой ключ">
    <div class="kh-pass-room"><div class="kh-pass-room-id"><span>Ваш номер</span><div class="kh-pass-room-line"><strong>412</strong><span>4 этаж</span></div><small>Премиум Кинг</small></div><div class="kh-pass-today"><span>Сегодня</span><strong>День 2 <span>из 7</span></strong><time datetime="2026-09-13">13 сентября</time></div></div>
    <div class="kh-pass-stay">
@@ -16,6 +18,7 @@
    </div>
    <button class="kh-open-door" data-info="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.3 11.3 8.2 8.2m-2.7-2.7 2.7-2.7m-5.5 0 2.6-2.6"/></svg><span>Открыть дверь</span>${arrow}</button>
   </section>
+  <div class="kh-booking-actions" aria-label="Действия с бронью"><button type="button" data-info="stay">${icon('file')}<span>Детали брони</span></button><button type="button" data-stay-share>${icon('share')}<span>Поделиться</span></button></div>
   </section>
   <section class="kh-quick-actions" aria-label="Быстрые действия">
    <button data-info="services"><span>${icon('service')}</span><strong>Все услуги</strong></button>

@@ -60,14 +60,13 @@ function B4() {
      hotel.rating&&n.jsx('span',{className:GN+' right-2',children:hotel.rating})
     ]})
    },hotel.id))})
-  ]})
+  ]}),
+  n.jsx(KeysFindWish,{})
  ]});
 }
 
 const keysFindCollections=[
- {id:'deals',title:'Горячие скидки',image:'deals',description:'Отели со скидкой от 10%'},
- {id:'weekend',title:'На пару дней',image:'weekend',description:'Две ночи в отеле с бассейном, спа или тихой атмосферой'},
- {id:'anywhere',title:'Куда угодно',image:'anywhere',description:'Отели во всех доступных направлениях'}
+ {id:'deals',title:'Горячие скидки',image:'deals',description:'Отели со скидкой от 10%'}
 ];
 function keysCollectionMatches(hotel,search,tick=0){
  if(search.keysCollection==='deals'){
@@ -84,10 +83,27 @@ function keysOpenCollection(dispatch,search,id){
 }
 function KeysFindCollections(){
  const {state,dispatch}=J();
- return n.jsx('section',{className:'keys-find-collections','aria-label':'Подборки отелей',children:keysFindCollections.map(item=>n.jsxs('button',{
-  type:'button',className:'keys-find-collection',onClick:()=>keysOpenCollection(dispatch,state.search,item.id),
-  children:[n.jsx('img',{src:'./collections/'+item.image+'.svg',alt:'',width:160,height:128}),n.jsx('span',{children:item.title})]
- },item.id))});
+ return n.jsx('section',{className:'keys-find-collections','aria-label':'Горячие скидки',children:n.jsxs('button',{
+  type:'button',className:'keys-find-deal','aria-label':'Горячие скидки — от 10%',onClick:()=>keysOpenCollection(dispatch,state.search,'deals'),children:[
+   n.jsxs('span',{className:'keys-find-deal-copy',children:[
+    n.jsx('span',{className:'keys-find-deal-eyebrow',children:'Горячие скидки'}),
+    n.jsxs('strong',{children:['Больше отдыха.',n.jsx('br',{}),'Меньше затрат.']}),
+    n.jsx('span',{className:'keys-find-deal-saving',children:'Отели со скидкой от 10%'})
+   ]}),
+   n.jsx('span',{className:'keys-find-deal-photos','aria-hidden':true,children:[
+    '../scenarios/next-trip.jpg',
+    '../home/nearby/nearby-cafe-generated.jpg'
+   ].map(src=>n.jsx('span',{className:'keys-find-deal-postcard',children:n.jsx('img',{src,alt:'',loading:'lazy'})},src))}),
+   n.jsx(D,{name:'chevron',className:'keys-find-deal-chevron'})
+  ]
+ })});
+}
+function KeysFindWish(){
+ const {open}=J(),[text,setText]=E.useState('');
+ return n.jsxs('section',{className:'ki-request-card keys-find-wish','aria-labelledby':'keys-find-wish-title',children:[
+  n.jsx('h2',{id:'keys-find-wish-title',children:'Опишите свой отдых'}),
+  n.jsxs('form',{className:'ki-wish-form',onSubmit:event=>{event.preventDefault();if(text.trim())open({type:'describe',keysWish:text.trim(),keysWishOrigin:'known'});},children:[n.jsx('textarea',{'aria-label':'Пожелания к отдыху',placeholder:'Например, тихий отель у моря со спа',rows:2,maxLength:500,value:text,onChange:event=>setText(event.target.value)}),n.jsx(H,{type:'submit',disabled:!text.trim(),'aria-label':'Отправить пожелания',children:'Отправить'})]})
+ ]});
 }
 
 function KeysDesktopPointsCard(){

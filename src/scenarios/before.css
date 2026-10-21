@@ -315,3 +315,9 @@ body[data-keys-booking-cancelled=true] #keysUnifiedPrototype .kpa-reservation-co
 body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-reservation-control{margin-top:0}
 
 #keysUnifiedPrototype .kpa-stay-overview[hidden]{display:none!important}
+
+/* Never paint the embedded runtime's bootstrap page while opening a share sheet. */
+#keysUnifiedPrototype .kpa-share-layer iframe{opacity:1;transition:opacity 140ms ease-out}
+#keysUnifiedPrototype .kpa-share-layer.is-pending iframe{opacity:0;pointer-events:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpa-share-layer.is-pending{box-shadow:none}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .kpa-share-layer iframe{transition:none}}

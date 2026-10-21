@@ -204,7 +204,7 @@
  }
  let shareSocial=null;
  function shareBooking(trigger){
-  window.KeysBookingChange.open({flow:'share',booking:structuredClone(booking),social:shareSocial,trigger,
+  window.KeysBookingChange.open({flow:'share',booking:{...structuredClone(booking),brand:new URLSearchParams(location.search).get('brand')||'base'},social:shareSocial,trigger,
    onSocial:value=>{shareSocial=value;},
    onCopied:()=>{const toast=home.querySelector('.k3-toast');clearTimeout(home._t);toast.textContent='Ссылка на отель и даты скопирована';toast.hidden=false;home._t=setTimeout(()=>toast.hidden=true,3500);}
   });

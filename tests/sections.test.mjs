@@ -123,10 +123,11 @@ test('editing dates and guests at payment updates the stay and preserves the sel
  assert.deepEqual(s.reservation,processing);
 });
 
-test('checkout requires a method but defers bank card details to the later payment step',()=>{
+test('checkout defaults to SBP, validates a method and defers bank card details',()=>{
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});s=run(s,{type:'RESERVATION_NEXT'});
- assert.equal(s.reservation.paymentMethod,'');
- s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});assert.match(s.reservation.error,/Выберите способ/);
+ assert.equal(s.reservation.paymentMethod,'sbp');
+ const unpaid=run({...s,reservation:{...s.reservation,paymentMethod:''}},{type:'RESERVATION_PAY',draftId:s.reservation.id});assert.match(unpaid.reservation.error,/Выберите способ/);
+ const defaultPayment=run(completeGuest(s),{type:'RESERVATION_PAY',draftId:s.reservation.id});assert.equal(defaultPayment.reservation.status,'processing');
  for(const method of ['card','sbp','digital-ruble','sberpay','yandexpay']){
   let other=run(completeGuest(s),{type:'RESERVATION_METHOD',method});assert.equal(other.reservation.paymentMethod,method);
   other=run(other,{type:'RESERVATION_PAY',draftId:other.reservation.id});assert.equal(other.reservation.status,'processing');

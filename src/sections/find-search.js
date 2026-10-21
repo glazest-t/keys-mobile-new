@@ -2,13 +2,14 @@ function sF({showHistory=true,onSubmit,onEdit,onCityActive}={}) {
  const {state,dispatch,open}=J(),source=tt(),remote=source.source==='travelline';
  const [hotelId,setHotelId]=E.useState(null),search=state.search;
  return n.jsxs(n.Fragment,{children:[
-  n.jsxs('form',{className:'keys-search-hero','aria-label':'Поиск отеля',onSubmit:event=>{
+  n.jsxs('form',{className:'keys-search-hero'+(showHistory?' keys-search-showcase':''),'aria-label':'Поиск отеля',onSubmit:event=>{
    event.preventDefault();if(onSubmit){onSubmit(search,hotelId);return;}hotelId?(source.recordOpen(hotelId),open({type:'hotel',hotelId})):dispatch({type:'SEARCH_SUBMIT',city:search.city});
   },children:[
+   showHistory&&n.jsxs('div',{className:'keys-search-intro',children:[n.jsx('span',{className:'keys-search-direct',children:'Лучшие цены напрямую от отелей'})]}),
    n.jsxs('div',{className:'keys-search-fields',children:[
-    n.jsx(f4,{onHotelChange:setHotelId,onActivate:onCityActive?()=>onCityActive(true):undefined,variant:'line',required:!remote,value:search.city,onChange:city=>{dispatch({type:'SEARCH_PATCH',patch:{city}});onCityActive?.(!city.trim());}}),
+    n.jsx(f4,{caption:showHistory?'Куда':undefined,onHotelChange:setHotelId,onActivate:onCityActive?()=>onCityActive(true):undefined,variant:'line',required:!remote,value:search.city,onChange:city=>{dispatch({type:'SEARCH_PATCH',patch:{city}});onCityActive?.(!city.trim());}}),
     n.jsxs('div',{className:'keys-search-parameters',children:[
-     n.jsxs('button',{type:'button',onClick:()=>onEdit?onEdit('dates'):open({type:'dates'}),children:[n.jsx(D,{name:'calendar'}),n.jsxs('span',{children:[n.jsx('small',{children:'Даты поездки'}),n.jsx('strong',{children:it(search.arrival,search.departure)})]})]}),
+     n.jsxs('button',{type:'button',onClick:()=>onEdit?onEdit('dates'):open({type:'dates'}),children:[n.jsx(D,{name:'calendar'}),n.jsxs('span',{children:[n.jsx('small',{children:showHistory?'Даты':'Даты поездки'}),n.jsx('strong',{children:it(search.arrival,search.departure)})]})]}),
      n.jsxs('button',{type:'button',onClick:()=>onEdit?onEdit('guests'):open({type:'guests'}),children:[n.jsx(D,{name:'users'}),n.jsxs('span',{children:[n.jsx('small',{children:'Гости'}),n.jsx('strong',{children:Rt(search.party)})]})]})
     ]})
    ]}),

@@ -50,6 +50,7 @@
     }else if(tab!=='chats'){chatOrigin=null;chatOpened=false;}
     const entryReturn=section.hidden&&tab==='find'
       ? (['saved','created-booking','hotel-loyalty-connect','hotel'].includes(screen)?{kind:'screen',screen}
+        : discovery?.mode==='advice'&&discovery.start?{kind:'screen',screen:'describe'}
         : discovery?.searchRequest&&discovery.hotelId?{kind:'screen',screen:'hotel'}
         : discovery&&(discovery.searchRequest||discovery.collection||discovery.city)?{kind:'results'}:null)
       : null;

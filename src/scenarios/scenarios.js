@@ -7,8 +7,8 @@
  const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
  const basePresets=presets.filter(([key])=>key!=='onboarding');
  function orbitFromURL(){
-  const value=new URLSearchParams(location.search).get('brand');if(value)return value==='orbit';
-  try{return localStorage.getItem('keys-brand-variant')==='orbit';}catch{return false;}
+  const value=new URLSearchParams(location.search).get('brand');if(value)return ['orbit','orbit-new'].includes(value);
+  try{return ['orbit','orbit-new'].includes(localStorage.getItem('keys-brand-variant'));}catch{return false;}
  }
  let orbitEnabled=orbitFromURL();
  const availablePresets=()=>orbitEnabled?presets:basePresets;
@@ -102,7 +102,7 @@
   select(id,{preserveView=false}={}){selected=valid(availablePresets(),id,selected);inviteEntered=false;render(true,!preserveView);},
   completeInvite(){if(selected!=='guest-invite')return;inviteEntered=true;render(true,false);},
   setBrand(value){
-   const next=value==='orbit';if(next===orbitEnabled)return;orbitEnabled=next;
+   const next=['orbit','orbit-new'].includes(value);if(next===orbitEnabled)return;orbitEnabled=next;
    if(selected==='onboarding'&&!orbitEnabled){selected='guest';render();}
    else{scenarioControl.configure(availablePresets(),'Вводные условия');scenarioControl.set(selected);}
   }

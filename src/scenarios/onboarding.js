@@ -23,7 +23,7 @@ function show(index,focus=false){
 }
 function leave(hasBooking){
  window.KeysScenarios.select(hasBooking?'guest-returning':'search');
- if(!hasBooking)app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'advice'}}));
+ if(!hasBooking)app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'known'}}));
 }
 back.onclick=()=>show(current-1,true);
 skip.onclick=()=>show(last,true);

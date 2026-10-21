@@ -52,3 +52,22 @@ body[data-keys-scenario="search"] #keysUnifiedPrototype .kh-home{display:none!im
 
 
 #keysUnifiedPrototype#keysUnifiedPrototype .kse-referral-view h2{margin:0;font:500 var(--text-20)/1.3 var(--font-sans)!important}
+/* The preference picker now starts from Trips when there is no booking. */
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kse-advice-home{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:18px;padding:20px;min-height:0;background:linear-gradient(145deg,var(--color-soft),#f6f5fb 60%,#fff8f1);color:var(--color-ink)}
+#keysUnifiedPrototype .kse-advice-home:before{display:none}
+#keysUnifiedPrototype .kse-advice-art{display:flex;align-items:center;justify-content:center;height:190px;padding:12px 0 20px}
+#keysUnifiedPrototype .kse-advice-art button{position:relative;isolation:isolate;overflow:hidden;flex:0 1 110px;min-width:0;height:158px;margin:0 -3px;border:0;border-radius:16px;background:var(--color-soft);transform:rotate(-7deg);box-shadow:0 8px 24px #2c3c6615;cursor:pointer}
+#keysUnifiedPrototype .kse-advice-art button:nth-child(2){transform:translateY(-10px);z-index:1}
+#keysUnifiedPrototype .kse-advice-art button:nth-child(3){transform:rotate(7deg)}
+#keysUnifiedPrototype .kse-advice-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+#keysUnifiedPrototype .kse-advice-art button:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#101827d1)}
+#keysUnifiedPrototype .kse-advice-art span{position:absolute;z-index:1;bottom:12px;left:6px;right:6px;color:white;font:500 12px/16px var(--font-sans);text-align:center}
+#keysUnifiedPrototype .kse-advice-copy p{margin:0;color:var(--color-muted);font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .kse-advice-actions{display:grid;grid-template-columns:1.4fr 1fr;gap:10px}
+#keysUnifiedPrototype .kse-advice-actions button{min-height:48px;padding:12px;border:0;border-radius:14px;background:var(--color-brand);color:#fff;font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .kse-advice-actions button+button{background:var(--color-card);color:var(--color-brand)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kse-advice-home{grid-template-columns:minmax(0,1fr) minmax(220px,1fr);padding:28px;gap:20px 28px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-advice-art{grid-column:2;grid-row:1/3;align-self:center;height:210px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-advice-copy{grid-column:1;align-self:end}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-advice-actions{grid-column:1;align-self:start}
+@media(max-width:900px){body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kse-advice-home{grid-template-columns:1fr}body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-advice-art{grid-column:1;grid-row:1}}

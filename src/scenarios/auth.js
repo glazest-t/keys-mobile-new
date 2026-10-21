@@ -100,7 +100,7 @@ guest.addEventListener('keydown',event=>{
  }
 });
 function finishLogin(hotelier=false,deferred=false){
- if(document.documentElement.dataset.keysBrand==='orbit'){root.classList.add('keys-orbit-login-arrival');setTimeout(()=>root.classList.remove('keys-orbit-login-arrival'),550);}
+ if(['orbit','orbit-new'].includes(document.documentElement.dataset.keysBrand)){root.classList.add('keys-orbit-login-arrival');setTimeout(()=>root.classList.remove('keys-orbit-login-arrival'),550);}
  clearInterval(timer);
  const loginContact={firstName:flow.state.name||'Татьяна',lastName:'',phone:formatPhone(flow.state.phone),email:''};
  try{sessionStorage.setItem('keys-login-contact-v1',JSON.stringify(loginContact));}catch{}
@@ -165,11 +165,11 @@ function render(focus=true){
  }
  const input=main.querySelector('input');if(step==='phone')input.value=phone?formatPhone(phone):'';
  if(step==='name')input.value=flow.state.name;
- if(step==='code'){tick();timer=setInterval(tick,1000);codeFields=bindOtpFields(main.querySelector('.kauth-code-fields'),()=>{error('');if(document.documentElement.dataset.keysBrand==='orbit')queueMicrotask(()=>{if(renderVersion===authRenderVersion&&codeFields?.value().length===6&&!authSubmitting)main.querySelector('form')?.requestSubmit();});});}
- else input.addEventListener('input',()=>{error('');if(document.documentElement.dataset.keysBrand==='orbit')queueMicrotask(()=>{if(renderVersion===authRenderVersion&&codeFields?.value().length===6&&!authSubmitting)main.querySelector('form')?.requestSubmit();});});
+ if(step==='code'){tick();timer=setInterval(tick,1000);codeFields=bindOtpFields(main.querySelector('.kauth-code-fields'),()=>{error('');if(['orbit','orbit-new'].includes(document.documentElement.dataset.keysBrand))queueMicrotask(()=>{if(renderVersion===authRenderVersion&&codeFields?.value().length===6&&!authSubmitting)main.querySelector('form')?.requestSubmit();});});}
+ else input.addEventListener('input',()=>{error('');if(['orbit','orbit-new'].includes(document.documentElement.dataset.keysBrand))queueMicrotask(()=>{if(renderVersion===authRenderVersion&&codeFields?.value().length===6&&!authSubmitting)main.querySelector('form')?.requestSubmit();});});
  main.querySelector('form').addEventListener('submit',async event=>{
   event.preventDefault();if(authSubmitting)return;
-  const animated=step==='code'&&codeFields.value().length===6&&document.documentElement.dataset.keysBrand==='orbit';
+  const animated=step==='code'&&codeFields.value().length===6&&['orbit','orbit-new'].includes(document.documentElement.dataset.keysBrand);
   if(animated){authSubmitting=true;await window.KeysBrand?.verification(main,'checking');if(renderVersion!==authRenderVersion||guest.hidden)return;}
   const message=step==='phone'?flow.send(input.value):step==='code'?(codeFields.value().length<6?'Введите все 6 цифр кода.':flow.verify(codeFields.value())):flow.complete(input.value);
   if(!message&&desktopAuth&&step==='phone'){

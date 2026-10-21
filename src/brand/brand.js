@@ -3,7 +3,9 @@
  const html=document.documentElement;
  const baseURL=new URL('./',document.currentScript.src);
  const framed=window.parent!==window;
- const allowed=value=>value==='orbit'?'orbit':'base';
+ const allowed=value=>['orbit','orbit-new'].includes(value)?value:'base';
+ const isOrbit=value=>value==='orbit'||value==='orbit-new';
+ const brandName=value=>value==='orbit-new'?'Орбита New':value==='orbit'?'Орбита':'Базовый';
  function read(){const value=new URL(location.href).searchParams.get('brand');if(value)return allowed(value);try{return allowed(localStorage.getItem('keys-brand-variant'));}catch{return 'base';}}
  function apply(value){html.dataset.keysBrand=allowed(value);}
  if(framed){
@@ -17,8 +19,8 @@
  const brandControl=document.createElement('div');brandControl.className='keys-brand-control keys-scenario-control';
  const uiIcon=path=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
  const progress='<span class="keys-brand-progress">'+uiIcon('<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')+'<span>В процессе</span></span>';
- const brandCopy=value=>'<span class="keys-brand-copy"><span>Вариант '+(value==='orbit'?'Орбита':'Базовый')+'</span>'+(value==='orbit'?progress:'')+'</span>';
- brandControl.innerHTML='<button type="button" class="keys-scenario-toggle keys-brand-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="keys-brand-list"></button><div id="keys-brand-list" class="keys-scenario-list" role="listbox" aria-label="Вариант оформления" hidden><div class="keys-scenario-group" aria-hidden="true">Вариант оформления</div>'+['base','orbit'].map(value=>'<div role="option" tabindex="-1" data-brand="'+value+'" aria-selected="false">'+brandCopy(value)+uiIcon('<path d="m5 12 4 4L19 6"/>')+'</div>').join('')+'</div>';
+ const brandCopy=value=>'<span class="keys-brand-copy"><span>Вариант '+brandName(value)+'</span>'+(value==='orbit'?progress:'')+'</span>';
+ brandControl.innerHTML='<button type="button" class="keys-scenario-toggle keys-brand-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="keys-brand-list"></button><div id="keys-brand-list" class="keys-scenario-list" role="listbox" aria-label="Вариант оформления" hidden><div class="keys-scenario-group" aria-hidden="true">Вариант оформления</div>'+['base','orbit','orbit-new'].map(value=>'<div role="option" tabindex="-1" data-brand="'+value+'" aria-selected="false">'+brandCopy(value)+uiIcon('<path d="m5 12 4 4L19 6"/>')+'</div>').join('')+'</div>';
  toolbar?.prepend(brandControl);
  const toggle=brandControl.querySelector('button'),list=brandControl.querySelector('[role=listbox]'),options=[...list.querySelectorAll('[role=option]')];
  function closeBrand(focus=false){list.hidden=true;toggle.setAttribute('aria-expanded','false');if(focus)toggle.focus();}
@@ -28,7 +30,7 @@
  }
  function paintBrand(){
   toggle.innerHTML=brandCopy(brand)+uiIcon('<path d="m6 9 6 6 6-6"/>');
-  toggle.setAttribute('aria-label','Вариант оформления: '+(brand==='orbit'?'Орбита, в процессе':'Базовый'));
+  toggle.setAttribute('aria-label','Вариант оформления: '+brandName(brand));
   options.forEach(option=>option.setAttribute('aria-selected',String(option.dataset.brand===brand)));
  }
  toggle.addEventListener('click',()=>list.hidden?openBrand():closeBrand());
@@ -47,9 +49,9 @@
  const originalIcons=[...document.querySelectorAll('link[rel~="icon"]')].map(el=>({el,href:el.href}));
  const icon=document.createElement('link');icon.rel='icon';icon.href=new URL('orbit/app-icon/keys-icon-rounded.svg',baseURL);icon.type='image/svg+xml';
  function sync(){
-  apply(brand);paintBrand();window.KeysScenarios?.setBrand(brand);
-  if(brand==='orbit')document.head.append(icon);else icon.remove();
-  originalIcons.forEach(({el,href})=>{el.href=brand==='orbit'?icon.href:href;});
+  apply(brand);window.dispatchEvent(new CustomEvent('keys-brand-change',{detail:{brand}}));paintBrand();window.KeysScenarios?.setBrand(brand);
+  if(isOrbit(brand))document.head.append(icon);else icon.remove();
+  originalIcons.forEach(({el,href})=>{el.href=isOrbit(brand)?icon.href:href;});
   document.querySelectorAll('iframe').forEach(frame=>frame.contentWindow?.postMessage({type:'keys-brand',brand},location.origin));
  }
  const splashSVG="<svg width=\"160\" height=\"160\" viewBox=\"0 0 160 160\">\n      <g class=\"k-stage\">\n        <g class=\"k-shaft\">\n          <rect class=\"k-fg\" x=\"126\" y=\"68.75\" width=\"104\" height=\"22.5\" rx=\"11.25\" fill=\"#fff\"/>\n          <rect class=\"k-fg\" x=\"196\" y=\"80\" width=\"18\" height=\"30\" rx=\"5\" fill=\"#fff\"/>\n        </g>\n        <circle class=\"k-ring\" cx=\"80\" cy=\"80\" r=\"48.75\" fill=\"none\" stroke=\"#fff\" stroke-width=\"22.5\"/>\n        <g class=\"k-orbit\" style=\"transform-box:view-box;transform-origin:80px 80px;transform:rotate(315deg)\">\n          <circle class=\"k-halo\" cx=\"128.75\" cy=\"80\" r=\"27.2\" fill=\"#3a66f0\"/>\n          <circle class=\"k-ball k-fg\" cx=\"128.75\" cy=\"80\" r=\"20\" fill=\"#fff\"/>\n        </g>\n      </g>\n    </svg>";
@@ -65,7 +67,7 @@
   delete guest.dataset.orbitAuth;
   const isPartner=guest.dataset.authStep==='partner';
   if(guest.dataset.partnerView?.startsWith('extranet'))return;
-  if(brand!=='orbit'||guest.hidden||(!isPartner&&!main.querySelector('#keys-auth-phone,.kauth-code-fields,#keys-auth-name')))return;
+  if(!isOrbit(brand)||guest.hidden||(!isPartner&&!main.querySelector('#keys-auth-phone,.kauth-code-fields,#keys-auth-name')))return;
   const entry=document.body.dataset.keysScenario;
   if(lastEntry!==entry){played=false;lastEntry=entry;}
   guest.dataset.orbitAuth='true';
@@ -122,7 +124,7 @@
   timer=setTimeout(finish,3000);
  }
  async function verification(main,state){
-  if(brand!=='orbit')return;
+  if(!isOrbit(brand))return;
   main.dataset.orbitVerification=state;
   const status=main.querySelector('[data-auth-code-status]');
   if(status){status.textContent=state==='checking'?'Проверяем код…':state==='success'?'Готово, входим':'';status.setAttribute('role','status');}

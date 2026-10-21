@@ -8,7 +8,7 @@ export function adaptCheckoutEngine(source,components){
  replace('baseTotal: Yn(Ie(t), e.search, e.discovery.priceTick)', 'hotelLoyaltyDiscount:(e.keysConnectedHotelCards?.[t]?.discount||0)/100,baseTotal: Yn(Ie(t), e.search, e.discovery.priceTick)');
  replace('rs = { cost: 1e4, discount: 1e3 }','rs = { cost: 1e3, discount: 1e3 }');
  replace('ME = qc.payment.methods','ME = qc.payment.methods.concat([{id:"arrival",name:"При заселении"},{id:"digital-ruble",name:"Цифровой рубль"},{id:"sberpay",name:"SberPay"},{id:"yandexpay",name:"Яндекс Пэй"}])');
- replace('paymentMethod: "card", status: "editing"','paymentMethod: "", status: "editing"');
+ replace('paymentMethod: "card", status: "editing"','paymentMethod: "sbp", status: "editing"');
  replace('a = e.usePoints ? Math.min(t, rs.discount) : 0','a = keysPointsDiscount(e)');
  replace('return !t.enabled || e.loyalty.balance >= rs.cost ? l({ usePoints: t.enabled }) : e;', 'return l(keysPointsSelection(e,r,t.enabled));');
  replace('if (!um(r.contact))', 'if(!keysAdditionalGuestComplete(r))return l({error:"Заполните имя и фамилию второго гостя или очистите оба поля"});\n      if(!keysCheckoutMethods.some(method=>method.id===r.paymentMethod))return l({error:"Выберите способ оплаты"});\n      if (!um(r.contact))');

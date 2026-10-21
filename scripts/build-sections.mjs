@@ -85,6 +85,10 @@ export async function buildSections(){
  replace('function Pt(e, t) {','function keysFavoritesBaseReducer(e, t) {');
  replace('const k = c(T);', 'if ((T.type==="FAVORITE_TOGGLE" && !l.current.discovery.savedIds.includes(T.id)) || (T.type==="SWIPE" && T.liked)) r({type:"KEYS_FAVORITE_INTENT",id:T.id});\n    const k = c(T);');
  js+='\n'+await readFile(path.join(root,'src/sections/favorites.js'),'utf8');
+ // Let the share dialog receive initial focus before showModal picks its close button.
+ replace('autoFocus: new URLSearchParams(location.search).has("headerSearch"),', 'autoFocus: new URLSearchParams(location.search).has("headerSearch") || e === "Поделиться поездкой",');
+ replace('new URLSearchParams(location.search).has("headerSearch") && m?.focus({preventScroll:true})', '(new URLSearchParams(location.search).has("headerSearch") || m?.getAttribute("aria-label") === "Поделиться поездкой") && m?.focus({ preventScroll: true })');
+ js+='\n'+(await readFile(path.join(root,'src/sections/trip-share-link.mjs'),'utf8')).replace('export function','function');
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
  let runtime=adapt2gisRuntime(await readFile(path.join(stage,'runtime.js'),'utf8'));
@@ -113,7 +117,7 @@ export async function buildSections(){
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
  html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script>');
  html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");
- html=html.replace('</head>','<script src="../scenarios/phone-mask.js"></script><script src="../scenarios/demo-form-defaults.js"></script><link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../scenarios/desktop-rewards.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"><link rel="stylesheet" href="../brand/brand.css?v=orbit-1"><script src="../brand/brand.js?v=orbit-1"></script></head>');
+ html=html.replace('</head>','<script src="../scenarios/phone-mask.js"></script><script src="../scenarios/demo-form-defaults.js"></script><link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../scenarios/desktop-rewards.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"><link rel="stylesheet" href="../brand/brand.css?v=orbit-1"><script src="../brand/brand.js?v=orbit-1"></script><link rel="stylesheet" href="../brand/orbit-new/theme.css"></head>');
  await writeFile(path.join(dist,'index.html'),html);
  await cp(path.join(root,'src/sections/ideas-art'),path.join(dist,'ideas-art'),{recursive:true});
  await cp(path.join(root,'src/sections/collections'),path.join(dist,'collections'),{recursive:true});

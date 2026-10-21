@@ -126,6 +126,7 @@
   window.addEventListener('message',event=>{
     if(event.source!==frame.contentWindow||event.data?.source!=='keys-arbana')return;
     if(event.origin!==location.origin&&location.protocol!=='file:')return;
+    if(event.data.type==='profile-settings'){window.KeysProfile?.open('notifications');return;}
     if(event.data.type==='hotel-loyalty'&&event.data.missing===(document.body.dataset.keysHotelLoyaltyMissing==='true')){
       root.keysConnectedHotelCards=Array.isArray(event.data.cards)?event.data.cards.filter(card=>typeof card.hotelId==='string'&&typeof card.name==='string'&&Number.isFinite(card.discount)&&card.discount>0&&card.discount<=100):[];
       root.dispatchEvent(new CustomEvent('keys-hotel-loyalty-change'));
@@ -354,59 +355,17 @@
     loyalty.innerHTML='<span class="keys-profile-loyalty-top"><span>Баллы Ключей</span><span class="keys-profile-tier">Maidens · Silver</span></span><span class="keys-profile-balance"><strong>2 400</strong><span>баллов Ключей</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></span><span class="keys-profile-progress" role="progressbar" aria-label="Ночи до уровня Gold" aria-valuemin="0" aria-valuemax="25" aria-valuenow="18" aria-valuetext="18 из 25 ночей, ещё 7 до Gold"><i></i></span><span class="keys-profile-progress-copy"><span>18 из 25 ночей</span><span>Ещё 7 до Gold</span></span>';
     identity.after(loyalty);
     profilePhone.querySelector('[data-open="benefits"]')?.remove();
-    profilePhone.querySelectorAll('.kf-section h2').forEach(title=>{if(title.textContent==='Оплата и выгоды')title.textContent='Документы и оплата';});
-    const documents=document.createElement('button');
-    documents.type='button';documents.className='kf-row';documents.dataset.profileDocuments='';
-    documents.innerHTML='<span class="kf-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/></svg></span><span><strong>Документы</strong><small>Паспорт для бронирования и заселения</small></span><b class="kf-chevron" aria-hidden="true">›</b>';
-    profilePhone.querySelector('[data-open="payments"]').before(documents);
-    const passportPage=document.createElement('section');
-    passportPage.className='kh-overlay keys-passport-page';passportPage.hidden=true;
-    passportPage.setAttribute('role','dialog');passportPage.setAttribute('aria-modal','true');passportPage.setAttribute('aria-labelledby','keys-passport-title');
-    passportPage.innerHTML=`<header class="kh-detail-header"><button type="button" class="kh-back" data-passport-back aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><h2 id="keys-passport-title">Документы</h2></header><p class="keys-passport-intro">Добавьте паспорт, чтобы быстрее бронировать отели и проходить онлайн-регистрацию.</p><section class="keys-passport-card"><div class="keys-passport-heading"><h3>Паспорт</h3><span data-passport-state hidden>Добавлен</span></div><p>Татьяна Глазырина</p><div class="keys-passport-preview" hidden><img alt="Загруженный разворот паспорта" hidden><span data-passport-filename></span></div><p class="keys-passport-hint">Разворот с фотографией. Все данные должны быть видны, без бликов и обрезанных краёв.</p><input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" data-passport-input hidden><button type="button" class="kh-primary" data-passport-upload>Загрузить паспорт</button><p class="keys-passport-formats">JPG, PNG, WebP или PDF · до 10 МБ</p><button type="button" class="keys-passport-remove" data-passport-remove hidden>Удалить документ</button></section><p class="keys-passport-message" role="status" hidden></p>`;
-    profilePhone.append(passportPage);
-    const passportInput=passportPage.querySelector('[data-passport-input]'),passportButton=passportPage.querySelector('[data-passport-upload]'),passportPreview=passportPage.querySelector('.keys-passport-preview'),passportImage=passportPreview.querySelector('img'),passportMessage=passportPage.querySelector('[role="status"]');
-    let passportURL=null,passportVersion=0;
-    const closePassport=()=>{passportPage.hidden=true;header.inert=false;header.removeAttribute('aria-hidden');profilePhone.querySelector('.kf-scroll').inert=false;profilePhone.querySelector('.kf-scroll').removeAttribute('aria-hidden');documents.focus({preventScroll:true});};
-    documents.addEventListener('click',()=>{passportPage.hidden=false;header.inert=true;header.setAttribute('aria-hidden','true');profilePhone.querySelector('.kf-scroll').inert=true;profilePhone.querySelector('.kf-scroll').setAttribute('aria-hidden','true');passportPage.querySelector('[data-passport-back]').focus({preventScroll:true});});
-    passportPage.querySelector('[data-passport-back]').addEventListener('click',closePassport);
-    passportButton.addEventListener('click',()=>passportInput.click());
-    const clearPassport=()=>{
-      passportVersion++;if(passportURL)URL.revokeObjectURL(passportURL);passportURL=null;
-      passportImage.removeAttribute('src');passportImage.hidden=true;passportPreview.hidden=true;
-      passportPage.querySelector('[data-passport-filename]').textContent='';
-      passportPage.querySelector('[data-passport-state]').hidden=true;passportPage.querySelector('[data-passport-remove]').hidden=true;
-      passportButton.textContent='Загрузить паспорт';documents.querySelector('small').textContent='Паспорт для бронирования и заселения';
-      passportMessage.hidden=true;passportInput.value='';passportButton.focus({preventScroll:true});
-    };
-    passportPage.querySelector('[data-passport-remove]').addEventListener('click',clearPassport);
-    passportInput.addEventListener('change',async()=>{
-      const file=passportInput.files?.[0];if(!file)return;
-      const version=++passportVersion;
-      passportMessage.hidden=true;
-      const error=text=>{passportMessage.textContent=text;passportMessage.hidden=false;};
-      if(!['image/jpeg','image/png','image/webp','application/pdf'].includes(file.type)){error('Выберите фотографию JPG, PNG, WebP или документ PDF.');passportInput.value='';return;}
-      if(file.size>10*1024*1024){error('Размер файла должен быть не больше 10 МБ.');passportInput.value='';return;}
-      const url=URL.createObjectURL(file);
-      try{
-        const isPhoto=file.type.startsWith('image/');
-        if(isPhoto){const image=new Image();image.src=url;await image.decode();}
-        if(version!==passportVersion){URL.revokeObjectURL(url);return;}
-        if(passportURL)URL.revokeObjectURL(passportURL);passportURL=url;
-        passportImage.hidden=!isPhoto;if(isPhoto)passportImage.src=url;else passportImage.removeAttribute('src');
-        passportPreview.hidden=false;passportPage.querySelector('[data-passport-filename]').textContent=file.name;
-        passportPage.querySelector('[data-passport-state]').hidden=false;passportPage.querySelector('[data-passport-remove]').hidden=false;
-        passportButton.textContent='Заменить паспорт';documents.querySelector('small').textContent='Паспорт добавлен';
-      }catch{URL.revokeObjectURL(url);if(version===passportVersion)error('Не удалось открыть файл. Выберите другую фотографию.');}
-      finally{passportInput.value='';}
+    profilePhone.querySelector('[data-open="preferences"]')?.remove();
+    profilePhone.querySelector('[data-open="language"]')?.remove();
+    profilePhone.querySelectorAll('.kf-section h2').forEach(title=>{
+      if(title.textContent.trim()==='Поездки и предпочтения')title.textContent='Поездки';
     });
-    passportPage.addEventListener('keydown',event=>{
-      if(event.key==='Escape'){event.preventDefault();closePassport();}
-      if(event.key==='Tab'){
-        const buttons=[...passportPage.querySelectorAll('button')].filter(button=>!button.hidden),first=buttons[0],last=buttons.at(-1);
-        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
-        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
-      }
-    });
+    const paymentCard=profilePhone.querySelector('[data-open="payments"]')?.closest('.kf-card');
+    if(paymentCard){
+      const heading=paymentCard.previousElementSibling;
+      if(heading?.matches('.kf-section'))heading.remove();
+      paymentCard.remove();
+    }
 
     const upload=identity.querySelector('[data-profile-upload]'),avatarButton=identity.querySelector('[data-profile-photo]'),avatar=identity.querySelector('[data-profile-image]'),initials=identity.querySelector('[data-avatar-initials]'),status=identity.querySelector('[data-photo-status]');
     const avatarKey='keys-profile-avatar-v1';
@@ -466,6 +425,14 @@
     root.querySelector('#keysFeedbackFlow [data-kfb="success"] [data-kfb-exit]').textContent='К поездке';
   });
   root.addEventListener('keys-open-benefits',()=>go('benefits'));
+  root.addEventListener('keys-open-profile',()=>go('profile'));
+  root.addEventListener('keys-profile-action',event=>{
+    const {action,hotelId}=event.detail;
+    if(action==='find')show('find',hotelId||null,hotelId?'hotel':undefined);
+    if(action==='hotel-chat')show('chats','maidens');
+    if(action==='benefits')go('benefits');
+    if(action==='trip')go('trips');
+  });
   root.addEventListener('keys-close-benefits',()=>{
     const origin=benefitsOrigin;benefitsOrigin=null;
     if(!origin){go('trips');return;}
@@ -484,7 +451,7 @@
   }).observe(root,{subtree:true,attributes:true,attributeFilter:['hidden']});
 })();
 
-// A separate demo scenario changes membership; ordinary scenarios retain Silver.
+// Profiles without a booking show only Keys points; booked scenarios retain hotel membership.
 (() => {
  const root=document.getElementById('keysUnifiedPrototype');
  const profile=root.querySelector('.keys-profile-loyalty');
@@ -497,6 +464,12 @@
   if(profile){
    profile.innerHTML=originalProfile;profile.dataset.tier=gold?'Gold':'Silver';
    profile.setAttribute('aria-label',`Баллы Ключей: 2 400. Maidens Hotel: ${gold?'Gold':'Silver'}. Открыть баллы и привилегии`);
+   if(document.body.dataset.keysScenario==='search'){
+    profile.dataset.tier='None';
+    profile.querySelectorAll('.keys-profile-tier,.keys-profile-progress,.keys-profile-progress-copy').forEach(el=>el.remove());
+    profile.setAttribute('aria-label','Баллы Ключей: 2 400. Открыть баллы и привилегии');
+    return;
+   }
    if(document.body.dataset.keysHotelLoyaltyMissing==='true'){
     const cards=root.keysConnectedHotelCards||[],card=cards.at(-1);
     profile.dataset.tier=card?'Connected':'None';

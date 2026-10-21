@@ -7,7 +7,7 @@
  function kind(input){
   if(!(input instanceof HTMLInputElement)||input.disabled||input.readOnly||['hidden','password'].includes(input.type))return null;
   // The optional second guest must stay empty until the user adds their details.
-  if(input.closest('.keys-guest-editor')||/^Второй гость(?:\s|$)/i.test(input.getAttribute('aria-label')||''))return null;
+  if(input.closest('.keys-guest-editor')||input.closest('.kpf')||/^Второй гость(?:\s|$)/i.test(input.getAttribute('aria-label')||''))return null;
   const name=input.name.toLowerCase(),autocomplete=input.autocomplete.split(/\s+/);
   if(input.type==='email'||name==='email'||autocomplete.includes('email'))return 'email';
   if(['lastname','last_name','surname'].includes(name)||autocomplete.includes('family-name'))return 'lastName';

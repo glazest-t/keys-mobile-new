@@ -132,6 +132,8 @@ ${fragment}
 <link rel="stylesheet" href="./scenarios/onboarding.css">
 <link rel="stylesheet" href="./scenarios/onboarding-v2.css">
 <script type="module" src="./scenarios/onboarding.js"></script>
+<link rel="stylesheet" href="./profile/profile.css">
+<script type="module" src="./profile/profile.js"></script>
 </body>
 </html>
 `;
@@ -149,6 +151,7 @@ await cp(new URL("./src/header-concepts/", import.meta.url), new URL("./dist/hea
 await cp(new URL("./src/booking/", import.meta.url), new URL("./dist/booking/", import.meta.url), { recursive: true });
 await cp(new URL("./src/feedback/", import.meta.url), new URL("./dist/feedback/", import.meta.url), { recursive: true });
 await cp(new URL("./src/scenarios/", import.meta.url), new URL("./dist/scenarios/", import.meta.url), { recursive: true });
+await cp(new URL("./src/profile/", import.meta.url), new URL("./dist/profile/", import.meta.url), { recursive: true });
 await cp(new URL("./src/arbana/service-cards.css", import.meta.url), new URL("./dist/arbana/service-cards.css", import.meta.url));
 await cp(new URL("./src/boot.js", import.meta.url), new URL("./dist/boot.js", import.meta.url));
 await buildMaps();

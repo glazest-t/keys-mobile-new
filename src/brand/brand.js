@@ -3,10 +3,11 @@
  const html=document.documentElement;
  const baseURL=new URL('./',document.currentScript.src);
  const framed=window.parent!==window;
- const allowed=value=>['orbit','orbit-new'].includes(value)?value:'base';
- const isOrbit=value=>value==='orbit'||value==='orbit-new';
- const brandName=value=>value==='orbit-new'?'Орбита New':value==='orbit'?'Орбита':'Базовый';
- function read(){const value=new URL(location.href).searchParams.get('brand');if(value)return allowed(value);try{return allowed(localStorage.getItem('keys-brand-variant'));}catch{return 'base';}}
+ const variants=['orbit'];
+ const allowed=value=>variants.includes(value)?value:'orbit';
+ const isOrbit=value=>value==='orbit';
+ const brandName=()=> 'Базовый';
+ function read(){const value=new URL(location.href).searchParams.get('brand');if(value)return allowed(value);try{return allowed(localStorage.getItem('keys-brand-variant'));}catch{return 'orbit';}}
  function apply(value){html.dataset.keysBrand=allowed(value);}
  if(framed){
   try{apply(parent.document.documentElement.dataset.keysBrand);}catch{apply(read());}
@@ -18,9 +19,8 @@
  const toolbar=document.getElementById('keysScenarioControls');
  const brandControl=document.createElement('div');brandControl.className='keys-brand-control keys-scenario-control';
  const uiIcon=path=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
- const progress='<span class="keys-brand-progress">'+uiIcon('<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')+'<span>В процессе</span></span>';
- const brandCopy=value=>'<span class="keys-brand-copy"><span>Вариант '+brandName(value)+'</span>'+(value==='orbit'?progress:'')+'</span>';
- brandControl.innerHTML='<button type="button" class="keys-scenario-toggle keys-brand-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="keys-brand-list"></button><div id="keys-brand-list" class="keys-scenario-list" role="listbox" aria-label="Вариант оформления" hidden><div class="keys-scenario-group" aria-hidden="true">Вариант оформления</div>'+['base','orbit','orbit-new'].map(value=>'<div role="option" tabindex="-1" data-brand="'+value+'" aria-selected="false">'+brandCopy(value)+uiIcon('<path d="m5 12 4 4L19 6"/>')+'</div>').join('')+'</div>';
+ const brandCopy=value=>'<span class="keys-brand-copy"><span>'+brandName(value)+'</span></span>';
+ brandControl.innerHTML='<button type="button" class="keys-scenario-toggle keys-brand-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="keys-brand-list"></button><div id="keys-brand-list" class="keys-scenario-list" role="listbox" aria-label="Вариант оформления" hidden><div class="keys-scenario-group" aria-hidden="true">Вариант оформления</div>'+variants.map(value=>'<div role="option" tabindex="-1" data-brand="'+value+'" aria-selected="false">'+brandCopy(value)+uiIcon('<path d="m5 12 4 4L19 6"/>')+'</div>').join('')+'</div>';
  toolbar?.prepend(brandControl);
  const toggle=brandControl.querySelector('button'),list=brandControl.querySelector('[role=listbox]'),options=[...list.querySelectorAll('[role=option]')];
  function closeBrand(focus=false){list.hidden=true;toggle.setAttribute('aria-expanded','false');if(focus)toggle.focus();}
@@ -49,6 +49,9 @@
  const originalIcons=[...document.querySelectorAll('link[rel~="icon"]')].map(el=>({el,href:el.href}));
  const icon=document.createElement('link');icon.rel='icon';icon.href=new URL('orbit/app-icon/keys-icon-rounded.svg',baseURL);icon.type='image/svg+xml';
  function sync(){
+  const url=new URL(location.href);
+  if(url.searchParams.has('brand')&&url.searchParams.get('brand')!==brand){url.searchParams.set('brand',brand);history.replaceState(history.state,'',url);}
+  try{localStorage.setItem('keys-brand-variant',brand);}catch{}
   apply(brand);window.dispatchEvent(new CustomEvent('keys-brand-change',{detail:{brand}}));paintBrand();window.KeysScenarios?.setBrand(brand);
   if(isOrbit(brand))document.head.append(icon);else icon.remove();
   originalIcons.forEach(({el,href})=>{el.href=isOrbit(brand)?icon.href:href;});

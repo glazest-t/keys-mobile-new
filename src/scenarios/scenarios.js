@@ -6,11 +6,8 @@
  if(!app)return;
  const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
  const basePresets=presets.filter(([key])=>key!=='onboarding');
- function orbitFromURL(){
-  const value=new URLSearchParams(location.search).get('brand');if(value)return ['orbit','orbit-new'].includes(value);
-  try{return ['orbit','orbit-new'].includes(localStorage.getItem('keys-brand-variant'));}catch{return false;}
- }
- let orbitEnabled=orbitFromURL();
+ // The only available appearance is the current base design (Orbit).
+ let orbitEnabled=true;
  const availablePresets=()=>orbitEnabled?presets:basePresets;
  const onboardingVariants=[['1','Вариант 1'],['2','Вариант 2']];
  const days=[['day-2','Проживает в отеле'],['checkout','День выезда']];
@@ -85,7 +82,7 @@
   app.dispatchEvent(new CustomEvent('keys-scenario-change',{detail:{scenario,resetView,loyaltyTier:document.body.dataset.keysLoyalty,stayDay:selected==='stay'?stayDay:null}}));
  }
  function fromURL(){
-  const params=new URLSearchParams(location.search);orbitEnabled=orbitFromURL();
+  const params=new URLSearchParams(location.search);orbitEnabled=true;
   const requested=params.get('scenario');selected=valid(availablePresets(),requested,requested==='onboarding'?'guest':'stay');
   inviteEntered=selected==='guest-invite'&&savedInviteEntered();
   stayDay=valid(days,params.get('stayDay'),'day-2');
@@ -102,7 +99,7 @@
   select(id,{preserveView=false}={}){selected=valid(availablePresets(),id,selected);inviteEntered=false;render(true,!preserveView);},
   completeInvite(){if(selected!=='guest-invite')return;inviteEntered=true;render(true,false);},
   setBrand(value){
-   const next=['orbit','orbit-new'].includes(value);if(next===orbitEnabled)return;orbitEnabled=next;
+   const next=value==='orbit';if(next===orbitEnabled)return;orbitEnabled=next;
    if(selected==='onboarding'&&!orbitEnabled){selected='guest';render();}
    else{scenarioControl.configure(availablePresets(),'Вводные условия');scenarioControl.set(selected);}
   }

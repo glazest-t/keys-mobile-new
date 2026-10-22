@@ -1435,31 +1435,33 @@ html:not([data-desktop-account=true]) #root .keys-room-selection>.keys-room-tool
 .keys-favorites-page>.keys-favorite-trip{margin-bottom:16px}
 .keys-favorite-item{position:relative;min-width:0;align-self:start;overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
 .keys-favorite-item>.keys-result-hotel{border:0;border-radius:0}
-.keys-favorite-note-footer{padding:0 14px 14px}
-.keys-favorite-note-footer .keys-favorite-note.has-note{margin-top:0}.keys-favorite-membership{position:absolute;top:12px;left:12px;z-index:3;display:flex;align-items:center;gap:6px;max-width:calc(100% - 76px);min-height:36px;padding:8px 10px;background:var(--color-card,#fff);border:1px solid var(--color-line);border-radius:12px;color:var(--color-ink);box-shadow:0 2px 8px #16233712;font:500 12px/18px var(--font-sans);cursor:pointer}
+.keys-favorite-membership{position:absolute;top:12px;left:12px;z-index:3;display:flex;align-items:center;gap:6px;max-width:calc(100% - 76px);min-height:36px;padding:8px 10px;background:var(--color-card,#fff);border:1px solid var(--color-line);border-radius:12px;color:var(--color-ink);box-shadow:0 2px 8px #16233712;font:500 12px/18px var(--font-sans);cursor:pointer}
 .keys-favorite-membership span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.keys-favorite-membership svg{width:14px;height:14px;flex:none}
 .keys-favorite-form{display:grid;gap:20px}.keys-favorite-form p{margin:0;color:var(--color-muted);font:400 14px/21px var(--font-sans)}
 .keys-favorite-form label{display:grid;gap:8px;font:500 13px/20px var(--font-sans)}
 .keys-favorite-form input{width:100%;min-height:52px;padding:14px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);font:400 15px/22px var(--font-sans)}
-.keys-favorite-existing{display:grid;gap:8px}.keys-favorite-existing>span{color:var(--color-muted);font-size:12px}.keys-favorite-existing>button{padding:12px;text-align:left;background:var(--color-soft);border:0;border-radius:12px;color:var(--color-brand)}
+.keys-favorite-existing{display:flex;gap:8px;min-width:0;overflow-x:auto;padding:2px 0;scrollbar-width:none}
+.keys-favorite-existing::-webkit-scrollbar{display:none}
+.keys-favorite-existing>button{flex:none;min-height:40px;padding:8px 12px;border:1px solid var(--color-line);border-radius:99px;background:var(--color-card);color:var(--color-ink);font:500 12px/18px var(--font-sans);white-space:nowrap}
+.keys-favorite-existing>button[aria-pressed=true]{background:var(--color-soft);border-color:var(--color-brand-line);color:var(--color-brand)}
+.keys-favorite-existing>button:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+.keys-favorite-existing-wrap{flex-wrap:wrap;overflow:visible}
+.keys-favorite-existing-wrap>button{max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:left}
+.keys-favorite-saved-notice{position:fixed;z-index:60;right:16px;bottom:105px;left:16px;display:flex;align-items:center;gap:12px;max-width:382px;margin:0 auto;padding:8px 16px;border-radius:16px;background:var(--color-toast,#23324b);color:var(--color-on-brand,#fff);box-shadow:0 8px 24px #16233726;animation:toast-in .2s ease-out}
+.keys-favorite-saved-notice p{flex:1;min-width:0;margin:0;font:400 14px/21px var(--font-sans);overflow-wrap:anywhere}
+.keys-favorite-saved-notice button{border:0;background:none;color:inherit;cursor:pointer}
+.keys-favorite-change{flex:none;min-height:40px;padding:8px 0;text-align:right;white-space:nowrap;font:500 14px/21px var(--font-sans);text-decoration:underline;text-underline-offset:3px}
+.keys-favorite-saved-notice button:focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:4px}
+html[data-desktop-account=true] .keys-favorite-saved-notice{bottom:28px}
+.keys-favorite-map-button{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--color-mist,#f5f6f8);color:var(--color-brand);cursor:pointer}
+.keys-favorite-map-button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+.keys-favorite-map-preview{position:absolute;inset:auto 12px 12px;z-index:650;max-height:calc(100% - 160px);overflow-y:auto;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);box-shadow:0 8px 24px #16233726}
+.keys-favorite-map-preview>.keys-result-hotel{border:0;border-radius:0}
+.keys-favorite-map-empty{display:grid;place-content:center;gap:16px;height:100%;padding:140px 24px 24px;text-align:center;color:var(--color-muted)}
 @media(min-width:900px){html[data-desktop-account=true] .keys-favorites-page{max-width:1120px;margin:0 auto}html[data-desktop-account=true] .keys-favorites-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}html[data-desktop-account=true] .keys-favorite-trip{max-width:560px}html[data-desktop-account=true] .keys-favorite-trip strong{font-size:15px}}
 @media(max-width:360px){.keys-favorite-trip>button{padding:12px 8px;gap:5px}.keys-favorite-trip>button>svg:first-child{display:none}}
 
-/* Private hotel notes stay with the hotel when it moves between collections. */
-.keys-favorite-note{display:flex;align-items:center;gap:7px;width:100%;min-height:40px;padding:10px 4px 6px;border:0;background:none;color:var(--color-brand);text-align:left;font:400 13px/20px var(--font-sans)}
-.keys-favorite-note svg{width:16px;height:16px;flex:none}.keys-favorite-note span{min-width:0;overflow-wrap:anywhere}
-.keys-favorite-note.has-note{margin-top:10px;padding:12px;border-radius:12px;background:var(--color-mist,#f5f6f8);color:var(--color-ink);align-items:flex-start}
-.keys-favorite-note.has-note>svg{margin-top:2px;color:var(--color-muted)}
-.keys-favorite-note.has-note>svg:last-child{margin-left:auto}
-.keys-favorite-note.has-note>span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;white-space:pre-wrap}
-.keys-favorite-note-form{gap:14px}.keys-favorite-note-form textarea{display:block;width:100%;min-height:144px;max-height:40vh;padding:14px;border:1px solid var(--color-line);border-radius:14px;resize:vertical;background:var(--color-card);color:var(--color-ink);font:400 15px/22px var(--font-sans)}
-.keys-favorite-note-counter{margin-top:-8px;text-align:right;color:var(--color-muted);font:400 12px/18px var(--font-sans)}
-
-/* Collection label on the photo, secondary note action inside the same card. */
 .keys-favorite-membership:hover{background:var(--color-soft);color:var(--color-brand)}
-#root .keys-favorite-note-add{display:flex;justify-content:center;width:100%;min-height:44px;margin:0;padding:11px 14px;gap:8px;border:1px solid var(--color-line);border-radius:13px;background:var(--color-card);font:500 14px/20px var(--font-sans);color:var(--color-brand)}
-#root .keys-favorite-note-add svg{width:18px;height:18px}
-#root .keys-favorite-note-add:hover{color:var(--color-brand-hover,var(--color-brand));background:var(--color-soft)}
 
 /* Favorites opens with large collections; hotels are one level deeper. */
 .keys-favorite-collections{display:grid;gap:16px}

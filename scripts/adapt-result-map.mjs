@@ -3,6 +3,7 @@ import {transform} from 'esbuild';
 export async function adaptResultMap(source) {
  let js=(await transform(source,{minify:false,charset:'utf8'})).code;
  const replace=(before,after)=>{if(!js.includes(before))throw Error('Map canvas anchor missing: '+before);js=js.replace(before,after);};
+ replace('zoomRange: { min: 7, max: 18 }','zoomRange: { min: e.minZoom ?? 7, max: 18 }');
  replace('origin: i, places: o, focus: s, onSelect: l }) {','origin: i, places: o, focus: s, onSelect: l, hotelPinWidth = 0 }) {');
  replace('topLeft: [72, 120], bottomRight: [72, 40]', 'topLeft: [Math.max(72, hotelPinWidth / 2 + 16), 120], bottomRight: [Math.max(72, hotelPinWidth / 2 + 16), 40]');
  replace('h = l.length >= Math.min(3, t.length) ? l : t;', 'h = o.fitAll ? t : l.length >= Math.min(3, t.length) ? l : t;');

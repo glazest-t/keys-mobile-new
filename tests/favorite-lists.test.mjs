@@ -90,3 +90,64 @@ test('collection opens as a separate screen and Back returns hotel → collectio
  assert.equal(s.navigation.screen.collectionId,id);assert.equal(e.keysReturnsToHost(s,{type:'BACK'},{kind:'screen',screen:'saved'}),false);
  s=run(s,{type:'BACK'});assert.deepEqual(s.navigation.screen,{type:'saved'});
 });
+test('save confirmation names the chosen collection and targets the latest saved hotel',()=>{
+ let s=run(initial(),{type:'FAVORITE_TOGGLE',id:'more'});
+ s=run(s,{type:'KEYS_FAVORITE_LIST',name:'Море'});const listId=s.keysFavoriteGroups[0].id;
+ assert.equal(s.keysFavoriteNotice.listId,listId);assert.deepEqual(s.keysFavoriteNotice.hotelIds,['more']);
+ const previousToken=s.keysFavoriteNotice.token;
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});
+ assert.equal(s.keysFavoriteNotice.listId,listId);assert.deepEqual(s.keysFavoriteNotice.hotelIds,['park']);
+ s=run(s,{type:'KEYS_FAVORITE_NOTICE_CLOSE',token:previousToken});assert.ok(s.keysFavoriteNotice);
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});assert.equal(s.keysFavoriteNotice,null);
+});
+test('changing the collection from confirmation moves only that hotel and updates the session',()=>{
+ let s=run(initial(),{type:'KEYS_FAVORITE_LIST',name:'Город'});const city=s.keysFavoriteSession.active;
+ s=run(s,{type:'KEYS_FAVORITE_LIST',name:'Море'});const sea=s.keysFavoriteSession.active;
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'more'});s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});
+ s=run(s,{type:'KEYS_FAVORITE_CHANGE',hotelIds:s.keysFavoriteNotice.hotelIds});
+ assert.deepEqual(s.keysFavoriteGroups.find(g=>g.id===sea).hotelIds,['more','park']);
+ s=run(s,{type:'KEYS_FAVORITE_LIST',id:city});
+ assert.deepEqual(s.keysFavoriteGroups.find(g=>g.id===sea).hotelIds,['more']);
+ assert.deepEqual(s.keysFavoriteGroups.find(g=>g.id===city).hotelIds,['park']);
+ assert.equal(s.keysFavoriteSession.active,city);assert.equal(s.keysFavoriteNotice.listId,city);
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'forest'});
+ assert.deepEqual(s.keysFavoriteGroups.find(g=>g.id===city).hotelIds,['park','forest']);
+});
+test('cancelling a collection change preserves membership and the session destination',()=>{
+ let s=run(initial(),{type:'FAVORITE_TOGGLE',id:'more'});s=run(s,{type:'KEYS_FAVORITE_LIST',name:'Лето'});
+ const groups=s.keysFavoriteGroups,session=s.keysFavoriteSession;
+ s=run(s,{type:'KEYS_FAVORITE_CHANGE',hotelIds:['more']});s=run(s,{type:'KEYS_FAVORITE_CANCEL'});
+ assert.deepEqual(s.keysFavoriteGroups,groups);assert.deepEqual(s.keysFavoriteSession,session);assert.equal(s.keysFavoriteEditing,null);
+ s=run(s,{type:'KEYS_FAVORITE_CHANGE',hotelIds:['more']});s=run(s,{type:'KEYS_FAVORITE_LIST',name:'Осень'});
+ assert.deepEqual(s.keysFavoriteGroups.map(g=>g.hotelIds),[[],['more']]);assert.equal(s.keysFavoriteGroups[1].name,'Осень');
+});
+test('remote acknowledgement cannot overwrite the collection chooser or actionable confirmation',()=>{
+ let s=run(initial(),{type:'KEYS_FAVORITE_INTENT',id:'more'});s=run(s,{type:'FAVORITES_REPLACE',ids:['more']});
+ s=run(s,{type:'TOAST',message:'Отель сохранён'});assert.deepEqual(s.keysFavoritePending,['more']);assert.equal(s.ui.toast,'');
+ s=run(s,{type:'KEYS_FAVORITE_LIST',name:'Море'});const notice=s.keysFavoriteNotice;
+ s=run(s,{type:'TOAST',message:'Отель сохранён'});assert.deepEqual(s.keysFavoriteNotice,notice);assert.equal(s.ui.toast,'');
+ s=run(s,{type:'TOAST',message:'Другая операция'});assert.equal(s.keysFavoriteNotice,null);assert.equal(s.ui.toast,'Другая операция');
+});
+test('closing the first chooser does not silently create a collection',()=>{
+ let s=run(initial(),{type:'FAVORITE_TOGGLE',id:'more'});s=run(s,{type:'KEYS_FAVORITE_CANCEL'});
+ assert.deepEqual(s.discovery.savedIds,['more']);assert.equal(s.keysFavoriteGroups.length,0);assert.equal(s.keysFavoritePending,null);
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});assert.deepEqual(s.keysFavoritePending,['park']);
+});
+test('collection map includes only its saved hotels regardless of search city and filters',()=>{
+ const base=initial(),first=e.hotels[0],other=e.hotels.find(h=>h.city!==first.city)||e.hotel('maidens'),outside=e.hotels.find(h=>h.id!==first.id&&h.id!==other.id);
+ let s={...base,discovery:{...base.discovery,savedIds:[first.id,other.id,outside.id]},keysFavoriteGroups:[{id:'trip',name:'Поездка',hotelIds:[first.id,other.id,'removed',first.id]},{id:'other',name:'Другое',hotelIds:[outside.id]}]};
+ s=run(s,{type:'SEARCH_PATCH',patch:{city:'Казань',filters:['Бассейн'],sort:'price'}});
+ assert.deepEqual(e.keysFavoriteCollection(s,'trip').hotelIds,[first.id,other.id]);
+ assert.equal(e.keysFavoriteCollection(s,'missing'),null);
+ s={...s,discovery:{...s.discovery,savedIds:[outside.id]}};
+ assert.deepEqual(e.keysFavoriteCollection(s,'trip').hotelIds,[]);
+});
+test('ungrouped map and return path retain the exact favorite collection',()=>{
+ let s=run(initial(),{type:'FAVORITE_TOGGLE',id:'more'});s=run(s,{type:'KEYS_FAVORITE_CANCEL'});
+ assert.deepEqual(e.keysFavoriteCollection(s,'__unassigned').hotelIds,['more']);
+ s=run(s,{type:'OPEN',screen:{type:'saved'}});s=run(s,{type:'OPEN',screen:{type:'saved',collectionId:'__unassigned'}});
+ s=run(s,{type:'OPEN',screen:{type:'hotel-map',collectionId:'__unassigned'}});assert.equal(e.keysShowBottomNav(s),true);
+ s=run(s,{type:'HOTEL_OPEN',id:'more'});assert.equal(e.keysShowBottomNav(s),false);
+ s=run(s,{type:'BACK'});assert.deepEqual(s.navigation.screen,{type:'hotel-map',collectionId:'__unassigned'});
+ s=run(s,{type:'BACK'});assert.deepEqual(s.navigation.screen,{type:'saved',collectionId:'__unassigned'});
+});

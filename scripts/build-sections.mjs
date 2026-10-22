@@ -87,6 +87,7 @@ export async function buildSections(){
  js=adaptGoldLoyalty(js,await readFile(path.join(root,'src/sections/gold-loyalty.js'),'utf8'));
  js=adaptRatings(js);
  replace('function Pt(e, t) {','function keysFavoritesBaseReducer(e, t) {');
+ replace('function OH({ placement: e = "mobile" }) {','function KeysDefaultToast({ placement: e = "mobile" }) {');
  replace('const k = c(T);', 'if ((T.type==="FAVORITE_TOGGLE" && !l.current.discovery.savedIds.includes(T.id)) || (T.type==="SWIPE" && T.liked)) r({type:"KEYS_FAVORITE_INTENT",id:T.id});\n    const k = c(T);');
  js+='\n'+await readFile(path.join(root,'src/sections/favorites.js'),'utf8');
  // Let the share dialog receive initial focus before showModal picks its close button.
@@ -134,7 +135,7 @@ export async function buildSections(){
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
  engine+='\nexport {keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
- engine+='\nexport {keysShowBottomNav,keysFivePointRating,keysRatingText,Zc as hotelReviews,qI as sortReviews,Lc as ratingLabel};';
+ engine+='\nexport {keysFavoriteCollection,keysShowBottomNav,keysFivePointRating,keysRatingText,Zc as hotelReviews,qI as sortReviews,Lc as ratingLabel};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

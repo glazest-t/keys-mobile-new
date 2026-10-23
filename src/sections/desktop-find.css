@@ -583,12 +583,12 @@ html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
 @media(min-width:900px){
  html[data-desktop-account=true] #root .keys-favorites-page>.keys-desktop-screen-header{position:static}
  html[data-desktop-account=true] #root .keys-favorite-map-button{display:none}
- html[data-desktop-account=true] #root .keys-favorites-workspace{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,1fr);gap:16px 24px}
+ html[data-desktop-account=true] #root .keys-favorites-workspace{display:grid;grid-template-columns:max(340px,calc((100% - 328px) * 1.1 / 2.1)) minmax(280px,1fr);gap:16px 24px}
  html[data-desktop-account=true] #root .keys-favorites-controls{grid-column:1;grid-row:1;margin-bottom:0}
- html[data-desktop-account=true] #root .keys-favorites-controls>.keys-favorite-trip{min-width:0;max-width:none;margin-inline:3px 8px}
+ html[data-desktop-account=true] #root .keys-favorites-controls>.keys-favorite-trip{min-width:0;max-width:none;margin-inline:2px 6px}
  html[data-desktop-account=true] #root .keys-favorites-page .keys-desktop-screen-actions>.keys-favorite-create-list{width:auto;min-width:0;margin:0;white-space:nowrap}
  html[data-desktop-account=true] #root .keys-favorites-workspace{align-items:stretch;--favorites-height:clamp(380px,calc(var(--keys-desktop-height,800px) - 184px),1100px)}
- html[data-desktop-account=true] #root .keys-favorites-results{grid-column:1;grid-row:2;min-width:0;height:var(--favorites-height);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent;padding:3px 8px 3px 3px}
+ html[data-desktop-account=true] #root .keys-favorites-results{grid-column:1;grid-row:2;min-width:0;height:var(--favorites-height);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent;padding:2px 6px 2px 2px}
  html[data-desktop-account=true] #root .keys-favorites-list{grid-template-columns:minmax(0,1fr);gap:16px}
  html[data-desktop-account=true] #root .keys-favorite-item{overflow:visible;border:0}
  html[data-desktop-account=true] #root .keys-favorite-item>.keys-result-hotel{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;transition:border-color .18s,box-shadow .18s}
@@ -600,6 +600,11 @@ html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
  html[data-desktop-account=true] #root .keys-favorite-map.is-inline .keys-favorite-map-empty{padding:24px}
  .keys-favorite-map-selection{position:absolute;top:16px;left:16px;z-index:650;border:1px solid var(--color-line);border-radius:16px;background:var(--color-card);box-shadow:0 4px 16px #16233712}
  html[data-desktop-account=true] #root .keys-favorites-results>.keys-favorites-empty{min-height:100%;margin:0}
+}
+/* Match the search list after its 280px sidebar and two 24px gaps;
+   the missing sidebar space belongs to the favorites map. */
+@media(min-width:1500px){
+ html[data-desktop-account=true] #root .keys-favorites-workspace{grid-template-columns:640px minmax(360px,1fr)}
 }
 @media(prefers-reduced-motion:reduce){html[data-desktop-account=true] #root .keys-favorite-item>.keys-result-hotel{transition:none}}
 

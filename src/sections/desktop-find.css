@@ -106,8 +106,8 @@ html[data-desktop-account="true"] .keys-find-home-back:focus-visible{outline:2px
 .keys-desktop-back:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 html[data-desktop-account="true"] #root#root#root .keys-desktop-screen-title{flex:1;min-width:0;margin:0;font:500 28px/34px var(--font-sans)!important;letter-spacing:-.4px}
 .keys-desktop-screen-actions{display:flex;align-items:center;gap:8px;flex:none}
-html[data-desktop-account="true"] #root#root .keys-desktop-screen-actions>button{width:44px;height:44px;border:0;background:transparent;box-shadow:none;color:var(--color-ink)}
-html[data-desktop-account="true"] #root#root .keys-desktop-screen-actions>button:hover{background:var(--color-soft)}
+html[data-desktop-account="true"] #root#root .keys-desktop-screen-actions>button:not([data-keys-button]){width:44px;height:44px;border:0;background:transparent;box-shadow:none;color:var(--color-ink)}
+html[data-desktop-account="true"] #root#root .keys-desktop-screen-actions>button:not([data-keys-button]):hover{background:var(--color-soft)}
 @media(max-width:599px){.keys-desktop-screen-header{gap:12px}.keys-desktop-back>span{display:none}}
 
 /* The Back control and booking action remain reachable on long detail pages. */
@@ -553,25 +553,55 @@ html[data-home-search="true"] .keys-search-fields [role="listbox"]{position:abso
 
 /* Compact desktop result: photo, identity and a shared rating/price footer. */
 @media(min-width:900px){
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel{display:grid;grid-template-columns:minmax(136px,34%) minmax(0,1fr);min-height:156px;container-type:inline-size}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-photo{height:100%;min-height:156px;aspect-ratio:auto}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-save{top:12px;right:12px;width:36px;height:36px;border:0;border-radius:10px;box-shadow:none;background:transparent;color:var(--color-muted)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-save:hover{background:var(--color-soft);color:var(--color-brand)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-save[aria-pressed=true]{color:var(--color-brand);background:var(--color-soft)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-body{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto 1fr;align-content:start;align-items:start;padding:16px;gap:6px 12px;min-height:156px}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-title{grid-column:1/-1;grid-row:1;padding-right:40px}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-location{grid-column:1/-1;grid-row:2;padding-right:24px;font:400 13px/19px var(--font-sans)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-reviews{grid-column:1;grid-row:3;align-self:end;margin:12px 0 0;flex-wrap:wrap;gap:6px;font:400 12px/18px var(--font-sans)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-price{grid-column:2;grid-row:3;align-self:end;margin:12px 0 0;padding:0;gap:4px 6px}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-price strong{font:500 20px/26px var(--font-sans)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-discount{min-height:24px;padding:2px 6px}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel{display:grid;grid-template-columns:minmax(136px,34%) minmax(0,1fr);min-height:156px;container-type:inline-size}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-photo{height:100%;min-height:156px;aspect-ratio:auto}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-save{top:12px;right:12px;width:36px;height:36px;border:0;border-radius:10px;box-shadow:none;background:transparent;color:var(--color-muted)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-save:hover{background:var(--color-soft);color:var(--color-brand)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-save[aria-pressed=true]{color:var(--color-brand);background:var(--color-soft)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-body{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto 1fr;align-content:start;align-items:start;padding:16px;gap:6px 12px;min-height:156px}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-title{grid-column:1/-1;grid-row:1;padding-right:40px}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-location{grid-column:1/-1;grid-row:2;padding-right:24px;font:400 13px/19px var(--font-sans)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-reviews{grid-column:1;grid-row:3;align-self:end;margin:12px 0 0;flex-wrap:wrap;gap:6px;font:400 12px/18px var(--font-sans)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-price{grid-column:2;grid-row:3;align-self:end;margin:12px 0 0;padding:0;gap:4px 6px}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-price strong{font:500 20px/26px var(--font-sans)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-discount{min-height:24px;padding:2px 6px}
 }
 @container(max-width:430px){
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-body{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;gap:6px;padding:14px}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-name{font:500 16px/21px var(--font-sans)}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-reviews{grid-column:1;grid-row:3;align-self:start;margin:2px 0 0}
- html[data-desktop-account=true] #root .has-sidebar .keys-result-hotel-price{grid-column:1;grid-row:4;margin:6px 0 0;justify-self:start;text-align:left;justify-content:start}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-body{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;gap:6px;padding:14px}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-name{font:500 16px/21px var(--font-sans)}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-reviews{grid-column:1;grid-row:3;align-self:start;margin:2px 0 0}
+ html[data-desktop-account=true] #root :is(.has-sidebar,.keys-favorites-workspace) .keys-result-hotel-price{grid-column:1;grid-row:4;margin:6px 0 0;justify-self:start;text-align:left;justify-content:start}
 }
+
+/* Favorite collections share the desktop search list and map pattern. */
+html[data-desktop-account=true] #root [data-favorites-layout]{max-width:none;height:var(--keys-desktop-height,760px);min-height:560px}
+html[data-desktop-account=true] #root [data-favorites-layout]>.keys-module-scroll{height:100%;overflow:auto;padding-bottom:0!important;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent}
+html[data-desktop-account=true] #root#root [data-favorites-layout]>.keys-bottom-nav,
+html[data-desktop-account=true] #root [data-favorites-layout]>.keys-module-scroll>.keys-app-header{display:none!important}
+html[data-desktop-account=true] #root [data-favorites-layout] main{width:100%;max-width:none;margin:0;padding:0 0 32px}
+html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-favorites-page>.keys-desktop-screen-header{position:static}
+ html[data-desktop-account=true] #root .keys-favorite-map-button{display:none}
+ html[data-desktop-account=true] #root .keys-favorites-workspace{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,1fr);gap:16px 24px}
+ html[data-desktop-account=true] #root .keys-favorites-controls{grid-column:1;grid-row:1;margin-bottom:0}
+ html[data-desktop-account=true] #root .keys-favorites-controls>.keys-favorite-trip{min-width:0;max-width:none;margin-inline:3px 8px}
+ html[data-desktop-account=true] #root .keys-favorites-page .keys-desktop-screen-actions>.keys-favorite-create-list{width:auto;min-width:0;margin:0;white-space:nowrap}
+ html[data-desktop-account=true] #root .keys-favorites-workspace{align-items:stretch;--favorites-height:clamp(380px,calc(var(--keys-desktop-height,800px) - 184px),1100px)}
+ html[data-desktop-account=true] #root .keys-favorites-results{grid-column:1;grid-row:2;min-width:0;height:var(--favorites-height);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--color-line) transparent;padding:3px 8px 3px 3px}
+ html[data-desktop-account=true] #root .keys-favorites-list{grid-template-columns:minmax(0,1fr);gap:16px}
+ html[data-desktop-account=true] #root .keys-favorite-item{overflow:visible;border:0}
+ html[data-desktop-account=true] #root .keys-favorite-item>.keys-result-hotel{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;transition:border-color .18s,box-shadow .18s}
+ html[data-desktop-account=true] #root .keys-favorite-item>.keys-result-hotel.is-map-selected{border-color:var(--color-brand);box-shadow:0 0 0 2px var(--color-brand)}
+ html[data-desktop-account=true] #root .keys-favorite-item>.keys-result-hotel.is-map-selected .keys-result-hotel-body{background:var(--color-soft)}
+ html[data-desktop-account=true] #root .keys-favorite-membership{max-width:calc(max(136px,34%) - 24px)}
+ html[data-desktop-account=true] #root .keys-favorite-map.is-inline{grid-column:2;grid-row:1/3;height:auto;min-height:0;min-width:0;overflow:hidden;border:1px solid var(--color-line);border-radius:var(--ui-card-radius)}
+ html[data-desktop-account=true] #root .keys-favorite-map.is-inline .map-controls{top:16px}
+ html[data-desktop-account=true] #root .keys-favorite-map.is-inline .keys-favorite-map-empty{padding:24px}
+ .keys-favorite-map-selection{position:absolute;top:16px;left:16px;z-index:650;border:1px solid var(--color-line);border-radius:16px;background:var(--color-card);box-shadow:0 4px 16px #16233712}
+ html[data-desktop-account=true] #root .keys-favorites-results>.keys-favorites-empty{min-height:100%;margin:0}
+}
+@media(prefers-reduced-motion:reduce){html[data-desktop-account=true] #root .keys-favorite-item>.keys-result-hotel{transition:none}}
 
 /* Hotel overview and room selection share one desktop page and one booking draft. */
 @media(min-width:900px){

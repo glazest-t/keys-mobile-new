@@ -14,7 +14,7 @@
   const desktop=document.body.dataset.keysView==='desktop';
   const benefits=desktop&&!account.hidden&&!page.hidden;
   const notices=desktop&&!runtime.hidden&&['notifications','notification-settings'].includes(runtime.dataset.runtimeScreen);
-  const find=desktop&&!runtime.hidden&&(runtime.dataset.runtimeTab==='find'||['reservation-success','created-booking'].includes(runtime.dataset.runtimeScreen))&&!notices;
+  const find=desktop&&!runtime.hidden&&(runtime.dataset.runtimeTab==='find'||runtime.dataset.runtimeTab==='favorites'||runtime.dataset.runtimeFavorites||['reservation-success','created-booking'].includes(runtime.dataset.runtimeScreen))&&!notices;
   const framed=notices||find;
   const kind=benefits?'benefits':notices?'notifications':find?'find':'';
   if(kind)document.body.dataset.keysDesktopSecondary=kind;else delete document.body.dataset.keysDesktopSecondary;
@@ -33,7 +33,7 @@
  window.addEventListener('message',event=>{
   if(event.source!==frame.contentWindow||event.origin!==location.origin||event.data?.source!=='keys-arbana')return;
   if(event.data.type==='ready')sendView();
-  if(event.data.type==='state'&&document.body.dataset.keysView==='desktop'&&event.data.tab==='find'){resetFindScroll=true;window.scrollTo({top:0,behavior:'instant'});}
+  if(event.data.type==='state'&&document.body.dataset.keysView==='desktop'&&(event.data.tab==='find'||event.data.favorites)){resetFindScroll=true;window.scrollTo({top:0,behavior:'instant'});}
   if(event.data.type==='account-height'&&['notifications','find'].includes(document.body.dataset.keysDesktopSecondary)&&Number.isFinite(event.data.height)){frame.style.height=Math.max(560,Math.min(12000,event.data.height))+'px';if(resetFindScroll){resetFindScroll=false;requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));}}
  });
  title.querySelector('button').addEventListener('click',()=>root.dispatchEvent(new CustomEvent('keys-close-benefits')));
@@ -46,7 +46,7 @@
   if(document.body.dataset.keysView!=='desktop'||!event.target.closest('[data-after="points"]'))return;
   event.preventDefault();event.stopImmediatePropagation();root.dispatchEvent(new CustomEvent('keys-open-benefits'));
  },true);
- new MutationObserver(sync).observe(root,{subtree:true,attributes:true,attributeFilter:['hidden','data-runtime-screen','data-runtime-tab']});
+ new MutationObserver(sync).observe(root,{subtree:true,attributes:true,attributeFilter:['hidden','data-runtime-screen','data-runtime-tab','data-runtime-favorites']});
  new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['data-keys-view','data-keys-desktop-profile']});
  sync();
 })();

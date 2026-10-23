@@ -1,15 +1,17 @@
 // Shared selection connects map markers to the result list without changing search filters.
 let keysResultsSelectionContext;
 function keysResultsContext(){return keysResultsSelectionContext??=E.createContext(null);}
-function KeysResultsLayout({children}){
- const {state}=J(),[selected,setSelected]=E.useState(null),[desktop,setDesktop]=E.useState(false),list=E.useRef(null);
+function useKeysDesktopList(){
+ const [desktop,setDesktop]=E.useState(false);
  E.useEffect(()=>{
   const media=matchMedia('(min-width:900px)');
   const update=()=>setDesktop(document.documentElement.dataset.desktopAccount==='true'&&media.matches);
   const observer=new MutationObserver(update);observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});
   media.addEventListener('change',update);update();return()=>{observer.disconnect();media.removeEventListener('change',update);};
  },[]);
- E.useEffect(()=>setSelected(null),[state.search]);
+ return desktop;
+}
+function useKeysSelectedHotelScroll(list,selected,desktop){
  E.useEffect(()=>{
   if(!desktop||!selected||!list.current)return;
   const card=Array.from(list.current.querySelectorAll('[data-hotel-id]')).find(item=>item.dataset.hotelId===String(selected));
@@ -17,6 +19,11 @@ function KeysResultsLayout({children}){
   const container=list.current,top=card.getBoundingClientRect().top-container.getBoundingClientRect().top+container.scrollTop;
   container.scrollTo({top:Math.max(0,top-4),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
  },[desktop,selected]);
+}
+function KeysResultsLayout({children}){
+ const {state}=J(),[selected,setSelected]=E.useState(null),desktop=useKeysDesktopList(),list=E.useRef(null);
+ E.useEffect(()=>setSelected(null),[state.search]);
+ useKeysSelectedHotelScroll(list,selected,desktop);
  return n.jsx(keysResultsContext().Provider,{value:desktop?selected:null,children:n.jsxs(n.Fragment,{children:[children[0],n.jsxs('div',{className:'keys-results-workspace'+(desktop?' has-sidebar':''),children:[
   desktop&&n.jsx('aside',{className:'keys-results-sidebar','aria-label':'Фильтры отелей',children:n.jsx(tt().source==='travelline'?xV:vV,{inline:true})}),
   n.jsx(KeysResultsMap,{desktop,onSelectionChange:setSelected}),

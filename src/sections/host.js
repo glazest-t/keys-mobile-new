@@ -150,7 +150,7 @@
     }
     if(event.data.type==='nav')window.KeysAppNav.setUnread(event.data.unread);
     if(event.data.type==='header')root.querySelectorAll('.keys-app-header').forEach(h=>window.KeysAppHeader.setUnread(h,event.data.unread));
-    if(event.data.type==='state'){section.dataset.runtimeResults=String(!!event.data.results);section.dataset.runtimeScreen=event.data.screen??'';section.dataset.runtimeTab=event.data.tab??'find';}
+    if(event.data.type==='state'){section.dataset.runtimeResults=String(!!event.data.results);section.dataset.runtimeFavorites=event.data.favorites||'';section.dataset.runtimeScreen=event.data.screen??'';section.dataset.runtimeTab=event.data.tab??'find';}
     if(event.data.type==='state'&&chatOrigin){
       if(event.data.tab==='chats'&&event.data.screen==='chat')chatOpened=true;
       else if(chatOpened&&event.data.tab==='chats'&&!event.data.screen){

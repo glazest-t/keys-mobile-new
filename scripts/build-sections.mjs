@@ -51,7 +51,8 @@ export async function buildSections(){
  replace('FE = (e, t, a = 0) => Math.round(Rg(e, a) * BE(t))','FE = (e, t, a = 0) => e.keysNightly ?? Math.round(Rg(e, a) * BE(t))');
  replace('function CH({ compact: e = false }) {','function OriginalArbanaHeader({ compact: e = false }) {');
  replace('function EV() {','function OriginalArbanaNotifications() {');
- replace('function Ae({ title: e, onBack: t, action: a, overPhoto: r = false }) {','function KeysMobileScreenHeader({ title: e, onBack: t, action: a, overPhoto: r = false }) {');
+ replace('function Ae({ title: e, onBack: t, action: a, overPhoto: r = false }) {','function KeysMobileScreenHeader({ title: e, onBack: t, action: a, overPhoto: r = false, showBack = true }) {');
+ replace('children: [n.jsx(cs, { onClick: t ?? l }), n.jsx(m,', 'children: [showBack && n.jsx(cs, { onClick: t ?? l }), n.jsx(m,');
  replace('function AH() {','function OriginalArbanaNav() {');
  replace('function PH({ children: e }) {','function OriginalArbanaLayout({ children: e }) {');
  replace('f ? G0(c.current, e) : b8(e, null, Date.now())','G0(c.current, e)');

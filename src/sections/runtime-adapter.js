@@ -133,10 +133,10 @@ function KeysBridge() {
     return () => window.removeEventListener('message',receive);
   }, [dispatch]);
   E.useEffect(()=>{if(state.reservation?.status==='confirmed'&&state.reservation.bookedId===state.booking.id){keysPost('reservation',{booking:{id:state.booking.id,hotel:eHotelName(state.booking.hotelId),arrival:state.booking.arrival,departure:state.booking.departure,room:state.booking.room.name,photo:state.booking.room.photo?.src,guests:Rt(state.booking.party)}});}},[state.reservation?.status,state.booking.id]);
-  E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null,results:!state.navigation.screen&&state.navigation.tab==='find'&&state.search.results&&state.search.intent==='known'}); },[state.navigation,state.search.results,state.search.intent]);
+  E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null,favorites:state.navigation.screen?.type==='saved'||(!state.navigation.screen&&state.navigation.tab==='favorites')?(state.navigation.screen?.collectionId?'collection':'overview'):'',results:!state.navigation.screen&&state.navigation.tab==='find'&&state.search.results&&state.search.intent==='known'}); },[state.navigation,state.search.results,state.search.intent]);
   E.useEffect(()=>{
     const page=document.querySelector('.keys-module-screen main');if(!page)return;
-    const report=()=>{if(document.documentElement.dataset.desktopAccount==='true'&&(state.navigation.tab==='find'||['reservation-success','created-booking','notifications','notification-settings'].includes(state.navigation.screen?.type)))keysPost('account-height',{height:Math.ceil(((state.navigation.tab==='find'||['reservation-success','created-booking'].includes(state.navigation.screen?.type))?page.closest('.keys-module-screen'):page).getBoundingClientRect().height)+32});};
+    const report=()=>{if(document.documentElement.dataset.desktopAccount==='true'&&(state.navigation.tab==='find'||state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'||['reservation-success','created-booking','notifications','notification-settings'].includes(state.navigation.screen?.type)))keysPost('account-height',{height:Math.ceil(((state.navigation.tab==='find'||state.navigation.tab==='favorites'||state.navigation.screen?.type==='saved'||['reservation-success','created-booking'].includes(state.navigation.screen?.type))?page.closest('.keys-module-screen'):page).getBoundingClientRect().height)+32});};
     const resize=new ResizeObserver(report);resize.observe(page);
     const attributes=new MutationObserver(report);attributes.observe(document.documentElement,{attributes:true,attributeFilter:['data-desktop-account']});report();
     return()=>{resize.disconnect();attributes.disconnect();};
@@ -162,7 +162,7 @@ function PH({children}) {
   E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,screen?.collectionId,state.search.results]);
   E.useLayoutEffect(()=>{document.documentElement.classList.toggle('keys-share-sheet',!!state.keysShareSession&&screen?.type==='keys-trip-share');},[state.keysShareSession,screen?.type]);
   const results=!screen && state.navigation.tab==='find' && state.search.results && state.search.intent==='known';
-  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-find-layout':state.navigation.tab==='find'?(screen?.type==='describe'?'advice':results?'results':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??'root',className:'keys-module-screen bg-card',children:[
+  return n.jsxs('div',{'data-testid':'app-screen','data-runtime-tab':state.navigation.tab,'data-favorites-layout':favorites?(screen?.collectionId?'collection':'overview'):undefined,'data-find-layout':state.navigation.tab==='find'?(screen?.type==='describe'?'advice':results?'results':!screen?'landing':'detail'):undefined,'data-screen-type':screen?.type??'root',className:'keys-module-screen bg-card',children:[
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&n.jsx(CH,{}),
@@ -395,7 +395,7 @@ function Ae(props) {
  ]});
  if(!desktop)return n.jsx(KeysMobileScreenHeader,props);
  return n.jsxs('header',{className:'keys-desktop-screen-header',children:[
-  n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}),
+  props.showBack!==false&&n.jsx('button',{type:'button',className:'keys-desktop-back','aria-label':'Назад',onClick:props.onBack??back,children:n.jsx(D,{name:'back',className:'size-5'})}),
   n.jsx(props.overPhoto?'p':'h1',{className:'keys-desktop-screen-title',children:props.overPhoto?'Об отеле':props.title}),
   props.action&&n.jsx('div',{className:'keys-desktop-screen-actions',children:props.action})
  ]});

@@ -66,5 +66,5 @@ body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUn
 
 /* Results use the available desktop width; detail and checkout keep their reading width. */
 @media(min-width:900px){
- body[data-keys-desktop-secondary="find"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"][data-runtime-results="true"]{max-width:none;width:100%}
+ body[data-keys-desktop-secondary="find"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"]:is([data-runtime-results="true"],[data-runtime-favorites="collection"]){max-width:none;width:100%}
 }

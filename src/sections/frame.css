@@ -1432,7 +1432,7 @@ html:not([data-desktop-account=true]) #root .keys-room-selection>.keys-room-tool
 .keys-favorite-trip svg:last-child{width:14px;height:14px;margin-left:auto;color:var(--color-muted)}
 .keys-favorite-trip span{min-width:0}.keys-favorite-trip small{display:block;font:400 11px/16px var(--font-sans);color:var(--color-muted)}
 .keys-favorite-trip strong{display:block;font:500 13px/20px var(--font-sans)}
-.keys-favorites-page>.keys-favorite-trip{margin-bottom:16px}
+.keys-favorites-controls{margin-bottom:16px}
 .keys-favorite-item{position:relative;min-width:0;align-self:start;overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
 .keys-favorite-item>.keys-result-hotel{border:0;border-radius:0}
 .keys-favorite-membership{position:absolute;top:12px;left:12px;z-index:3;display:flex;align-items:center;gap:6px;max-width:calc(100% - 76px);min-height:36px;padding:8px 10px;background:var(--color-card,#fff);border:1px solid var(--color-line);border-radius:12px;color:var(--color-ink);box-shadow:0 2px 8px #16233712;font:500 12px/18px var(--font-sans);cursor:pointer}

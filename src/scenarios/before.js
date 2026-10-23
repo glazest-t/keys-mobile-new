@@ -2,7 +2,7 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype'),home=document.getElementById('keysHomeVariantThree'),base=home.querySelector('.kh-home'),scroll=home.querySelector('.k3-scroll');
  const svg=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
- const icons={check:svg('<path d="m5 12 4 4L19 6"/>'),pin:svg('<path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/>'),arrow:svg('<path d="m9 5 7 7-7 7"/>'),file:svg('<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>'),chat:svg('<path d="M21 11a8 8 0 0 1-8 8H7l-4 3V5a2 2 0 0 1 2-2h8a8 8 0 0 1 8 8ZM7 8h10M7 12h7"/>'),edit:svg('<path d="M12 4H4v16h16v-8M10 14l1-4L19 2l3 3-8 8-4 1Z"/>'),share:svg('<path d="M12 16V3m-4 4 4-4 4 4M5 13v8h14v-8"/>')};
+ const icons={check:svg('<path d="m5 12 4 4L19 6"/>'),pin:svg('<path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/>'),arrow:svg('<path d="m9 5 7 7-7 7"/>'),file:svg('<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>'),chat:svg('<path d="M16 10a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path><path d="M20 8a2 2 0 0 1 2 2v12l-4-4h-8a2 2 0 0 1-2-2"></path>'),edit:svg('<path d="M12 4H4v16h16v-8M10 14l1-4L19 2l3 3-8 8-4 1Z"/>'),share:svg('<path d="M12 16V3m-4 4 4-4 4 4M5 13v8h14v-8"/>')};
  const booking={id:'MD-120926',arrival:'2026-09-12',departure:'2026-09-19',nights:7,total:56000,paid:56000,guest:'Татьяна Глазырина',room:'Премиум Кинг',adults:1};
  // A management invitation adds a local prototype trip with the shared dates.
  const incoming=new URLSearchParams(location.search);

@@ -61,6 +61,11 @@ export async function buildSections(){
  replace('const k = c(T);','if (keysRouteToHost(T)) return;\n    const k = c(T);');
  replace('function F_(e, t) {','function F_(e, t) {\n  if(t.hotelId === "maidens") return keysMaidensAnswer(e,t);');
  replace('{ id: "bonuses", label: "Бонусы", icon: "gift" }','{ id: "bonuses", label: "Выгоды", icon: "gift" }');
+ // All chat actions in the embedded app use the same icon as the host and UI kit.
+ const chatIcon=JSON.parse(await readFile(path.join(root,'src/arbana/icons.json'),'utf8')).chat;
+ const chatPaths=[...chatIcon.matchAll(/<path d="([^"]+)"/g)].map(([,d])=>'n.jsx("path", { d: '+JSON.stringify(d)+' })');
+ replace('chat: n.jsxs(n.Fragment, { children: [n.jsx("path", { d: "M20 11.5a8 8 0 0 1-8 8H5l-3 2 1.5-5A8 8 0 1 1 20 11.5Z" }), n.jsx("path", { d: "M7 10h9m-9 4h5" })] })',
+   'chat: n.jsxs(n.Fragment, { children: ['+chatPaths.join(', ')+'] })');
  const mount='GC.createRoot(document.getElementById("root")).render(n.jsx(HC.StrictMode, { children: n.jsx(TX, {}) }));';
  replace(mount,'GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));');
  // Shared semantic hooks let the host apply the same control geometry in the iframe.

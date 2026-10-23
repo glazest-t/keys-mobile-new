@@ -3,7 +3,7 @@
   const items = [
     {id:'trips',label:'Поездки',icon:'trips',path:'<rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3M9 11v6m6-6v6"/>'},
     {id:'find',label:'Найти',icon:'search',path:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>'},
-    {id:'chats',label:'Чаты',icon:'chat',path:'<path d="M20 11.5a8 8 0 0 1-8 8H5l-3 2 1.5-5A8 8 0 1 1 20 11.5Z"/><path d="M7 10h9m-9 4h5"/>'},
+    {id:'chats',label:'Чаты',icon:'chat',path:'<path d="M16 10a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path><path d="M20 8a2 2 0 0 1 2 2v12l-4-4h-8a2 2 0 0 1-2-2"></path>'},
     {id:'bonuses',label:'Выгоды',icon:'gift',path:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M12 7v14M3 7h18v4H3z"/><path d="M12 7C7 7 5 6 5 4a2 2 0 0 1 4-1l3 4Zm0 0c5 0 7-1 7-3a2 2 0 0 0-4-1l-3 4Z"/>'}
   ];
   const content = (item,unread=false) => `<span class="keys-bottom-icon"><svg data-arbana-icon="${item.icon}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${item.path}</svg>${item.id==='chats'?`<span class="keys-bottom-unread" aria-hidden="true"${unread?'':' hidden'}></span>`:''}</span><span class="keys-bottom-label">${item.label}</span>`;

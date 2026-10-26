@@ -28,7 +28,7 @@ export function adaptCheckoutEngine(source,components){
  replace('g.price ? "Оплачен вместе с бронью"', 'g.price ? a.paymentMethod === "arrival" ? "Оплата при заселении" : "Оплачен вместе с бронью"');
  replace('". Оплачено " + Te(c.total)', '(a.paymentMethod === "arrival" ? ". Оплата при заселении: " : ". Оплачено ") + Te(c.total)');
  // This step only stores the payment method, never bank card details.
- return js+'\n'+components+'\nexport {keysStayTimeRows,keysAdditionalGuestComplete,KeysPaymentOptions,KeysPaymentPoints,KeysCheckoutLayout,KeysBookingConfirmation,KeysCancellationPolicy,KeysCancelledBooking,keysRequestBookingCancellation};\n';
+ return js+'\n'+components+'\nexport {Dg as keysServiceName,keysStayTimeRows,keysAdditionalGuestComplete,KeysPaymentOptions,KeysPaymentPoints,KeysCheckoutLayout,KeysBookingConfirmation,KeysCancellationPolicy,KeysCancelledBooking,keysRequestBookingCancellation};\n';
 }
 export async function adaptCheckoutPage(source){
  let js=(await transform(source,{charset:'utf8',minify:false})).code;

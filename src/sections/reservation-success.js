@@ -1,6 +1,6 @@
-import {cu as KeysSuccessHeader, ar as keysStayDefaults, KeysBookingConfirmation,KeysCancelledBooking,keysRequestBookingCancellation} from "./index-C4VobzN0.js";
+import {cu as KeysSuccessHeader, ar as keysStayDefaults, keysServiceName,KeysBookingConfirmation,KeysCancelledBooking,keysRequestBookingCancellation} from "./index-C4VobzN0.js";
 function S({draft:t,booking:s,details=false,onBack}){
- const {dispatch:c,open:a,state}=h(),{share:o}=w(t,s),hotel=x(t.hotelId);
+ const {dispatch:c,state}=h(),{share:o}=w(t,s),hotel=x(t.hotelId);
  if(s.keysCancellation)return e.jsx(KeysCancelledBooking,{draft:t,booking:s,details,onBack});
  const payAtHotel=s.payment?.method==='arrival';
  const checkIn=s.checkInTime??hotel.checkInTime??(hotel.id==='more'?keysStayDefaults.checkInTime:hotel.id==='maidens'?'14:00':s.arrivalTime||'15:00'),checkOut=s.checkOutTime??hotel.checkOutTime??(hotel.id==='more'?keysStayDefaults.checkOutTime:'12:00');
@@ -13,7 +13,7 @@ function S({draft:t,booking:s,details=false,onBack}){
    e.jsxs('div',{className:'keys-success-hotel',children:[e.jsx('img',{src:t.room.photo.src,alt:t.room.name}),e.jsxs('div',{children:[e.jsx('h2',{children:hotel.name}),e.jsx('p',{children:hotel.city}),e.jsx('p',{children:t.room.name})]})]}),
    e.jsxs('dl',{className:'keys-success-dates',children:[e.jsxs('div',{children:[e.jsx('dt',{children:'Заезд'}),e.jsxs('dd',{children:[date(t.arrival),e.jsx('small',{children:'с '+checkIn})]})]}),e.jsxs('div',{children:[e.jsx('dt',{children:'Выезд'}),e.jsxs('dd',{children:[date(t.departure),e.jsx('small',{children:'до '+checkOut})]})]})]}),
    e.jsxs('dl',{className:'keys-success-facts',children:[row('Гости',j(t.party)),row('Тариф',s.tariff.name),row('На имя',g(s.contact))]}),
-   !!t.extras.length&&e.jsxs('button',{type:'button',className:'keys-success-services',onClick:()=>a({type:'orders'}),children:[e.jsx('span',{children:'Добавленные услуги · '+t.extras.length}),e.jsx(y,{name:'chevron',className:'size-4'})]})
+   !!t.extras.length&&e.jsxs('section',{className:'keys-success-services','aria-label':'Услуги',children:[e.jsx('h3',{children:'Услуги'}),e.jsx('ul',{children:t.extras.map(extra=>e.jsx('li',{children:keysServiceName(t.hotelId,extra.serviceId)},extra.serviceId))})]})
   ]}),
   e.jsxs('section',{className:'keys-checkout-panel keys-success-payment','aria-label':'Оплата бронирования',children:[
    e.jsxs('div',{className:'keys-success-section-heading',children:[e.jsx('h2',{children:'Оплата'}),e.jsxs('span',{children:[e.jsx(y,{name:payAtHotel?'clock':'check',className:'size-4'}),payAtHotel?'При заселении':'Оплачено']})]}),

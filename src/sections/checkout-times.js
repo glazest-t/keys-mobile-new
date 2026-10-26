@@ -46,7 +46,7 @@ function KeysCheckoutTimes({draft}){
  const ruleText=kind=>{const rule=policy[kind];return rule.type==='hourly'?Te(rule.amount)+' за каждый час':rule.type==='fixed'?Te(rule.amount)+' независимо от выбранного времени':rule.fullAfter?'До '+rule.fullAfter+' — 50% суток, позже — 100% суток':'50% стоимости суток';};
  return n.jsxs('section',{className:'keys-checkout-panel keys-checkout-times','aria-label':'Правила заезда и выезда',children:[
   n.jsxs('div',{className:'keys-stay-time-heading',children:[n.jsx('h2',{children:'Заезд и выезд'}),n.jsx('button',{type:'button',className:'keys-stay-time-info','aria-label':'Условия заезда и выезда','aria-haspopup':'dialog',onClick:()=>setRulesOpen(true),children:n.jsxs('svg',{width:20,height:20,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.8,strokeLinecap:'round','aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6m0-10v1'})]})})]}),
-  n.jsxs('div',{className:'keys-stay-time-card',children:[n.jsx('dl',{className:'keys-stay-time-summary',children:['early','late'].map(kind=>n.jsxs('div',{children:[n.jsx('dt',{children:label(kind)+' · '+date(kind)}),n.jsx('dd',{children:(kind==='early'?'С ':'До ')+quote[kind].time}),!quote[kind].included&&n.jsx('small',{children:'По правилам отеля: '+(kind==='early'?'с '+policy.checkIn:'до '+policy.checkOut)})]},kind))}),n.jsxs('button',{type:'button',className:'keys-stay-time-change keys-guest-row-action','aria-haspopup':'dialog','aria-label':'Изменить время заезда и выезда',onClick:()=>setEditing('early'),children:['Изменить',n.jsx(D,{name:'chevron',className:'size-3.5','aria-hidden':true})]})]}),
+  n.jsxs('div',{className:'keys-stay-time-card',children:[n.jsx('dl',{className:'keys-stay-time-summary',children:['early','late'].map(kind=>n.jsxs('div',{children:[n.jsx('dt',{children:label(kind)+' · '+date(kind)}),n.jsxs('dd',{children:[n.jsx('span',{children:(kind==='early'?'С ':'До ')+quote[kind].time}),n.jsx('span',{className:'keys-stay-time-charge'+(quote[kind].price>0?' is-paid':''),children:quote[kind].price>0?'+'+Te(quote[kind].price):'Без доплаты'})]})]},kind))}),n.jsxs('button',{type:'button',className:'keys-stay-time-change keys-guest-row-action','aria-haspopup':'dialog','aria-label':'Изменить время заезда и выезда',onClick:()=>setEditing('early'),children:['Изменить',n.jsx(D,{name:'chevron',className:'size-3.5','aria-hidden':true})]})]}),
   rulesOpen&&n.jsx(ct,{title:'Условия заезда и выезда',onClose:()=>setRulesOpen(false),children:n.jsxs('div',{className:'keys-stay-time-rules',children:[n.jsx('p',{children:'Заезд с '+policy.checkIn+', выезд до '+policy.checkOut+' включены в стоимость. Время местное.'}),n.jsxs('section',{children:[n.jsx('h3',{children:'Ранний заезд'}),n.jsx('p',{children:ruleText('early')+'.'})]}),n.jsxs('section',{children:[n.jsx('h3',{children:'Поздний выезд'}),n.jsx('p',{children:ruleText('late')+'.'})]}),(policy.early.type==='percent'||policy.late.type==='percent')&&n.jsx('p',{children:'Процент рассчитывается от средней стоимости суток выбранного номера и тарифа, с учётом скидки отеля, до списания баллов.'}),n.jsx('p',{children:'Доступное выбранное время включим в бронь. Доплата уже учитывается в итоговой стоимости.'})]})}),
   editing&&n.jsxs(ct,{title:'Изменить время',subtitle:'Время местное',onClose:()=>setEditing(null),children:[
    n.jsx('div',{className:'keys-stay-time-tabs',role:'group','aria-label':'Заезд или выезд',children:['early','late'].map(kind=>n.jsxs('button',{type:'button','aria-pressed':editing===kind,onClick:()=>setEditing(kind),children:[n.jsx('span',{children:label(kind)+' · '+date(kind)}),n.jsx('strong',{children:quote[kind].time})]},kind))}),
@@ -64,15 +64,21 @@ function keysCheckoutAdditions(draft){
  draft.extras.forEach(extra=>items.push({id:'extra-'+extra.serviceId,name:Dg(draft.hotelId,extra.serviceId),detail:[extra.date?new Date(extra.date+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'}):null,extra.time].filter(Boolean).join(' · '),price:extra.price}));
  return {items,total:items.reduce((sum,item)=>sum+item.price,0)};
 }
-function KeysCheckoutAdditions({draft}){
- const [open,setOpen]=E.useState(false),{items,total}=keysCheckoutAdditions(draft);
- if(!items.length)return null;
- const price=total?Te(total):'Бесплатно';
+function KeysCheckoutPriceDetails({draft,label='Итого за поездку',amount}){
+ const {state}=J(),[open,setOpen]=E.useState(false),{items}=keysCheckoutAdditions(draft),total=YA(draft);
+ const quote=keysReservationDiscountQuote(draft,state.search,state.discovery.priceTick),connected=keysConnectedHotelSavings(draft),hotelSaving=Math.max(0,quote.usualTotal-total.room-connected);
+ const points=keysPointsUsed(draft),hotelPoints=keysHotelPointsUsed(draft),payAtHotel=draft.keysCheckoutStep==='payment'&&draft.paymentMethod==='arrival';
+ const row=(label,value)=>n.jsxs('div',{children:[n.jsx('dt',{children:label}),n.jsx('dd',{children:value})]},label);
  return n.jsxs(n.Fragment,{children:[
-  n.jsxs('button',{type:'button',className:'keys-checkout-additions','aria-haspopup':'dialog','aria-label':'Дополнительные услуги: '+items.length+', '+price+'. Посмотреть состав',onClick:()=>setOpen(true),children:[n.jsx('span',{className:'keys-checkout-additions-label',children:'Включая допуслуги'}),n.jsxs('span',{className:'keys-checkout-additions-value',children:[items.length+' '+(items.length%100>=11&&items.length%100<=14?'услуг':items.length%10===1?'услуга':items.length%10>=2&&items.length%10<=4?'услуги':'услуг')+' · '+price,n.jsx(D,{name:'chevron',className:'size-4'})]})]}),
-  open&&n.jsxs(ct,{title:'Дополнительные услуги',subtitle:'Уже включены в итоговую стоимость',onClose:()=>setOpen(false),children:[
-   n.jsx('dl',{className:'keys-checkout-additions-list',children:items.map(item=>n.jsxs('div',{children:[n.jsxs('dt',{children:[n.jsx('strong',{children:item.name}),n.jsx('small',{children:item.detail})]}),n.jsx('dd',{children:item.price?Te(item.price):'Бесплатно'})]},item.id))}),
-   n.jsxs('div',{className:'keys-checkout-additions-total',children:[n.jsx('span',{children:'Всего за допуслуги'}),n.jsx('strong',{children:price})]})
-  ]})
+  n.jsxs('button',{type:'button',className:'keys-checkout-price-details','aria-haspopup':'dialog','aria-label':label+': '+Te(amount??total.total)+'. Детали цены',onClick:()=>setOpen(true),children:[n.jsx('span',{className:'keys-checkout-price-label',children:label}),n.jsxs('span',{className:'keys-checkout-price-value',children:[n.jsx('strong',{'aria-live':'polite',children:Te(amount??total.total)}),n.jsx(D,{name:'chevron',className:'size-5','aria-hidden':true})]})]}),
+  open&&n.jsx(ct,{title:'Стоимость бронирования',onClose:()=>setOpen(false),children:n.jsxs('div',{className:'keys-price-breakdown',children:[
+   n.jsxs('dl',{children:[row('Проживание',Te(quote.usualTotal)),hotelSaving>0&&row('Скидка отеля','−'+Te(hotelSaving)),connected>0&&row('Карта отеля · 10%','−'+Te(connected))]}),
+   items.length>0&&n.jsxs('section',{'aria-label':'Услуги',children:[n.jsx('h3',{children:'Услуги'}),n.jsx('dl',{children:items.map(item=>row(item.name+(['early','late'].includes(item.id)?' · '+item.detail.toLocaleLowerCase('ru-RU'):''),item.price?Te(item.price):'Бесплатно'))})]}),
+   (points>0||hotelPoints>0)&&n.jsxs('section',{'aria-label':'Списанные баллы',children:[n.jsx('h3',{children:'Списанные баллы'}),n.jsxs('dl',{children:[points>0&&row('Баллы Ключей','−'+Te(points)),hotelPoints>0&&row('Баллы отеля','−'+Te(hotelPoints))]})]}),
+   n.jsx('dl',{className:'keys-price-breakdown-total',children:row('Итого',Te(total.total))}),
+   payAtHotel&&n.jsxs('dl',{children:[row('К оплате сейчас',Te(0)),row('При заселении',Te(total.total))]}),
+   n.jsx('p',{children:'Налоги и сборы включены'}),
+   n.jsx(H,{onClick:()=>setOpen(false),children:'Понятно'})
+  ]})})
  ]});
 }

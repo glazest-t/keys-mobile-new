@@ -409,10 +409,7 @@ function KeysPaymentStayHeader(props){
   const parameter=(section,label,value,icon)=>n.jsxs('button',{type:'button',className:'keys-hotel-stay-parameter','aria-label':'Изменить '+(section==='dates'?'даты поездки':'количество гостей'),'aria-haspopup':'dialog',disabled,onClick:()=>setEditing(section),children:[n.jsx(D,{name:icon,className:'size-5'}),n.jsxs('span',{children:[n.jsx('span',{children:label}),n.jsx('strong',{children:value})]}),n.jsx(D,{name:'down',className:'size-4'})]});
   return n.jsxs(n.Fragment,{children:[n.jsx(Ae,{...props,title:props.title==='Оплата'?'Оформление брони':props.title}),n.jsxs('section',{className:'keys-hotel-stay-bar keys-checkout-stay-bar','aria-label':'Даты и гости',children:[parameter('dates','Даты поездки',zt(draft.arrival,draft.departure),'calendar'),parameter('guests','Гости',Rt(draft.party),'users')]}),editing&&n.jsx(xh,{roomStay:true,section:editing,onClose:()=>setEditing(false)})]});
  }
- return n.jsxs(n.Fragment,{children:[
-  n.jsx(Ae,{...props,subtitle:zt(draft.arrival,draft.departure)+' · '+Rt(draft.party),action:n.jsx('button',{type:'button',className:'keys-room-edit','aria-label':'Изменить даты и количество гостей',disabled:draft.status==='processing'||draft.status==='confirmed',onClick:()=>setEditing(true),children:'Изменить'})}),
-  editing&&n.jsx(xh,{roomStay:true,onClose:()=>setEditing(false)})
- ]});
+ return n.jsx(Ae,{...props,subtitle:zt(draft.arrival,draft.departure)+' · '+Rt(draft.party),action:undefined});
 }
 
 const KeysCreatedBookingCard=E.lazy(()=>import('./ReservationSuccessCard-uN5FuBj0.js').then(module=>({default:module.R})));

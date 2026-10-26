@@ -824,10 +824,10 @@ html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
 }
 
 @media(min-width:900px){
- html[data-desktop-account=true] #root .keys-cart-final-amount{margin:20px 0 0}
- html[data-desktop-account=true] #root .keys-cart-final-amount .keys-cart-total{margin:0;padding-top:20px}
+ html[data-desktop-account=true] #root .keys-cart-final-amount{margin:0}
+ html[data-desktop-account=true] #root .keys-cart-final-amount .keys-cart-total{margin:0;padding-top:0}
  html[data-desktop-account=true] #root .keys-cart-final-amount dd{margin:0;white-space:nowrap;font-variant-numeric:tabular-nums}
- html[data-desktop-account=true] #root .keys-booking-cart .keys-pay-wallet-total{min-height:36px;align-items:center}
+ html[data-desktop-account=true] #root [data-screen-type=reservation-payment] .keys-booking-cart .keys-pay-wallet-total{min-height:24px;align-items:center;margin-top:12px;padding-top:0;border-top:0}
  html[data-desktop-account=true] #root .keys-booking-cart .keys-pay-wallet-total>span{white-space:nowrap;font:var(--ui-font-caption)}
  html[data-desktop-account=true] #root .keys-booking-cart .keys-pay-wallet-total>strong{white-space:nowrap;font-variant-numeric:tabular-nums}
 }
@@ -895,3 +895,6 @@ html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-services h2{
 html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-row dt{min-width:0;overflow-wrap:anywhere}
 html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-row dd{flex-shrink:0}
 html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-services+.keys-cart-costs{margin-top:20px}
+
+/* Use one spacing boundary between the points surface and the final amount. */
+html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-body>.keys-checkout-price-bar{margin-top:20px;padding-top:0;border-top:0}

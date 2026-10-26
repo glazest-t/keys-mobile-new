@@ -13,44 +13,22 @@
   scroll.append(legacy);scroll.classList.add('kb-scroll');
   head.querySelector('small')?.remove();
   head.querySelector('[data-open="Поделиться бронью"]')?.remove();
-  const view=document.createElement('div');view.className='kb-details';
-  view.innerHTML=`
-   <section class="kb-section" aria-label="Условия брони">
-    <div class="kb-card kb-reservation">
-     <div class="kb-guest"><span class="kb-guest-icon">${svg(icons.user)}</span><div><small>Основной гость · 1 взрослый</small><strong>Татьяна Глазырина</strong></div></div>
-     <div class="kb-room"><span class="kb-icon">${svg(icons.bed)}</span><div><strong>Премиум Кинг</strong><small>Номер с видом во двор</small></div></div>
-     <dl class="kb-facts"><div><dt>Тариф</dt><dd>Деловой</dd></div><div><dt>Стоимость проживания</dt><dd>56 000 ₽</dd></div></dl>
-     <div class="kb-paid">${svg(icons.check)}<span>Проживание оплачено</span></div>
-     <div class="kb-included"><span class="kb-icon">${svg(icons.fitness)}</span><div><small class="kb-included-label">Включено в тариф</small><strong>Фитнес-студия</strong><small>2 этаж · ежедневно 07:00–23:00</small></div></div>
-    </div>
-   </section>
-   <section class="kb-section kb-documents-section" aria-label="Документы брони">
-    <button type="button" class="kb-row kb-documents-entry" data-booking-documents><span class="kb-icon">${svg(icons.file)}</span><span class="kb-copy"><strong>Документы</strong><small>Проживание и чеки</small></span><span class="kb-arrow">${arrow}</span></button>
-   </section>
-   <section class="kb-section" aria-label="Отель на связи">
-    <div class="kb-contacts">
-     ${row('phone','Ресепшен','Круглосуточно','data-open="Ресепшен"')}
-     ${row('pin','Адрес и вход','Москва, Зубовская площадь, 3, стр. 1','data-open="Инструкция по заселению"')}
-    </div>
-   </section>`;
-  const completed=document.createElement('div');completed.className='kb-details kb-completed-details';completed.hidden=true;
-  completed.innerHTML=`
-   <section class="kb-card kb-reservation" aria-label="Информация о проживании">
-    <div class="kb-guest"><span class="kb-guest-icon">${svg(icons.user)}</span><div><small>Основной гость · 1 взрослый</small><strong>Татьяна Глазырина</strong></div></div>
-    <div class="kb-room"><span class="kb-icon">${svg(icons.bed)}</span><div><strong>Премиум Кинг</strong><small>Номер 412 · 4 этаж · вид во двор</small></div></div>
-    <dl class="kb-facts"><div><dt>Даты проживания</dt><dd>12–19 сентября 2026</dd></div><div><dt>Ночей</dt><dd>7</dd></div><div><dt>Тариф</dt><dd>Деловой</dd></div></dl>
-   </section>
-   <section class="kb-card kb-completed-bill" aria-labelledby="kb-completed-cost-title"><h2 id="kb-completed-cost-title">Расходы поездки</h2><dl class="kb-facts"><div><dt>Проживание</dt><dd>56 000 ₽</dd></div><div><dt>Услуги отеля</dt><dd>480 ₽</dd></div><div class="kb-completed-total"><dt>Всего</dt><dd>56 480 ₽</dd></div></dl></section>
-   <section class="kh-quick-actions kb-completed-links" aria-label="Документы и связь с отелем"><button type="button" data-completed-documents><span>${svg(icons.file)}</span><strong>Документы поездки</strong></button><button type="button" data-completed-contact><span>${svg(icons.chat)}</span><strong>Связаться с отелем</strong></button></section>`;
-  const documentEntry=completed.querySelector('[data-completed-documents]');
-  documentEntry.addEventListener('click',()=>window.KeysTripDocuments.open(documentEntry));
-  completed.querySelector('[data-completed-contact]').addEventListener('click',()=>document.getElementById('keysUnifiedPrototype').dispatchEvent(new CustomEvent('keys-open-hotel-chat')));
-  scroll.append(view,completed);
-  document.getElementById('keysUnifiedPrototype').addEventListener('keys-scenario-change',event=>{
-   const after=event.detail.scenario==='after';view.hidden=after;completed.hidden=!after;
-   head.querySelector('h1').textContent=after?'Детали проживания':'Детали брони';
-   root.querySelectorAll('.ksd-detail-layer,.ksd-sheet-layer').forEach(layer=>layer.hidden=true);
-  });
+  const view=document.createElement('div');view.className='kb-unified-details';
+  view.innerHTML='<div data-booking-summary></div><section class="kb-section kb-documents-section" aria-label="Документы брони"><button type="button" class="kb-row kb-documents-entry" data-booking-documents><span class="kb-icon">'+svg(icons.file)+'</span><span class="kb-copy"><strong>Документы</strong><small>Проживание и чеки</small></span><span class="kb-arrow">'+arrow+'</span></button></section><section class="kb-section" aria-label="Отель на связи"><div class="kb-contacts">'+row('phone','Ресепшен','Круглосуточно','data-open="Ресепшен"')+row('pin','Адрес и вход','Москва, Зубовская площадь, 3, стр. 1','data-open="Инструкция по заселению"')+'</div></section>';
+  scroll.append(view);
+  window.KeysHostBookingModel=()=>{
+   const scenario=document.body.dataset.keysScenario,after=scenario==='after',stay=scenario==='stay';
+   const b=window.KeysBeforeBooking?.()||{id:'MD-120926',arrival:'2026-09-12',departure:'2026-09-19',nights:7,total:56000,paid:56000,guest:'Татьяна Глазырина',room:'Премиум Кинг',adults:1};
+   const services=after?[{title:'Сырники со сметаной',price:480}]:window.KeysActiveServices?.getOrders()||[];
+   if(!after&&!b.cancellation&&window.KeysHomeViews?.isBreakfastAdded())services.push({title:'Завтрак · '+b.nights+' ночей',price:680*b.nights});
+   return {...b,hotel:'Maidens Hotel',address:'Москва, Зубовская площадь, 3, стр. 1',status:b.cancellation?'Бронь отменена':after?'Поездка завершена':stay?'Проживание':'Бронь подтверждена',roomNumber:stay||after?'412':null,party:b.adults+' взр.',tariff:'Деловой',included:['Wi-Fi и фитнес-студия включены',window.KeysHomeViews?.isBreakfastAdded()?'Завтрак добавлен за доплату':null],roomTotal:b.total,paid:after?b.total+480:b.paid,services,refundPending:(b.refunds||[]).filter(item=>item.status==='processing').reduce((sum,item)=>sum+item.amount,0)};
+  };
+  const refresh=()=>{view.querySelector('[data-booking-summary]').innerHTML=window.KeysBookingDetails.render(window.KeysHostBookingModel());head.querySelector('h1').textContent='Детали брони';};
+  const app=document.getElementById('keysUnifiedPrototype');
+  app.addEventListener('keys-scenario-change',()=>{queueMicrotask(refresh);root.querySelectorAll('.ksd-detail-layer,.ksd-sheet-layer').forEach(layer=>layer.hidden=true);});
+  new MutationObserver(()=>{if(!root.hidden)refresh();}).observe(root.closest('.ku-section'),{attributes:true,attributeFilter:['hidden']});
+  app.addEventListener('keys-breakfast-change',refresh);app.addEventListener('keys-service-requests-change',refresh);
+  refresh();
   return true;
  }
  // Discard obsolete inline type overrides applied before the UI-kit CSS loads.
@@ -77,9 +55,12 @@
  phone.append(overlay);let current=null,origin=entry,background=[];
  const svg=body=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
  const file=svg('<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>'),arrow=svg('<path d="m9 5 7 7-7 7"/>');
- const documents=[{id:'stay',title:'Подтверждение проживания',copy:'12–19 сентября · 7 ночей',rows:[['Гость','Татьяна Глазырина'],['Отель','Maidens Hotel'],['Даты','12–19 сентября 2026'],['Номер','412 · Премиум Кинг'],['Стоимость','56 000 ₽']]},{id:'room',title:'Чек за проживание',copy:'56 000 ₽ · оплачено',rows:[['Получатель','Татьяна Глазырина'],['Услуга','Проживание, 7 ночей'],['Сумма','56 000 ₽'],['Оплата','Оплачено']]},{id:'services',title:'Чек за услуги',copy:'480 ₽ · ресторан LEA',rows:[['Получатель','Татьяна Глазырина'],['Услуга','Сырники со сметаной'],['Сумма','480 ₽'],['Оплата','Из депозита']]}];
+ const getDocuments=()=>{
+  const b=window.KeysHostBookingModel(),money=n=>n.toLocaleString('ru-RU')+' ₽',a=window.KeysBookingDetails.account(b),after=document.body.dataset.keysScenario==='after';
+  return [{id:'stay',title:'Подтверждение проживания',copy:b.arrival+' — '+b.departure,rows:[['Гость',b.guest],['Отель',b.hotel],['Даты',b.arrival+' — '+b.departure],['Номер',b.room],['Стоимость проживания',money(b.roomTotal)]]},{id:'room',title:'Чек за проживание',copy:money(Math.min(b.paid,b.roomTotal))+' · оплачено',rows:[['Получатель',b.guest],['Услуга','Проживание'],['Сумма',money(Math.min(b.paid,b.roomTotal))],['Оплата','Оплачено']]},...(a.servicesTotal?[{id:'services',title:after?'Чек за услуги':'Счёт за услуги',copy:money(a.servicesTotal),rows:[['Получатель',b.guest],...a.services.filter(item=>item.price>0).map(item=>[item.title,money(item.price)]),['Сумма',money(a.servicesTotal)],['Оплата',after?'Оплачено':'К оплате в отеле']]}]:[])];
+ };
  function show(id=null){
-  current=id;const doc=documents.find(item=>item.id===id);
+  current=id;const documents=getDocuments(),doc=documents.find(item=>item.id===id);
   overlay.querySelector('h2').textContent=doc?.title??'Документы';
   overlay.querySelector('.kh-detail-content').innerHTML=doc?`<section class="kh-detail-card">${doc.rows.map(([label,value])=>`<div class="kh-fact"><span>${label}</span><strong>${value}</strong></div>`).join('')}</section><button type="button" class="kh-primary" data-documents-list>Все документы</button>`:`<p class="kh-intro">Всё для отчёта о поездке — в одном месте.</p><div class="kb-document-list">${documents.map(item=>`<button type="button" class="kb-document-row" data-document="${item.id}"><span class="kb-icon">${file}</span><span class="kb-copy"><strong>${item.title}</strong><small>${item.copy}</small></span><span class="kb-arrow">${arrow}</span></button>`).join('')}</div>`;
   overlay.hidden=false;overlay.scrollTop=0;overlay.querySelector('.kh-back').focus({preventScroll:true});

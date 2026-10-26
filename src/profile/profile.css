@@ -3,7 +3,12 @@
 #keysUnifiedPrototype .kf-phone.kpf-open>.keys-profile-header{display:none!important}
 #keysUnifiedPrototype .kpf[hidden],#keysUnifiedPrototype .kpf [hidden],#keysUnifiedPrototype .kpf-toast[hidden]{display:none!important}
 #keysUnifiedPrototype .kpf{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;min-width:0;background:var(--color-card);color:var(--color-ink);font:400 14px/1.5 var(--font-sans);text-align:left;overflow:hidden}
-body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kpf{bottom:var(--keys-bottom-clearance)}
+/* Profile pages also scroll underneath the floating navigation. */
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kpf{bottom:0}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kpf .kpf-content{padding-bottom:calc(var(--keys-bottom-clearance) + 28px);scroll-padding-bottom:var(--keys-bottom-clearance)}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kpf:has(>.kpf-footer) .kpf-content{padding-bottom:calc(var(--keys-bottom-clearance) + 112px)}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kpf>.kpf-footer{position:absolute;bottom:var(--keys-bottom-clearance);left:0;right:0}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone.kpf-open>.keys-bottom-nav{z-index:40!important}
 #keysUnifiedPrototype .kpf *{box-sizing:border-box}
 #keysUnifiedPrototype .kpf :where(button,input,select,textarea){font:inherit;color:inherit}
 #keysUnifiedPrototype .kpf button{cursor:pointer;-webkit-tap-highlight-color:transparent}

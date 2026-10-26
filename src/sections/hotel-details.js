@@ -57,14 +57,14 @@ function jY({hotel,draft,reservationPrice=false}) {
  const watch=Vm(state.discovery.watches,hotel.id,state.search);
  return n.jsxs('section',{'aria-label':'Стоимость проживания',className:'keys-hotel-pricing',children:[
   n.jsxs('div',{className:'keys-hotel-pricing-row',children:[
-   n.jsxs('button',{type:'button',className:'keys-hotel-pricing-amount',onClick:()=>setDiscountOpen(true),'aria-label':(price.registrationDiscount?'Цена после регистрации':'Персонализированная цена')+' — посмотреть расчёт скидки','aria-haspopup':'dialog',children:[
-    n.jsx('span',{className:'keys-hotel-price-label',children:price.registrationDiscount?'Цена после регистрации':price.goldDiscount?'Ваша цена Gold':'Персонализированная цена'}),
+   n.jsxs('button',{type:'button',className:'keys-hotel-pricing-amount',onClick:()=>setDiscountOpen(true),'aria-label':(price.registrationDiscount?'Цена после регистрации':'Цена для вас')+' — посмотреть расчёт скидки','aria-haspopup':'dialog',children:[
+    n.jsx('span',{className:'keys-hotel-price-label',children:price.registrationDiscount?'Цена после регистрации':price.goldDiscount?'Ваша цена Gold':'Цена для вас'}),
     n.jsxs('span',{className:'keys-hotel-price-values',children:[n.jsx('strong',{children:Te(price.total)}),price.ownPrice&&n.jsxs('span',{className:'keys-hotel-pricing-base',children:[n.jsx('s',{children:Te(price.usualTotal)}),n.jsx('span',{className:'keys-hotel-pricing-discount',children:'−'+eT(price.total,price.usualTotal)+'%'})]})]}),
     n.jsxs('span',{className:'keys-hotel-price-action',children:n.jsx(D,{name:'chevron',className:'size-4'})})
    ]}),
    n.jsxs('button',{type:'button',className:'keys-hotel-watch','aria-label':watch?.enabled?'Цена отслеживается':'Следить за ценой',title:watch?.enabled?'Цена отслеживается':'Следить за ценой','aria-pressed':!!watch?.enabled,onClick:()=>open({type:'price-watch',hotelId:hotel.id,watchId:watch?.id}),children:[n.jsx(D,{name:'price',className:'size-5'}),n.jsx('span',{className:'keys-hotel-watch-label',children:watch?.enabled?'Цена отслеживается':'Следить за ценой'}),watch?.enabled&&n.jsx('span',{className:'keys-hotel-watch-check','aria-hidden':true,children:n.jsx(D,{name:'check',className:'size-3'})})]})
   ]}),
-  discountOpen&&n.jsx(KeysHotelDiscount,{price,onClose:()=>setDiscountOpen(false)})
+  discountOpen&&n.jsx(KeysHotelDiscount,{price:{...price,hotelId:hotel.id,possibleHotelLoyalty:!reservationPrice&&!!state.keysHotelLoyaltyMissing&&!state.keysConnectedHotelCards?.[hotel.id]},onClose:()=>setDiscountOpen(false)})
  ]});
 }
 function KeysHotelGallery({hotel}) {

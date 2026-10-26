@@ -1,6 +1,7 @@
-import {cu as KeysSuccessHeader, ar as keysStayDefaults, keysServiceName,KeysBookingConfirmation,KeysCancelledBooking,keysRequestBookingCancellation} from "./index-C4VobzN0.js";
+import {cu as KeysSuccessHeader, ar as keysStayDefaults, keysServiceName,KeysBookingConfirmation,KeysCancelledBooking,keysRequestBookingCancellation,KeysUnifiedBookingDetails} from "./index-C4VobzN0.js";
 function S({draft:t,booking:s,details=false,onBack}){
  const {dispatch:c,state}=h(),{share:o}=w(t,s),hotel=x(t.hotelId);
+ if(details)return e.jsx(KeysUnifiedBookingDetails,{draft:t,booking:s,onBack,onShare:o});
  if(s.keysCancellation)return e.jsx(KeysCancelledBooking,{draft:t,booking:s,details,onBack});
  const payAtHotel=s.payment?.method==='arrival';
  const checkIn=s.checkInTime??hotel.checkInTime??(hotel.id==='more'?keysStayDefaults.checkInTime:hotel.id==='maidens'?'14:00':s.arrivalTime||'15:00'),checkOut=s.checkOutTime??hotel.checkOutTime??(hotel.id==='more'?keysStayDefaults.checkOutTime:'12:00');

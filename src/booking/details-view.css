@@ -1,0 +1,29 @@
+/* Identical information hierarchy inside host pages and the reservation frame. */
+.kbd-view{display:grid;gap:16px;width:100%;min-width:0;font-family:var(--font-sans,'Golos Text',sans-serif);color:var(--color-ink,#171a22)}
+.kbd-view .kbd-card{min-width:0;padding:20px;border:1px solid var(--color-line,#e4e7ec);border-radius:20px;background:var(--color-card,#fff)}
+.kbd-view .kbd-card h2{margin:0 0 16px!important;font:var(--ui-font-section,500 17px/24px var(--font-sans,'Golos Text',sans-serif))!important;letter-spacing:0!important;color:var(--color-ink,#171a22)}
+.kbd-view .kbd-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;font:400 12px/18px var(--font-sans,'Golos Text',sans-serif);color:var(--color-muted,#737986)}
+.kbd-view .kbd-heading span{color:var(--color-brand,#4266e8)}
+.kbd-view dl{display:grid;gap:12px;margin:0}
+.kbd-view dl>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.kbd-view :is(dt,dd){margin:0!important;font:400 14px/21px var(--font-sans,'Golos Text',sans-serif)!important;overflow-wrap:anywhere}
+.kbd-view dt{color:var(--color-muted,#737986)}
+.kbd-view dd{text-align:right;color:var(--color-ink,#171a22)}
+.kbd-view .kbd-total{padding-top:16px;margin-top:4px;border-top:1px solid var(--color-line,#e4e7ec)}
+.kbd-view .kbd-total :is(dt,dd){font-weight:500!important;color:var(--color-ink,#171a22)}
+.kbd-view .kbd-note{margin:8px 0 0!important;font:400 13px/20px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#737986)}
+.kbd-view .kbd-dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
+.kbd-view .kbd-dates>div{display:grid;gap:4px;padding-right:12px}
+.kbd-view .kbd-dates>div+div{border-left:1px solid var(--color-line,#e4e7ec);padding-left:16px;padding-right:0}
+.kbd-view .kbd-dates :is(span,small){font:400 12px/18px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#737986)}
+.kbd-view .kbd-dates strong{font:500 14px/21px var(--font-sans,'Golos Text',sans-serif)!important}
+.keys-unified-details{width:100%;max-width:760px;margin:0 auto;padding-bottom:24px}
+.keys-unified-details .keys-success-actions{margin-top:16px}
+#keysUnifiedPrototype .kb-documents-section{display:block}
+
+.kb-unified-details{display:grid;gap:16px}
+
+.kbd-view .kbd-paid-label{display:inline-flex;align-items:center;width:fit-content;margin-top:12px;padding:4px 8px;border-radius:8px;background:var(--color-success-bg,#eaf6ef);color:var(--color-success,#23834a);font:var(--ui-font-caption-medium,500 12px/18px var(--font-sans));white-space:nowrap}
+
+/* Compact section headings; hotel identity and page title keep their hierarchy. */
+.kbd-view .kbd-card:is([aria-label="Номер и гости"],[aria-label="Тариф"],[aria-label="Общий счёт"]) h2{font:var(--ui-font-label,500 14px/21px var(--font-sans))!important}

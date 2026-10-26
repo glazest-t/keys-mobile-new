@@ -66,6 +66,7 @@ function KeysBridge() {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
       const {tab,hotelId,screen,stayDay,discovery,bookingId} = event.data;
+      if(Object.hasOwn(event.data,'swipeFirstRun'))dispatch({type:'KEYS_SWIPE_SCENARIO',firstRun:event.data.swipeFirstRun});
       if(typeof event.data.guestMode==='boolean'){
         const entering=event.data.guestMode&&!globalThis.keysGuestMode;
         globalThis.keysGuestMode=event.data.guestMode;
@@ -147,6 +148,7 @@ function keysShowBottomNav(state){
   if(state.keysShareSession)return false;
   const {screen,history=[]}=state.navigation;
   if(!screen)return true;
+  if(['swipe','shared-swipe'].includes(screen.type))return false;
   const bookingScreen=page=>page&&(['hotel','hotel-reviews','hotel-loyalty-connect','shopping-checkout','reservation-payment','reservation-success'].includes(page.type)||page.type==='hotel-map'&&page.selectedOnly);
   return !bookingScreen(screen)&&!history.some(bookingScreen);
 }
@@ -168,7 +170,7 @@ function PH({children}) {
       !screen&&!results&&n.jsx(CH,{}),
       n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='hotel-map'&&screen.collectionId?n.jsx(KeysFavoriteMap,{collectionId:screen.collectionId},screen.collectionId):screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
-    keysShowBottomNav(state)&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{})
+    keysShowBottomNav(state)&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{}),n.jsx(KeysSwipePreferencesStorage,{})
   ]});
 }
 function keysInitialState() {
@@ -186,6 +188,7 @@ function keysInitialState() {
   state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Здесь можно задать вопрос об отеле или связаться с сотрудником.',bookingId:state.booking.id}]};
   state.chat.sequence=6;
   keysRestoreFavorites(state);
+  keysRestoreSwipePreferences(state);
   if(typeof location==='undefined')return state;
   globalThis.keysGuestMode=new URLSearchParams(location.search).get('guestSearch')==='true';
   globalThis.keysGuestAuthorized=false;

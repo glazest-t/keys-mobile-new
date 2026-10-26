@@ -6,11 +6,11 @@
  const arrow=svg('<path d="m9 5 7 7-7 7"/>');
  const screen=document.createElement('section');screen.className='kse-home';screen.hidden=true;screen.setAttribute('aria-label','Поездки без бронирования');
  screen.innerHTML=`
-  <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span><h1>Куда отправимся?</h1></header>
-  <article class="kse-inspiration kse-advice-home" aria-label="Подбор отеля по предпочтениям">
-   <div class="kse-advice-art">${[['sleep','Выспаться'],['pool','К бассейну'],['hammam','В спа']].map(([id,label])=>`<button type="button" data-advice-card="${id}" aria-label="Хочу: ${label}"><img src="./sections/ideas-art/covers/${id}.webp" alt=""><span>${label}</span></button>`).join('')}</div>
-   <div class="kse-advice-copy"><p>Выберите впечатления — найдём подходящий отель.</p></div>
-   <div class="kse-advice-actions"><button type="button" data-advice-mode="feed">Начать</button><button type="button" data-advice-mode="topics">По темам</button></div>
+  <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span><h1>Поездки</h1></header>
+  <article class="kse-empty-bookings" aria-labelledby="keys-empty-bookings-title">
+   <span class="kse-empty-icon">${svg('<rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3M9 11v6m6-6v6"/>')}</span>
+   <div class="kse-empty-copy"><h2 id="keys-empty-bookings-title">Броней пока нет</h2><p>Они появятся здесь, когда вы забронируете отель.</p></div>
+   <button type="button" class="kh-primary" data-empty-action="find">Найти отель</button>
   </article>
   ${window.KeysReferralCard.render()}
   <button type="button" class="kse-benefits" data-empty-action="benefits">
@@ -22,15 +22,6 @@
    <span class="kse-card-action"><span>Все преимущества</span>${arrow}</span>
   </button>`;
  scroll.append(screen);
- const continueAdvice=screen.querySelector('[data-advice-mode="feed"]');
- const refreshAdvice=()=>{
-  const draft=window.KeysIdeasSession.questionnaire();
-  continueAdvice.textContent=draft?'Продолжить':'Начать';
-  continueAdvice.dataset.adviceResume=String(!!draft);
- };
- refreshAdvice();
- app.addEventListener('keys-ideas-draft-change',refreshAdvice);
- window.addEventListener('storage',event=>{if([KeysIdeasSession.currentKey,KeysIdeasSession.draftKey].includes(event.key))refreshAdvice();});
  // All referral cards open the same flow, including the completed trip.
  const referralView=document.createElement('section');referralView.className='kh-overlay kse-referral-view';referralView.hidden=true;
  referralView.setAttribute('role','dialog');referralView.setAttribute('aria-modal','true');referralView.setAttribute('aria-labelledby','keys-referral-title');
@@ -65,10 +56,8 @@
  });
 
  screen.addEventListener('click',event=>{
-  const advice=event.target.closest('[data-advice-mode],[data-advice-card]');
-  if(advice){app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'advice',start:true,resume:advice.dataset.adviceResume==='true',ideaMode:advice.dataset.adviceMode||'feed',ideaLike:advice.dataset.adviceCard}}));return;}
   const button=event.target.closest('[data-empty-action]');if(!button)return;
-  if(button.dataset.emptyAction==='find')app.dispatchEvent(new CustomEvent('keys-open-hotel-search'));
+  if(button.dataset.emptyAction==='find')app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'known'}}));
   if(button.dataset.emptyAction==='benefits')home.querySelector('nav [data-bottom-tab="bonuses"],nav [data-nav="benefits"]')?.click();
  });
  referralView.addEventListener('click',async event=>{
@@ -87,7 +76,6 @@
  });
  let active=false;
  app.addEventListener('keys-scenario-change',event=>{
-  refreshAdvice();
   if(!referralView.hidden)closeReferral();
   const visible=event.detail.scenario==='search';screen.hidden=!visible;
   if(visible!==active){

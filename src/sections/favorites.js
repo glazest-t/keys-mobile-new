@@ -18,9 +18,18 @@ function keysRestoreFavorites(state){
  }catch{}
  return state;
 }
+function keysFavoriteSwipeScreen(state){
+ const screen=state.navigation?.screen;
+ return screen?.type==='swipe'||screen?.type==='hotel'&&state.navigation.history.some(item=>item?.type==='swipe');
+}
+function keysFavoriteFromSwipe(state,action){
+ return action.type==='SWIPE'?!!action.liked:action.type==='FAVORITE_TOGGLE'&&keysFavoriteSwipeScreen(state);
+}
 function keysFavoritesReduce(state,action,next){
- const groups=keysFavoriteGroups(state);
+ let groups=keysFavoriteGroups(state);
+ if(action.type==='SWIPE'||action.type==='SWIPE_UNDO'||keysFavoriteFromSwipe(state,action))next={...next,keysFavoriteNotice:null,ui:{...next.ui,toast:''}};
  if(action.type==='TOAST'){
+  if(keysFavoriteSwipeScreen(state)&&['Отель сохранён','Отель убран из сохранённых'].includes(action.message))return {...next,keysFavoriteNotice:null,ui:{...next.ui,toast:''}};
   // The remote favorite adapter acknowledges the same save after updating IDs.
   if(action.message==='Отель сохранён'&&(state.keysFavoritePending?.length||state.keysFavoriteEditing?.length||state.keysFavoriteNotice))return state;
   return action.message?{...next,keysFavoriteNotice:null}:next;
@@ -37,7 +46,7 @@ function keysFavoritesReduce(state,action,next){
   if(text)notes[action.hotelId]=text;else delete notes[action.hotelId];
   return {...state,keysFavoriteNotes:notes,keysFavoriteNotice:null,ui:{...state.ui,toast:text?'Заметка сохранена':'Заметка удалена'}};
  }
- if(action.type==='KEYS_FAVORITE_INTENT')return {...state,keysFavoriteIntents:[...new Set([...(state.keysFavoriteIntents||[]),action.id])]};
+ if(action.type==='KEYS_FAVORITE_INTENT')return {...state,keysFavoriteIntents:[...new Set([...(state.keysFavoriteIntents||[]),action.id])],keysFavoriteSwipeIntents:[...new Set([...(state.keysFavoriteSwipeIntents||[]),...(action.fromSwipe?[action.id]:[])])]};
  if(action.type==='KEYS_FAVORITE_LIST'){
   const id=action.id||'list-'+action.now;
   const exists=groups.find(g=>g.id===id);
@@ -54,14 +63,30 @@ function keysFavoritesReduce(state,action,next){
   return {...state,keysFavoriteGroups:groups.map(g=>({...g,hotelIds:g.id===action.listId?[...new Set([...g.hotelIds,action.hotelId])]:g.hotelIds.filter(id=>id!==action.hotelId)})),keysFavoriteNotice:null,ui:{...state.ui,toast:'Отель перемещён'}};
  }
  const before=state.discovery.savedIds,after=next.discovery.savedIds;
+ const fromSwipe=keysFavoriteFromSwipe(state,action)&&(action.type==='SWIPE'||!before.includes(action.id));
+ let swipeIntents=state.keysFavoriteSwipeIntents||[];
+ if(fromSwipe)swipeIntents=[...new Set([...swipeIntents,action.id])];
+ // Keep the source until the remote adapter confirms the save, even if the
+ // guest has already left the deck. Hydration alone never creates a list.
+ const automatic=action.type==='FAVORITES_REPLACE'?after.filter(id=>swipeIntents.includes(id)):
+  fromSwipe&&after.includes(action.id)&&(action.type!=='SWIPE'||next.discovery.swipes!==state.discovery.swipes)?[action.id]:[];
+ if(automatic.length){
+  const existing=groups.find(group=>group.name==='Отели свайпом');
+  const group={...(existing||{id:'swipe-hotels',name:'Отели свайпом'}),hotelIds:[...new Set([...(existing?.hotelIds||[]),...automatic])]};
+  groups=existing?groups.map(item=>item.id===group.id?group:item):[...groups,group];
+  const pending=(next.keysFavoritePending||[]).filter(id=>!automatic.includes(id));
+  next={...next,keysFavoriteGroups:groups,keysFavoritePending:pending.length?pending:null,keysFavoriteNotice:null,ui:{...next.ui,toast:''}};
+ }
+ swipeIntents=swipeIntents.filter(id=>!automatic.includes(id));
+ if(fromSwipe||automatic.length)next={...next,keysFavoriteSwipeIntents:swipeIntents,keysFavoriteIntents:(next.keysFavoriteIntents||[]).filter(id=>!automatic.includes(id))};
  if(before===after)return next;
- const added=after.filter(id=>!before.includes(id));
+ const added=after.filter(id=>!before.includes(id)&&!automatic.includes(id));
  const explicit=action.type==='FAVORITE_TOGGLE'||action.type==='SWIPE'&&action.liked||action.type==='FAVORITES_REPLACE'&&added.some(id=>(state.keysFavoriteIntents||[]).includes(id));
  // Identity and catalogue hydration can briefly clear IDs. Prune membership
  // only for an explicit removal; visible counts always use current savedIds.
  const removing=['FAVORITE_TOGGLE','SWIPE_UNDO','DECK_SAVED_PATCH'].includes(action.type);
  let updated=groups.map(g=>({...g,hotelIds:g.hotelIds.filter(id=>!removing||after.includes(id))}));
- let pending=(state.keysFavoritePending||[]).filter(id=>after.includes(id));
+ let pending=(next.keysFavoritePending||[]).filter(id=>after.includes(id));
  if(added.length&&explicit){
   updated=updated.map(g=>({...g,hotelIds:g.hotelIds.filter(id=>!added.includes(id))}));
   const active=updated.find(g=>g.id===state.keysFavoriteSession?.active);
@@ -76,9 +101,9 @@ function keysFavoritesReduce(state,action,next){
   next={...next,keysFavoriteNotice:state.keysFavoriteSession?.asked?{hotelIds:added,listId:destination.id,token:action.now}:null,ui:{...next.ui,toast:''}};
  }
  if(removing&&next.keysFavoriteNotice?.hotelIds.some(id=>!after.includes(id)))next={...next,keysFavoriteNotice:null};
- return {...next,keysFavoriteGroups:updated,keysFavoritePending:pending.length?pending:null,keysFavoriteIntents:(state.keysFavoriteIntents||[]).filter(id=>!added.includes(id))};
+ return {...next,keysFavoriteGroups:updated,keysFavoritePending:pending.length?pending:null,keysFavoriteIntents:(next.keysFavoriteIntents||[]).filter(id=>!added.includes(id))};
 }
-function Pt(state,action){return keysFavoritesReduce(state,action,action.type.startsWith('KEYS_FAVORITE_')?state:keysFavoritesBaseReducer(state,action));}
+function Pt(state,action){if(action.type.startsWith('KEYS_SWIPE_'))return keysSwipePreferencesReduce(state,action);return keysFavoritesReduce(state,action,action.type.startsWith('KEYS_FAVORITE_')?state:keysFavoritesBaseReducer(state,action));}
 function KeysFavoriteListForm({onClose}){
  const {state,dispatch}=J(),groups=keysFavoriteGroups(state),[name,setName]=E.useState('');
  const pending=!!state.keysFavoritePending?.length;
@@ -110,7 +135,7 @@ function KeysFavoriteSavedNotice({notice}){
  if(!group)return null;
  return n.jsxs('div',{className:'keys-favorite-saved-notice',onMouseEnter:()=>setHovered(true),onMouseLeave:()=>setHovered(false),onFocusCapture:()=>setFocused(true),onBlurCapture:event=>{if(!event.currentTarget.contains(event.relatedTarget))setFocused(false);},children:[
   n.jsx('p',{role:'status','aria-live':'polite',children:(notice.hotelIds.length>1?'Отели сохранены в «':'Отель сохранён в «')+group.name+'»'}),
-  n.jsx('button',{type:'button',className:'keys-favorite-change','aria-label':'Изменить подборку',onClick:()=>dispatch({type:'KEYS_FAVORITE_CHANGE',hotelIds:notice.hotelIds}),children:'Изменить'})
+  !notice.automatic&&n.jsx('button',{type:'button',className:'keys-favorite-change','aria-label':'Изменить подборку',onClick:()=>dispatch({type:'KEYS_FAVORITE_CHANGE',hotelIds:notice.hotelIds}),children:'Изменить'})
  ]});
 }
 function KeysFavoriteStorage(){
@@ -159,6 +184,25 @@ function KeysFavoritesLayout({collectionId,controls,children}){
   desktop&&n.jsx(KeysFavoriteMap,{collectionId,inline:true,onSelectionChange:setSelected})
  ]})});
 }
+function KeysFavoriteNote({hotelId,hotelName}){
+ const {state,dispatch}=J(),note=state.keysFavoriteNotes?.[hotelId]||'';
+ const [open,setOpen]=E.useState(false),[draft,setDraft]=E.useState('');
+ const save=text=>{dispatch({type:'KEYS_FAVORITE_NOTE',hotelId,text});setOpen(false);};
+ return n.jsxs(n.Fragment,{children:[
+  n.jsxs('button',{type:'button',className:'keys-favorite-note'+(note?' has-note':''),'aria-label':(note?'Изменить заметку к отелю ':'Добавить заметку к отелю ')+hotelName,onClick:()=>{setDraft(note);setOpen(true);},children:[
+   n.jsx(D,{name:'doc',className:'keys-favorite-note-icon'}),
+   n.jsxs('span',{className:'keys-favorite-note-copy',children:[n.jsx('strong',{children:note?'Заметка':'Добавить заметку'}),note&&n.jsx('span',{className:'keys-favorite-note-preview',children:note})]}),
+   n.jsx(D,{name:note?'chevron':'plus',className:'keys-favorite-note-action'})
+  ]}),
+  open&&n.jsx(ct,{title:note?'Заметка к отелю':'Добавить заметку',onClose:()=>setOpen(false),children:n.jsxs('form',{className:'keys-favorite-note-form',onSubmit:event=>{event.preventDefault();save(draft);},children:[
+   n.jsx('p',{className:'keys-favorite-note-hotel',children:hotelName}),
+   n.jsxs('label',{children:[n.jsx('span',{children:'Ваша заметка'}),n.jsx('textarea',{value:draft,maxLength:1000,rows:5,placeholder:'Что хотите запомнить об этом отеле?',onChange:event=>setDraft(event.target.value)})]}),
+   n.jsx('span',{className:'keys-favorite-note-count',children:draft.length+' / 1000'}),
+   n.jsx(H,{type:'submit',disabled:!note&&!draft.trim(),children:'Сохранить'}),
+   note&&n.jsx(H,{variant:'text',icon:'trash',className:'keys-favorite-note-delete',onClick:()=>save(''),children:'Удалить заметку'})
+  ]})})
+ ]});
+}
 function KeysFavorites(){
  const {state,dispatch}=J(),resource=Dn('favorites'),ids=state.discovery.savedIds;
  const desktop=useKeysDesktopList();
@@ -176,7 +220,7 @@ function KeysFavorites(){
  const hotels=visible.map(id=>({id,summary:resource.value?.items.find(item=>item.hotelId===id)?.hotel??source.getSummary?.(id)}));
  const createButton=n.jsx(H,{variant:'secondary',icon:'plus',className:'keys-favorite-create-list',onClick:()=>setCreate(true),children:'Создать подборку'});
  return n.jsxs('section',{className:'keys-favorites-page','aria-label':'Избранные отели',children:[
-  n.jsx(Ae,{title:active?active.name:'Избранное',showBack:!!active,action:active?n.jsx('button',{type:'button',className:'keys-favorite-map-button','aria-label':'Показать отели подборки на карте',onClick:()=>dispatch({type:'OPEN',screen:{type:'hotel-map',collectionId:active.id}}),children:n.jsx(D,{name:'map',className:'size-5'})}):desktop?createButton:null}),
+  n.jsx(Ae,{title:active?active.name:'Избранное',showBack:!!active||!desktop,action:active?n.jsx('button',{type:'button',className:'keys-favorite-map-button','aria-label':'Показать отели подборки на карте',onClick:()=>dispatch({type:'OPEN',screen:{type:'hotel-map',collectionId:active.id}}),children:n.jsx(D,{name:'map',className:'size-5'})}):desktop?createButton:null}),
   !active&&n.jsxs(n.Fragment,{children:[
    n.jsx('div',{className:'keys-favorite-collections',children:collections.map(group=>{
     const saved=group.hotelIds.filter(id=>ids.includes(id)),photos=saved.map(cover).filter(Boolean).slice(0,3);
@@ -193,7 +237,7 @@ function KeysFavorites(){
    n.jsxs('button',{type:'button',onClick:()=>setEditing('guests'),'aria-label':'Изменить количество гостей',children:[n.jsx(D,{name:'users'}),n.jsxs('span',{children:[n.jsx('small',{children:'Гости'}),n.jsx('strong',{children:Bm(state.search.party)})]}),n.jsx(D,{name:'down'})]})
   ]})}),children:[
   resource.error&&n.jsxs('div',{role:'alert',children:[n.jsx('p',{children:'Не удалось обновить сохранённые отели.'}),n.jsx(H,{variant:'secondary',onClick:()=>resource.reload(),children:'Повторить'})]}),
-  n.jsx('div',{className:'keys-favorites-list',children:hotels.map(hotel=>n.jsxs('div',{className:'keys-favorite-item',children:[n.jsx(jx,{hotelId:hotel.id,summary:hotel.summary??undefined}),n.jsxs('button',{type:'button',className:'keys-favorite-membership',title:groups.find(g=>g.hotelIds.includes(hotel.id))?.name||'Без подборки',onClick:()=>setMove(hotel.id),'aria-label':'Изменить подборку для '+(hotel.summary?.name||_n.find(h=>h.id===hotel.id)?.name||'отеля'),children:[n.jsx('span',{children:groups.find(g=>g.hotelIds.includes(hotel.id))?.name||'Без подборки'}),n.jsx(D,{name:'down'})]})]},hotel.id))}),
+  n.jsx('div',{className:'keys-favorites-list',children:hotels.map(hotel=>n.jsxs('div',{className:'keys-favorite-item',children:[n.jsx(jx,{hotelId:hotel.id,summary:hotel.summary??undefined}),n.jsxs('button',{type:'button',className:'keys-favorite-membership',title:groups.find(g=>g.hotelIds.includes(hotel.id))?.name||'Без подборки',onClick:()=>setMove(hotel.id),'aria-label':'Изменить подборку для '+(hotel.summary?.name||_n.find(h=>h.id===hotel.id)?.name||'отеля'),children:[n.jsx('span',{children:groups.find(g=>g.hotelIds.includes(hotel.id))?.name||'Без подборки'}),n.jsx(D,{name:'down'})]}),n.jsx(KeysFavoriteNote,{hotelId:hotel.id,hotelName:hotel.summary?.name||_n.find(h=>h.id===hotel.id)?.name||'Отель'})]},hotel.id))}),
   !hotels.length&&n.jsxs('div',{className:'keys-favorites-empty',children:[n.jsx(D,{name:'heart'}),n.jsx('h2',{children:ids.length?'В подборке пока нет отелей':'Сохраняйте отели, которые нравятся'}),n.jsx('p',{children:'Нажмите на сердечко у отеля, чтобы сохранить его для будущей поездки.'}),n.jsx(H,{onClick:()=>{dispatch({type:'NAV_TAB',tab:'find'});dispatch({type:'SEARCH_PATCH',patch:{intent:'known',results:false}});},children:'Найти отель'})]}),
   ]},active.id),
   create&&n.jsx(KeysFavoriteListForm,{onClose:()=>setCreate(false)}),

@@ -25,8 +25,7 @@
    <button data-home-action="wifi"><span>${icon('wifi')}</span><strong>Wi-Fi</strong></button>
    <button data-home-action="problem"><span>${icon('help')}</span><strong>Есть проблема</strong></button>
   </section>
-  <section class="kh-daily" aria-label="Счёт и питание">
-   <button class="kh-account-row" data-home-action="deposit"><span class="kh-round-icon">${icon('wallet')}</span><span class="kh-copy"><strong>Депозит</strong><small>На вашем счёте</small></span><span class="kh-account-value"><strong>9 520 ₽</strong><small class="kh-detail-link">Детализация ${icon('arrow')}</small></span></button>
+  <section class="kh-daily" aria-label="Питание">
    <button class="kh-meal-row" data-home-action="breakfast"><span class="kh-round-icon">${icon('coffee')}</span><strong class="kh-meal-title">Завтрак</strong><span class="kh-copy"><span>Шведский стол · LEA, 3 этаж</span><small>Не включён · 680 ₽ с Silver</small></span><span class="kh-meal-time">07:00–12:00 ${arrow}</span></button>
   </section>
   <section class="kh-nearby-v2" aria-labelledby="kh-nearby-title">
@@ -94,7 +93,6 @@
   if(button.hasAttribute('data-wifi-connect')){wifiConnected=true;showWifiConnected();return;}
   if(button.hasAttribute('data-wifi-close')){close();return;}
   const action=button.dataset.homeAction;if(!action)return;event.preventDefault();event.stopPropagation();
-  if(action==='deposit')open('Депозит и счёт',`<div class="kh-balance"><small>Остаток на счёте</small><strong>9 520 ₽</strong><span>Из внесённых 10 000 ₽</span></div><h3>Движение средств</h3><div class="kh-ledger"><div><span><strong>Пополнение депозита</strong><small>12 сентября · при заселении</small></span><b>+10 000 ₽</b></div><div><span><strong>Сырники со сметаной</strong><small>13 сентября · ресторан LEA</small></span><b>−480 ₽</b></div></div><div class="kh-total"><span>Всего расходов</span><strong>480 ₽</strong></div><p class="kh-note">Проживание оплачено отдельно.</p>`,'deposit',button);
   if(action==='wifi')openWifi(button);
   if(action==='breakfast')openBreakfast(button);
   if(action==='nearby')showNearby(button);

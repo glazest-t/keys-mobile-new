@@ -4,7 +4,7 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype');
  if(!app)return;
- const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
+ const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-swipe-first','Брони еще нет, тиндер первый раз'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена']];
  const basePresets=presets.filter(([key])=>key!=='onboarding');
  // The only available appearance is the current base design (Orbit).
  let orbitEnabled=true;
@@ -68,13 +68,15 @@
   dayControl.set(stayDay,selected!=='stay');
   onboardingControl.set(onboardingVariant);onboardingControl.setVisible(selected==='onboarding');
   document.body.dataset.keysOnboardingVariant=onboardingVariant;
-  const scenario=['search-gold','search-guest','search-no-loyalty'].includes(selected)||(selected==='guest-invite'&&inviteEntered)?'search':selected;
+  const scenario=['search-gold','search-guest','search-no-loyalty','search-swipe-first'].includes(selected)||(selected==='guest-invite'&&inviteEntered)?'search':selected;
   document.body.dataset.keysSelectedScenario=selected;
+  if(selected==='search-swipe-first'){if(resetView||!document.body.dataset.keysSwipeFirstRun)document.body.dataset.keysSwipeFirstRun=String(Date.now());}
+  else delete document.body.dataset.keysSwipeFirstRun;
   document.body.dataset.keysHotelLoyaltyMissing=String(selected==='search-no-loyalty');
   document.body.dataset.keysGuestSearch=String(selected==='search-guest');
   document.body.dataset.keysLoyalty=selected==='search-gold'?'Gold':'Silver';
   document.body.dataset.keysScenario=scenario;document.body.dataset.keysStayDay=stayDay;
-  const implemented=selected==='onboarding'||selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked';
+  const implemented=selected==='onboarding'||selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-swipe-first'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked';
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:label)+' — пустой сценарий');

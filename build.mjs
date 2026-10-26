@@ -86,6 +86,8 @@ ${fragment}
 <link rel="stylesheet" href="./home/door.css">
 <script type="module" src="./home/door.js"></script>
 <link rel="stylesheet" href="./booking/booking.css?v=completed-details-clean-1">
+<link rel="stylesheet" href="./booking/details-view.css">
+<script src="./booking/details-view.js"></script>
 <script src="./booking/booking.js?v=clean-prototype-copy-1"></script>
 <link rel="stylesheet" href="./feedback/feedback.css?v=feedback-thanks-card-1">
 <script src="./feedback/feedback.js?v=clean-prototype-copy-1"></script>

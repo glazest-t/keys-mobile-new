@@ -38,12 +38,25 @@
 }
 .keys-bottom-unread[hidden]{display:none!important}
 .keys-bottom-tab:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
-.keys-module-screen[data-screen-type="root"]:has(>.keys-bottom-nav)>.keys-module-scroll{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
-/* Full-page forms and conversations keep their actions above the navigation. */
-html:not([data-desktop-account="true"]) .keys-module-screen:has(>.keys-bottom-nav)>.keys-module-scroll{margin-bottom:var(--keys-bottom-clearance);padding-bottom:0}
+/* Scrollable content extends behind the glass; only the end of the content
+   reserves space so the last row and actions can be reached above navigation. */
+html:not([data-desktop-account="true"]) .keys-module-screen:has(>.keys-bottom-nav)>.keys-module-scroll{
+  margin-bottom:0;padding-bottom:var(--keys-bottom-clearance);
+  scroll-padding-bottom:var(--keys-bottom-clearance);
+}
+html:not([data-desktop-account="true"]) .keys-module-screen[data-screen-type="hotel-map"]:has(>.keys-bottom-nav)>.keys-module-scroll{padding-bottom:0}
+html:not([data-desktop-account="true"]) .keys-module-screen:has(>.keys-bottom-nav) .keys-favorite-map-preview{bottom:calc(var(--keys-bottom-clearance) + 12px);max-height:calc(100% - 160px - var(--keys-bottom-clearance))}
 html:not([data-desktop-account="true"]) #root .keys-module-screen:has(>.keys-bottom-nav) .keys-selection-page>footer{bottom:calc(var(--keys-bottom-clearance) + 16px)}
-body:not([data-keys-view="desktop"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kti-view,.kdf-view,.kfb-view){height:calc(100% - var(--keys-bottom-clearance))!important}
-body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kh-overlay:not(:has(.kpa-route-chooser,.kpa-go-preview,.kpa-go-launch)){bottom:var(--keys-bottom-clearance)}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kti-view,.kdf-view,.kfb-view){height:100%!important}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype :is(.kti-bottom,.kdf-bottom,.kfb-bottom){bottom:var(--keys-bottom-clearance)}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype :is(.kti-scroll,.kdf-scroll,.kfb-scroll){padding-bottom:calc(var(--keys-bottom-clearance) + 118px)}
+/* Let the current page scroll behind the floating glass navigation. */
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kh-overlay:not(:has(.kpa-route-chooser,.kpa-go-preview,.kpa-go-launch)){
+  bottom:0;padding-bottom:calc(var(--keys-bottom-clearance) + 24px);
+}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.ksd-phone):has(>.kh-overlay:not([hidden])):not(:has(.kh-overlay :is(.kpa-route-chooser,.kpa-go-preview,.kpa-go-launch)))>.keys-bottom-nav{
+  z-index:40!important;
+}
 body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-flow-nav{display:none!important}
 html[data-desktop-account="true"] :is(#root#root#root,.keys-hotel-album) .keys-bottom-nav{display:none!important}
 /* Keep the outer document from shifting when navigation focuses a new section. */

@@ -1683,3 +1683,83 @@ html #root [data-screen-type="reservation-payment"] .keys-checkout-times .keys-s
 .keys-price-breakdown .keys-price-breakdown-total>div{font:var(--ui-font-section)}
 .keys-price-breakdown .keys-price-breakdown-total dd{font:var(--ui-font-section)}
 .keys-price-breakdown>p{margin:0;font:var(--ui-font-caption);color:var(--color-muted)}
+
+/* Full-screen first-use preferences, in the same light theme as Find. */
+#root .keys-module-screen:has(.keys-swipe-preferences){background:var(--color-card)}
+#root .keys-module-screen:has(.keys-swipe-preferences) .keys-fullscreen>main{padding:0;overflow:hidden}
+.keys-swipe-preferences{display:flex;flex-direction:column;height:100%;min-height:0;color:var(--color-ink);background:var(--color-card)}
+#root .keys-swipe-preferences>header{flex:none;padding:20px 16px 16px;margin:0}
+.keys-swipe-preferences-body{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px 16px 24px}
+#root .keys-swipe-preferences-body h2{margin:0 auto;max-width:320px;font:500 30px/33px var(--font-sans);letter-spacing:-.8px}
+#root .keys-swipe-preferences-body h2>span{color:var(--color-brand)}
+/* Stable circular targets; separate entry and selection transforms avoid jumps. */
+.keys-swipe-preference-tags{position:relative;width:100%;max-width:320px;aspect-ratio:350/620;margin:16px auto 0;isolation:isolate}
+.keys-swipe-bubble{position:absolute;left:calc(var(--x) / 350 * 100%);top:calc(var(--y) / 620 * 100%);width:calc(var(--size) / 350 * 100%);aspect-ratio:1;animation:keys-swipe-bubble-enter 680ms both;animation-delay:calc(var(--bubble-index) * 38ms)}
+.keys-swipe-bubble:nth-child(1){--x:30;--y:0;--size:142}
+.keys-swipe-bubble:nth-child(2){--x:180;--y:16;--size:126}
+.keys-swipe-bubble:nth-child(3){--x:2;--y:145;--size:126}
+.keys-swipe-bubble:nth-child(4){--x:214;--y:145;--size:126}
+.keys-swipe-bubble:nth-child(5){--x:0;--y:274;--size:122}
+.keys-swipe-bubble:nth-child(6){--x:122;--y:226;--size:122}
+.keys-swipe-bubble:nth-child(7){--x:90;--y:366;--size:112}
+.keys-swipe-bubble:nth-child(8){--x:204;--y:334;--size:132}
+.keys-swipe-bubble:nth-child(9){--x:25;--y:472;--size:144}
+.keys-swipe-bubble:nth-child(10){--x:180;--y:475;--size:128}
+.keys-swipe-bubble>button{position:relative;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;width:100%;height:100%;padding:12px 8px;border:0;border-radius:50%;background:var(--color-soft);color:var(--color-ink);font:400 14px/19px var(--font-sans);text-align:center;cursor:pointer;touch-action:manipulation;transition:background-color 650ms cubic-bezier(.22,.61,.36,1),color 500ms ease,transform 280ms ease; -webkit-tap-highlight-color:transparent}
+.keys-swipe-bubble:nth-child(3n)>button{background:var(--color-surface)}
+.keys-swipe-bubble>button .keys-swipe-choice-label{max-width:100px;text-wrap:balance;pointer-events:none}
+.keys-swipe-choice-icon{width:28px;height:28px;flex:none;pointer-events:none;transition:filter 500ms ease;opacity:.9}
+.keys-swipe-bubble>button[aria-pressed=true]{background:var(--color-brand);color:var(--color-on-brand,#fff)}
+.keys-swipe-bubble>button[aria-pressed=true] .keys-swipe-choice-icon{filter:brightness(0) invert(1);opacity:1}
+.keys-swipe-choice-check{position:absolute;right:14%;top:12%;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:white;opacity:0;transform:scale(.55);transition:opacity 420ms ease,transform 550ms cubic-bezier(.22,1,.36,1);pointer-events:none}
+.keys-swipe-choice-check img{width:16px;height:16px;filter:invert(39%) sepia(96%) saturate(2400%) hue-rotate(217deg)}
+.keys-swipe-bubble>button[aria-pressed=true] .keys-swipe-choice-check{opacity:1;transform:scale(1)}
+.keys-swipe-bubble>button:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
+.keys-swipe-bubble>button:active{transform:scale(.985)}
+@keyframes keys-swipe-bubble-enter{from{opacity:0;transform:translateY(18px) scale(.87)}to{opacity:1;transform:translateY(0) scale(1)}}
+.keys-swipe-preferences-footer{flex:none;padding:12px 16px max(20px,env(safe-area-inset-bottom));background:var(--color-card)}
+.keys-swipe-preferences-footer>button{width:100%;min-height:var(--ui-control-height,48px)}
+html[data-desktop-account=true] .keys-swipe-preferences-body{width:100%;max-width:430px;margin-inline:auto}
+html[data-desktop-account=true] .keys-swipe-preferences-footer{width:100%;max-width:430px;margin-inline:auto}
+@media(max-width:359px){.keys-swipe-bubble>button{font-size:12px;line-height:17px;gap:6px}.keys-swipe-choice-icon{width:24px;height:24px}.keys-swipe-choice-check{width:18px;height:18px}}
+@media(prefers-reduced-motion:reduce){.keys-swipe-bubble{animation:none}.keys-swipe-bubble>button,.keys-swipe-choice-icon,.keys-swipe-choice-check{transition:none}.keys-swipe-bubble>button:is(:active,:hover){transform:none}}
+
+.keys-swipe-bubble:nth-child(1) .keys-swipe-choice-label,.keys-swipe-bubble:nth-child(9) .keys-swipe-choice-label{max-width:85px}
+
+/* Decorative interaction rings never intercept touches or change layout. */
+.keys-swipe-waves{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.keys-swipe-wave{position:absolute;inset:0;border:1.5px solid var(--color-brand);border-radius:50%;opacity:0;pointer-events:none;transform-origin:center}
+@media(prefers-reduced-motion:reduce){.keys-swipe-waves{display:none}}
+
+/* Complete the preference selection before revealing the swipe deck. */
+.keys-swipe-preference-tags::before{content:"";position:absolute;inset:0;z-index:-1;background:url('./swipe-art/orbits.png') center/100% 100% no-repeat;pointer-events:none;transition:opacity 600ms ease}
+.keys-swipe-preferences-body h2,.keys-swipe-preferences-footer{transition:opacity 400ms ease}
+.keys-swipe-preferences.is-leaving .keys-swipe-preference-tags::before{opacity:0}
+.keys-swipe-preferences.is-leaving .keys-swipe-preferences-body{overflow:hidden}
+.keys-swipe-preferences.is-leaving .keys-swipe-preferences-body h2{opacity:.2}
+.keys-swipe-preferences.is-leaving .keys-swipe-preferences-footer{opacity:.35;pointer-events:none}
+.keys-swipe-preferences.is-leaving .keys-swipe-bubble>button{cursor:default}
+@media(prefers-reduced-motion:reduce){.keys-swipe-preference-tags::before,.keys-swipe-preferences-body h2,.keys-swipe-preferences-footer{transition:none}}
+
+/* Keep the swipe action bar fixed while a decision replaces the card. */
+#root .keys-module-screen:is([data-screen-type="swipe"],[data-screen-type="shared-swipe"]) [aria-label="Действия с отелем"] button{transform:none;transition:background-color 180ms ease,box-shadow 180ms ease}
+#root .keys-module-screen:is([data-screen-type="swipe"],[data-screen-type="shared-swipe"]) [aria-label="Действия с отелем"] button:disabled{opacity:1}
+#root .keys-module-screen:is([data-screen-type="swipe"],[data-screen-type="shared-swipe"]) [aria-label="Действия с отелем"] button[aria-label="Вернуть предыдущий отель"]:disabled{color:rgb(255 255 255 / 35%)}
+
+/* Personal hotel notes reuse the persisted favorite note model. */
+.keys-favorite-note{display:flex;align-items:flex-start;gap:10px;width:100%;min-height:52px;padding:16px;border:0;border-top:1px solid var(--color-line);background:var(--color-card);color:var(--color-brand);text-align:left;cursor:pointer;font:var(--ui-font-body)}
+.keys-favorite-note-copy{display:grid;gap:6px;min-width:0;flex:1}
+.keys-favorite-note-copy strong{font:var(--ui-font-label)}
+.keys-favorite-note-preview{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--color-ink);font:var(--ui-font-body)}
+.keys-favorite-note-icon,.keys-favorite-note-action{flex:none;width:18px;height:20px}
+.keys-favorite-note:hover{background:var(--color-soft)}
+.keys-favorite-note:focus-visible{outline:2px solid var(--color-brand);outline-offset:-4px}
+.keys-favorite-note-form{display:grid;gap:12px}
+.keys-favorite-note-hotel{margin:0 0 4px;font:var(--ui-font-label);color:var(--color-muted)}
+.keys-favorite-note-form label{display:grid;gap:8px;font:var(--ui-font-label)}
+.keys-favorite-note-form textarea{box-sizing:border-box;width:100%;min-height:140px;padding:12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-body);resize:vertical}
+.keys-favorite-note-form textarea:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+.keys-favorite-note-count{margin-top:-6px;text-align:right;color:var(--color-muted);font:var(--ui-font-caption)}
+.keys-favorite-note-delete{justify-self:center}
+html[data-desktop-account=true] #root .keys-favorites-list .keys-favorite-item>.keys-result-hotel{border-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
+html[data-desktop-account=true] #root .keys-favorite-note{border:1px solid var(--color-line);border-radius:0 0 20px 20px}

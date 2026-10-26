@@ -33,16 +33,21 @@ function useKeysPhotoGestures(refs,onVote,onTap,enabled,onFrame){
  const gesture=E.useRef(null),busy=E.useRef(false),timer=E.useRef(null);
  const callbacks=E.useRef({onVote,onTap,onFrame});callbacks.current={onVote,onTap,onFrame};
  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const restore=()=>{const card=refs.card.current;if(card){card.style.transition=reduced()?'none':'transform .2s ease, opacity .2s ease';card.style.transform='';card.style.opacity='';}if(refs.next.current)refs.next.current.style.transform='translateY(12px) scale(.95)';};
- E.useEffect(()=>{const card=refs.card.current;if(card&&!reduced())card.animate([{opacity:.5,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'ease-out'});return()=>clearTimeout(timer.current);},[]);
+ const restore=()=>{const card=refs.card.current;if(card){card.style.transition=reduced()?'none':'transform .2s ease, opacity .2s ease';card.style.transform='';card.style.opacity='';}};
+ E.useEffect(()=>()=>clearTimeout(timer.current),[]);
  const cancel=()=>{gesture.current=null;if(!busy.current){setHint(0);restore();}};
  E.useEffect(()=>{window.addEventListener('blur',cancel);return()=>window.removeEventListener('blur',cancel);},[]);
- const decide=liked=>{
+ const decide=(liked,fromGesture=false)=>{
   if(!enabled||busy.current)return;
-  busy.current=true;gesture.current=null;setLeaving(true);setHint(liked?1:-1);
-  const card=refs.card.current,duration=reduced()?0:240;
-  if(card){card.style.transition=`transform ${duration}ms ease, opacity ${duration}ms ease`;card.style.transform=`translateY(-${card.offsetHeight+40}px)`;card.style.opacity='0';}
-  if(refs.next.current){refs.next.current.style.transition=`transform ${duration}ms ease`;refs.next.current.style.transform='translateY(0) scale(1)';}
+  busy.current=true;gesture.current=null;setLeaving(true);setHint(0);
+  const card=refs.card.current,duration=reduced()?0:380;
+  if(card){
+   card.style.transformOrigin='50% 85%';
+   card.style.transition=duration?`transform ${duration}ms cubic-bezier(.32,.05,.67,.6), opacity 140ms ease 240ms`:'none';
+   if(duration)card.style.transform=fromGesture?`translateY(-${card.offsetHeight+40}px)`:
+    `translateX(${(liked?1:-1)*(card.offsetWidth+160)}px) rotate(${liked?12:-12}deg)`;
+   card.style.opacity='0';
+  }
   timer.current=setTimeout(()=>callbacks.current.onVote(liked),duration);
  };
  return {hint,leaving,decide,handlers:{
@@ -63,7 +68,7 @@ function useKeysPhotoGestures(refs,onVote,onTap,enabled,onFrame){
    const start=gesture.current;if(!start||start.id!==event.pointerId)return;
    gesture.current=null;
    const action=keysPhotoGesture(event.clientX-start.x,event.clientY-start.y);
-   if(action==='next-hotel'){decide(false);return;}
+   if(action==='next-hotel'){decide(false,true);return;}
    restore();
    if(!start.media)return;
    if(action==='next-frame'||action==='previous-frame')callbacks.current.onFrame(action==='next-frame'?1:-1);

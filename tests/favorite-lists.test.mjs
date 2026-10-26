@@ -15,7 +15,7 @@ test('one naming prompt, then automatic grouping; removal and swipe undo stay co
  s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});
  assert.equal(s.keysFavoritePending,null);assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['more','park']);
  s=run(s,{type:'FAVORITE_TOGGLE',id:'more'});assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['park']);
- s=run(s,{type:'SWIPE',id:'more',liked:true});assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['park','more']);
+ s=run(s,{type:'SWIPE',id:'more',liked:true});assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['park']);assert.deepEqual(s.keysFavoriteGroups.find(g=>g.name==='Отели свайпом').hotelIds,['more']);
  s=run(s,{type:'SWIPE_UNDO'});assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['park']);
 });
 test('server hydration does not prompt, explicit remote saving does',()=>{
@@ -150,4 +150,74 @@ test('ungrouped map and return path retain the exact favorite collection',()=>{
  s=run(s,{type:'HOTEL_OPEN',id:'more'});assert.equal(e.keysShowBottomNav(s),false);
  s=run(s,{type:'BACK'});assert.deepEqual(s.navigation.screen,{type:'hotel-map',collectionId:'__unassigned'});
  s=run(s,{type:'BACK'});assert.deepEqual(s.navigation.screen,{type:'saved',collectionId:'__unassigned'});
+});
+
+test('swipe saves automatically to a dedicated collection without changing the ordinary session',()=>{
+ let s=run(initial(),{type:'SWIPE',id:'more',liked:true});
+ assert.equal(s.keysFavoritePending,null);
+ assert.equal(s.keysFavoriteGroups[0].name,'Отели свайпом');
+ assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['more']);
+ assert.equal(s.keysFavoriteNotice,null);
+ assert.equal(s.keysFavoriteSession?.asked,undefined);
+ s=run(s,{type:'SWIPE',id:'park',liked:true});
+ assert.equal(s.keysFavoriteGroups.length,1);
+ assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['more','park']);
+ s=run(s,{type:'SWIPE_UNDO'});
+ assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['more']);
+ s=run(s,{type:'SWIPE',id:'forest',liked:false});
+ assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['more']);
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});
+ assert.deepEqual(s.keysFavoritePending,['park']);
+});
+test('remote swipe origin survives leaving the deck and confirmation creates no chooser',()=>{
+ let s=run(initial(),{type:'KEYS_FAVORITE_INTENT',id:'more',fromSwipe:true});
+ s=run(s,{type:'SWIPE',id:'more',liked:true,preserveSaved:true});
+ assert.equal((s.keysFavoriteGroups||[]).length,0);
+ s=run(s,{type:'NAV_TAB',tab:'find'});
+ s=run(s,{type:'FAVORITES_REPLACE',ids:['more']});
+ assert.equal(s.keysFavoritePending,null);
+ assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,['more']);
+ assert.equal(s.keysFavoriteGroups[0].name,'Отели свайпом');
+ s=run(s,{type:'FAVORITES_REPLACE',ids:['more']});
+ assert.equal(s.keysFavoriteGroups.length,1);
+});
+test('existing swipe collection is reused and already saved hotels keep their other collection',()=>{
+ let s=run(initial(),{type:'FAVORITE_TOGGLE',id:'more'});
+ s=run(s,{type:'KEYS_FAVORITE_LIST',name:'Лето'});
+ const session=s.keysFavoriteSession;
+ s={...s,keysFavoriteGroups:[...s.keysFavoriteGroups,{id:'existing-swipe',name:'Отели свайпом',hotelIds:[]}]};
+ s=run(s,{type:'KEYS_FAVORITE_INTENT',id:'more',fromSwipe:true});
+ s=run(s,{type:'FAVORITES_REPLACE',ids:['more']});
+ assert.deepEqual(s.keysFavoriteGroups.map(g=>g.hotelIds),[['more'],['more']]);
+ assert.equal(s.keysFavoriteGroups[1].id,'existing-swipe');
+ assert.deepEqual(s.keysFavoriteSession,session);
+ assert.equal(s.keysFavoritePending,null);
+});
+test('favorite from hotel details opened through swipe uses the swipe collection',()=>{
+ let s=run(initial(),{type:'OPEN',screen:{type:'swipe'}});
+ s=run(s,{type:'HOTEL_OPEN',id:'more'});
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'more'});
+ assert.equal(s.keysFavoritePending,null);
+ assert.equal(s.keysFavoriteGroups[0].name,'Отели свайпом');
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'more'});
+ assert.deepEqual(s.keysFavoriteGroups[0].hotelIds,[]);
+});
+
+test('swipe saves, undo and hotel detail removal stay silent while ordinary toasts remain',()=>{
+ let s=run(initial(),{type:'OPEN',screen:{type:'swipe'}});
+ s=run(s,{type:'SWIPE',id:'more',liked:true});
+ assert.equal(s.keysFavoriteNotice,null);assert.equal(s.ui.toast,'');
+ s=run(s,{type:'SWIPE_UNDO'});
+ assert.equal(s.keysFavoriteNotice,null);assert.equal(s.ui.toast,'');
+ s=run(s,{type:'HOTEL_OPEN',id:'park'});
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});
+ s=run(s,{type:'FAVORITE_TOGGLE',id:'park'});
+ assert.equal(s.keysFavoriteNotice,null);assert.equal(s.ui.toast,'');
+ for(const message of ['Отель сохранён','Отель убран из сохранённых']){
+  s=run(s,{type:'TOAST',message});assert.equal(s.ui.toast,'');
+ }
+ s=run(s,{type:'TOAST',message:'Не удалось сохранить отель'});
+ assert.equal(s.ui.toast,'Не удалось сохранить отель');
+ const ordinary=run(initial(),{type:'TOAST',message:'Отель убран из сохранённых'});
+ assert.equal(ordinary.ui.toast,'Отель убран из сохранённых');
 });

@@ -41,7 +41,7 @@
     });
   };
   const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day==='key-error'?'day-2':day??'day-2'):'day-1';
-  const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
+  const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
   const show=(tab,hotelId,screen,discovery,bookingId)=>{
     cancelProfileMotion();
     runtimeReturn=null;
@@ -183,7 +183,7 @@
 
     }
     if(event.data.type==='checkout-profile'){const c=event.data.contact;if(c&&typeof c.firstName==='string'){root.querySelectorAll('.keys-profile-name>strong,[data-open="travelerProfile"] strong').forEach(el=>el.textContent=[c.firstName,c.lastName].filter(Boolean).join(' '));root.querySelectorAll('.keys-profile-contacts dd').forEach(el=>el.textContent=c.phone);}}
-    if(event.data.type==='ready'){ready=true;send();frame.contentWindow.postMessage({source:'keys-host',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
+    if(event.data.type==='ready'){ready=true;send();frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
     if(event.data.type==='navigate'&&['trips','benefits','profile','stay-details','problem','feedback'].includes(event.data.target)){
       // Feedback is a temporary host screen; retain the notification entry point.
       if(event.data.target!=='feedback'){notificationOrigin=null;notificationOpened=false;}
@@ -427,8 +427,9 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
+    if(document.body.dataset.keysSelectedScenario==='search-swipe-first'&&event.detail.resetView)go('trips');
     if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=trip-search-20261015&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(day);
-    else if(ready)frame.contentWindow.postMessage({source:'keys-host',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:day},location.protocol==='file:'?'*':location.origin);
+    else if(ready)frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:day},location.protocol==='file:'?'*':location.origin);
   });
   root.addEventListener('keys-open-trip-review',event=>{
     root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('keys-feedback-context',{detail:{kind:'stay'}}));

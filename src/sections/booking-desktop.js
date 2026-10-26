@@ -111,3 +111,12 @@ function KeysCancelledBooking({draft,booking,details,onBack}){
   n.jsx(H,{onClick:()=>dispatch({type:'HOME'}),children:'К поездкам'})
  ]});
 }
+
+function keysBookingDetailsModel(draft,booking){
+ const hotel=Ie(draft.hotelId),total=YA(draft),c=booking.keysCancellation;
+ return {id:booking.id,hotel:hotel.name,address:hotel.city,status:c?'Бронь отменена':'Бронь подтверждена',arrival:draft.arrival,departure:draft.departure,checkIn:booking.checkInTime||hotel.checkInTime||'15:00',checkOut:booking.checkOutTime||hotel.checkOutTime||'12:00',room:draft.room.name,party:Rt(draft.party),guest:[booking.contact.firstName,booking.contact.lastName].filter(Boolean).join(' '),tariff:booking.tariff.name,included:[booking.tariff.includesBreakfast?'Завтрак включён':null,vY(booking.tariff,draft.arrival)],roomTotal:total.room,discount:(booking.pointsSpent||0)+(booking.hotelPointsSpent||0),services:keysCheckoutAdditions(draft).items.map(item=>({title:item.name,price:item.price})),paid:booking.payment?.amount??booking.paid??0,cancellation:c};
+}
+function KeysUnifiedBookingDetails({draft,booking,onBack,onShare}){
+ const {state}=J(),c=booking.keysCancellation,model=keysBookingDetailsModel(draft,booking);
+ return n.jsxs('div',{className:'keys-unified-details',children:[n.jsx(Ae,{title:'Детали брони',onBack}),n.jsx('div',{dangerouslySetInnerHTML:{__html:globalThis.KeysBookingDetails.render(model)}}),n.jsxs('div',{className:'keys-success-actions',children:[onShare&&n.jsx(H,{variant:'secondary',icon:'share',onClick:onShare,children:'Поделиться бронированием'}),!c&&n.jsx('button',{type:'button',className:'keys-cancel-entry',onClick:()=>keysRequestBookingCancellation(draft,booking,state),children:'Отменить бронирование'})]})]});
+}

@@ -8,7 +8,6 @@
  const checkout=document.createElement('section');checkout.className='ksc-checkout';checkout.setAttribute('aria-label','Перед выездом');
  checkout.innerHTML=`
   <div data-late-checkout-slot></div>
-  <section class="ksc-card ksc-deposit" aria-label="Депозит"><div data-deposit-slot></div><p class="ksc-note">Не забудьте вернуть неиспользованный остаток на ресепшене перед выездом.</p></section>
   <div data-checkout-actions-slot></div>
   <aside class="ksc-reminder">${icons.bag}<div><strong>Всё с собой?</strong><p>Проверьте шкаф, сейф и ванную. Не забудьте документы и зарядные устройства.</p></div></aside>`;
  // Late checkout belongs to the checkout home, not booking details.
@@ -16,8 +15,7 @@
     <button type="button" class="kpa-service" data-stay-service="late"><span class="kpa-service-icon">${icons.clock}</span><span class="kpa-service-copy"><strong>Поздний выезд</strong><small class="kpa-service-status">Не включён в бронь</small></span><span class="kpa-service-action"><span class="kpa-service-link">Добавить</span></span></button>
    </section>`;
  checkout.querySelector('[data-checkout-actions-slot]').replaceWith(dashboard.querySelector('.kh-quick-actions').cloneNode(true));
- const deposit=dashboard.querySelector('.kh-account-row').cloneNode(true);
- checkout.querySelector('[data-deposit-slot]').replaceWith(deposit);dashboard.querySelector('.kh-stay-card').after(checkout);
+ dashboard.querySelector('.kh-stay-card').after(checkout);
  let shareSocial=null;
  dashboard.addEventListener('click',event=>{
   const trigger=event.target.closest('[data-stay-share]');

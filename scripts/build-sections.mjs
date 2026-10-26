@@ -68,6 +68,10 @@ export async function buildSections(){
    'chat: n.jsxs(n.Fragment, { children: ['+chatPaths.join(', ')+'] })');
  const mount='GC.createRoot(document.getElementById("root")).render(n.jsx(HC.StrictMode, { children: n.jsx(TX, {}) }));';
  replace(mount,'GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));');
+ // Favorite acknowledgements from the swipe flow stay silent, including
+ // asynchronous responses arriving after the guest has left hotel details.
+ replace('y(v.id, !(m.current.get(v.id) ?? e.current.discovery.savedIds.includes(v.id)))',
+  'y(v.id, !(m.current.get(v.id) ?? e.current.discovery.savedIds.includes(v.id)), !keysFavoriteFromSwipe(e.current,v))');
  // Shared semantic hooks let the host apply the same control geometry in the iframe.
  replace('n.jsxs("div", { ref: c, "aria-label": l, className: F("relative", r === "line"',
   'n.jsxs("div", { ref: c, "data-keys-tabs": r, "aria-label": l, className: F("relative", r === "line"');
@@ -84,22 +88,26 @@ export async function buildSections(){
  replace('n.jsx(H, { variant: "text", className: "mt-2", onClick: f, children: "Изменить даты или гостей" })',
   'n.jsxs("button", { type: "button", className: "keys-change-back", onClick: f, children: [n.jsx("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true, children: n.jsx("path", { d: "M19 12H5m7-7-7 7 7 7" }) }), "Вернуться к изменениям"] })');
  js=adaptFind(adaptTripShare(styleCheckin(adaptCheckin(js))), await readFile(path.join(root,'src/sections/find-recents.js'),'utf8'), await readFile(path.join(root,'src/sections/find-results.js'),'utf8'));
+ // Changing an existing booking edits party size and ages only.
+ replace('n.jsx(gh, { value: f, onChange: g })', 'n.jsx(gh, { value: f, onChange: g, showPreferences: false })');
+ replace('f.business && n.jsx("span", { className: "mt-1 block text-11 text-muted", children: "Командировка" }), ', '');
  js=adaptFindCollections(js);
  js=adaptFindSearch(js,await readFile(path.join(root,'src/sections/find-search.js'),'utf8'));
  js=adaptSelectionStyle(js,await readFile(path.join(root,'src/sections/selection-welcome.js'),'utf8'), (await readFile(path.join(root,'src/sections/ideas-engine.js'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/ideas.js'),'utf8')));
  js=adaptHotelDetails(js,await readFile(path.join(root,'src/sections/hotel-details.js'),'utf8'));
- js=adaptPhotoDiscovery(js,(await readFile(path.join(root,'src/sections/photo-gestures.mjs'),'utf8')).replace('export function','function')+'\n'+(await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8')));
+ js=adaptPhotoDiscovery(js,(await readFile(path.join(root,'src/sections/swipe-preferences.js'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/photo-gestures.mjs'),'utf8')).replace('export function','function')+'\n'+(await readFile(path.join(root,'src/sections/photo-discovery.js'),'utf8')));
  js=adaptHotelShare(js,await readFile(path.join(root,'src/sections/hotel-share.js'),'utf8'));
  js=adaptGoldLoyalty(js,await readFile(path.join(root,'src/sections/gold-loyalty.js'),'utf8'));
  js=adaptRatings(js);
  replace('function Pt(e, t) {','function keysFavoritesBaseReducer(e, t) {');
  replace('function OH({ placement: e = "mobile" }) {','function KeysDefaultToast({ placement: e = "mobile" }) {');
- replace('const k = c(T);', 'if ((T.type==="FAVORITE_TOGGLE" && !l.current.discovery.savedIds.includes(T.id)) || (T.type==="SWIPE" && T.liked)) r({type:"KEYS_FAVORITE_INTENT",id:T.id});\n    const k = c(T);');
+ replace('const k = c(T);', 'if ((T.type==="FAVORITE_TOGGLE" && !l.current.discovery.savedIds.includes(T.id)) || (T.type==="SWIPE" && T.liked)) r({type:"KEYS_FAVORITE_INTENT",id:T.id,fromSwipe:keysFavoriteFromSwipe(l.current,T)});\n    const k = c(T);');
  js+='\n'+await readFile(path.join(root,'src/sections/favorites.js'),'utf8');
  // Let the share dialog receive initial focus before showModal picks its close button.
  replace('autoFocus: new URLSearchParams(location.search).has("headerSearch"),', 'autoFocus: new URLSearchParams(location.search).has("headerSearch") || e === "Поделиться поездкой",');
  replace('new URLSearchParams(location.search).has("headerSearch") && m?.focus({preventScroll:true})', '(new URLSearchParams(location.search).has("headerSearch") || m?.getAttribute("aria-label") === "Поделиться поездкой") && m?.focus({ preventScroll: true })');
  js+='\n'+(await readFile(path.join(root,'src/sections/trip-share-link.mjs'),'utf8')).replace('export function','function');
+ js+='\n'+await readFile(path.join(root,'src/booking/details-view.js'),'utf8');
  js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
  let runtime=adapt2gisRuntime(await readFile(path.join(stage,'runtime.js'),'utf8'));
@@ -128,8 +136,9 @@ export async function buildSections(){
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
  html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script><script src="../scenarios/ideas-session.js"></script>');
  html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");
- html=html.replace('</head>','<script src="../scenarios/phone-mask.js"></script><script src="../scenarios/demo-form-defaults.js"></script><link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../scenarios/desktop-rewards.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"><link rel="stylesheet" href="../arbana/sheet-motion.css"><link rel="stylesheet" href="../brand/brand.css?v=orbit-1"><script src="../brand/brand.js?v=orbit-1"></script></head>');
+ html=html.replace('</head>','<script src="../scenarios/phone-mask.js"></script><script src="../scenarios/demo-form-defaults.js"></script><link rel="stylesheet" href="./frame.css?v=checkin-style-1"><link rel="stylesheet" href="./desktop-find.css"><link rel="stylesheet" href="../booking/details-view.css"><link rel="stylesheet" href="../scenarios/desktop-rewards.css"><link rel="stylesheet" href="../arbana/app-header.css?v=secondary-titles-1"><script src="../arbana/app-header.js?v=header-lines-1"></script><link rel="stylesheet" href="../arbana/app-nav.css?v=arbana-motion-2"><script src="../arbana/app-nav.js?v=arbana-motion-2"></script><link rel="stylesheet" href="../arbana/ui-standards.css"><link rel="stylesheet" href="../arbana/sheet-motion.css"><link rel="stylesheet" href="../brand/brand.css?v=orbit-1"><script src="../brand/brand.js?v=orbit-1"></script></head>');
  await writeFile(path.join(dist,'index.html'),html);
+ await cp(path.join(root,'src/sections/swipe-art'),path.join(dist,'swipe-art'),{recursive:true});
  await cp(path.join(root,'src/sections/ideas-art'),path.join(dist,'ideas-art'),{recursive:true});
  await cp(path.join(root,'src/sections/collections'),path.join(dist,'collections'),{recursive:true});
  await writeFile(path.join(dist,'frame.css'),(await readFile(path.join(root,'src/sections/frame.css'),'utf8'))+'\n'+(await readFile(path.join(root,'src/sections/ideas.css'),'utf8')));
@@ -140,8 +149,8 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {keysCheckoutAdditions,keysStayTimePolicy,keysStayTimeOptions,keysStayTimeQuote,keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
- engine+='\nexport {keysFavoriteCollection,keysShowBottomNav,keysFivePointRating,keysRatingText,Zc as hotelReviews,qI as sortReviews,Lc as ratingLabel};';
+ engine+='\nexport {keysBookingDetailsModel,keysCheckoutAdditions,keysStayTimePolicy,keysStayTimeOptions,keysStayTimeQuote,keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysSwipeNeedsPreferences,keysSwipePreferences,keysSwipePreferenceOptions,keysRankSwipeHotels,keysRestoreSwipePreferences,keysFavoriteCollection,keysShowBottomNav,keysFivePointRating,keysRatingText,Zc as hotelReviews,qI as sortReviews,Lc as ratingLabel};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});
  await build({entryPoints:[path.join(stage,'assets/keys-engine.js')],outfile:path.join(root,'tmp/sections-engine.cjs'),bundle:true,platform:'node',format:'cjs',target:'node22',logLevel:'silent'});

@@ -14,6 +14,17 @@ const document = `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light only">
   <meta name="theme-color" content="#f7f7f5">
+  <meta name="application-name" content="Ключи">
+  <meta name="apple-mobile-web-app-title" content="Ключи">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="./favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="./favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
   <meta name="description" content="Интерактивный прототип мобильного приложения «Ключи» для путешественников.">
   <title>Ключи — интерактивный прототип</title>
   <script src="./boot.js"></script>
@@ -146,6 +157,7 @@ ${fragment}
 
 await rm(new URL("./dist/", import.meta.url), {recursive:true,force:true,maxRetries:3,retryDelay:100});
 await mkdir(new URL("./dist/", import.meta.url), { recursive: true });
+await cp(new URL("./src/web-app/", import.meta.url), new URL("./dist/", import.meta.url), { recursive: true });
 await buildArbanaTheme(fragment, document.slice(0, document.indexOf("<body>")));
 await writeFile(new URL("./dist/index.html", import.meta.url), document);
 await writeFile(new URL("./dist/.nojekyll", import.meta.url), "");

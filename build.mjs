@@ -83,6 +83,8 @@ ${fragment}
 <script src="./home/nearby/leaflet.js"></script>
 <script src="./home/nearby/nearby.js?v=nearby-card-structure-1"></script>
 <script src="./home/home.js?v=clean-prototype-copy-1"></script>
+<link rel="stylesheet" href="./home/door.css">
+<script type="module" src="./home/door.js"></script>
 <link rel="stylesheet" href="./booking/booking.css?v=completed-details-clean-1">
 <script src="./booking/booking.js?v=clean-prototype-copy-1"></script>
 <link rel="stylesheet" href="./feedback/feedback.css?v=feedback-thanks-card-1">

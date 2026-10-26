@@ -1,0 +1,24 @@
+#keysUnifiedPrototype [data-door-state]{display:flex!important;align-items:center;justify-content:center;gap:10px}
+#keysUnifiedPrototype [data-door-state]>.keys-door-label{margin:0!important}
+#keysUnifiedPrototype [data-door-state]>svg{width:22px;height:22px;flex:none}
+#keysUnifiedPrototype [data-door-state][aria-disabled=true]{cursor:default}
+#keysUnifiedPrototype [data-door-state=success]{background:var(--color-success-bg)!important;color:var(--color-success)!important;box-shadow:none!important}
+#keysUnifiedPrototype .keys-door-spinner{width:22px;height:22px;flex:none;margin:0!important;box-sizing:border-box;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:keys-door-spin .8s linear infinite}
+@keyframes keys-door-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .keys-door-spinner{animation:none}}
+.keys-door-status{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.keys-door-error{box-sizing:border-box;width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:24px;border:1px solid var(--color-line);border-radius:24px;background:var(--color-card);color:var(--color-ink);font:400 14px/21px var(--font-sans);overflow:auto}
+.keys-door-error::backdrop{background:rgb(20 28 44 / 40%)}
+.keys-door-error header{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;margin-bottom:12px}
+.keys-door-error h2{font:500 22px/28px var(--font-sans);margin:0}
+.keys-door-error header button{display:grid;place-items:center;flex:none;width:36px;height:36px;margin:-4px -4px 0 0;padding:8px;border:0;border-radius:50%;background:var(--color-soft);color:var(--color-muted);cursor:pointer}
+.keys-door-error header svg{width:20px;height:20px}
+.keys-door-error p{margin:0 0 24px;color:var(--color-muted)}
+.keys-door-error>.keys-door-retry,.keys-door-error>.keys-door-reception{display:block;width:100%;min-height:48px;padding:12px 16px;border-radius:14px;font:500 14px/21px var(--font-sans);cursor:pointer}
+.keys-door-retry{border:0;background:var(--color-brand-solid);color:var(--color-on-brand)}
+.keys-door-reception{margin-top:10px;border:1px solid var(--color-line);background:var(--color-card);color:var(--color-brand)}
+.keys-door-error .keys-door-physical{margin:20px 0 0;font-size:13px;line-height:19px}
+.keys-door-handle{display:none}
+.keys-door-error button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+body[data-keys-view=mobile] .keys-door-error{position:fixed;inset:auto 0 var(--door-sheet-bottom,0);margin:0 auto;width:min(390px,100vw);max-height:min(80dvh,640px);padding:12px 24px max(24px,env(safe-area-inset-bottom));border-radius:24px 24px 0 0}
+body[data-keys-view=mobile] .keys-door-handle{display:block;width:36px;height:4px;margin:0 auto 20px;border-radius:2px;background:var(--color-line)}

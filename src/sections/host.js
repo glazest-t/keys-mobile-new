@@ -40,7 +40,7 @@
       cancelProfileMotion();complete();
     });
   };
-  const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day??'day-2'):'day-1';
+  const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day==='key-error'?'day-2':day??'day-2'):'day-1';
   const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
   const show=(tab,hotelId,screen,discovery,bookingId)=>{
     cancelProfileMotion();

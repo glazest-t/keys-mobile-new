@@ -180,8 +180,8 @@ function keysInitialState() {
   state.tripContext.today='2026-09-13';
   state.booking={...state.booking,id:'keys-maidens-412',hotelId:'maidens',arrival:'2026-09-12',departure:'2026-09-19',party:{adults:1,childrenAges:[],pet:false,business:true},room:{...state.booking.room,name:maidens.room,photo,photos:[photo]},contact:{...state.booking.contact,firstName:'Татьяна',lastName:'Глазырина'},tariff:{...state.booking.tariff,name:'Деловой тариф',includesBreakfast:false}};
   state.keysCheckoutIdentity=true;
-  state.profile={firstName:'Татьяна',lastName:'',phone:'+7 (900) 123-45-67',email:''};
-  try{const login=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(login?.firstName&&login?.phone)state.profile={...state.profile,firstName:login.firstName,phone:login.phone};const saved=JSON.parse(localStorage.getItem('keys-booking-profile-v1')||'null');if(saved&&um(saved)&&saved.phone.replace(/\D/g,'')===state.profile.phone.replace(/\D/g,''))state.profile=saved,state.keysProfileSaved=1;}catch{}
+  state.profile={firstName:'Татьяна',lastName:'',phone:'+7 (900) 123-45-67',email:'',citizenship:'Российская Федерация'};
+  try{const login=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(login?.firstName&&login?.phone)state.profile={...state.profile,firstName:login.firstName,phone:login.phone};const saved=JSON.parse(localStorage.getItem('keys-booking-profile-v1')||'null');if(saved&&um(saved)&&saved.phone.replace(/\D/g,'')===state.profile.phone.replace(/\D/g,''))state.profile={citizenship:'Российская Федерация',...saved},state.keysProfileSaved=1;}catch{}
   state.orders=[];
   state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Здесь можно задать вопрос об отеле или связаться с сотрудником.',bookingId:state.booking.id}]};
   state.chat.sequence=6;
@@ -190,7 +190,7 @@ function keysInitialState() {
   globalThis.keysGuestMode=new URLSearchParams(location.search).get('guestSearch')==='true';
   globalThis.keysGuestAuthorized=false;
   document.documentElement.dataset.guestSearch=String(globalThis.keysGuestMode);
-  if(globalThis.keysGuestMode){state.profile={firstName:'',lastName:'',phone:'',email:''};state.loyalty={...state.loyalty,balance:0};state.keysHotelPoints={more:0};state.reservation=null;}
+  if(globalThis.keysGuestMode){state.profile={firstName:'',lastName:'',phone:'',email:'',citizenship:'Российская Федерация'};state.loyalty={...state.loyalty,balance:0};state.keysHotelPoints={more:0};state.reservation=null;}
   const linked=y8(state,new URLSearchParams(location.search));
   linked.keysPublicTrip=new URLSearchParams(location.search).get('hotel')==='maidens';
   return keysSetLoyalty(linked,new URLSearchParams(location.search).get('loyalty'));

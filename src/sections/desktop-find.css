@@ -731,6 +731,9 @@ html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
  html[data-desktop-account=true] #root .keys-checkout-desktop .keys-checkout-savings-group{display:grid;gap:24px}
  html[data-desktop-account=true] #root [data-screen-type="reservation-payment"] .keys-checkout-desktop .keys-checkout-savings-group>.keys-checkout-panel{margin:0;padding:0}
  html[data-desktop-account=true] #root .keys-checkout-desktop .keys-booking-primary>.keys-checkout-panel:not(:first-child){padding-top:24px;border-top:1px solid var(--color-line)}
+ html[data-desktop-account=true] #root [data-screen-type="reservation-payment"] .keys-checkout-desktop .keys-booking-primary>.keys-checkout-panel.keys-checkout-times{padding:0;border:0;border-radius:0;background:transparent}
+ html[data-desktop-account=true] #root [data-screen-type="reservation-payment"] .keys-checkout-desktop .keys-checkout-times .keys-stay-time-heading h2{margin:0;font:var(--ui-font-section)}
+ html[data-desktop-account=true] #root .keys-checkout-times .keys-stay-time-change{padding:4px 10px;font:var(--ui-font-label)}
  html[data-desktop-account=true] #root .keys-checkout-desktop .keys-checkout-panel h2{font:var(--ui-font-section);margin:0 0 16px}
  html[data-desktop-account=true] #root .keys-checkout-desktop .keys-checkout-panel h3{font:var(--ui-font-label)}
  html[data-desktop-account=true] #root .keys-checkout-desktop .keys-pay-points-head h2{margin:0}

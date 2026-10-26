@@ -1340,7 +1340,7 @@ html:not([data-desktop-account=true]) #root .keys-checkout-flow{padding-bottom:0
 #root :is(.keys-checkout-flow,.keys-checkout-desktop) .keys-connect-loyalty p{font:var(--ui-font-body);margin-top:4px}
 #root :is(.keys-checkout-flow,.keys-checkout-desktop) .keys-connect-action{font:var(--ui-font-label);border-radius:var(--ui-button-radius,14px)}
 #root [data-screen-type="reservation-payment"] .keys-checkout-flow .keys-payment-booking-summary{margin:0;padding:16px;border-radius:var(--ui-card-radius);background:var(--color-surface,var(--color-soft))}
-#root [data-screen-type="reservation-payment"] .keys-checkout-flow .keys-cancellation-policy{margin-top:12px;padding:0}
+#root [data-screen-type="reservation-payment"] .keys-checkout-flow .keys-cancellation-policy{margin:0 0 24px;padding:0}
 #root .keys-checkout-flow .keys-guest-panel-heading{margin-bottom:16px}
 #root .keys-checkout-flow .keys-guest-contact-fields{gap:12px}
 #root .keys-checkout-flow .keys-guest-contact-fields input{box-sizing:border-box}
@@ -1608,8 +1608,24 @@ html.keys-share-sheet dialog[aria-label="Поделиться поездкой"]
 .keys-stay-time-field strong{display:flex;align-items:center;justify-content:space-between;gap:4px;font:var(--ui-font-section)}
 .keys-stay-time-field svg{color:var(--color-brand);flex:none}
 .keys-stay-time-field:focus-visible,.keys-stay-time-options button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
- .keys-stay-time-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+ .keys-stay-time-heading{display:flex;align-items:center;gap:4px;margin-bottom:12px}
 #root .keys-stay-time-heading h2{margin:0}
+.keys-stay-time-card{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--color-line);border-radius:var(--ui-card-radius,20px);background:var(--color-card)}
+.keys-stay-time-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));flex:1;min-width:0;gap:0;margin:0}
+.keys-stay-time-summary>div:first-child{padding-right:12px}
+.keys-stay-time-summary>div+div{padding-left:12px;border-left:1px solid var(--color-line)}
+.keys-stay-time-summary>div{display:grid;align-content:start;gap:6px;min-width:0}
+.keys-stay-time-summary dt,.keys-stay-time-summary small{font:var(--ui-font-caption);color:var(--color-muted)}
+.keys-stay-time-summary dd{margin:0;font:var(--ui-font-section);color:var(--color-ink)}
+#root .keys-checkout-times .keys-stay-time-change{display:inline-flex;align-items:center;justify-content:center;flex:none;gap:4px;width:auto;min-height:36px;margin:0;padding:0 8px;border:0;border-radius:10px;background:var(--color-soft);box-shadow:none;color:var(--color-brand);font:var(--ui-font-caption-medium);white-space:nowrap;cursor:pointer}
+#root .keys-checkout-times .keys-stay-time-change:hover{background:var(--color-soft-hover,var(--color-soft))}
+#root .keys-checkout-times .keys-stay-time-change:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+.keys-stay-time-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.keys-stay-time-tabs button{display:grid;gap:4px;padding:12px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink);text-align:left;cursor:pointer}
+.keys-stay-time-tabs button[aria-pressed=true]{border-color:var(--color-brand);background:var(--color-soft)}
+.keys-stay-time-tabs span{font:var(--ui-font-caption)}
+.keys-stay-time-tabs strong{font:var(--ui-font-label)}
+.keys-stay-time-tabs button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .keys-stay-time-info{display:grid;place-items:center;width:44px;height:44px;flex:none;border:0;border-radius:50%;background:transparent;color:var(--color-muted);cursor:pointer}
 .keys-stay-time-info:hover{background:var(--color-soft);color:var(--color-brand)}
 .keys-stay-time-info:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
@@ -1625,7 +1641,12 @@ html.keys-share-sheet dialog[aria-label="Поделиться поездкой"]
 .keys-stay-time-options small{font:var(--ui-font-caption);color:var(--color-muted)}
 .keys-stay-time-options b{font:var(--ui-font-label);white-space:nowrap}
 .keys-stay-time-options svg{flex:none;color:var(--color-brand)}
-@media(min-width:900px){html[data-desktop-account=true] #root .keys-checkout-times{padding:24px;border:1px solid var(--color-line);border-radius:0}}
+
+html #root [data-screen-type="reservation-payment"] :is(.keys-checkout-flow,.keys-checkout-desktop) .keys-booking-primary>.keys-checkout-times,
+html #root [data-screen-type="reservation-payment"] .keys-checkout-flow .keys-checkout-times{padding:0;border:0;border-radius:0;background:transparent}
+html #root [data-screen-type="reservation-payment"] .keys-checkout-times .keys-stay-time-heading h2{margin:0;font:var(--ui-font-section)}
+.keys-checkout-times .keys-stay-time-summary{margin:0}
+@media(max-width:359px){.keys-stay-time-card{flex-wrap:wrap}.keys-stay-time-card .keys-stay-time-summary{flex-basis:100%}.keys-stay-time-card .keys-stay-time-change{margin-left:auto}}
 
 /* A fixed-size summary keeps checkout compact regardless of selected extras. */
 .keys-checkout-price-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}

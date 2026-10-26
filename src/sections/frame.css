@@ -1619,7 +1619,7 @@ html.keys-share-sheet dialog[aria-label="Поделиться поездкой"]
 .keys-stay-time-summary>div+div{padding-left:12px;border-left:1px solid var(--color-line)}
 .keys-stay-time-summary>div{display:grid;align-content:start;gap:6px;min-width:0}
 .keys-stay-time-summary dt,.keys-stay-time-summary small{font:var(--ui-font-caption);color:var(--color-muted)}
-.keys-stay-time-summary dd{margin:0;font:var(--ui-font-section);color:var(--color-ink)}
+.keys-stay-time-summary dd{margin:0;font:600 16px/24px var(--font-sans);color:var(--color-ink)}
 .keys-stay-time-summary .keys-stay-time-charge{display:block;width:fit-content;max-width:100%;margin-top:6px;color:var(--color-muted);font:var(--ui-font-caption);white-space:nowrap}
 .keys-stay-time-summary .keys-stay-time-charge.is-paid{color:var(--color-brand);font:var(--ui-font-caption-medium)}
 #root .keys-checkout-times .keys-stay-time-change{display:inline-flex;align-items:center;justify-content:center;flex:none;gap:4px;width:auto;min-height:36px;margin:0;padding:0 8px;border:0;border-radius:10px;background:var(--color-soft);box-shadow:none;color:var(--color-brand);font:var(--ui-font-caption-medium);white-space:nowrap;cursor:pointer}

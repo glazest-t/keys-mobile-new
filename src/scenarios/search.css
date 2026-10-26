@@ -3,7 +3,7 @@ body[data-keys-scenario="search"] #keysUnifiedPrototype .kh-home{display:none!im
 #keysUnifiedPrototype .kse-home[hidden]{display:none!important}
 #keysUnifiedPrototype .kse-home{--text-scale:1;--text-12:calc(12px * var(--text-scale));--text-14:calc(14px * var(--text-scale));--text-20:calc(20px * var(--text-scale));display:grid;gap:20px;padding-top:16px;font-family:var(--font-sans);color:var(--color-ink);font-synthesis:none}
 #keysUnifiedPrototype .kse-heading{padding:4px 0 0}
-#keysUnifiedPrototype .kse-welcome{display:flex;align-items:center;gap:8px;margin-bottom:8px;font:400 var(--text-14)/1.5 var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .kse-welcome{display:flex;align-items:center;gap:8px;margin-bottom:0;font:400 var(--text-14)/1.5 var(--font-sans);color:var(--color-muted)}
 #keysUnifiedPrototype .kse-welcome>span{display:flex;color:var(--color-brand)}
 #keysUnifiedPrototype .kse-welcome svg{width:18px;height:18px}
 #keysUnifiedPrototype#keysUnifiedPrototype .kse-heading h1{font:500 calc(28px * var(--text-scale))/1.2 var(--font-sans)!important;letter-spacing:-.6px!important;margin:0;color:var(--color-ink)}
@@ -52,14 +52,14 @@ body[data-keys-scenario="search"] #keysUnifiedPrototype .kh-home{display:none!im
 
 
 #keysUnifiedPrototype#keysUnifiedPrototype .kse-referral-view h2{margin:0;font:500 var(--text-20)/1.3 var(--font-sans)!important}
-/* Empty Trips state uses the shared card, icon and primary-button tokens. */
-#keysUnifiedPrototype .kse-empty-bookings{display:grid;justify-items:center;gap:16px;padding:24px var(--ui-card-padding,16px);border:1px solid var(--color-line);border-radius:var(--ui-card-radius,20px);background:var(--color-surface);text-align:center}
-#keysUnifiedPrototype .kse-empty-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:var(--ui-control-radius,14px);background:var(--color-soft);color:var(--color-brand)}
-#keysUnifiedPrototype .kse-empty-icon svg{width:24px;height:24px}
-#keysUnifiedPrototype#keysUnifiedPrototype .kse-empty-copy h2{margin:0;font:var(--ui-font-section);color:var(--color-ink);letter-spacing:0}
+/* Illustration-led empty Trips state, using the selected Orbit concept. */
+#keysUnifiedPrototype .kse-empty-bookings{display:grid;justify-items:center;gap:12px;padding:0 0 8px;border:0;border-radius:0;background:var(--color-card);text-align:center}
+#keysUnifiedPrototype .kse-empty-art{display:block;width:240px;max-width:100%;height:176px;object-fit:contain}
+#keysUnifiedPrototype#keysUnifiedPrototype .kse-empty-copy h1{margin:0;font:500 24px/30px var(--font-sans);color:var(--color-ink);letter-spacing:-.4px}
 #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kse-empty-copy p{max-width:290px;margin:8px auto 0;font:var(--ui-font-body)!important;color:var(--color-muted)}
-#keysUnifiedPrototype .kse-empty-bookings .kh-primary{margin-top:4px}
-body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings{grid-template-columns:48px minmax(0,1fr);justify-items:start;gap:20px;padding:28px;text-align:left}
-body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-icon{grid-row:1/3}
-body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-copy p{max-width:none;margin-left:0;margin-right:0}
-body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-primary{grid-column:2;width:auto;min-width:180px;margin:0}
+#keysUnifiedPrototype .kse-empty-bookings .kh-primary{margin-top:0;gap:8px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings{grid-template-columns:240px minmax(0,1fr);justify-items:start;align-items:center;gap:16px 24px;padding:24px 0;text-align:left}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-art{grid-row:1/3}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-copy p{max-width:340px;margin-left:0;margin-right:0}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-primary{grid-column:2;width:auto;min-width:180px;margin:0;align-self:start}
+@media(max-width:760px){body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings{display:flex;flex-direction:column;align-items:center;text-align:center}body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-primary{width:100%}}

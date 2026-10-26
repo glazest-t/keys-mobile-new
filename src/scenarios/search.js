@@ -6,11 +6,11 @@
  const arrow=svg('<path d="m9 5 7 7-7 7"/>');
  const screen=document.createElement('section');screen.className='kse-home';screen.hidden=true;screen.setAttribute('aria-label','Поездки без бронирования');
  screen.innerHTML=`
-  <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span><h1>Поездки</h1></header>
+  <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span></header>
   <article class="kse-empty-bookings" aria-labelledby="keys-empty-bookings-title">
-   <span class="kse-empty-icon">${svg('<rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3M9 11v6m6-6v6"/>')}</span>
-   <div class="kse-empty-copy"><h2 id="keys-empty-bookings-title">Броней пока нет</h2><p>Они появятся здесь, когда вы забронируете отель.</p></div>
-   <button type="button" class="kh-primary" data-empty-action="find">Найти отель</button>
+   <img class="kse-empty-art" src="./scenarios/assets/empty-trips-orbit.png" width="240" height="180" alt="" decoding="async">
+   <div class="kse-empty-copy"><h1 id="keys-empty-bookings-title">Броней пока нет</h1><p>Они появятся здесь, когда вы забронируете отель.</p></div>
+   <button type="button" class="kh-primary" data-empty-action="find">${svg('<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>')}<span>Найти отель</span></button>
   </article>
   ${window.KeysReferralCard.render()}
   <button type="button" class="kse-benefits" data-empty-action="benefits">

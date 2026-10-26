@@ -1555,8 +1555,8 @@ html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-paramet
 html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-parameters svg{width:22px;height:22px}
 html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-parameters small{font-size:12px;line-height:18px}
 html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-parameters strong{font-size:15px;line-height:22px}
-html:not([data-desktop-account=true]) #root main .keys-search-showcase .keys-search-submit{margin-top:12px;min-height:52px;border-radius:18px;background:#fff;color:var(--color-brand);font:500 17px/24px var(--font-sans)}
-html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-submit svg{width:22px;height:22px}
+html:not([data-desktop-account=true]) #root main .keys-search-showcase .keys-search-submit{margin-top:12px;min-height:var(--ui-control-height);border-radius:var(--ui-control-radius);background:var(--color-card);color:var(--color-brand);font:500 var(--ui-body-size)/1.5 var(--font-sans)}
+html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-submit svg{width:18px;height:18px}
 @media(max-width:360px){html:not([data-desktop-account=true]) .keys-search-intro{font-size:12px;gap:6px;margin-inline:0}html:not([data-desktop-account=true]) .keys-search-direct{font-size:11px;padding-inline:7px}html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-parameters>button{gap:8px;padding-inline:12px}html:not([data-desktop-account=true]) .keys-search-showcase .keys-search-parameters strong{font-size:14px}}
 html:not([data-desktop-account=true]) .keys-search-intro{justify-content:flex-start}
 html:not([data-desktop-account=true]) .keys-search-direct{flex:0 1 auto;max-width:100%;padding:0;background:transparent;border-radius:0;font:500 13px/20px var(--font-sans);text-align:left;white-space:normal}

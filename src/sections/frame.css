@@ -1687,13 +1687,14 @@ html #root [data-screen-type="reservation-payment"] .keys-checkout-times .keys-s
 /* Full-screen first-use preferences, in the same light theme as Find. */
 #root .keys-module-screen:has(.keys-swipe-preferences){background:var(--color-card)}
 #root .keys-module-screen:has(.keys-swipe-preferences) .keys-fullscreen>main{padding:0;overflow:hidden}
-.keys-swipe-preferences{display:flex;flex-direction:column;height:100%;min-height:0;color:var(--color-ink);background:var(--color-card)}
-#root .keys-swipe-preferences>header{flex:none;padding:20px 16px 16px;margin:0}
-.keys-swipe-preferences-body{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px 16px 24px}
-#root .keys-swipe-preferences-body h2{margin:0 auto;max-width:320px;font:500 30px/33px var(--font-sans);letter-spacing:-.8px}
-#root .keys-swipe-preferences-body h2>span{color:var(--color-brand)}
+.keys-swipe-preferences{position:relative;isolation:isolate;display:flex;flex-direction:column;height:100%;min-height:0;color:var(--color-ink);background:var(--color-card)}
+#root .keys-swipe-preferences>header{display:grid;gap:8px;flex:none;padding:8px 16px 12px;margin:0;background:transparent}
+#root .keys-swipe-preferences>header>button{justify-self:start}
+#root .keys-swipe-preferences>header h1{width:100%;margin:0 auto;max-width:320px;font:500 30px/33px var(--font-sans);letter-spacing:-.8px}
+#root .keys-swipe-preferences>header h1>span{color:var(--color-brand)}
+.keys-swipe-preferences-body{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 16px calc(96px + env(safe-area-inset-bottom))}
 /* Stable circular targets; separate entry and selection transforms avoid jumps. */
-.keys-swipe-preference-tags{position:relative;width:100%;max-width:320px;aspect-ratio:350/620;margin:16px auto 0;isolation:isolate}
+.keys-swipe-preference-tags{position:relative;width:100%;max-width:320px;aspect-ratio:350/620;margin:0 auto;isolation:isolate}
 .keys-swipe-bubble{position:absolute;left:calc(var(--x) / 350 * 100%);top:calc(var(--y) / 620 * 100%);width:calc(var(--size) / 350 * 100%);aspect-ratio:1;animation:keys-swipe-bubble-enter 680ms both;animation-delay:calc(var(--bubble-index) * 38ms)}
 .keys-swipe-bubble:nth-child(1){--x:30;--y:0;--size:142}
 .keys-swipe-bubble:nth-child(2){--x:180;--y:16;--size:126}
@@ -1717,8 +1718,8 @@ html #root [data-screen-type="reservation-payment"] .keys-checkout-times .keys-s
 .keys-swipe-bubble>button:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
 .keys-swipe-bubble>button:active{transform:scale(.985)}
 @keyframes keys-swipe-bubble-enter{from{opacity:0;transform:translateY(18px) scale(.87)}to{opacity:1;transform:translateY(0) scale(1)}}
-.keys-swipe-preferences-footer{flex:none;padding:12px 16px max(20px,env(safe-area-inset-bottom));background:var(--color-card)}
-.keys-swipe-preferences-footer>button{width:100%;min-height:var(--ui-control-height,48px)}
+.keys-swipe-preferences-footer{position:absolute;bottom:0;left:0;right:0;padding:12px 16px max(20px,env(safe-area-inset-bottom));background:transparent;pointer-events:none;z-index:2}
+.keys-swipe-preferences-footer>button{pointer-events:auto;width:100%;min-height:var(--ui-control-height,48px)}
 html[data-desktop-account=true] .keys-swipe-preferences-body{width:100%;max-width:430px;margin-inline:auto}
 html[data-desktop-account=true] .keys-swipe-preferences-footer{width:100%;max-width:430px;margin-inline:auto}
 @media(max-width:359px){.keys-swipe-bubble>button{font-size:12px;line-height:17px;gap:6px}.keys-swipe-choice-icon{width:24px;height:24px}.keys-swipe-choice-check{width:18px;height:18px}}
@@ -1732,14 +1733,14 @@ html[data-desktop-account=true] .keys-swipe-preferences-footer{width:100%;max-wi
 @media(prefers-reduced-motion:reduce){.keys-swipe-waves{display:none}}
 
 /* Complete the preference selection before revealing the swipe deck. */
-.keys-swipe-preference-tags::before{content:"";position:absolute;inset:0;z-index:-1;background:url('./swipe-art/orbits.png') center/100% 100% no-repeat;pointer-events:none;transition:opacity 600ms ease}
-.keys-swipe-preferences-body h2,.keys-swipe-preferences-footer{transition:opacity 400ms ease}
-.keys-swipe-preferences.is-leaving .keys-swipe-preference-tags::before{opacity:0}
+.keys-swipe-preferences::before{content:"";position:absolute;inset:0;z-index:-1;background:url('./swipe-art/orbits.svg') center/cover no-repeat;pointer-events:none;transition:opacity 600ms ease}
+.keys-swipe-preferences-header h1,.keys-swipe-preferences-footer{transition:opacity 400ms ease}
+.keys-swipe-preferences.is-leaving::before{opacity:0}
 .keys-swipe-preferences.is-leaving .keys-swipe-preferences-body{overflow:hidden}
-.keys-swipe-preferences.is-leaving .keys-swipe-preferences-body h2{opacity:.2}
+.keys-swipe-preferences.is-leaving .keys-swipe-preferences-header h1{opacity:.2}
 .keys-swipe-preferences.is-leaving .keys-swipe-preferences-footer{opacity:.35;pointer-events:none}
 .keys-swipe-preferences.is-leaving .keys-swipe-bubble>button{cursor:default}
-@media(prefers-reduced-motion:reduce){.keys-swipe-preference-tags::before,.keys-swipe-preferences-body h2,.keys-swipe-preferences-footer{transition:none}}
+@media(prefers-reduced-motion:reduce){.keys-swipe-preferences::before,.keys-swipe-preferences-header h1,.keys-swipe-preferences-footer{transition:none}}
 
 /* Keep the swipe action bar fixed while a decision replaces the card. */
 #root .keys-module-screen:is([data-screen-type="swipe"],[data-screen-type="shared-swipe"]) [aria-label="Действия с отелем"] button{transform:none;transition:background-color 180ms ease,box-shadow 180ms ease}

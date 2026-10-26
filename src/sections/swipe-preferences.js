@@ -50,7 +50,7 @@ function KeysSwipePreferencesStorage(){
  return null;
 }
 function KeysSwipePreferences(){
- const {state,dispatch}=J(),preferences=keysSwipePreferences(state);
+ const {state,dispatch,back}=J(),preferences=keysSwipePreferences(state);
  const screenRef=E.useRef(null),exitRef=E.useRef(false),mountedRef=E.useRef(true),exitAnimations=E.useRef([]);
  const [leaving,setLeaving]=E.useState(false);
  E.useEffect(()=>{
@@ -111,9 +111,11 @@ function KeysSwipePreferences(){
   animation.id='keys-swipe-choice';
  };
  return n.jsxs('section',{ref:screenRef,className:'keys-swipe-preferences'+(leaving?' is-leaving':''),'aria-busy':leaving,'aria-label':'Предпочтения для отелей свайпом',children:[
-  n.jsx(Ae,{title:'Отели свайпом'}),
+  n.jsxs('header',{className:'keys-swipe-preferences-header',children:[
+   n.jsx(cs,{onClick:back}),
+   n.jsxs('h1',{id:'keys-swipe-preferences-title',children:['Какой ',n.jsx('span',{children:'отдых'}),n.jsx('br',{}),'вы ищете?']})
+  ]}),
   n.jsxs('div',{className:'keys-swipe-preferences-body',children:[
-   n.jsxs('h2',{id:'keys-swipe-preferences-title',children:['Какой ',n.jsx('span',{children:'отдых'}),n.jsx('br',{}),'вы ищете?']}),
    n.jsx('div',{className:'keys-swipe-preference-tags',role:'group','aria-labelledby':'keys-swipe-preferences-title',children:keysSwipePreferenceOptions.map((option,index)=>n.jsxs('div',{className:'keys-swipe-bubble',style:{'--bubble-index':index},children:[n.jsx('span',{className:'keys-swipe-waves','aria-hidden':true,children:Array.from({length:9},(_,wave)=>n.jsx('span',{className:'keys-swipe-wave'},wave))}),n.jsxs('button',{type:'button',disabled:leaving,'aria-pressed':preferences.selected.includes(option.id),onClick:event=>choose(event,option.id),children:[n.jsx('img',{className:'keys-swipe-choice-icon',src:'./swipe-art/'+option.icon+'.svg',alt:'',draggable:false}),n.jsx('span',{className:'keys-swipe-choice-label',children:option.label}),n.jsx('span',{className:'keys-swipe-choice-check','aria-hidden':true,children:n.jsx('img',{src:'./swipe-art/check.svg',alt:''})})]})]},option.id))})
   ]}),
   n.jsx('footer',{className:'keys-swipe-preferences-footer',children:n.jsx(H,{onClick:continueToHotels,disabled:leaving,children:'Перейти к отелям'})})

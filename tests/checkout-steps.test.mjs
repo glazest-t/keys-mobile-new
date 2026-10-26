@@ -3,6 +3,23 @@ globalThis.document={createElement:()=>({relList:{supports:()=>true}})};globalTh
 const e=createRequire(import.meta.url)('../tmp/sections-engine.cjs');
 const run=(s,a)=>e.reducer(s,{now:Date.parse('2026-09-13T10:00:00Z'),...a});
 const start=()=>run(e.keysInitialState(),{type:'RESERVATION_START',hotelId:'more'});
+test('guest citizenship survives navigation, profile saving and booking confirmation',()=>{
+ let s=start();
+ const contact={firstName:'Анна',lastName:'Иванова',phone:'+79001234567',email:'anna@example.ru',citizenship:'Казахстан'};
+ s=run(s,{type:'RESERVATION_CONTACT',contact});
+ s=run(s,{type:'KEYS_RESERVATION_GUEST_PATCH',guest:{firstName:'Иван',lastName:'Петров',citizenship:' Беларусь '}});
+ s=run(s,{type:'KEYS_CHECKOUT_PROFILE_SAVE',contact});
+ assert.equal(s.profile.citizenship,'Казахстан');
+ s=run(s,{type:'RESERVATION_NEXT'});
+ for(const step of ['services','details','payment'])s=run(s,{type:'KEYS_CHECKOUT_STEP',step});
+ assert.equal(s.reservation.contact.citizenship,'Казахстан');
+ assert.equal(s.reservation.additionalGuests[0].citizenship,'Беларусь');
+ s=run(s,{type:'RESERVATION_METHOD',method:'arrival'});
+ s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});
+ assert.equal(s.reservation.status,'confirmed');
+ assert.equal(s.booking.contact.citizenship,'Казахстан');
+ assert.equal(s.booking.additionalGuests[0].citizenship,'Беларусь');
+});
 test('payment step requires valid contacts and preserves the entire draft on back',()=>{
  let s=start();s=run(s,{type:'RESERVATION_CONTACT',contact:{firstName:'Анна',lastName:'',phone:'+79001234567',email:''}});
  s=run(s,{type:'KEYS_CHECKOUT_STEP',step:'payment'});assert.notEqual(s.reservation.keysCheckoutStep,'payment');

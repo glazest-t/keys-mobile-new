@@ -2,6 +2,7 @@ export function adaptAdditionalGuest(source,component){
  let js=source;
  const replace=(from,to)=>{if(!js.includes(from))throw Error('Additional guest anchor missing: '+from.slice(0,70));js=js.replace(from,to);};
  replace('function CG(',component+'\nfunction CG(');
+ replace('contact: Av(t.contact), contactEdited: true','contact: {...Av(t.contact),citizenship:String(t.contact.citizenship||"").trim().slice(0,80)}, contactEdited: true');
  const start=js.indexOf('if(paymentSummary&&c&&!g)'),end=js.indexOf('  return c && !g ?',start);
  if(start<0||end<0)throw Error('Payment contact summary missing');
  const branch="if(paymentSummary)return n.jsx(KeysPaymentGuestPanel,{contact:e,onChange:r,edited:t,onReset:l});\n";

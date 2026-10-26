@@ -136,6 +136,7 @@ ${fragment}
 <link rel="stylesheet" href="./scenarios/onboarding-v2.css">
 <script type="module" src="./scenarios/onboarding.js"></script>
 <link rel="stylesheet" href="./profile/profile.css">
+<link rel="stylesheet" href="./arbana/sheet-motion.css">
 <script type="module" src="./profile/profile.js"></script>
 </body>
 </html>

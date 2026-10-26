@@ -5,7 +5,7 @@ function keysSetPartner(state,value){
  return {...state,keysPartnerApproved:approved,search:{...state.search,keysPartnerApproved:approved},reservation:reservation&&reservation.status!=='confirmed'?{...reservation,keysPartnerApproved:approved,tariffId:reservation.tariffId==='friendly-rate'&&!approved?'flexible':reservation.tariffId}:reservation};
 }
 function KeysFriendlyRateNote(){
- return n.jsxs('div',{className:'keys-friendly-rate-note',children:[n.jsx(D,{name:'gift',className:'size-4'}),n.jsxs('span',{children:[n.jsx('strong',{children:'Для отельеров'}),n.jsx('span',{children:'TravelLine Partners Club'})]})]});
+ return n.jsxs('div',{className:'keys-friendly-rate-note',children:[n.jsx(D,{name:'gift',className:'size-4'}),n.jsxs('span',{children:[n.jsx('strong',{children:'Для отельеров'}),n.jsx('span',{children:'TravelLine'})]})]});
 }
 function keysSetLoyalty(state,value){
  const tier=value==='Gold'?'Gold':'Silver';

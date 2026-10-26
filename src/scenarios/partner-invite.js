@@ -38,7 +38,7 @@ export function createPartnerInvite({guest,header,main,svg,onStartAuth,onReady,o
  function invite(){
   expireRequest();model.reset();shell('Свои отели.<br>Особые условия.',false,'invite');
   main.querySelector('.kauth-intro').insertAdjacentHTML('beforebegin','<div class="kpi-invite-art" aria-hidden="true"><img src="./scenarios/auth-art/hotels.png" alt=""><img src="./scenarios/auth-art/key.png" alt=""></div>');
-  main.insertAdjacentHTML('beforeend',`<p class="kpi-lead">Закрытая версия «Ключей» для отельеров с тарифами <strong>Friendly Rate</strong>.</p><section class="kpi-invitation" aria-label="Персональное приглашение"><span class="kpi-kicker">Персональное приглашение</span><div><span>Приглашение от</span><strong>${escapePartnerText(partnerInviter.name)}</strong><span>${escapePartnerText(partnerInviter.hotel)} · TravelLine Partners Club</span></div></section><button type="button" class="kauth-primary" data-partner-start>Принять приглашение</button><button type="button" class="kauth-link kpi-skip" data-partner-invite-skip>Пропустить</button>`);
+  main.insertAdjacentHTML('beforeend',`<p class="kpi-lead">Закрытая версия «Ключей» для отельеров с тарифами <strong>Friendly Rate</strong>.</p><section class="kpi-invitation" aria-label="Персональное приглашение"><span class="kpi-kicker">Персональное приглашение</span><div><span>Приглашение от</span><strong>${escapePartnerText(partnerInviter.name)}</strong><span>${escapePartnerText(partnerInviter.hotel)} · TravelLine</span></div></section><button type="button" class="kauth-primary" data-partner-start>Принять приглашение</button><button type="button" class="kauth-link kpi-skip" data-partner-invite-skip>Пропустить</button>`);
   window.KeysBrand?.auth(guest);
  }
  function introduction(){

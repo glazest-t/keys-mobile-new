@@ -1,0 +1,41 @@
+/* Shared entry motion for bottom sheets in the host and embedded app.
+   Independent translate preserves each surface's existing positioning. */
+@keyframes keys-sheet-enter {
+  from { translate: 0 100%; }
+  to { translate: 0 0; }
+}
+
+@keyframes keys-sheet-backdrop-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes keys-sheet-layer-enter {
+  from { background-color: transparent; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body[data-keys-view="mobile"] #keysUnifiedPrototype
+  :is(.k3-sheet-layer,.kp-sheet-layer,.kf-sheet-layer,.ktd-sheet-layer,.ksd-sheet-layer):not([hidden]) {
+    overflow: clip;
+    animation: keys-sheet-layer-enter .24s ease-out;
+  }
+
+  body[data-keys-view="mobile"] #keysUnifiedPrototype
+  :is(.k3-sheet-layer,.kp-sheet-layer,.kf-sheet-layer,.ktd-sheet-layer,.ksd-sheet-layer):not([hidden])
+  > :is(.k3-sheet,.kp-sheet,.kf-sheet,.ktd-sheet,.ksd-sheet),
+  body[data-keys-view="mobile"] .keys-door-error[open],
+  #keysUnifiedPrototype .kpi-benefits-dialog[open] .kpi-benefits-sheet,
+  html[data-platform="mobile"] dialog:is(.motion-sheet,.discovery-sheet)[open] {
+    animation: keys-sheet-enter .36s cubic-bezier(.32,.72,0,1);
+  }
+
+  #keysUnifiedPrototype .kpi-benefits-dialog[open] {
+    animation: keys-sheet-layer-enter .24s ease-out;
+  }
+
+  body[data-keys-view="mobile"] .keys-door-error[open]::backdrop,
+  html[data-platform="mobile"] dialog:is(.motion-sheet,.discovery-sheet)[open]::backdrop {
+    animation: keys-sheet-backdrop-enter .24s ease-out;
+  }
+}

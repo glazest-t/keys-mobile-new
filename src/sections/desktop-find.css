@@ -888,3 +888,10 @@ html[data-desktop-account=true] #root .keys-rate-option.is-friendly .keys-rate-c
 html[data-desktop-account=true] #root .keys-booking-cart .keys-checkout-price-bar .keys-cart-total{gap:2px;padding:0;margin:0;border:0;align-items:flex-start}
 html[data-desktop-account=true] #root .keys-booking-cart .keys-checkout-price-bar .keys-cart-total dt{font:var(--ui-font-caption);color:var(--color-muted)}
 html[data-desktop-account=true] #root .keys-booking-cart .keys-checkout-price-bar .keys-cart-total dd{font:600 24px/30px var(--font-sans);letter-spacing:-.4px}
+
+/* Desktop services stay itemized alongside accommodation and points. */
+html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-services{margin:20px 0 0;padding:20px 0 0;border-top:1px solid var(--color-brand-line)}
+html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-services h2{font:var(--ui-font-label);margin:0 0 12px}
+html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-row dt{min-width:0;overflow-wrap:anywhere}
+html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-row dd{flex-shrink:0}
+html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-services+.keys-cart-costs{margin-top:20px}

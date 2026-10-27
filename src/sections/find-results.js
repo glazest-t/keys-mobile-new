@@ -409,6 +409,7 @@ function keysHotelFiltersMatch(hotel,filters){
  return true;
 }
 function KeysHotelFilters({inline=false}){
+ const desktop=useKeysDesktopList();
  const {state,dispatch,back}=J(),[draft,setDraft]=E.useState(()=>keysNormalizeHotelFilters(state.search.filters,state.search)),[draftPerNight,setDraftPerNight]=E.useState(!!state.search.keysPricePerNight);
  const liveFilters=E.useMemo(()=>keysNormalizeHotelFilters(state.search.filters,state.search),[state.search]);
  const filters=inline?liveFilters:draft,perNight=inline?!!state.search.keysPricePerNight:draftPerNight,nights=Math.max(1,Ge(state.search.arrival,state.search.departure)||1);
@@ -425,7 +426,7 @@ function KeysHotelFilters({inline=false}){
    ...keysHotelFilterGroups.map(group=>n.jsxs('details',{open:true,'data-filter-section':group.id,className:'keys-filter-section',children:[
     n.jsxs('summary',{children:[n.jsx('span',{children:group.title}),!group.counters&&selectedCount(group)>0&&n.jsx('span',{className:'keys-filter-section-count',children:selectedCount(group)}),n.jsx(D,{name:'down',className:'size-4'})]}),
     group.counters?n.jsx('div',{className:'keys-filter-counters',children:group.counters.map(label=>{
-     const value=keysHotelFilterCounter(filters,label);return n.jsxs('div',{className:'keys-filter-counter',children:[n.jsx('span',{children:label}),n.jsxs('div',{children:[n.jsx('button',{type:'button',disabled:value===0,'aria-label':'Уменьшить: '+label,onClick:()=>change(keysSetHotelFilterCounter(filters,label,value-1)),children:'−'}),n.jsx('output',{'aria-live':'polite','aria-label':label,children:value||'Любое'}),n.jsx('button',{type:'button',disabled:value===10,'aria-label':'Увеличить: '+label,onClick:()=>change(keysSetHotelFilterCounter(filters,label,value+1)),children:'+'})]})]},label);
+     const value=keysHotelFilterCounter(filters,label);return n.jsxs('div',{className:'keys-filter-counter',children:[n.jsx('span',{children:label}),n.jsxs('div',{children:[n.jsx('button',{type:'button',disabled:value===0,'aria-label':'Уменьшить: '+label,onClick:()=>change(keysSetHotelFilterCounter(filters,label,value-1)),children:'−'}),n.jsx('output',{'aria-live':'polite','aria-label':label+(value===0?' — любое количество':''),children:value||(desktop?0:'Любое')}),n.jsx('button',{type:'button',disabled:value===10,'aria-label':'Увеличить: '+label,onClick:()=>change(keysSetHotelFilterCounter(filters,label,value+1)),children:'+'})]})]},label);
     })}):n.jsx('div',{className:'keys-filter-choices'+(group.id==='stars'?' is-stars':''),children:group.options.map(label=>n.jsx('button',{type:'button',className:'keys-filter-choice','aria-pressed':keysFilterSelected(filters,group,label),onClick:()=>change(keysToggleHotelFilter(filters,group,label)),children:label},label))}),
    ]},group.id)),
    !inline&&n.jsxs('div',{className:'keys-filter-footer keys-new-filter-footer',children:[!invalid&&count===0&&n.jsx('span',{className:'keys-filter-result-count','aria-live':'polite',children:'Нет вариантов. Попробуйте изменить фильтры'}),n.jsx(H,{type:'submit',disabled:invalid,children:count?'Показать отели · '+count:'Показать результаты'})]})

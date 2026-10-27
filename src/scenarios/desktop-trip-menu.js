@@ -12,7 +12,7 @@
  const row=(action,label,name)=>`<button type="button" class="kd-trip-menu-row" data-trip-menu-action="${action}">${icon(name)}<span>${label}</span>${icon('arrow')}</button>`;
  function render(){
   const state=scenario(),after=state==='after',stay=state==='stay';
-  const status=state==='booked'&&window.KeysBeforeCancellation?.getStatus()?'Бронь отменена':after?'Поездка завершена':stay?(document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до 12:00':'Проживание'):home.querySelector('.kpa-arrival-countdown').textContent.trim();
+  const status=state==='booked'&&window.KeysBeforeCancellation?.getStatus()?'Бронь отменена':after?'Поездка завершена':stay?(document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до '+(window.KeysStayServices?.getRequests().late||'12:00'):'Проживание'):home.querySelector('.kpa-arrival-countdown').textContent.trim();
   const dates=state==='booked'?home.querySelector('.kpa-trip-schedule').getAttribute('aria-label').replace('Проживание: ',''):'12–19 сентября · 7 ночей';
   const orders=window.KeysActiveServices?.getOrders()||[];
   panel.innerHTML=`<header><h2 id="kd-trip-menu-title">${after?'Завершённая поездка':'Ваша поездка'}</h2><button type="button" data-trip-menu-close aria-label="Закрыть окно поездки">${icon('close')}</button></header>
@@ -34,11 +34,11 @@
   if(action==='details'){if(state==='booked')click('.kpa-actions [data-before="details"]');else app.dispatchEvent(new CustomEvent('keys-open-stay-details'));}
   if(action==='key')click('.kh-open-door');
   if(action==='services')click(state==='booked'?'.kpa-services-all':'.kh-home>.kh-quick-actions [data-info="services"]');
-  if(action==='route')click('.kd-trip-actions [data-before="route"]');
+  if(action==='route')click('.kd-before-actions [data-before="route"]');
   if(action==='chat')app.dispatchEvent(new CustomEvent('keys-open-hotel-chat'));
   if(action==='documents')window.KeysTripDocuments.open(trigger);
   if(action==='review')app.dispatchEvent(new CustomEvent('keys-open-trip-review',{detail:{trigger}}));
-  if(action==='history')window.KeysHomeViews.open('Прошлые поездки',state==='after'?`<button type="button" class="kd-trip-menu-hotel kd-history-trip" data-after="stay"><img src="./scenarios/maidens-hotel.jpg" alt=""><span><strong>Maidens Hotel</strong><small>Москва · 12–19 сентября · 7 ночей</small><span class="kd-trip-menu-status">${icon('check')}Поездка завершена</span></span>${icon('arrow')}</button>`:'<p class="kh-intro">Здесь появятся завершённые поездки, их документы и отзывы.</p>','trip-history',trigger);
+  if(action==='history')window.KeysProfile?.open('history',null,{from:'trips'});
  });
  app.addEventListener('keys-scenario-change',close);
  new MutationObserver(close).observe(document.body,{attributes:true,attributeFilter:['data-keys-view','data-keys-desktop-home']});

@@ -503,7 +503,8 @@ html[data-home-search="true"] .keys-search-fields [role="listbox"]{position:abso
 /* Wide results: one filter surface, a readable list, and a flexible map. */
 @media(min-width:900px){
  html[data-desktop-account=true] #root [data-find-layout=results] .keys-results-workspace.has-sidebar{grid-template-columns:280px minmax(340px,1.1fr) minmax(280px,1fr);gap:24px;--results-height:clamp(440px,calc(var(--keys-desktop-height,800px) - 115px),1100px)}
- html[data-desktop-account=true] #root [data-find-layout=results]:has(.has-sidebar) .keys-results-filters{display:none}
+ html[data-desktop-account=true] #root [data-find-layout=results]:has(.has-sidebar) .keys-results-filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;overflow:visible}
+ html[data-desktop-account=true] #root [data-find-layout=results]:has(.has-sidebar) .keys-results-all-filters{display:none}
  html[data-desktop-account=true] #root [data-find-layout=results]:has(.has-sidebar) .keys-results-sticky{margin-bottom:24px}
  html[data-desktop-account=true] #root [data-find-layout=results] .has-sidebar .keys-results-list{grid-column:2;grid-row:1;padding:2px 6px 2px 2px}
  html[data-desktop-account=true] #root [data-find-layout=results] .has-sidebar .keys-results-map{grid-column:3;grid-row:1}
@@ -512,7 +513,12 @@ html[data-home-search="true"] .keys-search-fields [role="listbox"]{position:abso
  #root .keys-results-sidebar .keys-filter-sidebar-heading h2{margin:0;font:500 20px/26px var(--font-sans)}
  #root .keys-filter-sidebar-heading>button{padding:4px 0;min-height:32px;font:400 13px/20px var(--font-sans);color:var(--color-brand);background:none;border:0}
  #root .keys-filter-sidebar-heading>button:disabled{color:var(--color-muted);opacity:.5;cursor:default}
- #root .keys-results-sidebar .keys-filter-form{display:flex;flex-direction:column;gap:24px;padding:0;margin:0;min-height:0;overflow:visible}
+ #root .keys-results-sidebar .keys-filter-form{display:flex;flex-direction:column;gap:0;padding:0;margin:0;min-height:0;overflow:visible}
+ /* Section padding alone separates the current tag-based filters. */
+ #root .keys-results-sidebar .keys-filter-price-section{padding:8px 0 16px}
+ #root .keys-results-sidebar .keys-filter-section{padding:12px 0}
+ #root .keys-results-sidebar .keys-filter-choices{margin-top:10px}
+ #root .keys-results-sidebar .keys-filter-counters{margin-top:8px}
  #root .keys-results-sidebar .keys-filter-footer{display:none}
  #root .keys-results-sidebar :is(fieldset,.keys-district-field){min-width:0;margin:0;padding:0;border:0}
  #root .keys-results-sidebar :is(legend,.keys-district-field){font:500 14px/20px var(--font-sans);color:var(--color-ink)}
@@ -666,7 +672,8 @@ html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
  html[data-desktop-account=true] #root .keys-hotel-desktop-detail{gap:24px}
  html[data-desktop-account=true] #root .keys-hotel-desktop-summary{gap:20px}
  html[data-desktop-account=true] #root .keys-hotel-desktop-summary>.keys-hotel-personal{margin:0;padding:0;border:0}
- html[data-desktop-account=true] #root .keys-hotel-desktop-summary .keys-hotel-personal h2{font:var(--ui-font-label);margin:0 0 12px}
+ html[data-desktop-account=true] #root .keys-hotel-desktop-summary .keys-hotel-personal h2{font:var(--ui-font-label);margin:0}
+ html[data-desktop-account=true] #root .keys-hotel-desktop-summary .keys-hotel-personal-heading{margin-bottom:12px}
  html[data-desktop-account=true] #root .keys-hotel-desktop-summary .keys-hotel-personal-tags{display:grid;grid-template-columns:1fr;gap:8px;margin:0;padding:0;overflow:visible}
  html[data-desktop-account=true] #root .keys-hotel-desktop-summary .keys-hotel-personal-tags>li{min-width:0;min-height:56px;padding:10px 14px}
  html[data-desktop-account=true] #root .keys-hotel-stay-bar{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0;margin:0}
@@ -689,6 +696,8 @@ html[data-desktop-account=true] #root .keys-favorites-page{max-width:none}
  html[data-desktop-account=true] #root .keys-hotel-inline-rooms .keys-cart-submit{box-shadow:0 0 0 6px var(--color-soft)}
  html[data-desktop-account=true] #root .keys-rate-price{width:174px;max-width:none}
  html[data-desktop-account=true] #root .keys-rate-price-line{display:grid;grid-template-columns:minmax(0,1fr) 44px;align-items:center;gap:8px;width:100%;white-space:nowrap;text-align:right}
+ /* Without a discount badge the total reaches the same right edge as the nightly price. */
+ html[data-desktop-account=true] #root .keys-rate-price-line>strong:only-child{grid-column:1/-1}
  html[data-desktop-account=true] #root .keys-rate-price-line .keys-tariff-discount{flex:none;margin:0}
  html[data-desktop-account=true] #root .keys-hotel-amenities-full .keys-hotel-amenities-sheet{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
  html[data-desktop-account=true] #root .keys-hotel-amenities-full .keys-hotel-amenities-sheet h3{font:var(--ui-font-label)}
@@ -898,3 +907,57 @@ html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-services+.ke
 
 /* Use one spacing boundary between the points surface and the final amount. */
 html[data-desktop-account=true] #root .keys-booking-cart .keys-cart-body>.keys-checkout-price-bar{margin-top:20px;padding-top:0;border-top:0}
+
+/* Selected desktop Find composition: search, two discovery cards, viewed hotels. */
+.keys-find-history-caption,.keys-find-history-clock,.keys-history-desktop-guests,.keys-find-desktop-swipe{display:none}
+html[data-desktop-account=true] [data-find-layout=landing] main{grid-template-columns:repeat(20,minmax(0,1fr))}
+html[data-desktop-account=true] #root [data-find-layout=landing] :is(.keys-find-photo,.keys-find-wish){display:none!important}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-caption{display:block;margin:0 0 12px;font:var(--ui-font-body);color:var(--color-muted)}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-card{display:flex;align-items:center;gap:8px;flex:0 1 auto;width:auto;min-width:0;max-width:none;height:52px;padding:12px 38px 12px 16px;white-space:nowrap}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-clock{display:block;flex:none;width:20px;height:20px;margin-right:4px;color:var(--color-muted)}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-city{display:block;flex:none}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-city svg{position:absolute;right:14px;top:19px}
+html[data-desktop-account=true] #root [data-find-layout=landing] :is(.keys-find-history-dates,.keys-find-history-guests){font:var(--ui-font-body);overflow:visible}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-dates:before{content:'·';margin-right:8px}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-history-mobile-guests{display:none}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-history-desktop-guests{display:inline}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-desktop-swipe{position:relative;isolation:isolate;display:flex;align-items:center;grid-column:1/12;width:100%;height:200px;min-width:0;padding:28px;border:0;border-radius:20px;overflow:hidden;text-align:left;background:#222b44;color:#fff;cursor:pointer}
+html[data-desktop-account=true] #root .keys-find-swipe-copy{position:relative;z-index:2;display:grid;gap:8px;width:62%;min-width:0}
+html[data-desktop-account=true] #root#root .keys-find-swipe-copy>strong{font:500 24px/30px var(--font-sans)}
+html[data-desktop-account=true] #root .keys-find-swipe-copy>span:not(.keys-find-swipe-link){font:400 14px/21px var(--font-sans);color:#e0e5f2;max-width:280px}
+html[data-desktop-account=true] #root .keys-find-swipe-link{display:flex;align-items:center;justify-content:center;gap:12px;justify-self:start;height:44px;margin-top:16px;padding:0 16px;border-radius:14px;background:var(--color-card);color:var(--color-ink);font:var(--ui-font-label)}
+html[data-desktop-account=true] #root .keys-find-swipe-link svg{width:18px;height:18px}
+html[data-desktop-account=true] #root .keys-find-swipe-art{position:absolute;right:18px;bottom:-8px;width:36%;height:190px;pointer-events:none}
+html[data-desktop-account=true] #root .keys-find-swipe-art>img{position:absolute;display:block;width:76%;height:184px;object-fit:cover;border:4px solid #fff;border-radius:16px;box-shadow:0 8px 20px #11131826}
+html[data-desktop-account=true] #root .keys-find-swipe-photo-back{right:-4px;top:12px;transform:rotate(8deg)}
+html[data-desktop-account=true] #root .keys-find-swipe-photo-front{left:0;top:0;transform:rotate(-10deg)}
+html[data-desktop-account=true] #root :is(.keys-find-swipe-no,.keys-find-swipe-yes){position:absolute;bottom:26px;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--color-card);color:var(--color-ink)}
+html[data-desktop-account=true] #root .keys-find-swipe-no{left:-16px}
+html[data-desktop-account=true] #root .keys-find-swipe-yes{right:10px;background:var(--color-brand);color:#fff}
+html[data-desktop-account=true] #root .keys-find-swipe-yes svg{fill:currentColor}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-collections{grid-column:12/-1;align-self:stretch}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal{height:200px;grid-template-columns:minmax(0,1fr) 38%;gap:12px;padding:24px}
+html[data-desktop-account=true] #root#root [data-find-layout=landing] .keys-find-deal-copy strong{font:500 24px/30px var(--font-sans);letter-spacing:0}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal-copy{gap:16px}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal-saving{justify-self:start;padding:5px 10px;border-radius:20px;background:var(--color-success-bg);font:500 12px/18px var(--font-sans);white-space:nowrap}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal-photos{width:100%;height:150px}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal-postcard{width:68%;height:140px}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal-chevron{right:12px;top:12px;width:28px;height:28px;padding:6px;border:1px solid var(--color-line);border-radius:50%;color:var(--color-ink)}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-recent{padding-top:4px}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-recent-track img{height:156px}
+html[data-desktop-account=true] #root .keys-find-desktop-swipe:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
+@media(max-width:1100px){
+ html[data-desktop-account=true] [data-find-layout=landing] main{grid-template-columns:repeat(12,minmax(0,1fr))}
+ html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-desktop-swipe{grid-column:1/7;padding:20px}
+ html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-collections{grid-column:7/-1}
+ html[data-desktop-account=true] #root#root [data-find-layout=landing] .keys-find-deal-copy strong{font:500 20px/26px var(--font-sans)}
+ html[data-desktop-account=true] #root .keys-find-swipe-art{right:8px;width:34%;height:164px}
+ html[data-desktop-account=true] #root .keys-find-swipe-art>img{height:158px}
+ html[data-desktop-account=true] #root .keys-find-swipe-copy{width:65%}
+}
+@media(max-width:799px){
+ html[data-desktop-account=true] #root [data-find-layout=landing] :is(.keys-find-desktop-swipe,.keys-find-collections){grid-column:1/-1}
+ html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-track{flex-wrap:wrap;overflow:visible}
+ html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-card{font-size:12px;padding-left:12px;gap:6px}
+ html[data-desktop-account=true] #root [data-find-layout=landing] :is(.keys-find-history-dates,.keys-find-history-guests){font-size:12px}
+}

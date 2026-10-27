@@ -37,19 +37,22 @@ function B4() {
  return n.jsxs(n.Fragment,{children:[
   globalThis.keysGuestMode&&n.jsx(KeysDesktopPointsCard,{}),
   searches.length>0 && n.jsxs('section',{className:'keys-find-history','aria-label':'Предыдущие поиски',children:[
+   n.jsx('p',{className:'keys-find-history-caption',children:'Вы недавно искали'}),
    n.jsx('div',{className:'keys-find-history-track',children:searches.map(search=>{
     const adults=search.party.adults;
     const adultLabel=`${adults} ${adults%10===1&&adults%100!==11?'взрослый':'взрослых'}`;
     return n.jsxs('button',{type:'button',className:'keys-find-history-card',onClick:()=>keysRepeatSearch(dispatch,search),
      'aria-label':`Повторить поиск: ${search.city}, ${DE(search.arrival,search.departure)}, ${adultLabel}`,
      children:[
+      n.jsx(D,{name:'clock',className:'keys-find-history-clock'}),
       n.jsxs('span',{className:'keys-find-history-city',children:[n.jsx('strong',{children:search.city}),n.jsx(D,{name:'chevron',className:'size-4'})]}),
       n.jsx('span',{className:'keys-find-history-dates',children:DE(search.arrival,search.departure)}),
-      n.jsx('span',{className:'keys-find-history-guests',children:`${adults} взр.`})
+      n.jsx('span',{className:'keys-find-history-guests',children:[n.jsx('span',{className:'keys-history-mobile-guests',children:`${adults} взр.`}),n.jsx('span',{className:'keys-history-desktop-guests',children:adultLabel})]})
      ]},search.at);
    })})
   ]}),
   n.jsx(UB,{}),
+  n.jsx(KeysFindDesktopSwipe,{}),
   n.jsx(KeysFindCollections,{}),
   hotels.length>0 && n.jsxs('section',{className:'keys-find-recent','aria-label':'Просмотренные',children:[
    n.jsx('h2',{children:'Просмотренные'}),
@@ -62,6 +65,24 @@ function B4() {
    },hotel.id))})
   ]}),
   n.jsx(KeysFindWish,{})
+ ]});
+}
+
+// Reuse the swipe destination and project photography in the desktop composition.
+function KeysFindDesktopSwipe(){
+ const {open}=J();
+ return n.jsxs('button',{type:'button',className:'keys-find-desktop-swipe',onClick:()=>open({type:'swipe'}),children:[
+  n.jsxs('span',{className:'keys-find-swipe-copy',children:[
+   n.jsx('strong',{children:'Отели свайпом'}),
+   n.jsx('span',{children:'Листайте отели, сохраняйте любимые.'}),
+   n.jsxs('span',{className:'keys-find-swipe-link',children:['Выбрать отель',n.jsx(D,{name:'chevron'})]})
+  ]}),
+  n.jsxs('span',{className:'keys-find-swipe-art','aria-hidden':true,children:[
+   n.jsx('img',{src:'./images/sochi/swissotel/92b13884e717.webp',alt:'',className:'keys-find-swipe-photo-back'}),
+   n.jsx('img',{src:'./images/sochi/seagalaxy/73d929a6ee5c.webp',alt:'',className:'keys-find-swipe-photo-front'}),
+   n.jsx('span',{className:'keys-find-swipe-no',children:n.jsx(D,{name:'close'})}),
+   n.jsx('span',{className:'keys-find-swipe-yes',children:n.jsx(D,{name:'heart'})})
+  ]})
  ]});
 }
 

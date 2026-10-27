@@ -266,7 +266,7 @@ function KeysHotelRecommendations({hotel}){
  return n.jsxs('section',{className:'keys-hotel-personal',children:[
   n.jsxs('div',{className:'keys-hotel-personal-heading',children:[
    n.jsx('h2',{children:'Под ваши предпочтения'}),
-   n.jsx('button',{type:'button',className:'keys-hotel-personal-info','aria-label':'Как учитываются мои предпочтения','aria-haspopup':'dialog',onClick:()=>setInfoOpen(true),children:n.jsxs('svg',{viewBox:'0 0 24 24',width:20,height:20,fill:'none',stroke:'currentColor',strokeWidth:1.6,'aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6'}),n.jsx('circle',{cx:12,cy:7.5,r:.8,fill:'currentColor',stroke:'none'})]})})
+   n.jsx('button',{type:'button',className:'keys-hotel-personal-info','aria-label':'Как учитываются мои предпочтения','aria-haspopup':'dialog',onClick:()=>setInfoOpen(true),children:n.jsxs('svg',{viewBox:'0 0 24 24',className:'keys-info-icon',width:20,height:20,fill:'none',stroke:'currentColor',strokeWidth:1.6,'aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6'}),n.jsx('circle',{cx:12,cy:7.5,r:.8,fill:'currentColor',stroke:'none'})]})})
   ]}),
   n.jsx('ul',{className:'keys-hotel-personal-tags',tabIndex:0,'aria-label':'Под ваши предпочтения — особенности отеля',children:reasons.map(reason=>n.jsxs('li',{children:[n.jsx(KeysIdeaArt,{name:art[reason.key],className:'ki-filter-art'}),n.jsx('span',{children:reason.title})]},reason.key))}),
   infoOpen&&n.jsx(ct,{title:'Почему это вам подходит',onClose:()=>setInfoOpen(false),children:n.jsxs('div',{className:'keys-preferences-explanation',children:[
@@ -428,7 +428,7 @@ function useKeysTariffDrag(enabled){
  };
 }
 function KeysRoomInfoIcon(){
- return n.jsxs('svg',{viewBox:'0 0 24 24',className:'size-5 shrink-0',fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6'}),n.jsx('circle',{cx:12,cy:7,r:.9,fill:'currentColor',stroke:'none'})]});
+ return n.jsxs('svg',{viewBox:'0 0 24 24',className:'keys-info-icon size-5 shrink-0',fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6'}),n.jsx('circle',{cx:12,cy:7,r:.9,fill:'currentColor',stroke:'none'})]});
 }
 function KeysRoomOfferCard({room,offers,draft,onOpenPhotos,onChoose,onSelect}){
  const [terms,setTerms]=E.useState(null),[amenitiesOpen,setAmenitiesOpen]=E.useState(false),desktop=useKeysDesktopBooking();

@@ -94,3 +94,49 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot.i
 
 /* Double Benefits is visible in the desktop rail too. */
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-home .kse-benefits{display:block}
+
+/* With no booking, the search above is the single primary action. */
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .kse-home:not([hidden]){display:flex;flex-direction:column;align-items:stretch;gap:24px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-home .kd-wallet,
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-primary{display:none!important}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;gap:12px;padding:24px 0;text-align:center}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-art{grid-row:auto}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-home .kd-scenario-side{width:100%;max-width:480px;margin-inline:auto}
+
+/* Selected desktop composition: discovery first; empty Trips stays mobile-only. */
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-home.has-discovery-grid{display:none!important}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery.is-search-grid{margin:0;padding:0}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery.is-search-grid>header{display:none}
+body[data-keys-desktop-home=true]:has(.kd-discovery.is-search-grid) #keysUnifiedPrototype .keys-trip-history{display:none!important}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-discovery-features{grid-template-columns:minmax(0,1.36fr) minmax(0,1fr);grid-template-rows:220px 136px;gap:16px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick{grid-column:1;grid-row:1/3;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);align-items:center;gap:16px;padding:32px;overflow:hidden}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick>.kd-photo-stack{grid-column:2;grid-row:1;width:100%;height:280px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-stack img{width:72%;height:232px;left:0;top:24px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-stack img+img{left:auto;right:0;top:8px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick>span:last-child{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-self:stretch;justify-content:center;align-items:flex-start}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-photo-pick strong{font:500 28px/34px var(--font-sans)!important}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-photo-pick small{font:400 16px/24px var(--font-sans)!important;margin-top:16px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick .kd-feature-link{margin-top:64px;padding-top:0}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deals-pick{grid-column:2;grid-row:1;min-height:0;grid-template-columns:minmax(0,1fr) 144px;gap:16px;padding:24px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deal-title{font:500 22px/28px var(--font-sans)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deal-photos{width:144px;height:140px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deal-postcard{width:88px;height:132px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kse-benefits-compact{grid-column:2;grid-row:2;display:grid;grid-template-columns:64px minmax(0,1fr) 20px;gap:16px;margin:0;padding:20px;border-radius:20px;background:var(--color-soft)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kse-benefits-orbit{width:64px;height:64px;mix-blend-mode:multiply}
+@media(max-width:1100px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-discovery-features{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick{padding:24px;grid-template-columns:minmax(0,1fr);position:relative}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick>.kd-photo-stack{grid-column:1;position:absolute;width:150px;height:200px;right:16px;bottom:20px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-stack img{height:170px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick>span:last-child{position:relative;z-index:1;max-width:220px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick small{max-width:180px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deals-pick{grid-template-columns:minmax(0,1fr) 100px;padding:20px;gap:8px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deal-photos{width:100px;height:112px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deal-postcard{width:66px;height:100px}
+}
+@media(max-width:799px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-discovery-features{grid-template-columns:minmax(0,1fr);grid-template-rows:300px 190px auto}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-photo-pick{grid-column:1;grid-row:1}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .is-search-grid .kd-deals-pick{grid-column:1;grid-row:2}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kse-benefits-compact{grid-column:1;grid-row:3;min-height:112px}
+}

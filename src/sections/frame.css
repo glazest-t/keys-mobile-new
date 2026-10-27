@@ -1632,7 +1632,7 @@ html.keys-share-sheet dialog[aria-label="Поделиться поездкой"]
 .keys-stay-time-tabs span{font:var(--ui-font-caption)}
 .keys-stay-time-tabs strong{font:var(--ui-font-label)}
 .keys-stay-time-tabs button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
-.keys-stay-time-info{display:grid;place-items:center;width:44px;height:44px;flex:none;border:0;border-radius:50%;background:transparent;color:var(--color-muted);cursor:pointer}
+.keys-stay-time-info{display:grid;place-items:center;width:44px;height:44px;flex:none;border:0;border-radius:50%;background:transparent;color:var(--color-brand);cursor:pointer}
 .keys-stay-time-info:hover{background:var(--color-soft);color:var(--color-brand)}
 .keys-stay-time-info:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
 .keys-stay-time-rules{display:grid;gap:20px;font:var(--ui-font-body);color:var(--color-muted)}
@@ -1809,7 +1809,14 @@ html[data-desktop-account=true] #root .keys-favorite-note{border:1px solid var(-
 #root .keys-hotel-filters.is-inline .keys-new-filter-heading h2{font-size:20px;line-height:26px}
 #root .keys-hotel-filters.is-inline .keys-filter-choice{font-size:14px;line-height:20px}
 #root .keys-hotel-filters.is-inline .keys-nightly-slider{margin-bottom:16px}
-.keys-hotel-filters.is-inline .keys-filter-counter{flex-wrap:wrap;font-size:14px}
+.keys-hotel-filters.is-inline .keys-filter-counter{font-size:14px}
+@media(min-width:900px){
+ html[data-desktop-account=true] #root .keys-filter-counter{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+ html[data-desktop-account=true] #root .keys-filter-counter>span{min-width:0}
+ html[data-desktop-account=true] #root .keys-filter-counter>div{display:grid;grid-template-columns:32px 24px 32px;gap:4px;justify-self:end}
+ html[data-desktop-account=true] #root .keys-filter-counter button{width:32px;height:32px;min-width:32px}
+ html[data-desktop-account=true] #root .keys-filter-counter output{min-width:0;width:24px;white-space:nowrap}
+}
 #root .keys-hotel-filters :is(button,summary,select,input):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 
 #root .keys-hotel-filters .keys-price-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;width:100%;margin:0 0 12px;padding:0}
@@ -1823,7 +1830,7 @@ html[data-desktop-account=true] #root .keys-favorite-note{border:1px solid var(-
 
 /* Preference context and the shared full-screen editor. */
 #root .keys-hotel-personal-heading{display:flex;align-items:center;gap:4px}
-#root .keys-hotel-personal-info{display:inline-flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;margin:-10px 0;padding:0;border:0;background:none;color:var(--color-muted);cursor:pointer}
+#root .keys-hotel-personal-info{display:inline-flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;margin:-10px 0;padding:0;border:0;background:none;color:var(--color-brand);cursor:pointer}
 #root .keys-hotel-personal-info:focus-visible{outline:2px solid var(--color-brand);outline-offset:0;border-radius:50%}
 .keys-preferences-explanation{font:var(--ui-font-body);color:var(--color-ink);padding-bottom:8px}
 .keys-preferences-explanation>p{margin:0 0 20px}
@@ -1838,3 +1845,11 @@ html body .keys-chat-ai-label{grid-column:2;margin:0!important;font:400 12px/18p
 html body .keys-hotel-chat-header button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
 html body [data-testid="desktop-chat-conversation"]>.keys-hotel-chat-header{grid-template-columns:minmax(0,1fr);padding:16px 24px 12px;margin:0}
 html body [data-testid="desktop-chat-conversation"] .keys-chat-hotel,html body [data-testid="desktop-chat-conversation"] .keys-chat-ai-label{grid-column:1}
+
+@media(min-width:800px){
+ html[data-desktop-account=true] .keys-module-screen[data-runtime-tab=chats]{max-width:800px;height:100dvh;margin:0 auto}
+ html[data-desktop-account=true] [data-runtime-tab=chats]>.keys-bottom-nav,
+ html[data-desktop-account=true] [data-runtime-tab=chats]>.keys-module-scroll>.keys-app-header{display:none!important}
+ html[data-desktop-account=true] [data-runtime-tab=chats][data-screen-type=chat] main{padding:16px 24px 24px}
+ html[data-desktop-account=true] [data-runtime-tab=chats] .keys-hotel-chat-header{padding-bottom:16px;border-bottom:1px solid var(--color-line);margin-bottom:16px}
+}

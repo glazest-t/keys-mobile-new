@@ -145,14 +145,20 @@
   const remaining=Math.max(0,Math.round((Date.parse(booking.arrival)-Date.parse(scenarioToday()))/86400000));
   screen.querySelector('.kpa-arrival-countdown').innerHTML=remaining===0?'Заезд сегодня':'<b>'+remaining+'</b> '+(remaining%100>=11&&remaining%100<=14?'дней':remaining%10===1?'день':remaining%10>=2&&remaining%10<=4?'дня':'дней')+' до заезда';
   const times=screen.querySelectorAll('.kpa-schedule-stop time');
-  times[0].dateTime=booking.arrival+'T14:00';times[0].textContent=date(booking.arrival);
-  times[1].dateTime=booking.departure+'T12:00';times[1].textContent=date(booking.departure);
+  const stayTimes=window.KeysStayServices?.getRequests()||{},checkIn=stayTimes.early||'14:00',checkOut=stayTimes.late||'12:00';
+  times[0].parentElement.querySelector('small').textContent='с '+checkIn;
+  times[1].parentElement.querySelector('small').textContent='до '+checkOut;
+  times[0].dateTime=booking.arrival+'T'+checkIn;times[0].textContent=date(booking.arrival);
+  times[1].dateTime=booking.departure+'T'+checkOut;times[1].textContent=date(booking.departure);
   screen.querySelector('.kpa-duration-count strong').textContent=booking.nights;
   screen.querySelector('.kpa-duration-count span').textContent=nightsLabel(booking.nights).split(' ')[1];
   screen.querySelector('.kpa-trip-schedule').setAttribute('aria-label','Проживание: '+date(booking.arrival)+' — '+date(booking.departure)+', '+nightsLabel(booking.nights));
   screen.querySelector('.kpa-total strong').textContent=money(booking.total);
   screen.querySelector('.kpa-payment-status').innerHTML='<strong>'+icons.check+' Оплачено полностью</strong>';
  }
+
+ document.getElementById('keysUnifiedPrototype').addEventListener('keys-service-requests-change',updateBookingSummary);
+ window.addEventListener('DOMContentLoaded',updateBookingSummary,{once:true});
 
  function taxiRoute(){
   detailsSession=true;

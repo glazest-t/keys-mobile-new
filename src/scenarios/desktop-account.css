@@ -68,3 +68,8 @@ body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUn
 @media(min-width:900px){
  body[data-keys-desktop-secondary="find"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"]:is([data-runtime-results="true"],[data-runtime-favorites="collection"]){max-width:none;width:100%}
 }
+
+/* Hotel conversations keep the desktop masthead rather than reverting to a phone frame. */
+body[data-keys-desktop-secondary="chats"] #keysUnifiedPrototype>[data-unified-section="arbana-sections"]{display:block;padding:0;width:100%;max-width:1160px;margin:auto}
+body[data-keys-desktop-secondary="chats"] .kda-runtime-header{display:block}
+body[data-keys-desktop-secondary="chats"] #keysSectionsFrame{display:block;width:100%;max-width:none;height:calc(100dvh - 190px);min-height:560px;border:0;border-radius:0;box-shadow:none;background:var(--color-card)}

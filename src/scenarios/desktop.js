@@ -69,7 +69,7 @@
  window.KeysDesktopPoints={create:createPoints,sync:syncPoints};
  const benefits=document.createElement('div');benefits.className='kd-wallet kd-web-only';const wallet=createPoints();benefits.append(wallet);side.prepend(benefits);wallet.id='kd-loyalty';wallet.tabIndex=-1;
  const discovery=document.createElement('section');discovery.className='kd-discovery kd-web-only';discovery.setAttribute('aria-labelledby','kd-discovery-title');
- discovery.innerHTML=`<header><div><h2 id="kd-discovery-title">Подборки для новых впечатлений</h2><p>Пока ждёте эту поездку — найдите следующую</p></div><button type="button" class="kd-text-link" data-desktop-action="search">Перейти к поиску ${icon('arrow')}</button></header><div class="kd-discovery-features"><button type="button" class="kd-photo-pick" data-discovery-mode="photo"><span class="kd-photo-stack" aria-hidden="true"><img src="./sections/images/sochi/swissotel/92b13884e717.webp" alt=""><img src="./sections/images/sochi/seagalaxy/73d929a6ee5c.webp" alt=""></span><span><strong>Отели свайпом</strong><small>Листайте отели, сохраняйте любимые.</small><span class="kd-feature-link">Найти свой отель ${icon('arrow')}</span></span></button><button type="button" class="kd-advice-pick" data-discovery-mode="advice"><span><strong>Нужен совет?</strong><small>Расскажите, какой отдых хотите. Подберём подходящие отели.</small><span class="kd-feature-link">Подобрать отель ${icon('arrow')}</span></span><img src="./scenarios/ai-hotel-match.png" alt=""></button></div><div class="kd-theme-collections" aria-label="Тематические подборки">${[['deals','Горячие скидки','Отели со скидкой от 10%']].map(([id,title,copy])=>`<button type="button" data-discovery-collection="${id}"><span><strong>${title}</strong><small>${copy}</small></span><img src="./sections/collections/${id}.svg" alt="">${icon('arrow')}</button>`).join('')}</div>`;
+ discovery.innerHTML=`<header><div><h2 id="kd-discovery-title">Подборки для новых впечатлений</h2><p>Пока ждёте эту поездку — найдите следующую</p></div><button type="button" class="kd-text-link" data-desktop-action="search">Перейти к поиску ${icon('arrow')}</button></header><div class="kd-discovery-features"><button type="button" class="kd-photo-pick" data-discovery-mode="photo"><span class="kd-photo-stack" aria-hidden="true"><img src="./sections/images/sochi/swissotel/92b13884e717.webp" alt=""><img src="./sections/images/sochi/seagalaxy/73d929a6ee5c.webp" alt=""></span><span><strong>Отели свайпом</strong><small>Листайте отели, сохраняйте любимые.</small><span class="kd-feature-link">Найти свой отель ${icon('arrow')}</span></span></button><button type="button" class="kd-deals-pick" data-discovery-collection="deals" aria-label="Горячие скидки — от 10%"><span class="kd-deal-copy"><span class="kd-deal-eyebrow">Горячие скидки</span><span class="kd-deal-title">Больше отдыха.<br>Меньше затрат.</span><span class="kd-deal-saving">Отели со скидкой от 10%</span></span><span class="kd-deal-photos" aria-hidden="true"><span class="kd-deal-postcard"><img src="./scenarios/next-trip.jpg" alt="" loading="lazy"></span><span class="kd-deal-postcard"><img src="./home/nearby/nearby-cafe-generated.jpg" alt="" loading="lazy"></span></span><span class="kd-deal-chevron">${icon('arrow')}</span></button></div>`;
  screen.after(discovery);
  // Mount the existing in-stay blocks; their handlers and service state stay shared.
  const stay=home.querySelector('.kh-home'),stayCard=stay.querySelector('.kh-stay-card');
@@ -80,13 +80,13 @@
  stayPhoto.innerHTML=`<img src="./scenarios/maidens-premium-king.jpg" alt="Премиум Кинг с видом во двор — номер гостя в Maidens Hotel" width="480" height="360"><button type="button" class="kd-about-hotel" data-before="hotel">Об отеле ${icon('arrow')}</button>`;
  stayCard.querySelector('.kh-stay-heading').after(stayPhoto);
  const stayActions=document.createElement('section');stayActions.className='kd-trip-actions kd-stay-actions kd-web-only';stayActions.setAttribute('aria-label','Связь с отелем');
- stayActions.innerHTML=action('chat','Чат с отелем','Свяжитесь с ресепшеном','chat');
+ stayActions.innerHTML=action('chat','Чат с отелем','ИИ-ассистент отеля','chat');
  staySide.append(stayActions);
  // Keep mobile DOM order intact; only mount existing blocks in columns on desktop.
  const scenarioLayouts={};
  for(const [name,selector,sideSelectors] of [
   ['search','.kse-home',['.kse-benefits']],
-  ['after','.ka-home:not(.kpa-home)',['.ka-reward']]
+  ['after','.ka-home:not(.kpa-home)',['.ka-reward','.ka-referral-card']]
  ]){
   const page=home.querySelector(selector),children=[...page.children];
   const primary=document.createElement('div');primary.className='kd-scenario-main';
@@ -102,7 +102,8 @@
      children.forEach(el=>(sideSelectors.some(selector=>el.matches(selector))?rail:primary).append(el));
      page.append(primary,rail);
     }
-    if(benefits.parentElement!==rail){if(key==='search')rail.prepend(benefits);else rail.append(benefits);}
+    if(key==='search'&&benefits.parentElement!==rail)rail.prepend(benefits);
+    if(key==='after'&&benefits.parentElement!==side)side.prepend(benefits);
    }else if(primary.parentElement===page){
     children.forEach(el=>page.append(el));primary.remove();rail.remove();
    }
@@ -110,6 +111,7 @@
  }
  // Reuse the same search controls and pickers as Find in a dedicated home slot.
  const searchHome=home.querySelector('.kse-home'),searchHeading=searchHome.querySelector('.kse-heading');
+ const searchBenefits=searchHome.querySelector('.kse-benefits'),searchBenefitsButton=searchBenefits.querySelector('[data-empty-action=benefits]');
  const searchSlot=document.createElement('div');searchSlot.className='kd-home-search-slot kd-web-only';
  const searchFrame=document.createElement('iframe');searchFrame.title='Поиск отеля на главной';searchFrame.id='keysHomeSearchFrame';searchSlot.append(searchFrame);
  let searchContext=null,searchReady=false,searchModal=false,modalBackground=[];
@@ -171,14 +173,25 @@
    if(intro.nextElementSibling!==screen)screen.before(intro);
    if(screen.nextElementSibling!==discovery)screen.after(discovery);
   }
+  const discoveryGrid=desktop&&scenario==='search'&&!guestSearch;
+  discovery.classList.toggle('is-search-grid',discoveryGrid);
+  searchHome.classList.toggle('has-discovery-grid',discoveryGrid);
+  if(discoveryGrid){
+   const grid=discovery.querySelector('.kd-discovery-features');
+   if(searchBenefits.parentElement!==grid)grid.append(searchBenefits);
+   searchBenefitsButton.dataset.desktopAction='benefits';
+  }else{
+   delete searchBenefitsButton.dataset.desktopAction;
+   if(searchBenefits.closest('.kd-discovery'))searchHome.append(searchBenefits);
+  }
   intro.hidden=scenario==='search';
   intro.querySelector('h1').textContent=scenario==='after'?'Ваша поездка завершена':'Ваша поездка';
   hotel.hidden=scenario==='search';
   delete hotel.dataset.after;
   if(scenario==='after'){delete hotel.dataset.before;delete hotel.dataset.info;hotel.dataset.after='stay';hotel.querySelector('[data-kd-arrival]').textContent='Поездка завершена';}
-  else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до 12:00':'Проживает в отеле';}
+  else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до '+(window.KeysStayServices?.getRequests().late||'12:00'):'Проживает в отеле';}
   else{delete hotel.dataset.info;hotel.dataset.before='details';syncBooking();}
-  discovery.querySelector('header p').textContent=scenario==='search'?'Выберите настроение — найдём подходящий отель':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
+  discovery.querySelector('header p').textContent=scenario==='search'?'Найдите свой отель или выберите предложение со скидкой':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
   actions.querySelector('[data-kd-route]').hidden=false;
   actions.querySelector('[data-kd-instruction]').hidden=false;
   actions.classList.add('has-instruction');
@@ -190,5 +203,7 @@
  modes.addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(!button||button.disabled)return;view=button.dataset.view;const url=new URL(location.href);url.searchParams.set('view',view);history.replaceState(history.state,'',url);render();});
  window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',event=>{if(event.detail?.resetView)view='mobile';render();});
  new MutationObserver(()=>root.querySelectorAll('[data-desktop-points]').forEach(syncPoints)).observe(document.body,{attributes:true,attributeFilter:['data-keys-guest-search','data-keys-guest-authorized']});
+ root.addEventListener('keys-service-requests-change',render);
+ window.addEventListener('DOMContentLoaded',render,{once:true});
  new MutationObserver(render).observe(home.closest('.ku-section'),{attributes:true,attributeFilter:['hidden']});render();
 })();

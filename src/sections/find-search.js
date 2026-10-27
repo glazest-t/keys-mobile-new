@@ -58,7 +58,7 @@ function KeysHomeSearchWidget(){
 
 // Anchored desktop search reuses the shared search fields and saved search history.
 function KeysHeaderSearchPopup(){
- const {dispatch}=J(),[editing,setEditing]=E.useState(null),[reset,setReset]=E.useState(0),[mode,setMode]=E.useState('known'),[cityActive,setCityActive]=E.useState(false),[wish,setWish]=E.useState('');
+ const {dispatch}=J(),[editing,setEditing]=E.useState(null),[reset,setReset]=E.useState(0),[cityActive,setCityActive]=E.useState(false);
  const seen=new Set(),history=QB().searches.filter(item=>{const key=[item.city,item.arrival,item.departure,Rt(item.party)].join('|');if(seen.has(key))return false;seen.add(key);return true;}).slice(0,5);
  const post=(type,value={})=>window.parent.postMessage({source:'keys-header-search',type,...value},location.origin);
  E.useLayoutEffect(()=>{document.documentElement.dataset.homeSearch='true';document.documentElement.dataset.headerSearch='true';document.documentElement.dataset.desktopAccount='true';},[]);
@@ -75,18 +75,11 @@ function KeysHeaderSearchPopup(){
   };
   window.addEventListener('message',receive);post('ready');return()=>window.removeEventListener('message',receive);
  },[dispatch]);
- const sendWish=()=>{if(wish.trim())post('advice',{wish:wish.trim()});};
  return n.jsxs(n.Fragment,{children:[
   n.jsx(ct,{title:'Новая поездка',swipeToClose:false,onClose:()=>post('close'),children:n.jsxs('div',{className:'keys-header-search-body','data-find-layout':'landing',children:[
-   n.jsx('div',{className:'keys-header-search-modes',role:'group','aria-label':'Способ поиска',children:[['known','Знаю, что ищу'],['advice','Нужен совет']].map(([value,label])=>n.jsx('button',{type:'button','aria-pressed':mode===value,onClick:()=>setMode(value),children:label},value))}),
-   mode==='known'?n.jsxs(n.Fragment,{children:[
     n.jsx(sF,{showHistory:false,onCityActive:setCityActive,onEdit:section=>{setCityActive(false);setEditing(section);},onSubmit:(query,hotelId)=>post('submit',{search:query,hotelId})},reset),
     cityActive&&n.jsxs('section',{className:'keys-header-search-suggestions','aria-label':'Популярные города',children:[n.jsx('h3',{children:'Популярные города'}),n.jsx('div',{className:'keys-header-popular-cities',children:['Москва','Санкт-Петербург','Сочи','Казань','Калининград','Екатеринбург'].map(city=>n.jsxs('button',{type:'button',onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{city,hotelId:null}});setCityActive(false);setReset(value=>value+1);},children:[n.jsx(D,{name:'pin',className:'size-4'}),city]},city))})]}),
     !cityActive&&history.length>0&&n.jsxs('section',{className:'keys-header-search-suggestions','aria-label':'История поиска',children:[n.jsx('h3',{children:'Вы недавно искали'}),n.jsx('div',{className:'keys-header-search-track',children:history.map((item,index)=>n.jsxs('button',{type:'button',onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{...item,results:false,intent:'known',keysCollection:null}});setReset(value=>value+1);},children:[n.jsx('strong',{children:item.city||'Любой город'}),n.jsx('small',{children:zt(item.arrival,item.departure)+' · '+Rt(item.party)})]},index))})]}),
-   ]}):n.jsxs(n.Fragment,{children:[
-    n.jsxs('form',{className:'keys-header-wish',onSubmit:event=>{event.preventDefault();sendWish();},children:[n.jsxs('label',{children:[n.jsx('span',{children:'Чего хочется от поездки'}),n.jsx('textarea',{value:wish,onChange:event=>setWish(event.target.value),placeholder:'Хочу бассейн, вкусно поесть и тишину…',rows:2,maxLength:500,onKeyDown:event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.nativeEvent.isComposing){event.preventDefault();sendWish();}}})]}),n.jsx(H,{type:'submit',disabled:!wish.trim(),children:'Подобрать'})]}),
-    n.jsx('div',{className:'keys-header-wish-examples',children:['С детьми у моря','Тишина, спа и бассейн','По работе в Москву','Отдых с собакой'].map(text=>n.jsx('button',{type:'button',onClick:()=>setWish(text),children:text},text))})
-   ]})
   ]})}),
   editing&&(editing==='guests'?n.jsx(KeysSearchGuestsPopup,{onClose:()=>setEditing(null)}):n.jsx(xh,{section:editing,roomStay:true,onClose:()=>setEditing(null)}))
  ]});

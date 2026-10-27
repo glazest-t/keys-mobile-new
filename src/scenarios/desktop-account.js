@@ -15,8 +15,9 @@
   const benefits=desktop&&!account.hidden&&!page.hidden;
   const notices=desktop&&!runtime.hidden&&['notifications','notification-settings'].includes(runtime.dataset.runtimeScreen);
   const find=desktop&&!runtime.hidden&&(runtime.dataset.runtimeTab==='find'||runtime.dataset.runtimeTab==='favorites'||runtime.dataset.runtimeFavorites||['reservation-success','created-booking'].includes(runtime.dataset.runtimeScreen))&&!notices;
-  const framed=notices||find;
-  const kind=benefits?'benefits':notices?'notifications':find?'find':'';
+  const chats=desktop&&!runtime.hidden&&runtime.dataset.runtimeTab==='chats'&&!notices;
+  const framed=notices||find||chats;
+  const kind=benefits?'benefits':notices?'notifications':find?'find':chats?'chats':'';
   if(kind)document.body.dataset.keysDesktopSecondary=kind;else delete document.body.dataset.keysDesktopSecondary;
   if(title.hidden===benefits)title.hidden=!benefits;if(mobileHeader.hidden!==benefits)mobileHeader.hidden=benefits;
   const profile=desktop&&document.body.dataset.keysDesktopProfile==='true';
@@ -24,7 +25,7 @@
   if(destination){if(header.parentElement!==destination)destination.prepend(header);}
   else if(header.previousSibling!==anchor)anchor.after(header);
   if(frameHeader.hidden===framed)frameHeader.hidden=!framed;
-  if(!framed)frame.style.removeProperty('height');
+  if(!framed||chats)frame.style.removeProperty('height');
   if(lastView!==String(desktop)){lastView=String(desktop);sendView();}
   if(kind!==previous){previous=kind;if(kind&&!matchMedia('(prefers-reduced-motion:reduce)').matches)(benefits?content:frame).animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.22,1,.36,1)'});}
  }

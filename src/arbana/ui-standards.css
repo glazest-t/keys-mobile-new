@@ -304,3 +304,8 @@ html[data-desktop-account="true"] #root [data-keys-button="text"]{min-height:var
  textarea,select
 ):focus{outline:none!important;box-shadow:none!important}
 #keysUnifiedPrototype#keysUnifiedPrototype :is(.kti-input,.ktd-share-input,.kfb-textarea,.ksd-booking-share-input,.ksd-other-text):focus{border-color:var(--color-line)}
+
+/* Information icons share the brand blue in host pages and embedded screens.
+   Keep their fixed geometry inside the existing centred touch targets. */
+:is(#keysUnifiedPrototype,#root) :is(.keys-info-icon,svg[data-lucide="info"],svg.lucide-info){color:var(--color-brand)!important;flex-shrink:0;vertical-align:middle}
+:is(#keysUnifiedPrototype,#root) .keys-info-icon{display:block;width:20px;height:20px}

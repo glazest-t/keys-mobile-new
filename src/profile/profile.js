@@ -1,5 +1,5 @@
 import icons from './icons.mjs';
-import {initialState,hydrate,fullName,validateTraveler,saveTraveler,removeTraveler,trips,completedMaidens,filterTrips,articles} from './model.mjs';
+import {initialState,hydrate,fullName,validateTraveler,saveTraveler,removeTraveler,collectTrips,tripStatusLabels,filterTrips,articles} from './model.mjs';
 const root=document.getElementById('keysUnifiedPrototype');
 const phone=root?.querySelector('.kf-phone[data-screen="profile"]');
 if(phone)setup();
@@ -20,9 +20,9 @@ function setup(){
  const select=(name,label,values,value)=>`<div class="kpf-field"><label for="kpf-${name}">${label}</label><select id="kpf-${name}" name="${name}">${values.map(([v,t])=>`<option value="${v}"${v===value?' selected':''}>${t}</option>`).join('')}</select></div>`;
  const toggle=(group,key,title,sub)=>`<label class="kpf-switch-row"><span><strong>${title}</strong><small>${sub}</small></span><input type="checkbox" role="switch" data-setting="${group}.${key}" aria-label="${title}"${state[group][key]?' checked':''}><span class="kpf-switch" aria-hidden="true"></span></label>`;
  const info=(title,text,name='shield')=>`<div class="kpf-info">${icon(name)}<div><strong>${title}</strong><p>${text}</p></div></div>`;
- const allTrips=()=>document.body.dataset.keysScenario==='after'?[completedMaidens,...trips]:trips;
+ const allTrips=()=>collectTrips({scenario:document.body.dataset.keysScenario,host:window.KeysHostBookingModel?.(),created:window.KeysTripBookings||[],today:document.body.dataset.keysScenario==='after'?'2026-09-20':document.body.dataset.keysScenario==='booked'?'2026-09-12':'2026-09-13'});
  const tripById=id=>allTrips().find(t=>t.id===id);
- let state=initialState(),storageKey='',route=null,dirty=false,returnFocus=null,toastTimer,lastScenario=scenarioStamp(),filter={query:'',status:'all'},helpQuery='',helpCategory='Все';
+ let state=initialState(),storageKey='',route=null,dirty=false,returnFocus=null,returnSection=null,toastTimer,lastScenario=scenarioStamp(),filter={query:'',status:'all'},helpQuery='',helpCategory='Все';
  const page=document.createElement('section');page.className='kpf';page.hidden=true;page.setAttribute('aria-label','Раздел профиля');phone.append(page);
  const dialog=document.createElement('dialog');dialog.className='kpf-dialog';phone.append(dialog);
  const toast=document.createElement('p');toast.className='kpf-toast';toast.setAttribute('role','status');toast.hidden=true;phone.append(toast);
@@ -41,7 +41,7 @@ function setup(){
  }
  function refreshRoot(){
   const primary=state.travelers.find(p=>p.primary);if(!primary)return;
-  for(const [key,label] of Object.entries({notifications:'Брони, сообщения и услуги',security:'Вход и активные устройства',dataManagement:'Приватность и удаление аккаунта'})){const caption=phone.querySelector('[data-open="'+key+'"] small');if(caption)caption.textContent=label;}
+  for(const [key,label] of Object.entries({notifications:'Брони, сообщения и услуги',security:'Вход и активные устройства',dataManagement:'Приватность и удаление аккаунта',language:state.language==='en'?'English':'Русский'})){const caption=phone.querySelector('[data-open="'+key+'"] small');if(caption)caption.textContent=label;}
   const cardEl=phone.querySelector('[data-open="travelerProfile"]')?.closest('.kf-card');
   if(cardEl){const original=cardEl.querySelector('[data-open="travelerProfile"]');original.querySelector('strong').textContent=fullName(primary);cardEl.querySelectorAll('[data-kpf-traveler]').forEach(el=>el.remove());
    const add=cardEl.querySelector('[data-open="addTraveler"]');state.travelers.filter(p=>!p.primary).slice(0,2).forEach(p=>{const b=document.createElement('button');b.type='button';b.className='kf-row';b.dataset.kpfTraveler=p.id;b.innerHTML=`<span class="kf-icon blue">${icon('user')}</span><span><strong>${esc(fullName(p))}</strong><small>${p.birthDate?date(p.birthDate):'Данные путешественника'}</small></span><b class="kf-chevron">${icon('chevron')}</b>`;add.before(b);});
@@ -56,12 +56,17 @@ function setup(){
  function guard(fn){if(dirty)ask('Уйти без сохранения?','Вы внесли изменения, но ещё не сохранили их. Можно вернуться к форме или уйти без сохранения.','Не сохранять',()=>{dirty=false;fn();});else fn();}
  const encodeRoute=r=>r?'#profile/'+r.name+(r.id?'/'+encodeURIComponent(r.id):''):'';
  function parseRoute(){const parts=location.hash.slice(1).split('/');return parts[0]==='profile'&&parts[1]?{name:parts[1],id:parts[2]?decodeURIComponent(parts[2]):null}:null;}
- function navigate(name,id=null,{replace=false}={}){
-  guard(()=>{readState();if(!route)returnFocus=document.activeElement;route={name,id};const url=new URL(location.href);url.hash=encodeRoute(route);const depth=(history.state?.keysProfileDepth||0)+(replace?0:1);history[replace?'replaceState':'pushState']({...history.state,keysProfileDepth:depth},'',url);root.dispatchEvent(new CustomEvent('keys-open-profile'));render();});
+ function navigate(name,id=null,{replace=false,from=null}={}){
+  guard(()=>{readState();if(!route){returnFocus=document.activeElement;returnSection=from;}route={name,id};const url=new URL(location.href);url.hash=encodeRoute(route);const depth=(history.state?.keysProfileDepth||0)+(replace?0:1);history[replace?'replaceState':'pushState']({...history.state,keysProfileDepth:depth,keysProfileReturn:returnSection},'',url);root.dispatchEvent(new CustomEvent('keys-open-profile'));render();});
  }
  function close(){route=null;dirty=false;phone.classList.remove('kpf-open');page.hidden=true;phone.querySelector(':scope>.kf-scroll').inert=false;phone.querySelector('.keys-profile-header').inert=false;returnFocus?.isConnected&&returnFocus.focus({preventScroll:true});}
- function back(){guard(()=>{if(history.state?.keysProfileDepth>0)history.back();else{const parent={traveler:'travelers',edit:'travelers',trip:'history',review:'history',article:'help',contact:'help',ticket:'help',devices:'security',pin:'security',delete:'data'}[route.name];if(parent)navigate(parent,null,{replace:true});else{const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url);close();}}});}
+ function returnToEntry(){
+  root.dispatchEvent(new CustomEvent(returnSection==='trips'?'keys-profile-action':'keys-open-profile',{detail:{action:'trip'}}));
+  returnFocus?.isConnected&&returnFocus.focus({preventScroll:true});returnSection=null;
+ }
+ function back(){guard(()=>{if(history.state?.keysProfileDepth>0)history.back();else{const parent={traveler:'travelers',edit:'travelers',trip:'history',review:'history',article:'help',contact:'help',ticket:'help',devices:'security',pin:'security',delete:'data'}[route.name];if(parent)navigate(parent,null,{replace:true});else{const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url);close();returnToEntry();}}});}
  function shell(title,body,{footer='',right='',wide=false}={}){
+  page.classList.remove('kpf-booking-details');
   page.innerHTML=`<header class="kpf-header"><button type="button" class="kpf-back" data-action="back" aria-label="Назад">${icon('back')}</button><h1 tabindex="-1">${title}</h1>${right}</header><main class="kpf-content${wide?' kpf-wide':''}">${body}</main>${footer?`<footer class="kpf-footer">${footer}</footer>`:''}`;
   page.hidden=false;phone.classList.add('kpf-open');phone.querySelector(':scope>.kf-scroll').inert=true;phone.querySelector('.keys-profile-header').inert=true;page.querySelector('h1').focus({preventScroll:true});page.querySelector('.kpf-content').scrollTop=0;
   if(document.body.dataset.keysView==='desktop')window.scrollTo({top:0,behavior:'instant'});
@@ -70,8 +75,26 @@ function setup(){
  function travelerForm(p={}){
   return `<form id="kpf-traveler-form" data-form="traveler" novalidate><p class="kpf-lead">Укажите имя и фамилию как в документе. Остальное можно добавить позже.</p>${card(`<h2>Личные данные</h2><div class="kpf-fields">${field('lastName','Фамилия',p.lastName,'text','required autocomplete="family-name" maxlength="60"')}${field('firstName','Имя',p.firstName,'text','required autocomplete="given-name" maxlength="60"')}${field('middleName','Отчество · необязательно',p.middleName,'text','autocomplete="additional-name" maxlength="60"')}${field('birthDate','Дата рождения · необязательно',p.birthDate,'date','min="1900-01-01" max="'+new Date().toISOString().slice(0,10)+'" autocomplete="bday"')}${field('citizenship','Гражданство',p.citizenship||'Россия','text','autocomplete="country-name" maxlength="80"')}</div>`,'kpf-padded')}${card(`<h2>Контакты</h2><p class="kpf-muted">Необязательно. Для связи по поездке.</p><div class="kpf-fields">${field('phone','Телефон',p.phone,'tel','autocomplete="tel" placeholder="+7 900 000-00-00" maxlength="24"')}${field('email','Электронная почта',p.email,'email','autocomplete="email" placeholder="name@example.ru" maxlength="120"')}</div>`,'kpf-padded')}<p class="kpf-note">Данные сохранятся в вашем профиле. Уже оформленные брони не изменятся.</p></form>`;
  }
- function tripCard(t){return `<button type="button" class="kpf-trip-card" data-trip="${t.id}"><span class="kpf-trip-city">${icon('pin')}${t.city}<time>${t.arrival.slice(0,4)}</time></span><strong>${esc(t.hotel)}</strong><span class="kpf-muted">${dates(t)}</span><span class="kpf-trip-bottom">${badge(t.status==='cancelled'?'Отменена':'Завершена',t.status==='cancelled'?'':'kpf-success')}<span>${money(t.price)}</span>${icon('chevron')}</span></button>`;}
- function historyResults(){return filterTrips(allTrips(),filter).map(tripCard).join('')||empty('Таких поездок пока нет','Измените запрос или выберите другой статус поездки.');}
+ function tripBookingModel(t){
+  const model=t.model||{id:t.id,hotel:t.hotel,address:t.city,arrival:t.arrival,departure:t.departure,checkIn:t.checkIn||'14:00',checkOut:t.checkOut||'12:00',room:t.room,party:t.guests+' взр.',roomTotal:t.price,paid:t.price,tariff:t.tariff,cancellation:t.status==='cancelled'?{fee:0,refund:t.price,due:0,status:'refunded'}:null};
+  return {...model,status:{upcoming:'Бронь подтверждена',active:'Проживание',completed:'Поездка завершена',cancelled:'Бронь отменена'}[t.status],pointsAwarded:t.points};
+ }
+ function tripCard(t){return `<button type="button" class="kpf-trip-card" data-trip="${esc(t.id)}"><img class="kpf-trip-thumbnail" src="${esc(t.photo||'./scenarios/maidens-premium-king.jpg')}" alt="" loading="lazy" decoding="async"><span class="kpf-trip-copy"><strong>${esc(t.hotel)}</strong><span class="kpf-trip-city">${esc(t.city)}</span><span class="kpf-muted">${dates(t)}</span><span class="kpf-trip-bottom">${badge(tripStatusLabels[t.status],t.status==='completed'?'kpf-success':['upcoming','active'].includes(t.status)?'kpf-upcoming':'')}<span>${money(t.price)}</span>${icon('chevron')}</span></span></button>`;}
+ function tripTimeline(items){
+  const months=new Map();
+  for(const trip of items){const key=trip.arrival.slice(0,7);if(!months.has(key))months.set(key,[]);months.get(key).push(trip);}
+  return `<ol class="kpf-trip-timeline">${[...months].map(([month,bookings])=>{
+   const label=new Date(month+'-01T12:00:00').toLocaleDateString('ru-RU',{month:'long',year:'numeric'}).replace(/ г\.$/,'');
+   return `<li class="kpf-trip-month"><h3><time datetime="${month}">${label[0].toLocaleUpperCase('ru-RU')+label.slice(1)}</time></h3><div class="kpf-trip-month-list">${bookings.map(tripCard).join('')}</div></li>`;
+  }).join('')}</ol>`;
+ }
+ page.addEventListener('error',event=>{const img=event.target;if(img.matches?.('.kpf-trip-thumbnail')&&!img.dataset.fallback){img.dataset.fallback='true';img.src='./scenarios/maidens-premium-king.jpg';}},true);
+ function historyResults(){
+  const found=filterTrips(allTrips(),filter);
+  if(!found.length)return empty('Таких поездок пока нет','Измените запрос или выберите другой статус поездки.');
+  const groups=[['active','Сейчас в поездке'],['upcoming','Предстоящие поездки'],['past','Прошлые поездки']];
+  return groups.map(([key,title])=>{const items=found.filter(t=>key==='past'?['completed','cancelled'].includes(t.status):t.status===key);return items.length?`<section class="kpf-history-group"><h2>${title}</h2>${tripTimeline(items)}</section>`:'';}).join('');
+ }
  function updateHistory(){page.querySelector('[data-history-results]').innerHTML=historyResults();}
  function helpResults(){const q=helpQuery.toLocaleLowerCase('ru-RU').trim();const found=articles.filter(a=>(helpCategory==='Все'||a.category===helpCategory)&&(!q||(a.title+' '+a.text).toLocaleLowerCase('ru-RU').includes(q)));return found.length?card(found.map(a=>row('help',a.title,a.category,`data-article="${a.id}"`)).join('')):empty('Ответ пока не найден','Попробуйте другие слова или напишите в поддержку ниже.');}
  function render(){
@@ -83,12 +106,16 @@ function setup(){
   }else if(name==='edit'){
    const p=state.travelers.find(t=>t.id===id);shell(p?'Редактировать данные':'Новый путешественник',travelerForm(p),{footer:'<button type="submit" form="kpf-traveler-form" class="kpf-primary">Сохранить</button>'});
   }else if(name==='history'){
-   shell('История путешествий',`<div class="kpf-search">${icon('search')}<input type="search" data-history-search value="${esc(filter.query)}" placeholder="Город или отель" aria-label="Поиск по истории путешествий"></div><div class="kpf-tabs kpf-history-filters" role="group" aria-label="Статус поездки">${[['all','Все'],['completed','Завершённые'],['cancelled','Отменённые']].map(([v,t])=>`<button type="button" data-trip-filter="${v}" aria-pressed="${filter.status===v}">${t}</button>`).join('')}</div><div class="kpf-trip-grid" data-history-results>${historyResults()}</div>`,{wide:true});
+   shell('История путешествий',`<div class="kpf-search">${icon('search')}<input type="search" data-history-search value="${esc(filter.query)}" placeholder="Город или отель" aria-label="Поиск по истории путешествий"></div><div class="kpf-tabs kpf-history-filters" role="group" aria-label="Статус поездки">${[['all','Все'],['upcoming','Предстоящие'],['active','Текущие'],['completed','Завершённые'],['cancelled','Отменённые']].map(([v,t])=>`<button type="button" data-trip-filter="${v}" aria-pressed="${filter.status===v}">${t}</button>`).join('')}</div><div class="kpf-history-results" data-history-results>${historyResults()}</div>`,{wide:true});
   }else if(name==='trip'){
    const t=tripById(id);if(!t)return navigate('history',null,{replace:true});
-   shell('Детали поездки',`${t.photo?`<img class="kpf-trip-photo" src="${t.photo}" alt="${esc(t.hotel)}">`:''}<div class="kpf-trip-heading">${badge(t.status==='completed'?'Поездка завершена':'Бронь отменена',t.status==='completed'?'kpf-success':'')}<h2>${esc(t.hotel)}</h2><p>${t.city}</p></div>${card(`<dl class="kpf-details"><div><dt>Проживание</dt><dd>${dates(t)}</dd></div><div><dt>Гости и номер</dt><dd>${t.guests} ${t.guests===1?'гость':'гостя'} · ${esc(t.room)}</dd></div><div><dt>Стоимость</dt><dd>${money(t.price)}</dd></div>${t.status==='cancelled'?`<div><dt>Возврат</dt><dd>${money(t.price)} · возвращено</dd></div>`:`<div><dt>Начислено баллов Ключей</dt><dd>+${t.points.toLocaleString('ru-RU')}</dd></div>`}</dl>`,'kpf-padded')}${card(row('doc','Сведения о бронировании','Скачать файл с деталями поездки','data-action="download-trip"')+(t.status==='completed'?row('star',state.reviews[t.id]?'Ваш отзыв':'Оценить проживание',state.reviews[t.id]?`${state.reviews[t.id].rating} из 5 · изменить отзыв`:'Поделитесь впечатлениями об отеле','data-action="review-trip"'):'')+row('help','Помощь по этой поездке','Задать вопрос о проживании или оплате','data-action="trip-support"'))}`,{footer:primaryButton(t.hotelId?'Забронировать снова':'Найти отель','data-action="rebook"')});
+   const model=tripBookingModel(t);
+   shell('Детали брони',`${window.KeysBookingDetails.render(model)}${card(row('bookingDocument','Документы поездки','Посмотреть и сохранить','data-action="trip-documents"')+(t.status==='completed'?row('star',state.reviews[t.id]?'Ваш отзыв':'Оценить проживание',state.reviews[t.id]?`${state.reviews[t.id].rating} из 5 · изменить отзыв`:'Поделитесь впечатлениями об отеле','data-action="review-trip"'):''))}`,{footer:primaryButton(['upcoming','active'].includes(t.status)?'Перейти к брони':'Забронировать ещё раз',['upcoming','active'].includes(t.status)?'data-action="manage-trip"':'data-action="rebook"')});
+   page.classList.add('kpf-booking-details');
   }else if(name==='review'){
    const t=tripById(id),r=state.reviews[id]||{};if(!t)return navigate('history',null,{replace:true});shell('Отзыв о проживании',`<p class="kpf-lead">${esc(t.hotel)} · ${t.city}</p><form id="kpf-review-form" data-form="review"><fieldset class="kpf-rating"><legend>Как прошла поездка?</legend>${[1,2,3,4,5].map(v=>`<label><input type="radio" name="rating" value="${v}"${r.rating===v?' checked':''} required aria-label="${v} из 5"><span>${icon('star')}<b>${v}</b></span></label>`).join('')}</fieldset><div class="kpf-field"><label for="kpf-review-text">Ваши впечатления · необязательно</label><textarea id="kpf-review-text" name="text" maxlength="1500" rows="6" placeholder="Что понравилось? Что можно улучшить?">${esc(r.text||'')}</textarea></div><p class="kpf-note">Отзыв сохранится в прототипе и не будет опубликован на сайте отеля.</p></form>`,{footer:'<button type="submit" form="kpf-review-form" class="kpf-primary">Сохранить отзыв</button>'});
+  }else if(name==='language'){
+   shell('Язык приложения',card(`<div role="radiogroup" aria-label="Язык приложения">${[['ru','Русский'],['en','English']].map(([value,label])=>`<label class="kpf-language-option"><span lang="${value}">${label}</span><input type="radio" name="profile-language" value="${value}"${state.language===value?' checked':''}><span class="kpf-language-check" aria-hidden="true">${icon('check')}</span></label>`).join('')}</div>`));
   }else if(name==='notifications'){
    const n=state.notifications;shell('Уведомления',`${card(toggle('notifications','push','Push-уведомления','На устройстве с приложением «Ключи»')+toggle('notifications','email','Электронная почта','Подробности поездки и подборки')+toggle('notifications','sms','SMS','Короткие сообщения о поездке'))}${section('О чём сообщать',card(toggle('notifications','bookings','Поездки и бронирования','Напоминания о заезде и выезде')+toggle('notifications','messages','Сообщения от отелей','Ответы и важная информация от отеля')+toggle('notifications','services','Услуги во время проживания','Статусы заказов и запросов')+toggle('notifications','benefits','Баллы и привилегии','Начисления, списания и срок действия')+toggle('notifications','offers','Предложения и вдохновение','Подборки отелей и специальные цены')))}${section('Тихие часы',card(toggle('notifications','quiet','Не беспокоить ночью','Приостановить необязательные уведомления')+`<div class="kpf-time-fields"${n.quiet?'':' hidden'}>${field('quietFrom','С',n.quietFrom,'time','data-time="quietFrom"')}${field('quietTo','До',n.quietTo,'time','data-time="quietTo"')}</div>`))}${info('Важное всегда под рукой','Изменения и отмены брони, коды входа и сообщения о безопасности останутся доступны. Тихие часы на них не влияют.','bell')}`);
   }else if(name==='security'){
@@ -123,7 +150,7 @@ function setup(){
  window.addEventListener('click',event=>{
   const target=event.target.closest('button,a');if(!target)return;
   const entry=target.closest('.kf-phone[data-screen="profile"]')===phone&&!page.contains(target)&&!dialog.contains(target);
-  const map={travelerProfile:'traveler',addTraveler:'edit',allTrips:'history',notifications:'notifications',security:'security',support:'help',dataManagement:'data'};
+  const map={travelerProfile:'traveler',addTraveler:'edit',allTrips:'history',notifications:'notifications',security:'security',support:'help',dataManagement:'data',language:'language'};
   if(entry&&(map[target.dataset.open]||target.dataset.kpfPage||target.dataset.kpfTraveler)){
    event.preventDefault();event.stopImmediatePropagation();navigate(target.dataset.kpfTraveler?'traveler':target.dataset.kpfPage||map[target.dataset.open],target.dataset.kpfTraveler||(target.dataset.open==='travelerProfile'?'primary':null));return;
   }
@@ -150,9 +177,9 @@ function setup(){
    case 'add-traveler':return navigate('edit');
    case 'remove-traveler':{const p=state.travelers.find(x=>x.id===route.id);return ask('Удалить путешественника?',`${esc(fullName(p))} исчезнет из сохранённых гостей. Уже оформленные брони не изменятся.`,'Удалить',()=>{persist(removeTraveler(state,p.id),'Путешественник удалён');navigate('travelers',null,{replace:true});},true);}
    case 'review-trip':return navigate('review',route.id);
-   case 'trip-support':return navigate('contact',route.id);
-   case 'download-trip':download('keys-booking-'+t.id+'.txt',`Ключи — сведения о демонстрационной поездке\n${t.hotel}\n${t.city}\n${dates(t)}\n${t.room}\nГостей: ${t.guests}\nСтоимость: ${money(t.price)}\nСтатус: ${t.status==='completed'?'Завершена':'Отменена'}\nНе является платёжным документом.\n`,'text/plain;charset=utf-8');return notify('Файл с деталями поездки подготовлен');
-   case 'rebook':return external('find',{hotelId:t?.hotelId});
+   case 'trip-documents':return window.KeysTripDocuments.open(target,tripBookingModel(t));
+   case 'manage-trip':return external('booking',{bookingId:t.source==='created'?t.id:null});
+   case 'rebook':return root.dispatchEvent(new CustomEvent('keys-profile-action',{detail:{action:'rebook',hotelId:t.hotelId,nights:t.nights||3,party:{adults:parseInt(t.guests,10)||1,childrenAges:[],pet:false,business:false}}}));
    case 'hotel-chat':return external('hotel-chat');
    case 'security-help':return navigate('article','key-security');
    case 'disable-pin':return ask('Отключить код?','Дополнительная проверка кодом будет отключена в демонстрационных настройках.','Отключить',()=>{dirty=false;persist({...state,security:{...state.security,pin:false}});navigate('security',null,{replace:true});},true);
@@ -167,7 +194,8 @@ function setup(){
  });
  page.addEventListener('change',event=>{
   const el=event.target;
-  if(el.dataset.setting){const [group,key]=el.dataset.setting.split('.'),value=el.checked;
+  if(el.name==='profile-language'&&['ru','en'].includes(el.value)){persist({...state,language:el.value},'Язык сохранён');
+  }else if(el.dataset.setting){const [group,key]=el.dataset.setting.split('.'),value=el.checked;
    if(group==='notifications'&&key==='email'&&value&&!state.travelers.find(p=>p.primary)?.email){el.checked=false;return ask('Добавить электронную почту?','Укажите адрес в данных основного путешественника, затем включите уведомления по почте.','Добавить почту',()=>navigate('edit','primary'));}
    if(group==='security'&&key==='biometric'){el.checked=state.security.biometric;return ask(value?'Включить биометрию?':'Отключить биометрию?','В настоящем приложении это действие подтверждается устройством. Здесь изменится только демонстрационная настройка.',value?'Включить':'Отключить',()=>{persist({...state,security:{...state.security,biometric:value}});render();});}
    persist({...state,[group]:{...state[group],[key]:value}});if(key==='quiet')page.querySelector('.kpf-time-fields').hidden=!value;
@@ -182,9 +210,10 @@ function setup(){
   if(form.dataset.form==='delete'){dirty=false;ask('Создать запрос на удаление?','В прототипе появится статус запроса. Реальный аккаунт и поездки не изменятся.','Создать запрос',()=>{persist({...state,deletionRequested:true},'Демонстрационный запрос создан');navigate('data',null,{replace:true});},true);}
  });
  page.addEventListener('keydown',e=>{if(e.key==='Escape'&&!dialog.open){e.preventDefault();back();}});
- window.addEventListener('popstate',()=>{const next=parseRoute();if(dirty){const previous=route;root.dispatchEvent(new CustomEvent('keys-open-profile'));ask('Уйти без сохранения?','Изменения в форме будут потеряны.','Не сохранять',()=>{dirty=false;route=next;route?render():close();});const onclose=dialog.onclose;dialog.onclose=()=>{if(dialog.returnValue!=='confirm'){const url=new URL(location.href);url.hash=encodeRoute(previous);history.pushState({...history.state,keysProfileDepth:1},'',url);}onclose();};return;}const wasOpen=!!route;route=next;if(route){readState();root.dispatchEvent(new CustomEvent('keys-open-profile'));render();}else{close();if(wasOpen)root.dispatchEvent(new CustomEvent('keys-open-profile'));}});
+ window.addEventListener('popstate',()=>{const next=parseRoute();if(dirty){const previous=route;root.dispatchEvent(new CustomEvent('keys-open-profile'));ask('Уйти без сохранения?','Изменения в форме будут потеряны.','Не сохранять',()=>{dirty=false;route=next;route?render():close();});const onclose=dialog.onclose;dialog.onclose=()=>{if(dialog.returnValue!=='confirm'){const url=new URL(location.href);url.hash=encodeRoute(previous);history.pushState({...history.state,keysProfileDepth:1},'',url);}onclose();};return;}const wasOpen=!!route;route=next;if(route){returnSection=history.state?.keysProfileReturn||null;readState();root.dispatchEvent(new CustomEvent('keys-open-profile'));render();}else{close();if(wasOpen)returnToEntry();}});
  root.addEventListener('keys-scenario-change',()=>{if(scenarioStamp()===lastScenario)return;lastScenario=scenarioStamp();if(route){close();const url=new URL(location.href);url.hash='';history.replaceState({...history.state,keysProfileDepth:0},'',url);}});
  articles.push({id:'key-security',category:'Аккаунт',title:'Что делать, если вы не узнаёте вход?',text:'Откройте список устройств и завершите незнакомые сеансы. Не сообщайте коды из SMS другим людям. Если вы потеряли доступ к телефону или заметили действия, которых не совершали, обратитесь в поддержку Ключей.',action:'devices'});
- readState();const initial=parseRoute();if(initial){route=initial;root.dispatchEvent(new CustomEvent('keys-open-profile'));render();}
- window.KeysProfile={open:(name='travelers',id)=>navigate(name,id)};
+ root.addEventListener('keys-trip-bookings-change',()=>{if(route?.name==='history')updateHistory();});
+ readState();const initial=parseRoute();if(initial){route=initial;returnSection=history.state?.keysProfileReturn||null;root.dispatchEvent(new CustomEvent('keys-open-profile'));render();}
+ window.KeysProfile={open:(name='travelers',id,options)=>navigate(name,id,options)};
 }

@@ -1,22 +1,10 @@
-// Demonstration hotel settings, not live availability or commercial hotel policies.
+// The checkout and existing-booking service picker use the same hotel pricing.
 function keysStayTimePolicy(hotelId){
  const hotel=Ie(hotelId);
- const checkIn=hotel.checkInTime??(hotelId==='more'?Lg.checkInTime:hotelId==='maidens'?'14:00':'15:00');
- const checkOut=hotel.checkOutTime??(hotelId==='more'?Lg.checkOutTime:'12:00');
- return {checkIn,checkOut,early:hotelId==='maidens'?{type:'fixed',amount:2500}:hotelId==='more'?{type:'hourly',amount:800}:{type:'percent',amount:50},late:hotelId==='maidens'?{type:'fixed',amount:3000}:{type:'percent',amount:50,fullAfter:'18:00'}};
+ return globalThis.KeysStayTimePricing.policy(hotelId,hotel.checkInTime??(hotelId==='more'?Lg.checkInTime:hotelId==='maidens'?'14:00':'15:00'),hotel.checkOutTime??(hotelId==='more'?Lg.checkOutTime:'12:00'));
 }
 function keysStayTimeOptions(draft,kind){
- const policy=keysStayTimePolicy(draft.hotelId),early=kind==='early',standard=early?policy.checkIn:policy.checkOut,rule=policy[kind];
- const nightly=Ul(draft)/Math.max(1,Ge(draft.arrival,draft.departure));
- const hours=value=>Number(value.slice(0,2))+Number(value.slice(3))/60;
- const values=early?['06:00','09:00','12:00',standard]:[standard,'16:00','18:00','22:00'];
- return [...new Set(values)].filter(time=>early?time<=standard:time>=standard).sort().map(time=>{
-  const included=time===standard,available=!(early&&time==='06:00');
-  const units=Math.ceil(Math.abs(hours(standard)-hours(time))),percent=rule.fullAfter&&time>rule.fullAfter?100:rule.amount;
-  const price=included||!available?0:Math.round(rule.type==='hourly'?units*rule.amount:rule.type==='fixed'?rule.amount:nightly*percent/100);
-  const detail=!available?'Нет доступных номеров':included?'Стандартное время · включено':rule.type==='hourly'?units+' ч × '+Te(rule.amount):rule.type==='fixed'?'Фиксированная доплата':percent+'% стоимости суток';
-  return {time,price,available,included,detail};
- });
+ return globalThis.KeysStayTimePricing.options(keysStayTimePolicy(draft.hotelId),kind,Ul(draft)/Math.max(1,Ge(draft.arrival,draft.departure)),Te);
 }
 function keysStayTimeQuote(draft){
  const policy=keysStayTimePolicy(draft.hotelId);

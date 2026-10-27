@@ -18,8 +18,8 @@
   if(!['stay','booked'].includes(scenario))return [];
   const items=[...(scenario==='stay'?examples:[]),...requests.map(item=>({...item,state:'pending',status:'Ждёт подтверждения',time:'Время уточнит отель',note:item.description||''}))];
   const times=window.KeysStayServices?.getRequests()||{};
-  if(times.early&&scenario==='booked')items.push({id:'early',title:'Ранний заезд',icon:'clock',state:'pending',status:'Ждёт подтверждения',time:'Запрошен к '+times.early,note:'Возможность и стоимость подтвердит отель'});
-  if(times.late)items.push({id:'late',title:'Поздний выезд',icon:'clock',state:'pending',status:'Ждёт подтверждения',time:'Запрошен до '+times.late,note:'Возможность и стоимость подтвердит отель'});
+  if(times.early)items.push({id:'early',title:'Ранний заезд',icon:'clock',state:'approved',status:'Добавлен',time:'с '+times.early,price:window.KeysStayServices.getQuote('early',times.early)?.price,note:'Оплата при заселении'});
+  if(times.late)items.push({id:'late',title:'Поздний выезд',icon:'clock',state:'approved',status:'Добавлен',time:'до '+times.late,price:window.KeysStayServices.getQuote('late',times.late)?.price,note:'Оплата при выезде'});
   return items;
  }
  const completedExamples=[

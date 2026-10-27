@@ -68,3 +68,51 @@ test('only the explicit first-run scenario asks preferences, and re-entry opens 
  s=run(s,{type:'KEYS_SWIPE_SCENARIO',firstRun:null});
  assert.equal(e.keysSwipeNeedsPreferences(s),false);
 });
+
+test('editing preferences saves a sanitized selection and returns to the same hotel',()=>{
+ let s=run(e.keysInitialState(),{type:'HOTEL_OPEN',id:'azimut'});
+ const hotelScreen=s.navigation.screen,search=s.search;
+ s=run(s,{type:'OPEN',screen:{type:'hotel-preferences',hotelId:'azimut'}});
+ assert.equal(s.navigation.screen.type,'hotel-preferences');
+ assert.equal(e.keysShowBottomNav(s),false);
+ s=run(s,{type:'KEYS_SWIPE_PREFERENCES_SAVE',selected:['food','family','food','unknown']});
+ assert.deepEqual(s.keysSwipePreferences,{completed:true,selected:['family','food']});
+ s=run(s,{type:'BACK'});
+ assert.deepEqual(s.navigation.screen,hotelScreen);
+ assert.deepEqual(s.search,search);
+});
+test('saving preferences during a first-run demo updates both the demo and persistent choice',()=>{
+ let s=run(e.keysInitialState(),{type:'KEYS_SWIPE_SCENARIO',firstRun:'demo-edit'});
+ s=run(s,{type:'KEYS_SWIPE_PREFERENCES_SAVE',selected:['wellness']});
+ assert.deepEqual(e.keysSwipePreferences(s).selected,['wellness']);
+ assert.equal(e.keysSwipeNeedsPreferences(s),false);
+ s=run(s,{type:'KEYS_SWIPE_SCENARIO',firstRun:null});
+ assert.deepEqual(e.keysSwipePreferences(s),{completed:true,selected:['wellness']});
+ s=run(s,{type:'KEYS_SWIPE_PREFERENCES_SAVE',selected:[]});
+ assert.deepEqual(e.keysSwipePreferences(s),{completed:true,selected:[]});
+});
+
+test('swipe settings preserve the deck and saved choices when saving or leaving without changes',()=>{
+ let s=run(e.keysInitialState(),{type:'KEYS_SWIPE_PREFERENCES_SAVE',selected:['family','food']});
+ s=run(s,{type:'OPEN',screen:{type:'swipe'}});
+ const discovery=s.discovery, search=s.search;
+ s=run(s,{type:'OPEN',screen:{type:'hotel-preferences'}});
+ assert.deepEqual(e.keysSwipePreferences(s).selected,['family','food']);
+ assert.equal(e.keysShowBottomNav(s),false);
+ s=run(s,{type:'BACK'});
+ assert.equal(s.navigation.screen.type,'swipe');
+ assert.deepEqual(e.keysSwipePreferences(s).selected,['family','food']);
+ s=run(s,{type:'OPEN',screen:{type:'hotel-preferences'}});
+ s=run(s,{type:'KEYS_SWIPE_PREFERENCES_SAVE',selected:['nature','wellness']});
+ s=run(s,{type:'BACK'});
+ assert.equal(s.navigation.screen.type,'swipe');
+ assert.equal(s.discovery,discovery);
+ assert.equal(s.search,search);
+ s=run(s,{type:'OPEN',screen:{type:'hotel-preferences'}});
+ assert.deepEqual(e.keysSwipePreferences(s).selected,['nature','wellness']);
+ const previous=globalThis.localStorage;
+ try{
+  globalThis.localStorage={getItem:()=>JSON.stringify(s.keysSwipePreferences)};
+  assert.deepEqual(e.keysSwipePreferences(e.keysRestoreSwipePreferences({})).selected,['nature','wellness']);
+ }finally{globalThis.localStorage=previous;}
+});

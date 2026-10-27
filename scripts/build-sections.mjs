@@ -1,4 +1,5 @@
 import {adaptCheckoutEngine,adaptCheckoutPage,adaptCheckoutExtras,adaptDesktopCheckout} from './adapt-checkout-options.mjs';
+import {adaptHotelChat,adaptDesktopHotelChat} from './adapt-hotel-chat.mjs';
 import {adaptPhotoDiscovery} from './adapt-photo-discovery.mjs';
 import {adapt2gis,adapt2gisRuntime} from './adapt-2gis.mjs';
 import {adaptLightTheme,adaptLightThemeDocument} from './adapt-light-theme.mjs';
@@ -25,13 +26,15 @@ export async function buildSections(){
  const vendor=path.join(root,'vendor/arbana'),stage=path.join(vendor,'.build');
  execFileSync(process.execPath,[path.join(vendor,'scripts/build.mjs')],{stdio:'pipe'});
  let js=(await transform(await readFile(path.join(stage,'assets/index-C4VobzN0.js'),'utf8'),{minify:false,charset:'utf8'})).code;
+ js=(await readFile(path.join(root,'src/booking/stay-time-pricing.js'),'utf8'))+'\n'+js;
  const paymentPath=path.join(stage,'assets/ReservationProcessing-DLNoz2B4.js');
  await writeFile(paymentPath,adaptPaymentSummaries(await adaptPayment(await readFile(paymentPath,'utf8')),await readFile(path.join(root,'src/sections/payment-booking-summary.js'),'utf8')));
  await writeFile(paymentPath,adaptCheckoutExtras(await readFile(paymentPath,'utf8')));
  const checkoutPage=path.join(stage,'assets/ReservationPaymentPage-BjEg33Qq.js');
  await writeFile(checkoutPage,await adaptCheckoutPage(await readFile(checkoutPage,'utf8')));
  const desktopCheckout=path.join(stage,'assets/DesktopApp-DR7F9ePm.js');
- await writeFile(desktopCheckout,adaptDesktopCheckout(await readFile(desktopCheckout,'utf8')));
+ await writeFile(desktopCheckout,adaptDesktopHotelChat(adaptDesktopCheckout(await readFile(desktopCheckout,'utf8'))));
+ js=adaptHotelChat(js);
  js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-times.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);

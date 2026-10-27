@@ -28,8 +28,13 @@
   });
  });
  const today=pass.querySelector('.kh-pass-today'),progress=pass.querySelector('.kh-pass-progress');
+ function updateDeadline(){
+  const time=window.KeysStayServices?.getRequests().late||'12:00';
+  deadline.querySelector('strong span').textContent='до '+time;
+ }
  function update({detail}){
   if(detail.scenario!=='stay')return;
+  updateDeadline();
   const day=detail.stayDay??'day-2',last=day==='checkout';
   deadline.hidden=!last;checkout.hidden=!last;
   today.innerHTML=last?'<span>Сегодня</span><strong>День выезда</strong><time datetime="2026-09-19">19 сентября</time>':`<span>Сегодня</span><strong>День 2 <span>из 7</span></strong><time datetime="2026-09-13">13 сентября</time>`;
@@ -39,4 +44,6 @@
   if(!home.querySelector('.kh-overlay').hidden)window.KeysHomeViews.close();
  }
  root.addEventListener('keys-scenario-change',update);
+ root.addEventListener('keys-service-requests-change',updateDeadline);
+ window.addEventListener('DOMContentLoaded',updateDeadline,{once:true});
 })();

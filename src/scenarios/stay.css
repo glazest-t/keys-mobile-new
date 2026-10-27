@@ -39,3 +39,9 @@ body[data-keys-scenario="stay"][data-keys-stay-day="checkout"] #keysUnifiedProto
 
 #keysUnifiedPrototype .kh-primary.kh-service-remove{background:var(--color-soft);color:var(--color-brand)!important}
 #keysUnifiedPrototype [data-service-actions] .kh-primary+.kh-primary{margin-top:8px}
+
+/* Arrival choices show the supplement before the request is submitted. */
+#keysUnifiedPrototype .ksc-time-options.ksc-priced-times{display:grid;gap:8px}
+#keysUnifiedPrototype .ksc-priced-times button{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;text-align:left}
+#keysUnifiedPrototype .ksc-priced-times .ksc-time-price{font-size:14px;font-weight:500;white-space:nowrap}
+#keysUnifiedPrototype .ksc-priced-times button:disabled{opacity:.45;cursor:not-allowed}

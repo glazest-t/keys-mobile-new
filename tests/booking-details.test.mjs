@@ -43,3 +43,16 @@ test('new booking bill matches checkout with time supplements, extras and points
   assert.equal(bill.total,quote.total);assert.equal(bill.due,method==='arrival'?quote.total:0);
  }
 });
+
+test('historical bookings keep completed refunds distinct from pending refunds',()=>{
+ const html=view.render({...base,status:'Бронь отменена',cancellation:{fee:0,refund:56000,due:0,status:'refunded'}});
+ assert.match(html,/Возвращено/);
+ assert.doesNotMatch(html,/Возврат в обработке|Всё оплачено|Осталось оплатить/);
+});
+test('history omits unavailable facts and retains earned points in the shared layout',()=>{
+ const html=view.render({...base,tariff:undefined,guest:undefined,pointsAwarded:2240});
+ assert.doesNotMatch(html,/Тариф|Основной гость|undefined/);
+ assert.match(html,/Баллы Ключей/);
+ assert.match(html,/Начислены за поездку/);
+ for(const title of ['Проживание','Номер и гости','Общий счёт'])assert.ok(html.includes(title));
+});

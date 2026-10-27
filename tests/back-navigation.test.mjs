@@ -80,3 +80,20 @@ test('direct booking routes hide the menu without relying on prior navigation hi
   assert.equal(e.keysShowBottomNav({...state,navigation:{...state.navigation,screen:{type},history:[]}}),true,type);
  }
 });
+
+test('repeat booking opens rooms for every history hotel and preserves existing reservations',()=>{
+ for(const [hotelId,name] of [['maidens','Maidens Hotel'],['more','Swissôtel Камелия'],['severny-spb','Отель «Северный»'],['kazan-riviera','Отель «Казанская Ривьера»']]){
+  let s=e.keysInitialState();
+  const original=s.booking;
+  s={...s,keysCreatedBookings:{previous:{booking:original}},reservation:{status:'editing',extras:[{id:'dinner'}],hotelId:'more'},search:{...s.search,arrival:'2026-06-01',departure:'2026-06-08'}};
+  s=e.reducer(s,{type:'KEYS_REBOOK',hotelId,nights:3,party:{adults:2,childrenAges:[],pet:false,business:false},now:Date.parse('2026-10-27T10:00:00Z')});
+  assert.deepEqual(s.navigation.screen,{type:'hotel',hotelId,rooms:true});
+  assert.equal(s.reservation.hotelId,hotelId);assert.equal(e.hotel(hotelId).name,name);
+  assert.equal(s.reservation.arrival,'2026-10-28');assert.equal(s.reservation.departure,'2026-10-31');
+  assert.equal(s.reservation.party.adults,2);assert.deepEqual(s.reservation.extras,[]);
+  assert.deepEqual(s.booking,original);assert.ok(s.keysCreatedBookings.previous);
+  assert.equal(e.keysReturnsToHost(s,{type:'BACK'},{kind:'screen',screen:'hotel'}),true);
+  s=e.reducer(s,{type:'RESERVATION_NEXT'});assert.equal(s.navigation.screen.type,'reservation-payment');
+  assert.equal(e.keysReturnsToHost(s,{type:'BACK'},{kind:'screen',screen:'hotel'}),false);
+ }
+});

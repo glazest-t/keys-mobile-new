@@ -103,7 +103,7 @@ function KeysBridge() {
       if(screen==='created-booking'&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
       if(['booking','notifications','saved'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(screen==='hotel-loyalty-connect'&&hotelId)dispatch({type:'OPEN',screen:{type:screen,hotelId}});
-      else if(screen==='hotel'&&hotelId)dispatch({type:'HOTEL_OPEN',id:hotelId});
+      else if(screen==='hotel'&&hotelId){if(discovery?.rebook)dispatch({type:'KEYS_REBOOK',hotelId,nights:discovery.nights,party:discovery.party});else dispatch({type:'HOTEL_OPEN',id:hotelId});}
       else if(hotelId) dispatch({type:'OPEN',screen:{type:'chat',hotelId}});
       if(tab==='find'&&discovery){
         if(typeof discovery.wish==='string'&&discovery.wish.trim()){
@@ -133,6 +133,7 @@ function KeysBridge() {
     window.addEventListener('message',receive); keysPost('ready',{});
     return () => window.removeEventListener('message',receive);
   }, [dispatch]);
+  E.useEffect(()=>{keysPost('trip-bookings',{bookings:Object.values(state.keysCreatedBookings||{}).map(({draft,booking})=>{const model=keysBookingDetailsModel(draft,booking),hotel=Ie(draft.hotelId);return {id:booking.id,hotelId:hotel.id,hotel:hotel.name,city:hotel.city,arrival:draft.arrival,departure:draft.departure,room:draft.room.name,photo:booking.room?.photo?.src||draft.room.photo?.src,guests:Rt(draft.party),price:YA(draft).total,model};})});},[state.keysCreatedBookings]);
   E.useEffect(()=>{if(state.reservation?.status==='confirmed'&&state.reservation.bookedId===state.booking.id){keysPost('reservation',{booking:{id:state.booking.id,hotel:eHotelName(state.booking.hotelId),arrival:state.booking.arrival,departure:state.booking.departure,room:state.booking.room.name,photo:state.booking.room.photo?.src,guests:Rt(state.booking.party)}});}},[state.reservation?.status,state.booking.id]);
   E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null,favorites:state.navigation.screen?.type==='saved'||(!state.navigation.screen&&state.navigation.tab==='favorites')?(state.navigation.screen?.collectionId?'collection':'overview'):'',results:!state.navigation.screen&&state.navigation.tab==='find'&&state.search.results&&state.search.intent==='known'}); },[state.navigation,state.search.results,state.search.intent]);
   E.useEffect(()=>{
@@ -148,7 +149,7 @@ function keysShowBottomNav(state){
   if(state.keysShareSession)return false;
   const {screen,history=[]}=state.navigation;
   if(!screen)return true;
-  if(['swipe','shared-swipe'].includes(screen.type))return false;
+  if(['swipe','shared-swipe','hotel-preferences'].includes(screen.type))return false;
   const bookingScreen=page=>page&&(['hotel','hotel-reviews','hotel-loyalty-connect','shopping-checkout','reservation-payment','reservation-success'].includes(page.type)||page.type==='hotel-map'&&page.selectedOnly);
   return !bookingScreen(screen)&&!history.some(bookingScreen);
 }
@@ -160,7 +161,7 @@ function PH({children}) {
   const {state,dispatch} = J(), screen=state.navigation.screen;
   const favorites=screen?.type==='saved'||(!screen&&state.navigation.tab==='favorites');
   const conversation=screen?.type==='chat'||screen?.type==='describe';
-  const full=['hotel-map','story','stories','friend-stories','swipe','shared-swipe'].includes(screen?.type);
+  const full=['hotel-map','story','stories','friend-stories','swipe','shared-swipe','hotel-preferences'].includes(screen?.type);
   E.useLayoutEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;if(document.documentElement.dataset.desktopAccount==='true')window.scrollTo(0,0);},[state.navigation.tab,screen?.type,screen?.rooms,screen?.collectionId,state.search.results]);
   E.useLayoutEffect(()=>{document.documentElement.classList.toggle('keys-share-sheet',!!state.keysShareSession&&screen?.type==='keys-trip-share');},[state.keysShareSession,screen?.type]);
   const results=!screen && state.navigation.tab==='find' && state.search.results && state.search.intent==='known';
@@ -168,12 +169,37 @@ function PH({children}) {
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&n.jsx(CH,{}),
-      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='hotel-map'&&screen.collectionId?n.jsx(KeysFavoriteMap,{collectionId:screen.collectionId},screen.collectionId):screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
+      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='hotel-preferences'?n.jsx(KeysSwipePreferences,{editing:true}):screen?.type==='hotel-map'&&screen.collectionId?n.jsx(KeysFavoriteMap,{collectionId:screen.collectionId},screen.collectionId):screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
     keysShowBottomNav(state)&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{}),n.jsx(KeysSwipePreferencesStorage,{})
   ]});
 }
+// Rebooking always creates a fresh draft for the selected hotel; existing trips stay intact.
+function keysRepeatBookingState(state,action){
+ const hotel=_n.find(item=>item.id===action.hotelId);if(!hotel)return state;
+ const today=new Date(action.now??Date.now()).toISOString().slice(0,10);
+ const addDays=(day,n)=>{const date=new Date(day+'T12:00:00Z');date.setUTCDate(date.getUTCDate()+n);return date.toISOString().slice(0,10);};
+ const arrival=state.search.arrival>=today?state.search.arrival:addDays(today,1);
+ const nights=Math.max(1,Math.min(30,Number(action.nights)||3));
+ const next={...state,reservation:null,search:{...state.search,hotelId:hotel.id,city:hotel.city,arrival,departure:addDays(arrival,nights),party:sn(action.party||state.search.party),results:false},navigation:{tab:'find',screen:null,history:[]}};
+ return Wm(next,hotel.id,action.now??Date.now());
+}
+function keysRegisterHistoryHotels(){
+ const base=Ie('more');
+ const entries=[
+  {id:'severny-spb',name:'Отель «Северный»',city:'Санкт-Петербург',room:'Стандарт с большой кроватью',nightlyPrice:9000,photo:'../scenarios/maidens-premium-king.jpg',coordinates:[59.9343,30.3351]},
+  {id:'kazan-riviera',name:'Отель «Казанская Ривьера»',city:'Казань',room:'Комфорт',nightlyPrice:7000,photo:'./images/sochi/gorizont/d0588de3919a.webp',coordinates:[55.819,49.13]}
+ ];
+ for(const item of entries){
+  const photo={src:item.photo,alt:item.room+' · '+item.name};
+  if(!_n.some(h=>h.id===item.id))_n.push({...base,...item,photos:[photo],image:photo.src,address:item.city,area:'',location:item.city,isSeasideCity:false,seaDistance:null,centerDistance:null,description:'Отель из вашей истории путешествий.',beach:false,offer:null,usualNightlyPrice:item.nightlyPrice,priceHistory:[item.nightlyPrice],nextPrices:[item.nightlyPrice]});
+  Cv[item.id]=[{...wr('more')[0],name:item.room,description:'Номер из вашей прошлой поездки',photo,photos:[photo]}];
+ }
+ const photo={src:'../scenarios/maidens-premium-king.jpg',alt:'Премиум Кинг · Maidens Hotel'};
+ Cv.maidens=[{...wr('more')[0],name:'Премиум Кинг',description:'Просторный номер с большой кроватью',photo,photos:[photo]}];
+}
 function keysInitialState() {
+  keysRegisterHistoryHotels();
   const state=Xg('stay',Date.now());
   const photo={src:'../scenarios/maidens-hotel.jpg',alt:'Maidens Hotel'};
   const maidens={...Ie('more'),id:'maidens',name:'Maidens Hotel',city:'Москва',isSeasideCity:false,seaDistance:null,centerDistance:null,area:'Хамовники',address:'Москва, Зубовская площадь, 3, стр. 1',location:'Хамовники · Москва',coordinates:[55.7364,37.5912],description:'Ваше текущее проживание: 12–19 сентября, номер 412.',photos:[photo],image:photo.src,beach:false,pool:false,spa:false,breakfast:false,room:'Премиум Кинг с видом во двор'};
@@ -185,7 +211,7 @@ function keysInitialState() {
   state.profile={firstName:'Татьяна',lastName:'',phone:'+7 (900) 123-45-67',email:'',citizenship:'Российская Федерация'};
   try{const login=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(login?.firstName&&login?.phone)state.profile={...state.profile,firstName:login.firstName,phone:login.phone};const saved=JSON.parse(localStorage.getItem('keys-booking-profile-v1')||'null');if(saved&&um(saved)&&saved.phone.replace(/\D/g,'')===state.profile.phone.replace(/\D/g,''))state.profile={citizenship:'Российская Федерация',...saved},state.keysProfileSaved=1;}catch{}
   state.orders=[];
-  state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Здесь можно задать вопрос об отеле или связаться с сотрудником.',bookingId:state.booking.id}]};
+  state.chat.conversations.maidens={hotelId:'maidens',staffName:'Анна',human:false,unread:0,draft:'',lastActivity:6,updatedLabel:'Сейчас',messages:[{id:'maidens-welcome',sender:'ai',text:'Татьяна, добро пожаловать в чат Maidens Hotel! Ваш номер — 412, проживание 12–19 сентября. Я ИИ-ассистент — помогу с вопросами об отеле и проживании.',bookingId:state.booking.id}]};
   state.chat.sequence=6;
   keysRestoreFavorites(state);
   keysRestoreSwipePreferences(state);
@@ -205,7 +231,7 @@ function keysMaidensAnswer(text,context) {
   if(/номер|брон|дат|прожив/i.test(text)&& !/убор|принес|полотен/i.test(text)) return answer('Ваша бронь в Maidens Hotel: 12–19 сентября, 1 гость. Номер 412, «Премиум Кинг с видом во двор», деловой тариф.');
   if(/адрес|где.*отель/i.test(text)) return answer('Maidens Hotel: Москва, Зубовская площадь, 3, стр. 1.');
   if(/ключ|двер/i.test(text)) return answer('Цифровой ключ от номера 412 доступен на главной странице в разделе «Поездки».');
-  return [{handoff:true,message:{sender,text:'Передам вопрос сотруднику Maidens Hotel. История переписки сохранится.'}}];
+  return answer('Я ИИ-ассистент Maidens Hotel. Помогу с вопросами о номере, услугах и условиях проживания. Уточните, что вы хотите узнать.');
 }
 
 function eHotelName(id){return Ie(id).name;}

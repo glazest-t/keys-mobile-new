@@ -27,3 +27,39 @@
 
 /* Compact section headings; hotel identity and page title keep their hierarchy. */
 .kbd-view .kbd-card:is([aria-label="Номер и гости"],[aria-label="Тариф"],[aria-label="Общий счёт"]) h2{font:var(--ui-font-label,500 14px/21px var(--font-sans))!important}
+
+/* The pre-arrival hierarchy is shared by every booking entry, including history. */
+.kbd-view.kbd-view .kbd-card h2,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kbd-view .kbd-card h2{font:500 14px/21px var(--font-sans,'Golos Text',sans-serif)!important;margin:0 0 16px!important;letter-spacing:0!important}
+.kbd-view.kbd-view .kbd-card[aria-label="Проживание"] h2,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kbd-view .kbd-card[aria-label="Проживание"] h2{font:500 20px/26px var(--font-sans,'Golos Text',sans-serif)!important}
+.kbd-view.kbd-view .kbd-note,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kbd-view .kbd-note{font:400 14px/21px var(--font-sans,'Golos Text',sans-serif)!important;margin:8px 0 0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-head{margin:16px 0;gap:12px}
+#keysUnifiedPrototype .kb-unified-details{gap:12px}
+#keysUnifiedPrototype .kb-unified-details [hidden]{display:none!important}
+#keysUnifiedPrototype .kb-unified-details>.kh-primary{width:100%}
+#keysUnifiedPrototype .kpf-booking-details .kpf-content{gap:12px}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kpf-booking-details{max-width:520px}
+.keys-unified-details{max-width:520px}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype #keysStayDetails{position:fixed;z-index:150;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:520px;max-width:calc(100vw - 32px);height:calc(100dvh - 120px);max-height:820px;border:1px solid var(--color-line);border-radius:24px;background:var(--color-card);box-shadow:0 0 0 100vmax #1c284155,0 24px 80px #1c284126;overflow:hidden}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-phone{width:100%!important;max-width:none!important;height:100%!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-scroll{height:100%!important;padding:4px 16px 32px!important}
+body[data-keys-booking-dialog="true"] #keysStayDetails>.ksd-caption{display:none}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype #keysStayDetails{box-sizing:border-box;padding:0}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype #keysStayDetails nav{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpf-booking-details .kpf-header h1{font:var(--ui-font-title,500 24px/30px var(--font-sans))!important;letter-spacing:0!important}
+#keysUnifiedPrototype .kpf-booking-details .kbd-view{flex:none}
+
+/* Floating booking action: no white panel between the content and navigation. */
+#keysUnifiedPrototype .kpf-booking-details>.kpf-footer{background:transparent;border:0;box-shadow:none;pointer-events:none}
+#keysUnifiedPrototype .kpf-booking-details>.kpf-footer>button{pointer-events:auto}
+
+/* Earned points: compact brand reward using the original Orbit symbol. */
+.kbd-view .kbd-points{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:84px;padding:16px;box-sizing:border-box;border:0;border-radius:20px;background:var(--color-brand-tint,#eef2fe);color:var(--color-ink,#14171f)}
+.kbd-view .kbd-points-symbol{display:block;width:40px;height:40px;background:url('../brand/orbit/logo/keys-orbit-symbol-blue.svg') center/contain no-repeat}
+.kbd-view .kbd-points-copy{display:grid;gap:4px;min-width:0}
+.kbd-view .kbd-points-copy>strong{font:500 14px/20px var(--font-sans,'Golos Text',sans-serif)!important;letter-spacing:0}
+.kbd-view .kbd-points-copy>span{font:400 12px/18px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#6b7280)}
+.kbd-view .kbd-points-amount{font:500 22px/28px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-brand,#3a66f0);font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:0}
+@media(max-width:360px){.kbd-view .kbd-points{grid-template-columns:32px minmax(0,1fr) auto;gap:8px;padding:14px}.kbd-view .kbd-points-symbol{width:32px;height:32px}.kbd-view .kbd-points-amount{font-size:20px!important}}

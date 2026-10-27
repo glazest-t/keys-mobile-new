@@ -118,3 +118,7 @@ body[data-keys-stay-day="checkout"] #keysUnifiedPrototype .kb-documents-section{
 #keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-now-state{padding:4px 8px;border-radius:8px;background:var(--color-success-bg);color:var(--color-success);font-size:var(--text-12)!important;line-height:1.5!important;font-weight:500!important}
 #keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page .ksd-flow-note{margin-top:16px;padding:0;background:transparent;font-size:var(--text-14)!important;line-height:1.5!important;color:var(--color-muted)}
 @media(max-width:639px){#keysUnifiedPrototype#keysUnifiedPrototype .kb-problem-page{--text-scale:1.05}}
+
+/* The same document screen can be opened from Trips, checkout or history. */
+#keysUnifiedPrototype .kb-documents-view{z-index:60;padding-bottom:calc(var(--keys-bottom-clearance,80px) + 24px)}
+#keysUnifiedPrototype .kb-document-save{width:100%;margin-top:16px}

@@ -99,6 +99,7 @@ ${fragment}
 <link rel="stylesheet" href="./booking/booking.css?v=completed-details-clean-1">
 <link rel="stylesheet" href="./booking/details-view.css">
 <script src="./booking/details-view.js"></script>
+<script src="./booking/documents-model.js"></script>
 <script src="./booking/booking.js?v=clean-prototype-copy-1"></script>
 <link rel="stylesheet" href="./feedback/feedback.css?v=feedback-thanks-card-1">
 <script src="./feedback/feedback.js?v=clean-prototype-copy-1"></script>
@@ -106,6 +107,7 @@ ${fragment}
 <link rel="stylesheet" href="./scenarios/scenarios.css?v=before-arrival-1">
 <link rel="stylesheet" href="./scenarios/stay.css?v=shared-late-flow-1">
 <script src="./scenarios/stay.js?v=shared-late-flow-1"></script>
+<script src="./booking/stay-time-pricing.js"></script>
 <script src="./scenarios/late-checkout.js?v=clean-prototype-copy-1"></script>
 <link rel="stylesheet" href="./scenarios/after.css?v=reward-spacing-2">
 <script src="./scenarios/after.js?v=clean-prototype-copy-1"></script>
@@ -151,6 +153,8 @@ ${fragment}
 <link rel="stylesheet" href="./profile/profile.css">
 <link rel="stylesheet" href="./arbana/sheet-motion.css">
 <script type="module" src="./profile/profile.js"></script>
+<link rel="stylesheet" href="./scenarios/trip-history.css">
+<script src="./scenarios/trip-history.js"></script>
 </body>
 </html>
 `;

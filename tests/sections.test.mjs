@@ -8,8 +8,11 @@ const e=createRequire(import.meta.url)('../tmp/sections-engine.cjs');
 const now=Date.parse('2026-09-29T10:00:00Z');
 const run=(s,a)=>e.reducer(s,{now,...a});
 const completeGuest=s=>run(s,{type:'RESERVATION_CONTACT',contact:{...s.reservation.contact,lastName:'Иванова',email:'guest@example.test'}});
-test('host stay stays Maidens, catalogue retains original 30 hotels',()=>{
- const s=e.keysInitialState();assert.equal(s.booking.hotelId,'maidens');assert.equal(s.booking.arrival,'2026-09-12');assert.equal(s.booking.party.adults,1);assert.equal(e.hotels.filter(h=>h.id!=='maidens').length,30);assert.equal(s.chat.conversations.maidens.hotelId,'maidens');
+test('host stay stays Maidens, catalogue retains original 30 hotels and adds history hotels',()=>{
+ const s=e.keysInitialState();assert.equal(s.booking.hotelId,'maidens');assert.equal(s.booking.arrival,'2026-09-12');assert.equal(s.booking.party.adults,1);
+ assert.equal(e.hotels.filter(h=>!['maidens','severny-spb','kazan-riviera'].includes(h.id)).length,30);
+ for(const id of ['severny-spb','kazan-riviera'])assert.equal(e.hotels.filter(h=>h.id===id).length,1);
+ assert.equal(s.chat.conversations.maidens.hotelId,'maidens');
 });
 test('search parameters and results survive Find → Chats → Find',()=>{
  let s=e.keysInitialState();s=run(s,{type:'SEARCH_PATCH',patch:{city:'Сочи',party:{adults:1,childrenAges:[7],pet:true,business:false},filters:['spa']}});s=run(s,{type:'SEARCH_SUBMIT',city:'Сочи'});s=run(s,{type:'NAV_TAB',tab:'chats'});s=run(s,{type:'NAV_TAB',tab:'find'});assert.equal(s.search.results,true);assert.deepEqual(s.search.filters,['spa']);assert.deepEqual(s.search.party.childrenAges,[7]);
@@ -26,8 +29,8 @@ test('assistant answers and dialogue can be reset and restored',()=>{
 test('Maidens reply uses current tariff and breakfast, never Swissotel context',()=>{
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'maidens',text:'Во сколько завтрак?'});const answer=s.chat.conversations.maidens.messages.at(-1).text;assert.match(answer,/07:00/);assert.match(answer,/12:00/);assert.match(answer,/680/);assert.match(answer,/не включён/);assert.doesNotMatch(answer,/моря|обоих гостей/);
 });
-test('new hotel conversation supports drafts, send, unread and handoff',()=>{
- let s=e.keysInitialState();s=run(s,{type:'OPEN',screen:{type:'chat',hotelId:'palm'}});s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'Есть завтрак?');s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'');assert.ok(s.chat.conversations.palm.messages.some(m=>m.sender==='ai'));s=run(s,{type:'HANDOFF',hotelId:'palm'});assert.equal(s.chat.conversations.palm.human,true);
+test('new hotel conversation supports drafts, send and unread without human handoff',()=>{
+ let s=e.keysInitialState();s=run(s,{type:'OPEN',screen:{type:'chat',hotelId:'palm'}});s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'Есть завтрак?');s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'');assert.ok(s.chat.conversations.palm.messages.some(m=>m.sender==='ai'));s=run(s,{type:'HANDOFF',hotelId:'palm'});assert.equal(s.chat.conversations.palm.human,false);
 });
 test('booking, payment and success remain original working flow',()=>{
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});assert.ok(s.reservation);s=run(s,{type:'RESERVATION_NEXT'});s=completeGuest(s);s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});assert.equal(s.reservation.status,'confirmed');assert.equal(s.navigation.screen.type,'reservation-success');
@@ -325,4 +328,21 @@ test('hotel programme booking opens Maidens catalogue detail and returns to Bene
   assert.equal(e.keysRouteToHost(open),true);
   assert.equal(messages.at(-1).target,'stay-details');
  }finally{globalThis.keysHostEntry=previousEntry;globalThis.PoraDemo.state=previousState;globalThis.keysGuestMode=previousGuest;globalThis.window=previousWindow;}
+});
+
+test('hotel chat stays AI-only for explicit and automatic handoff requests',()=>{
+ for(const hotelId of ['maidens','palm']){
+  let s=e.keysInitialState();
+  s=run(s,{type:'OPEN',screen:{type:'chat',hotelId}});
+  s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId,text:'Мой черновик'});
+  const messages=s.chat.conversations[hotelId].messages;
+  s=run(s,{type:'HANDOFF',hotelId,inPlace:true});
+  assert.equal(s.chat.conversations[hotelId].human,false);
+  assert.equal(s.chat.conversations[hotelId].draft,'Мой черновик');
+  assert.deepEqual(s.chat.conversations[hotelId].messages,messages);
+  s=run(s,{type:'HOTEL_CHAT_SEND',hotelId,text:'Позови сотрудника, хочу поговорить с человеком'});
+  assert.equal(s.chat.conversations[hotelId].human,false);
+  assert.equal(s.chat.conversations[hotelId].messages.at(-1).sender,'ai');
+  assert.doesNotMatch(s.chat.conversations[hotelId].messages.at(-1).text,/Передам|подключился/);
+ }
 });

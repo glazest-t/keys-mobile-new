@@ -2,7 +2,7 @@ export function adaptPhotoDiscovery(source,components){
  let js=source.replaceAll("Подбор по фото","Отели свайпом").replaceAll("Свайп вправо — нравится","Листайте отели, сохраняйте любимые.");
  const edit=(name,next,update)=>{const a=js.indexOf('function '+name+'('),b=js.indexOf('function '+next+'(',a);if(a<0||b<0)throw Error('Photo component missing: '+name);js=js.slice(0,a)+update(js.slice(a,b))+js.slice(b);};
  const swap=(s,a,b)=>{if(!s.includes(a))throw Error('Photo anchor missing: '+a.slice(0,80));return s.replace(a,b);};
- edit('MV','PV',s=>swap(s,', n.jsx("button", { onClick: () => a({ type: "shared-create" }), "aria-label": "Выбрать вместе с друзьями", className: "glass-round shrink-0 transition-colors hover:bg-on-photo/25", children: n.jsx(D, { name: "users", className: "size-5" }) })',''));
+ edit('MV','PV',s=>swap(s,', n.jsx("button", { onClick: () => a({ type: "shared-create" }), "aria-label": "Выбрать вместе с друзьями", className: "glass-round shrink-0 transition-colors hover:bg-on-photo/25", children: n.jsx(D, { name: "users", className: "size-5" }) })',', n.jsx("button", { type: "button", onClick: () => a({ type: "hotel-preferences" }), "aria-label": "Настройки предпочтений", title: "Настройки предпочтений", className: "glass-round shrink-0 transition-colors hover:bg-on-photo/25", children: n.jsx(D, { name: "sliders", className: "size-5" }) })'));
  edit('MV','PV',s=>{
   s=swap(s,'m = e.search.sort ? u : j_(u, c)', 'm = e.search.sort ? u : keysRankSwipeHotels(j_(u, c),keysSwipePreferences(e))');
   return swap(s,'return n.jsxs(', 'if(keysSwipeNeedsPreferences(e))return n.jsx(KeysSwipePreferences,{});\n  return n.jsxs(');

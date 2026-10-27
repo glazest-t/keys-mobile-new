@@ -43,3 +43,12 @@ body[data-keys-booking-cancelled=true][data-keys-scenario=booked] :is(.kpa-cance
 }
 #keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:not([data-before="manage"]):focus-visible,.keys-cancel-confirm:focus-visible{outline:2px solid #a9323e;outline-offset:3px}
 #keysUnifiedPrototype#keysUnifiedPrototype .keys-cancel-entry:not([data-before="manage"]):disabled{color:var(--color-muted,#70798b)!important;border-color:var(--color-line,#e5e7ed);background:var(--color-card,#fff)}
+
+/* Cancellation uses the same bottom-sheet presentation from every booking entry. */
+.keys-cancel-dialog,
+body[data-keys-view=mobile] .keys-cancel-dialog{position:fixed;inset:auto 0 var(--cancel-sheet-bottom,0);margin:0 auto;width:min(var(--cancel-sheet-width,480px),100vw);max-height:var(--cancel-sheet-height,calc(100dvh - 24px));padding:12px 20px max(24px,env(safe-area-inset-bottom));border-radius:24px 24px 0 0;overscroll-behavior:contain}
+.keys-cancel-handle{width:36px;height:4px;margin:0 auto 16px;border-radius:4px;background:#d7dbe4}
+@media(prefers-reduced-motion:no-preference){
+ .keys-cancel-dialog[open]{animation:keys-sheet-enter .36s cubic-bezier(.32,.72,0,1)}
+ .keys-cancel-dialog[open]::backdrop{animation:keys-sheet-backdrop-enter .24s ease-out}
+}

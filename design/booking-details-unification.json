@@ -1,0 +1,55 @@
+{
+  "reference": "booked: guest has not checked in",
+  "implementation": "Shared KeysBookingDetails renderer; mobile page and 520px desktop dialog for active/completed host bookings; history and created bookings use the same card hierarchy and typography.",
+  "browserVerified": [
+    "booked mobile and desktop reference",
+    "stay day-2 mobile and desktop",
+    "stay checkout desktop",
+    "stay key-error mobile",
+    "after mobile",
+    "completed Maidens from profile history",
+    "cancelled booking from history",
+    "documents list → service bill → list → details → home"
+  ],
+  "actionsPreserved": {
+    "booked": [
+      "change booking",
+      "download documents",
+      "cancel booking"
+    ],
+    "stay": [
+      "trip documents"
+    ],
+    "after": [
+      "trip documents"
+    ],
+    "history": [
+      "download booking information",
+      "review completed trip",
+      "support",
+      "book again or find hotel"
+    ],
+    "created": [
+      "share booking",
+      "cancel uncancelled booking"
+    ]
+  },
+  "accountChecks": [
+    "confirmed service costs included; pending requests excluded",
+    "completed refund distinct from processing refund",
+    "missing historical tariff/guest omitted",
+    "earned points retained",
+    "children included in host booking party"
+  ],
+  "validation": {
+    "fullCheck": "242 tests passed; preservation passed",
+    "finalFocusedTests": "11 passed",
+    "build": "passed",
+    "browserConsoleErrors": []
+  },
+  "limits": [
+    "New booking payment variants verified by model integration tests; a fresh browser checkout was not repeated."
+  ],
+  "published": false,
+  "latestAdjustment": "Removed reception and address/entrance blocks from stay and completed booking details; removed payment-at-hotel and pending-services notes from the shared bill."
+}

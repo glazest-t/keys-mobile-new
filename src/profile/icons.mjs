@@ -1,5 +1,6 @@
 // Reused without modification from the approved application icon library.
 export default {
+  "bookingDocument": '<path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h6"/>',
   "trips": "<rect x=\"5\" y=\"7\" width=\"14\" height=\"14\" rx=\"3\"></rect><path d=\"M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3M9 11v6m6-6v6\"></path>",
   "search": "<circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"></circle><path d=\"m16 16 4.5 4.5\"></path>",
   "chat": "<path d=\"M16 10a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z\"></path><path d=\"M20 8a2 2 0 0 1 2 2v12l-4-4h-8a2 2 0 0 1-2-2\"></path>",

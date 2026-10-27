@@ -9,10 +9,12 @@ function keysReviewHighlights(reviews,today){
  const summarize=items=>{const counts=new Map();items.forEach(review=>new Set(review.praise||[]).forEach(topic=>counts.set(topic,(counts.get(topic)||0)+1)));return {count:items.length,topics:[...counts].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ru')).slice(0,3).map(([topic])=>topic)};};
  return {all:summarize(all),recent:summarize(recent)};
 }
-function keysHotelReasons(hotel,search={}){
+function keysHotelReasons(hotel,search={},preferences={}){
  const filterKeys={'Со спа':'spa','С завтраком':'breakfast','У моря':'beach','С бассейном':'pool','Тихий отель':'quiet','С детьми':'family','С питомцем':'pets','С парковкой':'parking','Отчётные документы':'work'};
  const wanted=new Set((search.filters||[]).map(filter=>filterKeys[filter]||filter)),party=search.party||{};
  if(party.pet)wanted.add('pets');if(party.car)wanted.add('parking');if(party.business)wanted.add('work');if(party.childrenAges?.length)wanted.add('family');
+ const preferenceFeatures={family:['family'],romantic:['quiet','spa'],solo:['quiet','work'],active:['pool','beach'],nature:['quiet'],long:['work'],wellness:['spa','pool'],food:['breakfast']};
+ (preferences.selected||[]).forEach(id=>(preferenceFeatures[id]||[]).forEach(key=>wanted.add(key)));
  const options=[['quiet','Тихое расположение','Тихое расположение поможет отдохнуть от суеты.'],['spa','Спа в отеле','В отеле есть спа — можно расслабиться после насыщенного дня.'],['breakfast','Завтрак на месте','Удобно начать утро в отеле. Включённость зависит от тарифа.'],['beach','Рядом с морем',hotel.seaDistance?'До моря '+hotel.seaDistance+' м — удобно для прогулок.':'Отель рядом с морем.'],['parking','Удобно на машине','У отеля есть парковка.'],['pets','Можно с питомцем','Отель принимает гостей с питомцами.'],['work','Для деловой поездки','В отеле есть условия для работы.'],['family','Для поездки с детьми','Отель подходит для семейного отдыха.'],['pool','Отдых у бассейна','В отеле есть бассейн.']];
  return options.filter(([key])=>hotel[key]).sort((a,b)=>Number(wanted.has(b[0]))-Number(wanted.has(a[0]))).slice(0,3).map(([key,title,text])=>({key,title,text,matched:wanted.has(key)}));
 }
@@ -258,10 +260,20 @@ function KeysHotelCompactReviews({hotel,interactive=true,onActivate}){
  return n.jsxs(interactive?'button':'section',{...(interactive?{type:'button',onClick:onActivate||(()=>open({type:'hotel-reviews',hotelId:hotel.id}))}:{}),className:'keys-hotel-rating-link','aria-label':'Отзывы гостей: '+String(hotel.rating).replace('.',',')+', '+Ym(summary.count),children:[n.jsx('strong',{className:'keys-hotel-rating-number',children:String(hotel.rating).replace('.',',')}),n.jsxs('span',{className:'keys-hotel-rating-copy',children:[n.jsxs('span',{className:'keys-hotel-rating-title',children:[n.jsx('strong',{children:ratingLabel}),n.jsx('span',{children:Ym(summary.count)})]}),n.jsx('span',{children:summary.topics.length?'Гости хвалят: '+summary.topics.map(t=>t.toLowerCase()).join(', '):'Впечатления гостей об отеле'})]}),interactive&&n.jsx(D,{name:'chevron',className:'size-4'})]});
 }
 function KeysHotelRecommendations({hotel}){
- const {state}=J(),reasons=keysHotelReasons(hotel,state.search);
+ const {state,open}=J(),[infoOpen,setInfoOpen]=E.useState(false),reasons=keysHotelReasons(hotel,state.search,keysSwipePreferences(state));
  const art={quiet:'sleep',spa:'spa',breakfast:'breakfast',beach:'sea',parking:'parking',pets:'dog',work:'work',family:'kids',pool:'pool'};
  if(!reasons.length)return null;
- return n.jsxs('section',{className:'keys-hotel-personal',children:[n.jsx('h2',{children:'Под ваши предпочтения'}),n.jsx('ul',{className:'keys-hotel-personal-tags',tabIndex:0,'aria-label':'Под ваши предпочтения — особенности отеля',children:reasons.map(reason=>n.jsxs('li',{children:[n.jsx(KeysIdeaArt,{name:art[reason.key],className:'ki-filter-art'}),n.jsx('span',{children:reason.title})]},reason.key))})]});
+ return n.jsxs('section',{className:'keys-hotel-personal',children:[
+  n.jsxs('div',{className:'keys-hotel-personal-heading',children:[
+   n.jsx('h2',{children:'Под ваши предпочтения'}),
+   n.jsx('button',{type:'button',className:'keys-hotel-personal-info','aria-label':'Как учитываются мои предпочтения','aria-haspopup':'dialog',onClick:()=>setInfoOpen(true),children:n.jsxs('svg',{viewBox:'0 0 24 24',width:20,height:20,fill:'none',stroke:'currentColor',strokeWidth:1.6,'aria-hidden':true,children:[n.jsx('circle',{cx:12,cy:12,r:9}),n.jsx('path',{d:'M12 11v6'}),n.jsx('circle',{cx:12,cy:7.5,r:.8,fill:'currentColor',stroke:'none'})]})})
+  ]}),
+  n.jsx('ul',{className:'keys-hotel-personal-tags',tabIndex:0,'aria-label':'Под ваши предпочтения — особенности отеля',children:reasons.map(reason=>n.jsxs('li',{children:[n.jsx(KeysIdeaArt,{name:art[reason.key],className:'ki-filter-art'}),n.jsx('span',{children:reason.title})]},reason.key))}),
+  infoOpen&&n.jsx(ct,{title:'Почему это вам подходит',onClose:()=>setInfoOpen(false),children:n.jsxs('div',{className:'keys-preferences-explanation',children:[
+   n.jsx('p',{children:'Учитываем ваши бронирования, лайки, просмотры отелей и выбранные предпочтения.'}),
+   n.jsx(H,{variant:'secondary',icon:'sliders',onClick:()=>{setInfoOpen(false);open({type:'hotel-preferences',hotelId:hotel.id});},children:'Изменить мои предпочтения'})
+  ]})})
+ ]});
 }
 function KeysHotelDescription({hotel}){
  const details=Vl(hotel),description=details.description||hotel.description||'';
@@ -381,7 +393,6 @@ function keysRoomTariffFacts(offer){
   {icon:'coffee',positive:offer.includesBreakfast===true,title:offer.includesBreakfast?'Завтрак включён':'Без питания',detail:offer.includesBreakfast?'Входит в стоимость тарифа':'Питание не входит в стоимость'},
   {icon:'shield',title:offer.freeCancellation?'Бесплатная отмена':offer.refundable?'Отмена со штрафом':'Без возврата',detail:offer.freeCancellation?'До '+offer.cancellationDeadline:offer.refundable?'Срок бесплатной отмены истёк':'При отмене деньги не вернутся',positive:offer.freeCancellation},
   {icon:'card',title:offer.requiresPrepayment?'Оплата при бронировании':'Без предоплаты',detail:offer.requiresPrepayment?'Картой или СБП':'Оплата в отеле'},
-  {icon:'calendar',title:offer.changesAllowed?'Можно изменить бронь':'Без изменений',detail:offer.changesAllowed?'Даты и состав гостей':'Даты и состав гостей фиксированы'}
  ];
 }
 // Mouse dragging supplements native touch/trackpad scrolling in the phone preview.

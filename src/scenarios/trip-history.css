@@ -1,0 +1,17 @@
+/* Constant-size entry: the complete list lives on the history screen. */
+#keysUnifiedPrototype .keys-trip-history{margin:24px 0 8px;padding-top:20px;border-top:0;font-family:var(--font-sans)}
+#keysUnifiedPrototype .keys-trip-history[hidden]{display:none!important}
+#keysUnifiedPrototype .keys-trip-history-card{position:relative;isolation:isolate;display:flex;align-items:center;width:100%;height:128px;box-sizing:border-box;overflow:hidden;padding:20px 16px;border:0;border-radius:24px;background:var(--color-brand-tint);color:var(--color-ink);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .keys-trip-history-copy{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:14px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-trip-history-copy>strong{font:500 16px/22px var(--font-sans)!important;letter-spacing:0}
+#keysUnifiedPrototype .keys-trip-history-link{display:flex;align-items:center;gap:4px;color:var(--color-brand);font:400 14px/20px var(--font-sans);white-space:nowrap}
+#keysUnifiedPrototype .keys-trip-history-link svg{width:16px;height:16px;flex:none}
+#keysUnifiedPrototype .keys-trip-history-art{position:absolute;right:0;top:0;width:55%;height:100%;object-fit:cover;pointer-events:none}
+#keysUnifiedPrototype .keys-trip-history-card:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
+@media(hover:hover){#keysUnifiedPrototype .keys-trip-history-card:hover .keys-trip-history-link{text-decoration:underline;text-underline-offset:3px}}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-trip-history{max-width:480px;margin:28px 0 12px}
+@media(max-width:799px){body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-trip-history{margin-inline:16px}}
+@media(max-width:360px){#keysUnifiedPrototype .keys-trip-history-card{padding-inline:12px}#keysUnifiedPrototype .keys-trip-history-art{width:49%}#keysUnifiedPrototype .keys-trip-history-link{font-size:13px}}
+
+/* The empty Trips page uses spacing alone to separate its three sections. */
+body:not([data-keys-desktop-home="true"]) #keysUnifiedPrototype .kse-home:not([hidden]) + .keys-trip-history{margin-top:24px;padding-top:0}

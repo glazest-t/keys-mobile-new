@@ -64,13 +64,21 @@ test('review topic filters match text and praise and omit empty topics',()=>{
  assert.deepEqual(plain(topicsFor([]).map(t=>t.id)),['all']);
 });
 
-test('rate facts keep meal, cancellation, payment and changes specific to the offer',()=>{
+test('rate facts keep meal, cancellation and payment specific to the offer',()=>{
  const start=source.indexOf('function keysRoomTariffFacts('),end=source.indexOf('function KeysRoomOfferCard(',start);
  const factsFor=vm.runInNewContext(source.slice(start,end)+';keysRoomTariffFacts');
  const flexible=factsFor({includesBreakfast:true,freeCancellation:true,refundable:true,cancellationDeadline:'28 сентября',requiresPrepayment:false,changesAllowed:true});
- assert.deepEqual(plain(flexible.map(f=>f.title)),['Завтрак включён','Бесплатная отмена','Без предоплаты','Можно изменить бронь']);
+ assert.deepEqual(plain(flexible.map(f=>f.title)),['Завтрак включён','Бесплатная отмена','Без предоплаты']);
  assert.equal(flexible[1].detail,'До 28 сентября');
  const restricted=factsFor({includesBreakfast:false,freeCancellation:false,refundable:false,requiresPrepayment:true,changesAllowed:false});
- assert.deepEqual(plain(restricted.map(f=>f.title)),['Без питания','Без возврата','Оплата при бронировании','Без изменений']);
+ assert.deepEqual(plain(restricted.map(f=>f.title)),['Без питания','Без возврата','Оплата при бронировании']);
  assert.equal(factsFor({refundable:true,freeCancellation:false})[1].title,'Отмена со штрафом');
+});
+
+test('saved holiday preferences promote only available hotel features',()=>{
+ const hotel={quiet:true,spa:true,breakfast:true,family:true};
+ const reasons=plain(helpers.keysHotelReasons(hotel,{}, {selected:['family','food']}));
+ assert.deepEqual(reasons.map(reason=>reason.key),['breakfast','family','quiet']);
+ assert.equal(reasons[0].matched,true);
+ assert.equal(reasons[1].matched,true);
 });

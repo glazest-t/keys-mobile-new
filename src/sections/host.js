@@ -169,6 +169,13 @@
        const card=root.querySelector('#keysNewReservation');if(card?.dataset.bookingId===b.bookingId){card.querySelector('.keys-new-booking-status').textContent='Отменена';card.querySelector('.keys-new-booking-heading strong').textContent='Бронирование';}
       }});
     }
+    if(event.data.type==='trip-bookings'&&Array.isArray(event.data.bookings)){
+      window.KeysTripBookings=event.data.bookings.filter(b=>b&&typeof b.id==='string'&&typeof b.hotel==='string').map(b=>{
+        let photo='';try{const url=new URL(b.photo||'',frame.src);if(b.photo&&['http:','https:'].includes(url.protocol))photo=url.href;}catch{}
+        return {...b,photo};
+      });
+      root.dispatchEvent(new CustomEvent('keys-trip-bookings-change'));
+    }
     if(event.data.type==='reservation'){
       const b=event.data.booking;if(!b||typeof b.hotel!=='string')return;
       let card=root.querySelector('#keysNewReservation');
@@ -367,7 +374,6 @@
     identity.after(loyalty);
     profilePhone.querySelector('[data-open="benefits"]')?.remove();
     profilePhone.querySelector('[data-open="preferences"]')?.remove();
-    profilePhone.querySelector('[data-open="language"]')?.remove();
     profilePhone.querySelectorAll('.kf-section h2').forEach(title=>{
       if(title.textContent.trim()==='Поездки и предпочтения')title.textContent='Поездки';
     });
@@ -439,11 +445,13 @@
   root.addEventListener('keys-open-benefits',()=>go('benefits'));
   root.addEventListener('keys-open-profile',()=>go('profile'));
   root.addEventListener('keys-profile-action',event=>{
-    const {action,hotelId}=event.detail;
+    const {action,hotelId,bookingId}=event.detail;
     if(action==='find')show('find',hotelId||null,hotelId?'hotel':undefined);
+    if(action==='rebook'&&hotelId)show('find',hotelId,'hotel',{rebook:true,nights:event.detail.nights,party:event.detail.party});
     if(action==='hotel-chat')show('chats','maidens');
     if(action==='benefits')go('benefits');
     if(action==='trip')go('trips');
+    if(action==='booking'){if(bookingId)show('find',null,'created-booking',null,bookingId);else if(document.body.dataset.keysScenario==='booked'){go('trips');root.querySelector('[data-before="details"]')?.click();}else go('stay-details');}
   });
   root.addEventListener('keys-close-benefits',()=>{
     const origin=benefitsOrigin;benefitsOrigin=null;

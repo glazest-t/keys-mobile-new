@@ -89,11 +89,13 @@ test('nightly slider prevents crossed bounds, supports unlimited maximum and pre
 });
 
 
-test('guest score sorting parses comma decimals, keeps unrated hotels last and ignores star class',()=>{
- const hotels=[{id:'a',rating:'4,5',stars:5},{id:'b',rating:'5',stars:2},{id:'c',rating:0,stars:4},{id:'d',rating:null},{id:'e',rating:'4.5',stars:1},{id:'f',rating:''}];
+test('star sorting uses hotel classification, includes zero and keeps unknown values last',()=>{
+ const hotels=[{id:'a',rating:'4,5',stars:5},{id:'b',rating:'5',stars:2},{id:'c',rating:0,stars:0},{id:'d',rating:5},{id:'e',rating:'4.5',stars:2},{id:'f',stars:null}];
  const ids=sort=>Array.from(context.keysSortHotels(hotels,{sort}),hotel=>hotel.id);
- assert.deepEqual(ids('rating-desc'),['b','a','e','c','d','f']);
- assert.deepEqual(ids('rating-asc'),['c','a','e','b','d','f']);
+ assert.deepEqual(ids('stars-desc'),['a','b','e','c','d','f']);
+ assert.deepEqual(ids('stars-asc'),['c','b','e','a','d','f']);
+ assert.deepEqual(ids('rating-desc'),ids('stars-desc'));
+ assert.deepEqual(ids('rating-asc'),ids('stars-asc'));
  assert.deepEqual(ids('recommended'),['a','b','c','d','e','f']);
  assert.deepEqual(hotels.map(hotel=>hotel.id),['a','b','c','d','e','f']);
 });
@@ -135,4 +137,46 @@ test('result quick filters remove canonical choices from the full filter page',(
  assert.deepEqual(Array.from(context.keysToggleResultsFilter(['Общие удобства: Спа','Тип размещения: Гостиница'],'Со спа')),['Тип размещения: Гостиница']);
  assert.deepEqual(Array.from(context.keysToggleResultsFilter(['С завтраком'],'С завтраком')),[]);
  assert.deepEqual(Array.from(context.keysToggleResultsFilter(['Звёздность объекта: 4 звезды','Звёздность объекта: 5 звёзд'],'От 4 звёзд')),[]);
+});
+
+test('stay price range round-trips, keeps other filters and migrates nightly limits using trip duration',()=>{
+ const filters=context.keysSetStayPrice(['Со спа'],20000,40000);
+ assert.equal(context.keysStayPriceRange(filters).min,20000);
+ assert.equal(context.keysStayPriceRange(filters).max,40000);
+ assert.equal(context.keysStayPriceMatches(40000,filters),true);
+ assert.equal(context.keysStayPriceMatches(40001,filters),false);
+ assert.equal(context.keysStayPriceMatches(8000,filters),false);
+ context.Ge=()=>4;
+ const migrated=context.keysNormalizeHotelFilters(['От 5 000 до 10 000 ₽/ночь'],{arrival:'2026-10-01',departure:'2026-10-05'});
+ assert.equal(context.keysStayPriceRange(migrated).min,20000);
+ assert.equal(context.keysStayPriceRange(migrated).max,40000);
+ assert.ok(migrated.every(value=>!value.includes('/ночь')));
+});
+
+test('price period title uses trip nights and Russian day endings',()=>{
+ for(const [nights,label] of [[1,'день'],[2,'дня'],[4,'дня'],[5,'дней'],[11,'дней'],[21,'день'],[22,'дня']])assert.equal(context.keysPricePeriodTitle(nights),'Цена за '+nights+' '+label);
+ assert.equal(context.keysPricePeriodTitle(4,true),'Цена за ночь');
+});
+test('switching price units converts both bounds and preserves other choices',()=>{
+ const stay=context.keysSetStayPrice(['Тип размещения: Гостиница'],20000,40000);
+ const nightly=context.keysConvertPricePeriod(stay,true,4);
+ assert.equal(context.keysNightlyPriceRange(nightly).min,5000);
+ assert.equal(context.keysNightlyPriceRange(nightly).max,10000);
+ assert.equal(context.keysStayPriceRange(nightly).max,null);
+ assert.deepEqual(Array.from(context.keysConvertPricePeriod(nightly,false,4)),Array.from(stay));
+ const oneSided=context.keysConvertPricePeriod(context.keysSetStayPrice([],null,40000),true,4);
+ assert.equal(context.keysNightlyPriceRange(oneSided).min,null);
+ assert.equal(context.keysNightlyPriceRange(oneSided).max,10000);
+ assert.deepEqual(Array.from(context.keysConvertPricePeriod([],true,4)),[]);
+ context.Ge=()=>4;
+ assert.deepEqual(Array.from(context.keysNormalizeHotelFilters(nightly,{keysPricePerNight:true})),Array.from(nightly));
+});
+
+test('smoking suitability requires explicit permission and combines with other requirements',()=>{
+ const filters=['Возможности бронирования: Можно курить'];
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo'},filters),false);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',smokingAllowed:false},filters),false);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',smokingAllowed:true},filters),true);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',smokingAllowed:true},[...filters,'Возможности бронирования: Можно с питомцем']),false);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',smokingAllowed:true,pets:true},[...filters,'Возможности бронирования: Можно с питомцем']),true);
 });

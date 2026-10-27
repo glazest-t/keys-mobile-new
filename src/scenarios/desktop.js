@@ -91,7 +91,7 @@
   const page=home.querySelector(selector),children=[...page.children];
   const primary=document.createElement('div');primary.className='kd-scenario-main';
   const rail=document.createElement('aside');rail.className='kd-scenario-side';
-  rail.setAttribute('aria-label',name==='search'?'Баллы и приглашение друзей':'Баллы за поездку и привилегии');
+  rail.setAttribute('aria-label',name==='search'?'Привилегии и баллы':'Баллы за поездку и привилегии');
   scenarioLayouts[name]={page,children,primary,rail,sideSelectors};
  }
  function syncScenarioLayouts(name,desktop){

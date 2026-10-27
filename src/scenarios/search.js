@@ -12,19 +12,10 @@
    <div class="kse-empty-copy"><h1 id="keys-empty-bookings-title">Броней пока нет</h1><p>Они появятся здесь, когда вы забронируете отель.</p></div>
    <button type="button" class="kh-primary" data-empty-action="find">${svg('<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>')}<span>Найти отель</span></button>
   </article>
-  <section class="kse-benefits" aria-labelledby="keys-double-benefits-title">
-   <h2 class="kse-benefits-heading" id="keys-double-benefits-title">Двойная выгода</h2>
-   <span class="kse-benefits-list">
-    <span class="kse-benefits-item"><span class="kse-benefits-icon">${svg('<path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M9 7h1m4 0h1M9 11h1m4 0h1M10 21v-6h4v6"/>')}</span><span><strong>От отеля</strong><span>Выгодные цены напрямую и привилегии по вашей программе лояльности.</span></span></span>
-    <span class="kse-benefits-item"><span class="kse-benefits-icon">${svg('<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"/>')}</span><span><strong>От «Ключей»</strong><span>Баллы за проживание — на скидку в следующей поездке.</span></span></span>
-   </span>
-   <div class="kse-benefits-referral" aria-label="Баллы от Ключей за приглашение друга">
-    <img class="kse-referral-orbit" src="./scenarios/assets/benefits-referral-orbit.png" alt="" width="140" height="140" decoding="async">
-    <strong class="kse-referral-amount">500 баллов</strong>
-    <p>Начислим за приглашение друга</p>
-    <button type="button" class="kse-referral-invite" data-referral-open><span>Пригласить друга</span>${svg('<path d="M5 12h14m-6-6 6 6-6 6"/>')}</button>
-   </div>
-   <button type="button" class="kse-card-action" data-empty-action="benefits"><span>Все преимущества</span>${arrow}</button>
+  <section class="kse-benefits kse-benefits-compact" aria-labelledby="keys-double-benefits-title">
+   <img class="kse-benefits-orbit" src="./scenarios/assets/benefits-compact-orbit.png" alt="" width="76" height="76" decoding="async">
+   <div class="kse-benefits-copy"><h2 id="keys-double-benefits-title">Двойная выгода</h2><p>Привилегии отеля + баллы «Ключей»</p></div>
+   <button type="button" class="kse-benefits-open" data-empty-action="benefits" aria-label="Двойная выгода — все преимущества">${arrow}</button>
   </section>`;
  scroll.append(screen);
  // All referral cards open the same flow, including the completed trip.

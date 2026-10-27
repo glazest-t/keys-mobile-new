@@ -92,5 +92,5 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot.i
 .kd-home-search-slot.is-modal #keysHomeSearchFrame{position:fixed;inset:0;width:100vw;height:100dvh;z-index:10000}
 @media(max-width:799px){body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot{height:234px;margin-inline:16px}}
 
-/* Double Benefits includes the referral action in the desktop rail too. */
+/* Double Benefits is visible in the desktop rail too. */
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-home .kse-benefits{display:block}

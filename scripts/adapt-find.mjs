@@ -51,8 +51,8 @@ export function adaptFind(source, recentComponent, resultsComponent) {
  replace(', n.jsx(Ue, { icon: "heart", title: "Сохранённые", description: h ? "В коллекции: " + h : "Отели, к которым хочется вернуться", onClick: () => a({ type: "saved" }) })', '');
  if(resultsComponent){
   replace('return n.jsxs(n.Fragment, { children: [n.jsx(FU, {}),', 'return n.jsxs(KeysResultsLayout, { children: [n.jsx(FU, {}),');
-  replace('fV.map((f) => {', 'fV.map((f,index) => { if(index===0)return n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l},"nightly-price");');
-  replace('if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l) return false;', 'if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l || !keysNightlyPriceMatches(qE(u,e,t),e.filters)) return false;');
+  replace('fV.map((f) => {', 'fV.map((f,index) => { if(index===0)return n.jsx(KeysStayPriceFilter,{filters:r,onChange:l},"nightly-price");');
+  replace('if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l) return false;', 'if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l || !keysNightlyPriceMatches(qE(u,e,t),e.filters) || !keysStayPriceMatches(tx(u,e,t).total,e.filters)) return false;');
   replace('return e.sort === "price" ? c.sort((u, m) => Yn(u, e, t) - Yn(m, e, t)) : c;', 'return keysSortHotels(keysFilterDistrict(c, e).filter(hotel=>keysHotelFiltersMatch(hotel,e.filters)), e, t);');
   replace('}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);', '}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);\n  if (r.navigation.screen?.type === "saved" || r.navigation.screen?.type === "hotel-map" && r.navigation.screen.collectionId || !r.navigation.screen && (r.navigation.tab === "favorites" || r.navigation.tab === "find" && r.search.results)) return n.jsx(KeysResultsHotelCard, {hotel:x, local:f, summary:g, price:y, offer:v, onOpen:S, impressionRef:h?m.ref:void 0});');
   // District is part of the same filter draft and reset/apply flow.

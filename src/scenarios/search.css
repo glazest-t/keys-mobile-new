@@ -25,7 +25,7 @@ body[data-keys-scenario="search"] #keysUnifiedPrototype .kh-home{display:none!im
 #keysUnifiedPrototype .kse-inspiration-copy>p{margin:0 0 16px;font:400 var(--text-14)/1.5 var(--font-sans)!important;color:#ffffffe8}
 #keysUnifiedPrototype#keysUnifiedPrototype .kse-find{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;margin:0;padding:12px 16px;border:0;border-radius:14px;background:white;color:var(--color-brand-solid);font:500 var(--text-14)/1.5 var(--font-sans);cursor:pointer;transition:transform .18s,background .18s}
 #keysUnifiedPrototype .kse-find svg{width:18px;height:18px;flex:none}
-#keysUnifiedPrototype .kse-benefits{display:block;padding:8px 0 0;width:100%;border:0;border-radius:0;background:var(--color-card);text-align:left;color:var(--color-ink);font-family:var(--font-sans)}
+#keysUnifiedPrototype .kse-benefits{position:relative;display:block;padding:8px 0 0;width:100%;border:0;border-radius:0;background:var(--color-card);text-align:left;color:var(--color-ink);font-family:var(--font-sans)}
 #keysUnifiedPrototype .kse-benefits-heading{margin:0 0 24px;font:var(--ui-font-section)!important;letter-spacing:0!important;color:var(--color-ink)}
 #keysUnifiedPrototype .kse-benefits-heading>strong{font:500 var(--text-20)/1.3 var(--font-sans)}
 #keysUnifiedPrototype .kse-benefits-icon{display:grid;place-items:center;width:24px;height:24px;flex:none;color:var(--color-brand)}
@@ -37,6 +37,10 @@ body[data-keys-scenario="search"] #keysUnifiedPrototype .kh-home{display:none!im
 #keysUnifiedPrototype .kse-benefits-item>span>span{font:400 var(--text-14)/1.5 var(--font-sans);color:var(--color-muted)}
 #keysUnifiedPrototype .kse-card-action{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;box-sizing:border-box;padding:10px 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;color:var(--color-brand);font:500 var(--text-14)/1.5 var(--font-sans);cursor:pointer}
 #keysUnifiedPrototype .kse-card-action svg{width:16px;height:16px;flex:none}
+/* Extend the existing accessible action across the entire benefits card. */
+#keysUnifiedPrototype .kse-benefits>.kse-card-action::after{content:"";position:absolute;inset:0;z-index:1;cursor:pointer}
+#keysUnifiedPrototype .kse-benefits>.kse-card-action:focus-visible{outline:none}
+#keysUnifiedPrototype .kse-benefits:has(>.kse-card-action:focus-visible){outline:2px solid var(--color-brand);outline-offset:4px;border-radius:4px}
 #keysUnifiedPrototype .kse-home button:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
 #keysUnifiedPrototype .kse-find:focus-visible{outline-color:white}
 @media(hover:hover){#keysUnifiedPrototype .kse-find:hover{background:#f1f4ff;transform:translateY(-1px)}#keysUnifiedPrototype .kse-benefits:hover .kse-card-action>span{text-decoration:underline}}
@@ -64,15 +68,21 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-copy p{max-wi
 body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-primary{grid-column:2;width:auto;min-width:180px;margin:0;align-self:start}
 @media(max-width:760px){body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings{display:flex;flex-direction:column;align-items:center;text-align:center}body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-primary{width:100%}}
 
-/* The referral reward belongs to the Keys half of Double Benefits. */
+/* Double Benefits rows and footer. */
 #keysUnifiedPrototype .kse-benefits-item+.kse-benefits-item{padding-top:20px;border-top:1px solid var(--color-line)}
-#keysUnifiedPrototype .kse-benefits-referral{position:relative;isolation:isolate;overflow:hidden;padding:22px 20px 20px;border-radius:20px;background:var(--color-brand-solid);color:var(--color-on-brand)}
-#keysUnifiedPrototype .kse-referral-orbit{position:absolute;z-index:-1;right:4px;top:22px;width:128px;height:148px;object-fit:contain;pointer-events:none}
-#keysUnifiedPrototype .kse-referral-amount{display:block;font:500 28px/1.2 var(--font-sans);letter-spacing:-.4px;color:inherit}
-#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-referral p{max-width:205px;margin:10px 0 16px;font:400 14px/21px var(--font-sans)!important;color:inherit}
-#keysUnifiedPrototype .kse-referral-invite{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:44px;max-width:100%;padding:10px 16px;border:0;border-radius:999px;background:var(--color-card);color:var(--color-brand-solid);font:500 14px/21px var(--font-sans);cursor:pointer}
-#keysUnifiedPrototype .kse-referral-invite svg{width:18px;height:18px;flex:none}
 #keysUnifiedPrototype .kse-benefits>.kse-card-action{border-top:0;margin-top:12px}
-#keysUnifiedPrototype .kse-referral-invite:focus-visible{outline:2px solid white;outline-offset:4px}
-@media(hover:hover){#keysUnifiedPrototype .kse-referral-invite:hover{background:var(--color-soft)}#keysUnifiedPrototype .kse-card-action:hover>span{text-decoration:underline}}
+@media(hover:hover){#keysUnifiedPrototype .kse-card-action:hover>span{text-decoration:underline}}
 #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits>.kse-card-action{border-top:0;font:500 14px/21px var(--font-sans)!important}
+
+/* Selected compact benefits row; the whole surface opens the existing benefits tab. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-compact{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr) 20px;align-items:center;gap:16px;width:100%;min-height:110px;margin-top:8px;padding:20px 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:var(--color-card);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kse-benefits-orbit{display:block;width:76px;height:76px;object-fit:contain}
+#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-copy h2{margin:0 0 6px;font:500 18px/24px var(--font-sans)!important;letter-spacing:0!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-copy p{margin:0;font:400 14px/21px var(--font-sans)!important;color:var(--color-muted)}
+#keysUnifiedPrototype .kse-benefits-open{display:grid;place-items:center;align-self:stretch;padding:0;border:0;border-radius:0;background:transparent;color:var(--color-brand);cursor:pointer}
+#keysUnifiedPrototype .kse-benefits-open>svg{width:20px;height:20px}
+#keysUnifiedPrototype .kse-benefits-open:after{content:'';position:absolute;inset:0;z-index:1}
+#keysUnifiedPrototype .kse-benefits-open:focus-visible{outline:0}
+#keysUnifiedPrototype .kse-benefits-compact:has(.kse-benefits-open:focus-visible){outline:2px solid var(--color-brand);outline-offset:4px;border-radius:4px}
+@media(hover:hover){#keysUnifiedPrototype .kse-benefits-compact:hover .kse-benefits-copy h2{color:var(--color-brand)}}
+@media(max-width:359px){#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-compact{grid-template-columns:56px minmax(0,1fr) 16px;gap:12px}#keysUnifiedPrototype .kse-benefits-orbit{width:56px;height:56px}}

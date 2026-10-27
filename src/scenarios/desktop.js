@@ -85,7 +85,7 @@
  // Keep mobile DOM order intact; only mount existing blocks in columns on desktop.
  const scenarioLayouts={};
  for(const [name,selector,sideSelectors] of [
-  ['search','.kse-home',['.ka-referral-card']],
+  ['search','.kse-home',['.kse-benefits']],
   ['after','.ka-home:not(.kpa-home)',['.ka-reward']]
  ]){
   const page=home.querySelector(selector),children=[...page.children];

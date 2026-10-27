@@ -53,40 +53,20 @@ export function adaptFind(source, recentComponent, resultsComponent) {
   replace('return n.jsxs(n.Fragment, { children: [n.jsx(FU, {}),', 'return n.jsxs(KeysResultsLayout, { children: [n.jsx(FU, {}),');
   replace('fV.map((f) => {', 'fV.map((f,index) => { if(index===0)return n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l},"nightly-price");');
   replace('if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l) return false;', 'if (a && !m.includes(a) || (r?.includes("/ночь") ? qE(u, e, t) : Yn(u, e, t)) > l || !keysNightlyPriceMatches(qE(u,e,t),e.filters)) return false;');
-  replace('return e.sort === "price" ? c.sort((u, m) => Yn(u, e, t) - Yn(m, e, t)) : c;', 'return keysSortHotels(keysFilterDistrict(c, e), e, t);');
+  replace('return e.sort === "price" ? c.sort((u, m) => Yn(u, e, t) - Yn(m, e, t)) : c;', 'return keysSortHotels(keysFilterDistrict(c, e).filter(hotel=>keysHotelFiltersMatch(hotel,e.filters)), e, t);');
   replace('}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);', '}, C = f ? Zc(f).reviews.length : null, A = Zw(x.id);\n  if (r.navigation.screen?.type === "saved" || r.navigation.screen?.type === "hotel-map" && r.navigation.screen.collectionId || !r.navigation.screen && (r.navigation.tab === "favorites" || r.navigation.tab === "find" && r.search.results)) return n.jsx(KeysResultsHotelCard, {hotel:x, local:f, summary:g, price:y, offer:v, onOpen:S, impressionRef:h?m.ref:void 0});');
   // District is part of the same filter draft and reset/apply flow.
-  replace('n.jsx(ru, { variant: "pill", label: "Сортировка", value: c, options: pV, onChange: u })', 'n.jsxs("label", {className:"keys-district-field",children:["Сортировка",n.jsx(St, {"aria-label":"Сортировка",value:c,options:keysSearchSortOptions,onChange:u})]}), n.jsx(KeysDistrictFilter, {search:e.search,filters:r,onChange:l})');
-  replace('sort: c === "price" ? "price" : void 0', 'sort: c');
+  replace('n.jsx(ru, { variant: "pill", label: "Сортировка", value: c, options: pV, onChange: u })', 'n.jsx(KeysDistrictFilter, {search:e.search,filters:r,onChange:l})');
+  replace('sort: c === "price" ? "price" : void 0, ', '');
   const start=js.indexOf('function FU() {'),end=js.indexOf('\nfunction ',start+1);
   if(start<0||end<0)throw Error('Find result header missing');
   js=js.slice(0,start)+resultsComponent+'\n'+js.slice(end);
  }
- // Mark both filter variants for one viewport-bottom primary action pattern.
+ // Mobile page and desktop sidebar share the same controls and filter model.
  for(const name of ['xV','vV']){
   const start=js.indexOf('function '+name+'() {'),end=js.indexOf('\nfunction ',start+1);
   if(start<0||end<0)throw Error('Filter page missing: '+name);
-  let part=js.slice(start,end);
-  const form='n.jsxs("form", { onSubmit:',footer='className: "sticky bottom-0 z-10 -mx-(--gutter) border-t border-line bg-card px-(--gutter) pt-3 pb-[max(14px,env(safe-area-inset-bottom))]"';
-  if(!part.includes(form)||!part.includes(footer))throw Error('Filter action layout missing: '+name);
-  part=part.replace(form,'n.jsxs("form", { className: "keys-filter-form", onSubmit:').replace(footer,footer.replace('"sticky','"keys-filter-footer sticky'));
-  // The desktop sidebar uses these exact mobile controls with immediate updates.
-  part=part.replace('function '+name+'() {','function '+name+'({inline=false}={}) {');
-  if(name==='vV'){
-   part=part.replace('[r, l] = E.useState(e.search.filters), [c, u] = E.useState(e.search.sort ?? "recommended")', '[draft, setDraft] = E.useState(e.search.filters), [sortDraft, setSortDraft] = E.useState(e.search.sort ?? "recommended"), r=inline?e.search.filters:draft, c=inline?(e.search.sort??"recommended"):sortDraft, l=value=>inline?t({type:"SEARCH_PATCH",patch:{filters:value}}):setDraft(value), u=value=>inline?t({type:"SEARCH_PATCH",patch:{sort:value}}):setSortDraft(value)');
-   part=part.replaceAll('=> fE(', '=> inline || fE(');
-   part=part.replace('n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l}', 'n.jsx(KeysNightlyPriceFilter,{filters:r,onChange:l,compact:inline}');
-  }else{
-   part=part.replace('[r, l] = E.useState(() => Sw(e.search.filters))', '[draft, setDraft] = E.useState(() => Sw(e.search.filters)), r=inline?Sw(e.search.filters):draft, l=value=>inline?t({type:"SEARCH_PATCH",patch:{filters:value}}):setDraft(value)');
-  }
-  const headerStart=part.indexOf('n.jsx(Ae, { title: "Фильтры"'),headerEnd=part.indexOf('n.jsxs("form",',headerStart);
-  if(headerStart<0||headerEnd<0)throw Error('Inline filter header missing');
-  const mobileHeader=part.slice(headerStart,headerEnd).replace(/, $/,'');
-  const inlineHeader='n.jsxs("header",{className:"keys-filter-sidebar-heading",children:[n.jsx("h2",{children:"Фильтры"}),n.jsx("button",{type:"button",disabled:!r.length&&(!e.search.sort||e.search.sort==="recommended"),onClick:()=>t({type:"SEARCH_PATCH",patch:{filters:[],sort:"recommended"}}),children:"Сбросить"})]})';
-  part=part.slice(0,headerStart)+'inline?'+inlineHeader+':'+mobileHeader+', '+part.slice(headerEnd);
-  part=part.replace('className: "keys-filter-footer sticky', 'hidden:inline, className: "keys-filter-footer sticky');
-  part=part.replace(' }), a();', ' }), !inline&&a();');
-  js=js.slice(0,start)+part+js.slice(end);
+  js=js.slice(0,start)+'function '+name+'({inline=false}={}) { return n.jsx(KeysHotelFilters,{inline}); }\n'+js.slice(end);
  }
  return js;
 }

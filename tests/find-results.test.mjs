@@ -87,3 +87,52 @@ test('nightly slider prevents crossed bounds, supports unlimited maximum and pre
  assert.equal(bounds.limit,250000);
  assert.equal(bounds.high,250000);
 });
+
+
+test('guest score sorting parses comma decimals, keeps unrated hotels last and ignores star class',()=>{
+ const hotels=[{id:'a',rating:'4,5',stars:5},{id:'b',rating:'5',stars:2},{id:'c',rating:0,stars:4},{id:'d',rating:null},{id:'e',rating:'4.5',stars:1},{id:'f',rating:''}];
+ const ids=sort=>Array.from(context.keysSortHotels(hotels,{sort}),hotel=>hotel.id);
+ assert.deepEqual(ids('rating-desc'),['b','a','e','c','d','f']);
+ assert.deepEqual(ids('rating-asc'),['c','a','e','b','d','f']);
+ assert.deepEqual(ids('recommended'),['a','b','c','d','e','f']);
+ assert.deepEqual(hotels.map(hotel=>hotel.id),['a','b','c','d','e','f']);
+});
+test('best reviews prioritizes guest score then number of reviews for equal scores',()=>{
+ context.Zc=hotel=>({reviews:Array(hotel.reviewCount||0).fill({})});
+ const hotels=[{id:'a',rating:'4,5',reviewCount:100},{id:'b',rating:'4,9',reviewCount:3},{id:'c',rating:'4,9',reviewCount:20},{id:'d',rating:null,reviewCount:200}];
+ assert.deepEqual(Array.from(context.keysSortHotels(hotels,{sort:'reviews-desc'}),hotel=>hotel.id),['c','b','a','d']);
+});
+
+test('new filter groups use OR within categories and AND across categories',()=>{
+ const match=context.keysHotelFiltersMatch;
+ const hotel={name:'Cosmos Сочи',stars:4,breakfast:true,pool:true,parking:true};
+ assert.equal(match(hotel,['Звёздность объекта: 3 звезды','Звёздность объекта: 4 звезды','Сеть отеля: Cosmos Hotel Group']),true);
+ assert.equal(match(hotel,['Звёздность объекта: 5 звёзд','Сеть отеля: Cosmos Hotel Group']),false);
+ assert.equal(match(hotel,['Общие удобства: Бассейн','Общие удобства: Спа']),false);
+ assert.equal(match(hotel,['Тип размещения: Квартира']),false);
+ assert.equal(match({...hotel,stars:0},['Звёздность объекта: Без звёзд']),true);
+ assert.equal(match({...hotel,filterFacets:{type:'Квартира',meals:['Собственная кухня']}},['Тип размещения: Квартира','Питание: Собственная кухня']),true);
+});
+test('room counters clamp, reset independently and filter by minimum inventory',()=>{
+ let filters=context.keysSetHotelFilterCounter(['Общие удобства: Бассейн'],'Спальни',2);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo'},filters),false);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',pool:true,filterFacets:{bedrooms:3}},filters),true);
+ filters=context.keysSetHotelFilterCounter(filters,'Кровати',99);
+ assert.equal(context.keysHotelFilterCounter(filters,'Кровати'),10);
+ filters=context.keysSetHotelFilterCounter(filters,'Спальни',-1);
+ assert.equal(context.keysHotelFilterCounter(filters,'Спальни'),0);
+ assert.ok(filters.includes('Общие удобства: Бассейн'));
+});
+test('legacy quick filters migrate without leaving invisible duplicate restrictions',()=>{
+ const filters=context.keysNormalizeHotelFilters(['От 4 звёзд','С завтраком','Со спа']);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',stars:4,breakfast:true,spa:true},filters),true);
+ assert.equal(context.keysHotelFiltersMatch({name:'Demo',stars:3,breakfast:true,spa:true},filters),false);
+ assert.ok(filters.includes('Питание: Завтрак включён'));
+ assert.equal(filters.length,4);
+});
+
+test('result quick filters remove canonical choices from the full filter page',()=>{
+ assert.deepEqual(Array.from(context.keysToggleResultsFilter(['Общие удобства: Спа','Тип размещения: Гостиница'],'Со спа')),['Тип размещения: Гостиница']);
+ assert.deepEqual(Array.from(context.keysToggleResultsFilter(['С завтраком'],'С завтраком')),[]);
+ assert.deepEqual(Array.from(context.keysToggleResultsFilter(['Звёздность объекта: 4 звезды','Звёздность объекта: 5 звёзд'],'От 4 звёзд')),[]);
+});

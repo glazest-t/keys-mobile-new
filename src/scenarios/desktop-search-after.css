@@ -18,8 +18,8 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard img{heig
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard-sea{left:0;top:0}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-postcard-city{right:0;top:38px}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-spark{right:8px;top:0}
-body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits{padding:20px 20px 0}
-body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits-list{grid-template-columns:1fr 1fr;gap:24px;margin:16px 0 20px}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits{padding:0}
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-benefits-list{grid-template-columns:1fr;gap:20px;margin:0 0 24px}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-referral-card{padding:20px 20px 0}
 body[data-keys-desktop-home="true"] #keysUnifiedPrototype .ka-referral-main{padding-bottom:16px}
 /* Same pale header, large photo and blue stay information as the other trip states. */
@@ -92,5 +92,5 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot.i
 .kd-home-search-slot.is-modal #keysHomeSearchFrame{position:fixed;inset:0;width:100vw;height:100dvh;z-index:10000}
 @media(max-width:799px){body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-home-search-slot{height:234px;margin-inline:16px}}
 
-/* A single rewards card on the no-booking desktop home. */
-body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-home .kse-benefits{display:none}
+/* Double Benefits includes the referral action in the desktop rail too. */
+body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kse-home .kse-benefits{display:block}

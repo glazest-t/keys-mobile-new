@@ -63,7 +63,24 @@ function KeysDistrictFilter({search,filters,onChange}){
 }
 function keysSortHotels(hotels,search,priceTick=0){
  const result=[...hotels];
+ // Keep legacy saved searches compatible; object scores are guest ratings, not stars.
  if(search.sort==='stars-desc')return result.sort((a,b)=>(Number(b.stars)||0)-(Number(a.stars)||0));
+ if(['rating-desc','rating-asc','reviews-desc'].includes(search.sort)){
+  const score=hotel=>{
+   const raw=hotel.rating;
+   if(raw===null||raw===undefined||String(raw).trim()==='')return null;
+   const value=Number(String(raw).replace(',','.'));
+   return Number.isFinite(value)&&value>=0&&value<=5?value:null;
+  };
+  const counts=search.sort==='reviews-desc'?new Map(result.map(hotel=>[hotel.id,Zc(hotel).reviews.length])):null;
+  return result.sort((a,b)=>{
+   const first=score(a),second=score(b);
+   if(first===null)return second===null?0:1;
+   if(second===null)return -1;
+   const difference=search.sort==='rating-asc'?first-second:second-first;
+   return difference||(counts?counts.get(b.id)-counts.get(a.id):0);
+  });
+ }
  if(search.sort==='price'||search.sort==='price-desc'){
   const prices=new Map(result.map(hotel=>[hotel.id,tx(hotel,search,priceTick).total]));
   return result.sort((a,b)=>{
@@ -76,10 +93,12 @@ function keysSortHotels(hotels,search,priceTick=0){
  return result;
 }
 const keysSearchSortOptions=[
- {value:'recommended',label:'По умолчанию'},
- {value:'price',label:'Сначала дешевле'},
- {value:'price-desc',label:'Сначала дороже'},
- {value:'stars-desc',label:'Сначала больше звёзд'}
+ {value:'recommended',label:'Наши рекомендации'},
+ {value:'rating-desc',label:'Оценка объекта (от 5 до 0)'},
+ {value:'rating-asc',label:'Оценка объекта (от 0 до 5)'},
+ {value:'reviews-desc',label:'Лучшие по отзывам вначале'},
+ {value:'price',label:'Цена (сначала низкая)'},
+ {value:'price-desc',label:'Цена (сначала высокая)'}
 ];
 function FU() {
  const {state,dispatch,open}=J(), search=state.search, [editing,setEditing]=E.useState(false),[sorting,setSorting]=E.useState(false),[districtOpen,setDistrictOpen]=E.useState(false);
@@ -87,7 +106,7 @@ function FU() {
  const remote=tt().source==='travelline', filters=remote?Sw(search.filters):search.filters;
  const collection=keysFindCollections.find(item=>item.id===search.keysCollection);
  const popular=[{value:'С завтраком',label:'Завтрак'},{value:'С бассейном',label:'Бассейн'},{value:'Со спа',label:'Спа'},{value:'От 4 звёзд',label:'4–5 звёзд'},{value:'Бесплатная отмена',label:'Бесплатная отмена'}];
- const options=[...popular,...filters.filter(value=>!value.startsWith('Район: ')&&!popular.some(item=>item.value===value)).map(value=>({value,label:value}))];
+ const options=[...popular,...filters.filter(value=>!value.startsWith('Район: ')&&!popular.some(item=>item.value===value||keysQuickFilterCanonical(item.value)===value)).map(value=>({value,label:value}))];
  return n.jsxs(n.Fragment,{children:[
   n.jsxs('div',{className:'keys-results-sticky',children:[
   n.jsxs('div',{className:'keys-results-header',children:[
@@ -99,9 +118,9 @@ function FU() {
   ]}),
   n.jsxs('div',{className:'keys-results-filters','aria-label':'Быстрые фильтры',role:'group',children:[
    n.jsxs('button',{type:'button',className:'keys-results-all-filters','aria-label':'Все фильтры','aria-haspopup':'dialog',onClick:()=>open({type:'filters'}),children:[n.jsx(D,{name:'sliders',className:'size-4'}),filters.length>0&&n.jsx('span',{className:'keys-results-filter-count',children:filters.length})]}),
-   n.jsxs('button',{type:'button','aria-label':'Сортировка: '+(keysSearchSortOptions.find(option=>option.value===search.sort)?.label||'По умолчанию'),'aria-haspopup':'dialog','aria-pressed':!!search.sort&&search.sort!=='recommended',onClick:()=>setSorting(true),children:[search.sort&&search.sort!=='recommended'?keysSearchSortOptions.find(option=>option.value===search.sort)?.label||'Сортировка':'Сортировка',n.jsx(D,{name:'down',className:'size-4'})]}),
+   n.jsxs('button',{type:'button',className:'keys-results-sort',title:'Сортировка','aria-label':'Сортировка: '+(keysSearchSortOptions.find(option=>option.value===search.sort)?.label||'Наши рекомендации'),'aria-haspopup':'dialog','aria-pressed':!!search.sort&&search.sort!=='recommended',onClick:()=>setSorting(true),children:[n.jsx('svg',{viewBox:'0 0 24 24',width:18,height:18,fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:n.jsx('path',{d:'M8 20V4m-4 4 4-4 4 4M16 4v16m-4-4 4 4 4-4'})})]}),
    districts.length>0&&n.jsxs('button',{type:'button','aria-label':'Район города: '+(district||'Все районы'),'aria-haspopup':'dialog','aria-pressed':!!district,onClick:()=>setDistrictOpen(true),children:[district||'Район',n.jsx(D,{name:'down',className:'size-4'})]}),
-   options.map(option=>n.jsx('button',{type:'button','aria-pressed':filters.includes(option.value),onClick:()=>dispatch({type:'SEARCH_PATCH',patch:{filters:keysQuickFilters(search.filters,option.value)}}),children:option.label},option.value))
+   options.map(option=>n.jsx('button',{type:'button','aria-pressed':filters.includes(option.value)||filters.includes(keysQuickFilterCanonical(option.value)),onClick:()=>dispatch({type:'SEARCH_PATCH',patch:{filters:keysToggleResultsFilter(search.filters,option.value)}}),children:option.label},option.value))
   ]}),
   ]}),
   districtOpen&&n.jsx(ct,{title:'Район города',onClose:()=>setDistrictOpen(false),children:n.jsx('div',{className:'keys-sort-options',role:'group','aria-label':'Районы города '+search.city,children:['',...districts].map(value=>n.jsxs('button',{type:'button','aria-pressed':district===value,onClick:()=>{dispatch({type:'SEARCH_PATCH',patch:{filters:keysSetDistrict(search,value)}});setDistrictOpen(false);},children:[n.jsx('span',{children:value||'Все районы'}),district===value&&n.jsx(D,{name:'check',className:'size-5'})]},value))})}),
@@ -243,20 +262,128 @@ function KeysNightlyPriceFilter({filters,onChange,compact=false}){
  const {min,max}=keysNightlyPriceRange(filters),invalid=min!==null&&max!==null&&min>max;
  const errorId=E.useId(),{low,high,limit}=keysNightlySliderBounds(filters);
  const field=(label,value,key)=>n.jsxs('label',{className:'keys-price-bound',children:[
-  n.jsx('span',{children:label}),
-  n.jsxs('span',{className:'keys-price-bound-control',children:[n.jsx('input',{type:'text',inputMode:'numeric',autoComplete:'off','aria-label':'Цена за ночь '+label.toLowerCase(),value:value??'',placeholder:key==='min'?'0':compact?'∞':'Без лимита',maxLength:9,'aria-invalid':invalid,'aria-describedby':invalid?errorId:undefined,onChange:event=>{const clean=event.target.value.replace(/[^0-9]/g,'');onChange(keysSetNightlyPrice(filters,key==='min'?clean:min,key==='max'?clean:max));}}),n.jsx('span',{'aria-hidden':true,children:'₽'})]})
+  n.jsxs('span',{className:'keys-price-bound-control',children:[n.jsx('span',{className:'keys-price-bound-prefix','aria-hidden':true,children:label}),n.jsx('input',{type:'text',inputMode:'numeric',autoComplete:'off','aria-label':'Цена за ночь '+label.toLowerCase(),value:value??'',placeholder:key==='min'?'0':compact?'∞':'Без лимита',maxLength:9,'aria-invalid':invalid,'aria-describedby':invalid?errorId:undefined,onChange:event=>{const clean=event.target.value.replace(/[^0-9]/g,'');onChange(keysSetNightlyPrice(filters,key==='min'?clean:min,key==='max'?clean:max));}}),n.jsx('span',{'aria-hidden':true,children:'₽'})]})
  ]});
  return n.jsxs('fieldset',{className:'keys-nightly-price',children:[
   n.jsx('legend',{children:'Цена за ночь, ₽'}),
-  n.jsxs('div',{className:'keys-price-bounds',children:[field('От',min,'min'),field('До',max,'max')]}),
-  compact&&n.jsxs('div',{className:'keys-nightly-slider',children:[
+  n.jsxs('div',{className:'keys-nightly-slider',children:[
    n.jsxs('div',{className:'ki-budget-slider',style:{'--range-from':(low/limit*100)+'%','--range-to':(high/limit*100)+'%'},children:[
     n.jsx('div',{className:'ki-budget-track','aria-hidden':true}),
     ...['min','max'].map(edge=>n.jsx('input',{type:'range',min:0,max:limit,step:100,value:edge==='min'?low:high,'aria-label':edge==='min'?'Минимальная цена за ночь':'Максимальная цена за ночь','aria-valuetext':edge==='max'&&high===limit?'Без ограничения':(edge==='min'?low:high).toLocaleString('ru-RU')+' рублей',onChange:event=>onChange(keysMoveNightlySlider(filters,edge,event.target.value,limit))},edge))
    ]}),
    n.jsxs('div',{className:'ki-budget-scale','aria-hidden':true,children:[n.jsx('span',{children:'0 ₽'}),n.jsx('span',{children:limit.toLocaleString('ru-RU')+' ₽+'})]})
   ]}),
+  n.jsxs('div',{className:'keys-price-bounds',children:[field('От',min,'min'),field('До',max,'max')]}),
   invalid&&n.jsx('p',{id:errorId,role:'alert',className:'keys-price-range-error',children:'Цена «До» должна быть не меньше цены «От».'}),
-  n.jsx('div',{className:'keys-price-presets',children:[null,6000,8000,10000].map(value=>n.jsx('button',{type:'button','aria-pressed':min===null&&max===value,onClick:()=>onChange(keysSetNightlyPrice(filters,null,value)),children:value===null?'Любая':'До '+value.toLocaleString('ru-RU')},value??'any'))})
+
  ]});
+}
+
+// The local prototype uses explicit catalogue facets; unsupported types/chains return no matches.
+const keysHotelFilterGroups=[
+ {id:'type',title:'Тип размещения',any:true,options:['Гостиница','Квартира','Апарт-отель','Гостевой дом','Хостел','Загородный дом','База отдыха','Санаторий']},
+ {id:'benefits',title:'Бонусы и скидки',any:true,options:['Горячие скидки','Программа лояльности отеля','Программа лояльности «Ключи»']},
+ {id:'stars',title:'Звёздность объекта',any:true,options:['Без звёзд','1 звезда','2 звезды','3 звезды','4 звезды','5 звёзд']},
+ {id:'chain',title:'Сеть отеля',any:true,options:['ibis','Cosmos Hotel Group','Hyatt','Novotel','Mercure','AZIMUT Hotels','Грейс','Alean Collection','Marriott','Rixos','Mövenpick','Pullman','Swissôtel','Mantera']},
+ {id:'meals',title:'Питание',any:true,options:['Завтрак включён','Собственная кухня','Завтрак и ужин включены','Полный пансион','Всё включено','Без питания']},
+ {id:'bed',title:'Выбор кровати',any:true,options:['Две односпальные','Одна двуспальная']},
+ {id:'rooms',title:'Комнаты и кровати',counters:['Спальни','Кровати','Ванные комнаты']},
+ {id:'suitable',title:'Возможности бронирования',options:['Можно с питомцем','Можно с детьми','Доступная среда']},
+ {id:'parking',title:'Парковка',options:['Есть парковка','Бесплатная парковка']},
+ {id:'general',title:'Общие удобства',options:['Бассейн','Wi-Fi','Круглосуточная стойка регистрации','Камера хранения','Лифт','Ресторан','Спа','Фитнес-центр']},
+ {id:'room',title:'Удобства в номере',options:['Ванная комната в номере','Балкон','Телевизор','Кофемашина','Кондиционер','Холодильник','Стиральная машина','Сейф']},
+ {id:'payment',title:'Оплата',options:['Бесплатная отмена','Оплата картой','Оплата на месте']}
+];
+function keysHotelFilterValue(group,label){return group.title+': '+label;}
+function keysHotelFilterCounter(filters,label){return Number(filters.find(v=>v.startsWith(label+': '))?.split(': ')[1])||0;}
+function keysSetHotelFilterCounter(filters,label,value){
+ const rest=filters.filter(v=>!v.startsWith(label+': ')),count=Math.max(0,Math.min(10,Math.round(Number(value)||0)));
+ return count?[...rest,label+': '+count]:rest;
+}
+const keysFilterAliases={'Завтрак включён':'С завтраком','Бассейн':'С бассейном','Спа':'Со спа','Можно с питомцем':'С питомцем','Можно с детьми':'С детьми','Бесплатная отмена':'Бесплатная отмена','Горячие скидки':'Спецпредложения'};
+function keysNormalizeHotelFilters(filters){
+ const next=filters.flatMap(value=>{
+  if(value==='От 4 звёзд')return ['Звёздность объекта: 4 звезды','Звёздность объекта: 5 звёзд'];
+  if(value==='5 звёзд')return ['Звёздность объекта: 5 звёзд'];
+  for(const group of keysHotelFilterGroups)for(const label of group.options||[])if(keysFilterAliases[label]===value)return [keysHotelFilterValue(group,label)];
+  return [value];
+ });
+ return [...new Set(next)];
+}
+function keysFilterSelected(filters,group,label){return filters.includes(keysHotelFilterValue(group,label))||!!keysFilterAliases[label]&&filters.includes(keysFilterAliases[label]);}
+function keysToggleHotelFilter(filters,group,label){
+ const selected=keysFilterSelected(filters,group,label);
+ const rest=filters.filter(v=>v!==keysHotelFilterValue(group,label)&&v!==keysFilterAliases[label]&&(group.id!=='stars'||!['От 4 звёзд','5 звёзд'].includes(v)));
+ return selected?rest:[...rest,keysHotelFilterValue(group,label)];
+}
+// Sample additional inventory for demonstrating the new filters, not a live hotel feed.
+const keysHotelDemoFacets={
+ 'more':{bedrooms:2,beds:3,bathrooms:2,suitable:['Можно с питомцем','Можно с детьми','Доступная среда'],room:['Ванная комната в номере','Балкон','Телевизор','Кофемашина','Кондиционер','Холодильник','Сейф']},
+ 'wave':{meals:['Завтрак включён','Завтрак и ужин включены','Полный пансион','Всё включено'],parking:['Есть парковка','Бесплатная парковка']},
+ 'quiet-coast':{room:['Ванная комната в номере','Балкон','Телевизор','Кондиционер','Холодильник','Сейф']},
+ 'park':{bedrooms:2,beds:3,bathrooms:1,parking:['Есть парковка','Бесплатная парковка']},
+ 'south':{bedrooms:3,beds:4,bathrooms:2,room:['Ванная комната в номере','Балкон','Телевизор','Кофемашина','Кондиционер','Холодильник','Сейф']}
+};
+function keysHotelFilterFacts(hotel){
+ const name=hotel.name||'',facets=hotel.filterFacets||{};
+ const chain=[['Cosmos Hotel Group',/cosmos/i],['Грейс',/грейс/i],['Alean Collection',/alean/i],['Marriott',/marriott|марриотт/i],...['ibis','Hyatt','Novotel','Mercure','AZIMUT Hotels','Rixos','Mövenpick','Pullman','Swissôtel','Mantera'].map(v=>[v,new RegExp(v.split(' ')[0],'i')])].find(([,pattern])=>pattern.test(name))?.[0]||'';
+ // Additional amenities are demo catalogue data, not live availability or verified hotel policies.
+ return {type:'Гостиница',chain,bed:['Две односпальные','Одна двуспальная'],bedrooms:1,beds:2,bathrooms:1,
+  meals:hotel.breakfast?['Завтрак включён']:['Без питания'],
+  benefits:[...(hotel.offer?['Горячие скидки']:[]),...(chain?['Программа лояльности отеля']:[]),'Программа лояльности «Ключи»'],
+  suitable:[...(hotel.pets?['Можно с питомцем']:[]),...(hotel.family?['Можно с детьми']:[])],
+  parking:hotel.parking?['Есть парковка']:[],
+  general:['Wi-Fi','Круглосуточная стойка регистрации','Камера хранения',...(hotel.stars>=3?['Лифт']:[]),...(hotel.pool?['Бассейн']:[]),...(hotel.spa?['Спа']:[]),...(hotel.stars>=4?['Ресторан','Фитнес-центр']:[])],
+  room:['Ванная комната в номере','Телевизор','Кондиционер',...(hotel.stars>=4?['Холодильник','Сейф']:[])],
+  payment:['Оплата картой','Оплата на месте',...(hotel.freeCancellation?['Бесплатная отмена']:[])],...(keysHotelDemoFacets[hotel.id]||{}),...facets};
+}
+function keysHotelFiltersMatch(hotel,filters){
+ const facts=keysHotelFilterFacts(hotel);
+ for(const group of keysHotelFilterGroups){
+  if(group.counters){
+   if(['bedrooms','beds','bathrooms'].some((key,i)=>(Number(facts[key])||0)<keysHotelFilterCounter(filters,group.counters[i])))return false;
+   continue;
+  }
+  const selected=group.options.filter(label=>filters.includes(keysHotelFilterValue(group,label)));
+  if(!selected.length)continue;
+  const match=label=>group.id==='stars'?Number(hotel.stars)===(label==='Без звёзд'?0:Number(label[0])):Array.isArray(facts[group.id])?facts[group.id].includes(label):facts[group.id]===label;
+  if(!(group.any?selected.some(match):selected.every(match)))return false;
+ }
+ return true;
+}
+function KeysHotelFilters({inline=false}){
+ const {state,dispatch,back}=J(),[draft,setDraft]=E.useState(()=>keysNormalizeHotelFilters(state.search.filters));
+ const liveFilters=E.useMemo(()=>keysNormalizeHotelFilters(state.search.filters),[state.search.filters]);
+ const filters=inline?liveFilters:draft,change=values=>inline?dispatch({type:'SEARCH_PATCH',patch:{filters:values}}):setDraft(values);
+ const {min,max}=keysNightlyPriceRange(filters),invalid=min!==null&&max!==null&&min>max;
+ const count=E.useMemo(()=>invalid?0:ls({...state.search,filters},state.discovery.priceTick).length,[state.search,filters,state.discovery.priceTick,invalid]);
+ const selectedCount=group=>group.counters?group.counters.filter(label=>keysHotelFilterCounter(filters,label)>0).length:group.options.filter(label=>keysFilterSelected(filters,group,label)).length;
+ return n.jsxs('div',{className:'keys-hotel-filters'+(inline?' is-inline':''),children:[
+  n.jsxs('header',{className:'keys-new-filter-heading',children:[!inline&&n.jsx(cs,{onClick:back}),n.jsx(inline?'h2':'h1',{children:'Фильтры'}),n.jsx('button',{type:'button',className:'keys-filter-reset',disabled:!filters.length,onClick:()=>change([]),children:'Сбросить'})]}),
+  n.jsxs('form',{className:'keys-filter-form keys-new-filter-form',onSubmit:event=>{event.preventDefault();if(invalid)return;dispatch({type:'SEARCH_PATCH',patch:{filters,results:true}});if(!inline)back();},children:[
+   n.jsx('section',{'data-filter-section':'price',className:'keys-filter-price-section',children:n.jsx(KeysNightlyPriceFilter,{filters,onChange:change,compact:inline})}),
+   ...keysHotelFilterGroups.map(group=>n.jsxs('details',{open:true,'data-filter-section':group.id,className:'keys-filter-section',children:[
+    n.jsxs('summary',{children:[n.jsx('span',{children:group.title}),!group.counters&&selectedCount(group)>0&&n.jsx('span',{className:'keys-filter-section-count',children:selectedCount(group)}),n.jsx(D,{name:'down',className:'size-4'})]}),
+    group.counters?n.jsx('div',{className:'keys-filter-counters',children:group.counters.map(label=>{
+     const value=keysHotelFilterCounter(filters,label);return n.jsxs('div',{className:'keys-filter-counter',children:[n.jsx('span',{children:label}),n.jsxs('div',{children:[n.jsx('button',{type:'button',disabled:value===0,'aria-label':'Уменьшить: '+label,onClick:()=>change(keysSetHotelFilterCounter(filters,label,value-1)),children:'−'}),n.jsx('output',{'aria-live':'polite','aria-label':label,children:value||'Любое'}),n.jsx('button',{type:'button',disabled:value===10,'aria-label':'Увеличить: '+label,onClick:()=>change(keysSetHotelFilterCounter(filters,label,value+1)),children:'+'})]})]},label);
+    })}):n.jsx('div',{className:'keys-filter-choices'+(group.id==='stars'?' is-stars':''),children:group.options.map(label=>n.jsx('button',{type:'button',className:'keys-filter-choice','aria-pressed':keysFilterSelected(filters,group,label),onClick:()=>change(keysToggleHotelFilter(filters,group,label)),children:label},label))}),
+   ]},group.id)),
+   !inline&&n.jsxs('div',{className:'keys-filter-footer keys-new-filter-footer',children:[!invalid&&count===0&&n.jsx('span',{className:'keys-filter-result-count','aria-live':'polite',children:'Нет вариантов. Попробуйте изменить фильтры'}),n.jsx(H,{type:'submit',disabled:invalid,children:count?'Показать отели · '+count:'Показать результаты'})]})
+  ]})
+ ]});
+}
+
+function keysQuickFilterCanonical(value){
+ for(const group of keysHotelFilterGroups)for(const label of group.options||[])if(keysFilterAliases[label]===value)return keysHotelFilterValue(group,label);
+ return value;
+}
+function keysToggleResultsFilter(filters,value){
+ const canonical=keysQuickFilterCanonical(value);
+ if(canonical!==value)return filters.includes(canonical)||filters.includes(value)?filters.filter(v=>v!==canonical&&v!==value):[...filters,canonical];
+ if(value==='От 4 звёзд'){
+  const selected=filters.includes(value)||['Звёздность объекта: 4 звезды','Звёздность объекта: 5 звёзд'].every(v=>filters.includes(v));
+  const rest=filters.filter(v=>v!==value&&v!=='5 звёзд'&&!v.startsWith('Звёздность объекта: '));
+  return selected?rest:[...rest,'Звёздность объекта: 4 звезды','Звёздность объекта: 5 звёзд'];
+ }
+ return keysQuickFilters(filters,value);
 }

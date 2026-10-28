@@ -119,6 +119,9 @@ ${fragment}
 <script src="./booking/cancellation.js"></script>
 <link rel="stylesheet" href="./scenarios/search.css">
 <script src="./scenarios/search.js"></script>
+<script src="./scenarios/push-demo-data.js"></script>
+<script src="./scenarios/system-inbox.js"></script>
+<script src="./scenarios/notification-model.js"></script>
 <script src="./scenarios/scenarios.js?v=arrival-day-route-1"></script>
 <link rel="stylesheet" href="./arbana/service-cards.css?v=completed-redesign-1">
 <link rel="stylesheet" href="./booking/services.css">
@@ -155,6 +158,8 @@ ${fragment}
 <script type="module" src="./profile/profile.js"></script>
 <link rel="stylesheet" href="./scenarios/trip-history.css">
 <script src="./scenarios/trip-history.js"></script>
+<link rel="stylesheet" href="./scenarios/push-demo.css">
+<script src="./scenarios/push-demo.js"></script>
 </body>
 </html>
 `;

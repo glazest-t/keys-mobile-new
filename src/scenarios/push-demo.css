@@ -1,0 +1,76 @@
+/* Demo controls remain outside the simulated phone and the actual app. */
+body[data-keys-selected-scenario=notifications] #keysScenarioControls#keysScenarioControls{grid-template-columns:156px minmax(0,1fr);width:620px}
+@media(max-width:600px),(max-width:950px) and (max-height:520px) and (pointer:coarse){body[data-keys-selected-scenario=notifications] #keysScenarioControls#keysScenarioControls:not([data-compact-open=true]){display:none}}
+body[data-keys-selected-scenario=notifications] #keysScenarioControls .kd-view-switch{display:none!important}
+body[data-keys-selected-scenario=notifications] #keysScenarioControls .keys-scenario-control:has(#keys-push-type-toggle){grid-column:1/-1;grid-row:2}
+body[data-keys-selected-scenario=notifications] #keysScenarioControls #keys-push-type-list{width:100%;max-width:none}
+#keysPushControls{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 6px 2px;font:400 11px/16px var(--font-sans);color:var(--color-muted)}
+#keysPushControls>span{max-width:300px}
+#keysPushControls>div{display:flex;gap:8px;flex:none}
+#keysPushControls button{padding:6px 10px;min-height:32px;border:0;border-radius:8px;background:var(--color-soft);color:var(--color-brand);font:500 11px/16px var(--font-sans);cursor:pointer}
+#keysPushControls button:hover{background:var(--color-brand-mist)}
+#keysPushControls[hidden],#keysPushDemo[hidden],#keysPushDemo [hidden],#keysPushControls [hidden]{display:none!important}
+body[data-keys-selected-scenario=notifications][data-keys-push-surface=phone]>#keysUnifiedPrototype{display:none!important}
+#keysPushDemo{width:390px;max-width:100%;margin:16px auto 0;font-family:var(--font-sans);color:#fff}
+#keysPushDemo *{box-sizing:border-box}
+.keys-push-phone{position:relative;isolation:isolate;width:100%;height:760px;min-height:340px;overflow:hidden;border-radius:36px;background:radial-gradient(ellipse at 90% 68%,#b9d8ed 0,transparent 52%),radial-gradient(ellipse at 0 95%,#d9e8ed 0,transparent 50%),linear-gradient(155deg,#21498b,#6d9cca 55%,#b4d0e5);box-shadow:0 18px 48px #1727481a;border:1px solid #ffffffa6}
+.keys-phone-status{position:absolute;top:0;left:0;right:0;height:46px;padding:16px 24px 0;display:flex;justify-content:space-between;align-items:center;font:500 14px/20px var(--font-sans)}
+.keys-phone-status>span:last-child{display:flex;gap:5px;align-items:center}
+.keys-phone-status svg{width:16px;height:16px}
+.keys-phone-status svg:last-child{width:22px}
+.keys-phone-desktop{height:100%;padding:78px 24px 118px;overflow:auto;scrollbar-width:none}
+.keys-phone-widget{display:grid;gap:8px;padding:20px;border-radius:24px;background:#ffffff24;border:1px solid #ffffff40;backdrop-filter:blur(20px)}
+.keys-phone-widget>span{font:400 12px/18px var(--font-sans);color:#f4f8ff}
+.keys-phone-widget>strong{font:500 26px/32px var(--font-sans);letter-spacing:-.6px}
+.keys-phone-apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 12px;margin-top:34px}
+.keys-phone-app{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;background:transparent;border:0;color:#fff;font:400 11px/15px var(--font-sans);padding:0;text-shadow:0 1px 5px #233c5c40}
+button.keys-phone-app{cursor:pointer}
+.keys-phone-app-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:16px;box-shadow:0 5px 12px #27426312;flex:none}
+.keys-phone-app-icon svg{width:28px;height:28px;stroke-width:1.6}
+.keys-phone-app-icon.is-light{background:#f2f5fa;color:#455774}
+.keys-phone-app-icon.is-blue{background:#3a66f0;color:#fff}
+.keys-phone-app-icon.is-green{background:#49ac86;color:#fff}
+.keys-phone-app-icon.is-dark{background:#24334b;color:#fff}
+.keys-push-badge{position:absolute;right:0;top:-6px;display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;background:#dc4545;color:#fff;border-radius:99px;font:500 12px/18px var(--font-sans);text-shadow:none}
+.keys-phone-dock{position:absolute;bottom:28px;left:16px;right:16px;display:flex;align-items:center;justify-content:space-around;gap:12px;padding:16px 12px;border:1px solid #ffffff4d;border-radius:28px;background:#ffffff45;backdrop-filter:blur(24px)}
+.keys-phone-dock .keys-phone-app>span:last-child{display:none}
+.keys-phone-indicator{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:120px;height:4px;border-radius:99px;background:#fff9}
+.keys-push-banner{position:absolute;z-index:3;top:52px;left:10px;right:10px;border:1px solid #ffffffa8;border-radius:24px;background:#f7faffed;backdrop-filter:blur(28px);box-shadow:0 12px 32px #14233f26;color:#14171f;transform-origin:top center}
+.keys-push-banner.is-visible{animation:keys-push-arrive .65s cubic-bezier(.2,.8,.2,1) both}
+.keys-push-open{display:block;width:100%;padding:14px 16px 16px;text-align:left;border:0;border-radius:24px;background:transparent;color:inherit;cursor:pointer;font-family:var(--font-sans)}
+.keys-push-meta{display:flex;align-items:center;gap:7px;padding-right:26px;margin-bottom:8px;color:#687385;font:400 12px/18px var(--font-sans)}
+.keys-push-meta img{width:22px;height:22px;border-radius:6px}
+.keys-push-meta>span:last-child{margin-left:auto;font-size:11px}
+.keys-push-title{display:block;padding:0;margin:0 0 4px;font:500 15px/20px var(--font-sans);letter-spacing:-.2px}
+.keys-push-body{display:block;font:400 13px/19px var(--font-sans);color:#364152}
+.keys-push-dismiss{position:absolute;right:8px;top:8px;display:grid;place-items:center;width:32px;height:32px;padding:7px;border:0;border-radius:50%;background:transparent;color:#687385;cursor:pointer}
+.keys-push-dismiss svg{width:16px;height:16px}
+.keys-push-hint{margin:10px 0 0;text-align:center;color:var(--color-muted);font:400 11px/16px var(--font-sans)}
+.keys-push-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#keysPushDemo button:focus-visible,#keysPushControls button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysUnifiedPrototype .keys-push-message{padding:8px 0 20px}
+#keysUnifiedPrototype .keys-push-message>img{width:48px;height:48px;border-radius:14px;margin-bottom:16px}
+#keysUnifiedPrototype .keys-push-message>span{display:block;color:var(--color-muted);font:var(--ui-font-caption);margin-bottom:8px}
+#keysUnifiedPrototype .keys-push-message>h2{margin:0 0 12px;font:var(--ui-font-section)}
+#keysUnifiedPrototype .keys-push-message>p{margin:0 0 24px;font:var(--ui-font-body);color:var(--color-muted)}
+@keyframes keys-push-arrive{0%{opacity:0;transform:translateY(-170px) scale(.97)}65%{opacity:1;transform:translateY(4px) scale(1)}100%{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){body[data-keys-selected-scenario=notifications] #keysScenarioControls#keysScenarioControls{width:100%}body[data-keys-selected-scenario=notifications] #keysScenarioControls .keys-scenario-control:has(#keys-push-type-toggle){grid-row:3}#keysPushControls{grid-row:4;flex-wrap:wrap;gap:6px}#keysPushControls>span{max-width:none}#keysPushControls>div{margin-left:auto}}
+@media(max-width:520px){#keysPushDemo{margin:0 auto;width:100%}.keys-push-phone{border:0;border-radius:0;box-shadow:none}.keys-push-hint{margin:6px 12px}#keysPushDemo .keys-phone-desktop{padding-top:70px}}
+@media(max-height:700px){.keys-phone-widget{padding:14px}.keys-phone-apps{margin-top:22px;gap:18px 12px}.keys-phone-dock{bottom:24px;padding:10px 12px}.keys-phone-app-icon{width:50px;height:50px}}
+@media(prefers-reduced-motion:reduce){.keys-push-banner.is-visible{animation:none}}
+#keysPushDemo .keys-push-phone.is-compact .keys-phone-widget{display:none}
+#keysPushDemo .keys-push-phone.is-compact .keys-phone-desktop{padding:182px 24px 118px}
+#keysPushDemo .keys-push-phone.is-compact .keys-phone-apps{margin-top:12px;gap:18px 12px}
+#keysPushDemo .keys-push-phone.is-compact .keys-phone-app-icon{width:48px;height:48px;border-radius:14px}
+#keysPushDemo .keys-push-phone.is-compact .keys-phone-app{gap:6px;font-size:10px}
+#keysPushDemo .keys-push-phone.is-compact .keys-phone-dock{padding:12px;bottom:24px}
+/* Two testable notification entry patterns share one inbox. */
+body[data-keys-notice-layout=chats] #keysUnifiedPrototype .keys-app-header .keys-app-bell{display:none!important}
+body[data-keys-selected-scenario=notifications] #keysScenarioControls .keys-scenario-control:has(#keys-notice-layout-toggle){grid-column:1/-1;grid-row:3}
+body[data-keys-selected-scenario=notifications] #keysPushControls{grid-row:4}
+@media(max-width:760px){body[data-keys-selected-scenario=notifications] #keysScenarioControls .keys-scenario-control:has(#keys-notice-layout-toggle){grid-row:4}body[data-keys-selected-scenario=notifications] #keysPushControls{grid-row:5}}
+
+/* Review notes belong to prototype settings, never the guest-facing push. */
+#keysScenarioControls .keys-scenario-review-label{display:block;width:fit-content;margin-top:4px;padding:3px 6px;border-radius:5px;background:#fff0f0;color:#b42318;font:500 11px/15px var(--font-sans,sans-serif);white-space:normal}
+#keysScenarioControls [role="option"][aria-disabled="true"]{opacity:.4;cursor:not-allowed;background:transparent}
+#keysScenarioControls#keysScenarioControls .keys-scenario-toggle:has(.keys-scenario-review-label){height:auto;min-height:40px;padding-top:8px;padding-bottom:8px}

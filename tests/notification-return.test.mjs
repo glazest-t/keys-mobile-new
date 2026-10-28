@@ -18,7 +18,7 @@ function host(origin,scenario='stay'){
   querySelectorAll:selector=>selector===':scope>.ku-section'?sections:[],
   querySelector:selector=>selector==='.k3-stay-head'?{click(){sections.forEach(s=>s.hidden=s.dataset.unifiedSection!=='stay-details')}}:selector.includes('[data-kfb="success"]')?done:selector==='#keysFeedbackFlow'?feedback:sections.find(s=>selector===`[data-unified-section="${s.dataset.unifiedSection}"]`)
  };
- const frame={focus(){},contentWindow:{postMessage:message=>messages.push(message)},hasAttribute:()=>true};
+ const frame={addEventListener(){},focus(){},contentWindow:{postMessage:message=>messages.push(message)},hasAttribute:()=>true};
  const document={body:{dataset:{keysStayDay:'day-2',keysScenario:scenario}},getElementById:()=>root,createElement:tag=>tag==='iframe'?frame:{dataset:{},append(){}},addEventListener:(type,fn)=>listeners.document[type]=fn};
  const window={addEventListener:(type,fn)=>listeners.window[type]=fn,KeysAppHeader:{create(){}},KeysAppNav:{}};
  vm.runInNewContext(code,{document,window,matchMedia:()=>({matches:true}),location:{origin:'http://localhost',protocol:'http:'},MutationObserver:class{observe(){}},CustomEvent:class{}});
@@ -53,7 +53,7 @@ test('runtime entry from Find or Chats keeps its own history after feedback',()=
 test('completed trip requests its notification history',()=>{
  const h=host('trips','after');
  assert.ok(h.messages.length>=2);
- assert.ok(h.messages.every(message=>message.stayDay==='after'));
+ assert.ok(h.messages.filter(message=>'stayDay' in message).every(message=>message.stayDay==='after'));
 });
 
 test('trip review returns to its home action, not notifications',()=>{
@@ -68,7 +68,7 @@ test('trip review returns to its home action, not notifications',()=>{
 
 test('before arrival excludes first-night and checkout feedback pushes',()=>{
  const h=host('trips','booked');
- assert.ok(h.messages.every(message=>message.stayDay==='day-1'));
+ assert.ok(h.messages.filter(message=>'stayDay' in message).every(message=>message.stayDay==='day-1'));
 });
 
 test('hotel chat opened from Trips returns to Trips after its Back action',()=>{
@@ -93,4 +93,12 @@ test('booking details entered from a hotel conversation return without resetting
  assert.equal(h.messages.length,sent,'Back must reveal the existing chat without NAV_TAB');
  h.message({type:'state',tab:'chats',screen:null});
  assert.equal(h.sections.find(s=>s.dataset.unifiedSection==='trips').hidden,false);
+});
+
+
+test('switching from header notifications to Chats does not return to Trips',()=>{
+ const h=host('trips','booked');
+ h.message({type:'state',tab:'chats',screen:null});
+ assert.equal(h.sections.find(s=>s.dataset.unifiedSection==='arbana-sections').hidden,false);
+ assert.equal(h.sections.find(s=>s.dataset.unifiedSection==='trips').hidden,true);
 });

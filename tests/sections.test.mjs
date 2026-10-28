@@ -29,8 +29,8 @@ test('assistant answers and dialogue can be reset and restored',()=>{
 test('Maidens reply uses current tariff and breakfast, never Swissotel context',()=>{
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'maidens',text:'Во сколько завтрак?'});const answer=s.chat.conversations.maidens.messages.at(-1).text;assert.match(answer,/07:00/);assert.match(answer,/12:00/);assert.match(answer,/680/);assert.match(answer,/не включён/);assert.doesNotMatch(answer,/моря|обоих гостей/);
 });
-test('new hotel conversation supports drafts, send and unread without human handoff',()=>{
- let s=e.keysInitialState();s=run(s,{type:'OPEN',screen:{type:'chat',hotelId:'palm'}});s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'Есть завтрак?');s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'');assert.ok(s.chat.conversations.palm.messages.some(m=>m.sender==='ai'));s=run(s,{type:'HANDOFF',hotelId:'palm'});assert.equal(s.chat.conversations.palm.human,false);
+test('newly booked hotel conversation supports drafts, send and unread without human handoff',()=>{
+ let s=e.keysInitialState();s.keysCreatedBookings={palm:{booking:{id:'palm-booking',hotelId:'palm'}}};s=run(s,{type:'OPEN',screen:{type:'chat',hotelId:'palm'}});s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'Есть завтрак?');s=run(s,{type:'HOTEL_CHAT_SEND',hotelId:'palm',text:'Есть завтрак?'});assert.equal(s.chat.conversations.palm.draft,'');assert.ok(s.chat.conversations.palm.messages.some(m=>m.sender==='ai'));s=run(s,{type:'HANDOFF',hotelId:'palm'});assert.equal(s.chat.conversations.palm.human,false);
 });
 test('booking, payment and success remain original working flow',()=>{
  let s=e.keysInitialState();s=run(s,{type:'HOTEL_OPEN',id:'more'});s=run(s,{type:'RESERVATION_START'});assert.ok(s.reservation);s=run(s,{type:'RESERVATION_NEXT'});s=completeGuest(s);s=run(s,{type:'RESERVATION_METHOD',method:'sbp'});s=run(s,{type:'RESERVATION_PAY',draftId:s.reservation.id});s=run(s,{type:'MOCK_PROGRESS',now:now+600000});assert.equal(s.reservation.status,'confirmed');assert.equal(s.navigation.screen.type,'reservation-success');
@@ -332,7 +332,7 @@ test('hotel programme booking opens Maidens catalogue detail and returns to Bene
 
 test('hotel chat stays AI-only for explicit and automatic handoff requests',()=>{
  for(const hotelId of ['maidens','palm']){
-  let s=e.keysInitialState();
+  let s=e.keysInitialState();s.keysCreatedBookings={palm:{booking:{id:'palm-booking',hotelId:'palm'}}};
   s=run(s,{type:'OPEN',screen:{type:'chat',hotelId}});
   s=run(s,{type:'HOTEL_CHAT_DRAFT',hotelId,text:'Мой черновик'});
   const messages=s.chat.conversations[hotelId].messages;
@@ -345,4 +345,15 @@ test('hotel chat stays AI-only for explicit and automatic handoff requests',()=>
   assert.equal(s.chat.conversations[hotelId].messages.at(-1).sender,'ai');
   assert.doesNotMatch(s.chat.conversations[hotelId].messages.at(-1).text,/Передам|подключился/);
  }
+});
+
+test('chat entry and messages require a current or past booking',()=>{
+ let s=e.keysInitialState();const screen=s.navigation.screen;
+ s=run(s,{type:'OPEN',screen:{type:'hotel-chat-picker'}});
+ assert.deepEqual(s.navigation.screen,screen);
+ for(const action of [{type:'OPEN',screen:{type:'chat',hotelId:'palm'}},{type:'HOTEL_CHAT_OPEN',hotelId:'palm'},{type:'HOTEL_CHAT_DRAFT',hotelId:'palm',text:'Черновик'},{type:'HOTEL_CHAT_SEND',hotelId:'palm',text:'Привет'}]){
+  s=run(s,action);assert.equal(s.chat.conversations.palm,undefined);assert.deepEqual(s.navigation.screen,screen);
+ }
+ s=run(s,{type:'OPEN',screen:{type:'chat',hotelId:'severny-spb'}});
+ assert.equal(s.navigation.screen.hotelId,'severny-spb');
 });

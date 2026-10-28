@@ -160,7 +160,7 @@
     }
     if(event.data.type==='state'&&notificationOrigin){
       if(event.data.screen==='notifications')notificationOpened=true;
-      else if(notificationOpened&&!event.data.screen){const origin=notificationOrigin;notificationOrigin=null;notificationOpened=false;go(origin,true);}
+      else if(notificationOpened&&!event.data.screen){const origin=notificationOrigin;notificationOrigin=null;notificationOpened=false;if(!event.data.tab||event.data.tab==='find')go(origin,true);}
     }
     if(event.data.type==='cancel-booking'){
       const b=event.data;
@@ -190,7 +190,7 @@
 
     }
     if(event.data.type==='checkout-profile'){const c=event.data.contact;if(c&&typeof c.firstName==='string'){root.querySelectorAll('.keys-profile-name>strong,[data-open="travelerProfile"] strong').forEach(el=>el.textContent=[c.firstName,c.lastName].filter(Boolean).join(' '));root.querySelectorAll('.keys-profile-contacts dd').forEach(el=>el.textContent=c.phone);}}
-    if(event.data.type==='ready'){ready=true;send();frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
+    if(event.data.type==='ready'){ready=true;send();sendNoticeLayout();frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
     if(event.data.type==='navigate'&&['trips','benefits','profile','stay-details','problem','feedback'].includes(event.data.target)){
       // Feedback is a temporary host screen; retain the notification entry point.
       if(event.data.target!=='feedback'){notificationOrigin=null;notificationOpened=false;}
@@ -425,13 +425,17 @@
       show('find',null,'saved');return;
     }
     if(action==='notifications'){
-      if(!section.hidden){if(section.dataset.runtimeScreen!=='notifications')frame.contentWindow.postMessage({source:'keys-host',openNotification:true},location.origin);return;}
+      if(!section.hidden){if(section.dataset.runtimeScreen!=='notifications')frame.contentWindow.postMessage({source:'keys-host',openNotification:true,systemNotifications:true},location.origin);return;}
       const current=button.closest('.kf-phone')?.dataset.screen??'trips';
       notificationOrigin=current;notificationOpened=false;show('find',null,'notifications');
     }
   },true);
+  const sendNoticeLayout=()=>frame.contentWindow?.postMessage({source:'keys-host',noticeLayout:document.body.dataset.keysNoticeLayout||'header'},location.protocol==='file:'?'*':location.origin);
+  frame.addEventListener('load',sendNoticeLayout);
+  root.addEventListener('keys-notification-layout-change',sendNoticeLayout);
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
+    sendNoticeLayout();
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
     if(document.body.dataset.keysSelectedScenario==='search-swipe-first'&&event.detail.resetView)go('trips');
     if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=trip-search-20261015&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(day);

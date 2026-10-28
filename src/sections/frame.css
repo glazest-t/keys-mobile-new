@@ -1853,3 +1853,28 @@ html body [data-testid="desktop-chat-conversation"] .keys-chat-hotel,html body [
  html[data-desktop-account=true] [data-runtime-tab=chats][data-screen-type=chat] main{padding:16px 24px 24px}
  html[data-desktop-account=true] [data-runtime-tab=chats] .keys-hotel-chat-header{padding-bottom:16px;border-bottom:1px solid var(--color-line);margin-bottom:16px}
 }
+/* Notification variants: shared history, different entry points. */
+html[data-notice-layout=chats] .keys-app-header .keys-app-bell{display:none!important}
+.keys-chat-inbox-action,.keys-chat-hotel-notices{position:relative;display:grid;place-items:center;width:40px;height:40px;flex:none;border:0;border-radius:50%;background:var(--color-soft);color:var(--color-brand);cursor:pointer}
+.keys-chat-inbox-dot{position:absolute;top:8px;right:9px;width:6px;height:6px;border-radius:50%;background:var(--color-brand);box-shadow:0 0 0 2px var(--color-soft)}
+html body .keys-chat-hotel-notices{display:none;grid-column:3;grid-row:1/3;align-self:center}
+html[data-notice-layout=chats] body .keys-hotel-chat-header{grid-template-columns:40px minmax(0,1fr) 40px}
+html[data-notice-layout=chats] body .keys-chat-hotel-notices{display:grid}
+html[data-notice-layout=chats] body [data-testid=desktop-chat-conversation]>.keys-hotel-chat-header{grid-template-columns:minmax(0,1fr) 40px}
+html[data-notice-layout=chats] body [data-testid=desktop-chat-conversation] .keys-chat-hotel-notices{grid-column:2}
+.keys-notices{min-width:0}
+.keys-notice-filters{display:flex;flex-wrap:nowrap;gap:8px;max-width:100%;min-width:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:2px;margin:4px 0 16px}
+.keys-notice-filters::-webkit-scrollbar{display:none}
+.keys-notice-filters button{flex:none;white-space:nowrap;border:1px solid var(--color-line);border-radius:99px;padding:7px 12px;background:var(--color-card);font:400 13px/18px var(--font-sans);color:var(--color-ink);cursor:pointer}
+.keys-notice-filters button[aria-pressed=true]{color:var(--color-brand);background:var(--color-brand-mist,#edf2ff);border-color:var(--color-brand)}
+.keys-notice-hotel-filters{margin-top:0;padding-top:16px;border-top:1px solid var(--color-line)}
+.keys-notice-hotel-group{display:grid;gap:10px;margin:0 0 24px}
+.keys-notice-hotel-group h2{margin:0 0 2px;font:500 16px/22px var(--font-sans);color:var(--color-ink)}
+.keys-notice-hotel-subtitle{margin:-6px 0 18px;font:400 14px/20px var(--font-sans);color:var(--color-muted)}
+.keys-notice-filters button:focus-visible,.keys-chat-inbox-action:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+
+.keys-notice-hotel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;margin-bottom:6px}
+.keys-notice-hotel-heading h2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0;font:500 16px/22px var(--font-sans);color:var(--color-ink)}
+.keys-notice-read-all{flex:none;border:0;padding:8px 0;background:transparent;color:var(--color-brand);font:400 12px/18px var(--font-sans);white-space:nowrap;cursor:pointer}
+.keys-notice-read-all:disabled{opacity:.5;cursor:default}
+.keys-notice-read-all:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px;border-radius:4px}

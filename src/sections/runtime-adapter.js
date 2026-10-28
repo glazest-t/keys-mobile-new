@@ -60,12 +60,13 @@ function KeysBridge() {
   E.useEffect(()=>{
     keysPost('hotel-loyalty',{missing:!!state.keysHotelLoyaltyMissing,cards:Object.values(state.keysConnectedHotelCards||{}).map(card=>({hotelId:card.hotelId,name:eHotelName(card.hotelId),discount:card.discount}))});
   },[state.keysHotelLoyaltyMissing,state.keysConnectedHotelCards]);
-  E.useEffect(()=>keysPost('header',{unread:!!notifications?.page?.unread}),[notifications?.page?.unread]);
+  E.useEffect(()=>keysPost('header',{unread:false}),[]);
   E.useEffect(() => {
     const receive = event => {
       if(event.source !== window.parent || event.data?.source !== 'keys-host') return;
       if(event.origin !== window.location.origin && window.location.protocol !== 'file:') return;
       const {tab,hotelId,screen,stayDay,discovery,bookingId} = event.data;
+      if(['header','chats'].includes(event.data.noticeLayout)){document.documentElement.dataset.noticeLayout=event.data.noticeLayout;window.dispatchEvent(new Event('keys-notice-layout-change'));}
       if(Object.hasOwn(event.data,'swipeFirstRun'))dispatch({type:'KEYS_SWIPE_SCENARIO',firstRun:event.data.swipeFirstRun});
       if(typeof event.data.guestMode==='boolean'){
         const entering=event.data.guestMode&&!globalThis.keysGuestMode;
@@ -89,7 +90,7 @@ function KeysBridge() {
       if(event.data.cancelledBooking){dispatch({type:'KEYS_BOOKING_CANCELLED',bookingId:event.data.cancelledBooking.id,result:event.data.cancelledBooking.result});return;}
       if(event.data.loginContact){dispatch({type:'KEYS_LOGIN_CONTACT',contact:event.data.loginContact});return;}
       if(event.data.openFavorites){dispatch({type:'OPEN',screen:{type:'saved'}});return;}
-      if(event.data.openNotification){dispatch({type:'OPEN',screen:{type:'notifications'}});return;}
+      if(event.data.openNotification){dispatch({type:'OPEN',screen:{type:'notifications',system:!!event.data.systemNotifications}});return;}
       if(typeof event.data.desktopAccount==='boolean')document.documentElement.dataset.desktopAccount=String(event.data.desktopAccount);
       if(Number.isFinite(event.data.desktopHeight))document.documentElement.style.setProperty('--keys-desktop-height',Math.max(560,event.data.desktopHeight)+'px');
       if(['day-1','day-2','checkout','after'].includes(stayDay)){
@@ -208,6 +209,7 @@ function keysInitialState() {
   state.tripContext.today='2026-09-13';
   state.booking={...state.booking,id:'keys-maidens-412',hotelId:'maidens',arrival:'2026-09-12',departure:'2026-09-19',party:{adults:1,childrenAges:[],pet:false,business:true},room:{...state.booking.room,name:maidens.room,photo,photos:[photo]},contact:{...state.booking.contact,firstName:'Татьяна',lastName:'Глазырина'},tariff:{...state.booking.tariff,name:'Деловой тариф',includesBreakfast:false}};
   state.keysCheckoutIdentity=true;
+  state.keysChatHistory=__KEYS_CHAT_HISTORY__;
   state.profile={firstName:'Татьяна',lastName:'',phone:'+7 (900) 123-45-67',email:'',citizenship:'Российская Федерация'};
   try{const login=JSON.parse(sessionStorage.getItem('keys-login-contact-v1')||'null');if(login?.firstName&&login?.phone)state.profile={...state.profile,firstName:login.firstName,phone:login.phone};const saved=JSON.parse(localStorage.getItem('keys-booking-profile-v1')||'null');if(saved&&um(saved)&&saved.phone.replace(/\D/g,'')===state.profile.phone.replace(/\D/g,''))state.profile={citizenship:'Российская Федерация',...saved},state.keysProfileSaved=1;}catch{}
   state.orders=[];
@@ -237,17 +239,38 @@ function keysMaidensAnswer(text,context) {
 function eHotelName(id){return Ie(id).name;}
 
 // The host and React screens render exactly the same header markup and stylesheet.
+function keysUseSystemInbox(){
+ const [items,setItems]=E.useState(()=>window.KeysSystemInbox.list());
+ E.useEffect(()=>{
+  const refresh=()=>setItems(window.KeysSystemInbox.list());
+  window.addEventListener('storage',refresh);window.addEventListener('keys-system-notifications-change',refresh);
+  return ()=>{window.removeEventListener('storage',refresh);window.removeEventListener('keys-system-notifications-change',refresh);};
+ },[]);
+ return items;
+}
+function keysUseNoticeLayout(){
+ const [layout,setLayout]=E.useState(()=>document.documentElement.dataset.noticeLayout||'header');
+ E.useEffect(()=>{const update=()=>setLayout(document.documentElement.dataset.noticeLayout||'header');window.addEventListener('keys-notice-layout-change',update);return()=>window.removeEventListener('keys-notice-layout-change',update);},[]);
+ return layout;
+}
+function KeysChatInboxAction(){
+ const {open}=J(),layout=keysUseNoticeLayout(),delivered=keysUseSystemInbox(),resource=Qg();
+ const unread=delivered.some(item=>!item.readAt)||(resource?.page?.items||[]).some(item=>!item.readAt);
+ if(layout!=='chats')return null;
+ return n.jsxs('button',{type:'button',className:'keys-chat-inbox-action','aria-label':'Все уведомления'+(unread?', есть новые':''),onClick:()=>open({type:'notifications',system:true}),children:[n.jsx(D,{name:'bell',className:'size-5'}),unread&&n.jsx('span',{className:'keys-chat-inbox-dot','aria-hidden':true})]});
+}
 function CH() {
-  const {dispatch,open}=J();
-  const unread=!!_8();
-  E.useEffect(()=>keysPost('header',{unread}),[unread]);
-  return n.jsx('header',{className:'keys-app-header',dangerouslySetInnerHTML:{__html:window.KeysAppHeader.markup(unread)},onClick:event=>{
-    const action=event.target.closest('[data-header-action]')?.dataset.headerAction;
-    if(action==='home')dispatch({type:'HOME'});
-    if(action==='profile')open({type:'profile'});
-    if(action==='favorites')open({type:'saved'});
-    if(action==='notifications')open({type:'notifications'});
-  }});
+ const {dispatch,open}=J(),resource=Qg(),delivered=keysUseSystemInbox();
+ keysUseNoticeLayout();
+ const unread=delivered.some(item=>!item.readAt)||(resource?.page?.items||[]).some(item=>!item.readAt);
+ E.useEffect(()=>keysPost('header',{unread}),[unread]);
+ return n.jsx('header',{className:'keys-app-header',dangerouslySetInnerHTML:{__html:window.KeysAppHeader.markup(unread)},onClick:event=>{
+  const action=event.target.closest('[data-header-action]')?.dataset.headerAction;
+  if(action==='home')dispatch({type:'HOME'});
+  if(action==='profile')open({type:'profile'});
+  if(action==='favorites')open({type:'saved'});
+  if(action==='notifications')open({type:'notifications',system:true});
+ }});
 }
 
 // The same items, SVGs and CSS are used by the host's existing navigation buttons.
@@ -264,32 +287,6 @@ function AH({beforeNavigate}={}) {
 }
 
 // Notification history shares the same navigation, API and read-state persistence.
-function EV() {
- const {user,openLogin}=yt(),{open}=J(),resource=Qg(),api=Gn();
- const [extra,setExtra]=E.useState([]),[cursor,setCursor]=E.useState(undefined);
- const [busy,setBusy]=E.useState(false),[error,setError]=E.useState('');
- const page=resource?.page,items=[...(page?.items??[]),...extra.filter(item=>!page?.items.some(other=>other.id===item.id))].sort((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt));
- const next=cursor===undefined?page?.nextCursor:cursor;
- const run=async task=>{if(busy)return;setBusy(true);setError('');try{await task();}catch(e){setError(Ot(e));}finally{setBusy(false);}};
- const icon=(name)=>n.jsx(D,{name,className:'keys-notice-svg'});
- const day=date=>new Date(date).toLocaleDateString('ru-RU',{day:'numeric',month:'long',timeZone:'Europe/Moscow'});
- return n.jsxs(n.Fragment,{children:[
-  n.jsx(Ae,{title:'Уведомления',action:user&&n.jsx('button',{type:'button',className:'keys-notice-settings','aria-label':'Настроить уведомления',title:'Настроить уведомления',onClick:()=>keysPost('profile-settings'),children:n.jsxs('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.7,'aria-hidden':true,children:[n.jsx('path',{d:'M4 7h7m4 0h5M4 17h2m4 0h10'}),n.jsx('circle',{cx:13,cy:7,r:2}),n.jsx('circle',{cx:8,cy:17,r:2})]})})}),
-  !user?n.jsx(H,{onClick:openLogin,children:'Войти'}):n.jsxs('div',{className:'keys-notices',children:[
-   !!page?.unread&&n.jsx('div',{className:'keys-notice-tools',children:n.jsxs('button',{type:'button',disabled:busy,onClick:()=>run(async()=>{await api('notifications/read','POST',{through:page.items[0].id});setExtra([]);setCursor(undefined);await resource?.refresh();}),children:[icon('bell-check'),'Прочитать все']})}),
-   !page&&!resource?.error?n.jsx(on,{className:'mx-auto my-8 size-5'}):items.length?n.jsx('div',{className:'keys-notice-list',children:items.map((item,index)=>n.jsxs(E.Fragment,{children:[
-    (index===0||day(items[index-1].createdAt)!==day(item.createdAt))&&n.jsx('h2',{className:'keys-notice-date',children:day(item.createdAt)}),
-    n.jsxs('button',{type:'button',className:'keys-notice-item','data-kind':['stay-feedback','checkout-feedback'].includes(item.target)?'review':item.category,'data-unread':!item.readAt,disabled:busy,onClick:()=>run(async()=>{await api('notifications/'+item.id+'/read','POST');setExtra(list=>list.map(other=>other.id===item.id?{...other,readAt:new Date().toISOString()}:other));await resource?.refresh();if(item.target!=='notifications')open({type:item.target});}),children:[
-     n.jsx('span',{className:'keys-notice-icon','aria-hidden':true,children:icon(['stay-feedback','checkout-feedback'].includes(item.target)?'star':item.category==='account'?'shield':'bell')}),
-     n.jsxs('span',{className:'keys-notice-copy',children:[n.jsxs('span',{className:'keys-notice-heading',children:[n.jsx('strong',{children:item.title}),!item.readAt&&n.jsx('span',{className:'keys-notice-dot','aria-label':'Не прочитано'})]}),n.jsx('span',{className:'keys-notice-body',children:item.body}),n.jsxs('span',{className:'keys-notice-meta',children:[n.jsx('time',{dateTime:item.createdAt,children:new Date(item.createdAt).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow'})}),['stay-feedback','checkout-feedback'].includes(item.target)&&n.jsx('span',{className:'keys-notice-link',children:['Оставить отзыв',n.jsx('svg',{viewBox:'0 0 24 24',width:14,height:14,fill:'none',stroke:'currentColor',strokeWidth:1.65,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:n.jsx('path',{d:'m9 5 7 7-7 7'})})]})]})]})
-    ]})
-   ]},item.id))}):!resource?.error&&n.jsx('p',{className:'keys-notice-empty',children:'Новых уведомлений пока нет.'}),
-   (error||resource?.error)&&n.jsxs('div',{children:[n.jsx('p',{role:'alert',className:'text-12 text-danger',children:error||'Не удалось загрузить уведомления.'}),n.jsx(H,{variant:'text',onClick:()=>resource?.refresh(),children:'Повторить'})]}),
-   next&&n.jsx(H,{variant:'secondary',disabled:busy,onClick:()=>run(async()=>{const result=await api('notifications?cursor='+encodeURIComponent(next));setExtra(list=>[...list,...result.items]);setCursor(result.nextCursor);}),children:'Показать ещё'})
-  ]})
- ]});
-}
-
 // Separate instance for the host's confirmed pre-arrival booking.
 function keysChangeInitial(state, source) {
  const base=Xg('booked',Date.now()),party=source.party??{adults:source.adults,childrenAges:[],pet:false,business:true};

@@ -1,3 +1,4 @@
+import {trips as keysChatHistory} from '../src/profile/model.mjs';
 import {adaptCheckoutEngine,adaptCheckoutPage,adaptCheckoutExtras,adaptDesktopCheckout} from './adapt-checkout-options.mjs';
 import {adaptHotelChat,adaptDesktopHotelChat} from './adapt-hotel-chat.mjs';
 import {adaptPhotoDiscovery} from './adapt-photo-discovery.mjs';
@@ -35,6 +36,21 @@ export async function buildSections(){
  const desktopCheckout=path.join(stage,'assets/DesktopApp-DR7F9ePm.js');
  await writeFile(desktopCheckout,adaptDesktopHotelChat(adaptDesktopCheckout(await readFile(desktopCheckout,'utf8'))));
  js=adaptHotelChat(js);
+ js=js.replaceAll('Расскажу о номерах и отвечу на вопросы перед бронированием.','Помогу с вопросами об отеле, бронировании и проживании.');
+ js=js.replace('Object.values(e.chat.conversations).sort((a, r) => r.lastActivity - a.lastActivity)', 'keysBookingConversations(e).sort((a, r) => r.lastActivity - a.lastActivity)');
+ js=js.replace('n.jsx(H, { variant: "secondary", icon: "chat", className: "mt-5", onClick: () => a({ type: "hotel-chat-picker" }), children: "Написать в другой отель" })','null');
+ js=js.replaceAll('Можно написать любому отелю из каталога.','Чат с отелем появится после бронирования. Переписка сохранится и после поездки.');
+ js=js.replaceAll('Найдите отель по названию или откройте его карточку.','Чат появится после бронирования.');
+ js=js.replaceAll('Пока нет переписки. Напишите отелю из его карточки или нажмите «Новый чат».','Чат с отелем появится после бронирования.');
+ js=js.replace('title: "Другие отели", threads:', 'title: "Прошлые поездки", threads:');
+ js=js.replace('g?.text || "Задайте первый вопрос"', 'g?.text || "Переписка по бронированию"');
+
+ const chatActions=[
+ ['n.jsx("button", { onClick: () => a({ type: "hotel-chat-picker" }), "aria-label": "Новый чат", className: "grid size-10 shrink-0 place-items-center rounded-full bg-soft text-brand", children: n.jsx(D, { name: "plus", className: "size-5" }) })','n.jsx(KeysChatInboxAction,{})'],
+ ['n.jsx("button", { type: "button", "aria-label": "Новый чат", onClick: () => S(!k), className: "rounded-full bg-soft p-2 text-brand", children: n.jsx(D, { name: "plus", className: "size-5" }) })','n.jsx(KeysChatInboxAction,{})']
+ ];
+ for(const [from,to] of chatActions){if(!js.includes(from))throw Error('Chat notification action anchor missing');js=js.replace(from,to);}
+
  js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-times.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);
@@ -45,6 +61,7 @@ export async function buildSections(){
  const mapPath=path.join(stage,'assets/HotelMapCanvas-BsuxVUsR.js');
  await writeFile(mapPath,await adaptResultMap(await readFile(mapPath,'utf8')));
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Arbana integration anchor missing: '+a.slice(0,100));js=js.replace(a,b);};
+ replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type==="OPEN"&&t.screen?.type==="hotel-chat-picker")return e;\n  if(e.keysCheckoutIdentity&&((t.type==="OPEN"&&t.screen?.type==="chat")||["HOTEL_CHAT_OPEN","HOTEL_CHAT_DRAFT","HOTEL_CHAT_SEND"].includes(t.type))&&!keysBookedChatHotelIds(e).has(t.hotelId||t.screen?.hotelId))return Na(e,"Чат с отелем доступен после бронирования.");');
  replace('const h = gw(e);', 'const h = a.keysCheckoutIdentity ? a.profile : gw(e);');
  replace('const a = gw(t), r = t.personaId;', 'const a = e.keysCheckoutIdentity ? e.profile : gw(t), r = t.personaId;');
  replace('const Gv = typeof window < "u" && true','const Gv = false'); // Host owns browser history; reducer keeps screen history.
@@ -111,7 +128,10 @@ export async function buildSections(){
  replace('new URLSearchParams(location.search).has("headerSearch") && m?.focus({preventScroll:true})', '(new URLSearchParams(location.search).has("headerSearch") || m?.getAttribute("aria-label") === "Поделиться поездкой") && m?.focus({ preventScroll: true })');
  js+='\n'+(await readFile(path.join(root,'src/sections/trip-share-link.mjs'),'utf8')).replace('export function','function');
  js+='\n'+await readFile(path.join(root,'src/booking/details-view.js'),'utf8');
- js+='\n'+await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8');
+ js=''+await readFile(path.join(root,'src/scenarios/push-demo-data.js'),'utf8')+'\n'+await readFile(path.join(root,'src/scenarios/system-inbox.js'),'utf8')+'\n'+await readFile(path.join(root,'src/scenarios/notification-model.js'),'utf8')+'\n'+js;
+ js+='\n'+(await readFile(path.join(root,'src/sections/booking-chats.mjs'),'utf8')).replaceAll('export function','function');
+ js+='\n'+(await readFile(path.join(root,'src/sections/runtime-adapter.js'),'utf8')).replace('__KEYS_CHAT_HISTORY__',JSON.stringify(keysChatHistory.map(({id,hotelId})=>({id,hotelId}))));
+ js+='\n'+await readFile(path.join(root,'src/sections/notification-center.js'),'utf8');
  await writeFile(path.join(stage,'assets/index-C4VobzN0.js'),js);
  let runtime=adapt2gisRuntime(await readFile(path.join(stage,'runtime.js'),'utf8'));
  runtime=runtime.replace("const key = 'pora-static-data-v1';","const key = new URLSearchParams(location.search).has('keysBookingChange') ? 'keys-arbana-booking-change-v1' : 'keys-arbana-sections-v1';");

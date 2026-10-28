@@ -26,3 +26,11 @@ test('all push examples have a filter category and hotel identity',()=>{
  for(const item of context.KeysPushCatalog.types){const enriched=model.get(item.id);assert.ok(enriched.hotelId);assert.ok(model.categories.some(([id])=>id===enriched.category));}
  assert.equal(model.get('invalid'),undefined);
 });
+test('timeline groups a filtered inbox chronologically across month boundaries',()=>{
+ const items=[{id:'old',hotelId:'more',createdAt:'2026-09-29T12:00:00'}, {id:'yesterday',hotelId:'maidens',createdAt:'2026-09-30T21:00:00'}, {id:'today',hotelId:'maidens',createdAt:'2026-10-01T12:00:00'}];
+ const groups=model.groupByDate(items,new Date('2026-10-01T15:00:00'));
+ assert.deepEqual(Array.from(groups,g=>g.label),['Сегодня','Вчера','29 сентября']);
+ assert.deepEqual(Array.from(groups,g=>g.items[0].id),['today','yesterday','old']);
+ assert.equal(model.groupByDate(model.select(items,{hotelId:'maidens'})).flatMap(g=>g.items).length,2);
+ assert.equal(model.groupByDate([]).length,0);
+});

@@ -8,8 +8,16 @@
  ];
  const types=()=>[...globalThis.KeysPushCatalog.types.map(item=>({...item,hotelId:'maidens',hotel:'Maidens Hotel',category:byType[item.id]})),...examples];
  const get=id=>types().find(item=>item.id===id);
- const legacy=item=>({...item,hotelId:item.hotelId||(item.category==='account'?null:'maidens'),hotel:item.hotel||(item.category==='account'?'Ключи':'Maidens Hotel'),category:['stay-feedback','checkout-feedback'].includes(item.target)?'review':item.category==='account'?'account':item.category==='trip'?'stay':item.category});
+ const legacy=item=>({...item,title:globalThis.KeysGuestCopy?.text(item.title)??item.title,body:globalThis.KeysGuestCopy?.text(item.body)??item.body,hotelId:item.hotelId||(item.category==='account'?null:'maidens'),hotel:item.hotel||(item.category==='account'?'Ключи':'Maidens Hotel'),category:['stay-feedback','checkout-feedback'].includes(item.target)?'review':item.category==='account'?'account':item.category==='trip'?'stay':item.category});
  const select=(items,{category='all',hotelId=null}={})=>items.filter(item=>(category==='all'||item.category===category)&&(!hotelId||item.hotelId===hotelId)).sort((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt));
  const group=items=>{const groups=new Map();for(const item of items){const key=item.hotelId||'keys';if(!groups.has(key))groups.set(key,{id:key,hotel:item.hotel||'Ключи',items:[]});groups.get(key).items.push(item);}return [...groups.values()];};
- globalThis.KeysNotificationModel={categories,get,legacy,select,group,examples};
+ const groupByDate=(items,now=new Date())=>{
+  const key=value=>{const d=new Date(value);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+  const today=key(now),yesterday=new Date(now);yesterday.setDate(yesterday.getDate()-1);
+  const groups=new Map();for(const item of select(items)){const id=key(item.createdAt),d=new Date(item.createdAt);
+   if(!groups.has(id))groups.set(id,{id,label:id===today?'Сегодня':id===key(yesterday)?'Вчера':d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'}),date:d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}),items:[]});
+   groups.get(id).items.push(item);
+  }return [...groups.values()];
+ };
+ globalThis.KeysNotificationModel={categories,get,legacy,select,group,groupByDate,examples};
 })();

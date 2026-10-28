@@ -28,6 +28,9 @@ export async function buildSections(){
  execFileSync(process.execPath,[path.join(vendor,'scripts/build.mjs')],{stdio:'pipe'});
  let js=(await transform(await readFile(path.join(stage,'assets/index-C4VobzN0.js'),'utf8'),{minify:false,charset:'utf8'})).code;
  js=(await readFile(path.join(root,'src/booking/stay-time-pricing.js'),'utf8'))+'\n'+js;
+ // Full guest labels must agree with the count after removing abbreviations.
+ js=js.replace('e.adults + (e.adults === 1 ? " взрослый" : " взрослых")','e.adults + (e.adults === 1 ? " гость" : " взрослых")');
+ js=js.replace('e.adults + " взр."','e.adults + (e.adults === 1 ? " гость" : " взрослых")').replace('e.childrenAges.length + " реб."','e.childrenAges.length + (e.childrenAges.length === 1 ? " ребёнок" : e.childrenAges.length < 5 ? " ребёнка" : " детей")');
  const paymentPath=path.join(stage,'assets/ReservationProcessing-DLNoz2B4.js');
  await writeFile(paymentPath,adaptPaymentSummaries(await adaptPayment(await readFile(paymentPath,'utf8')),await readFile(path.join(root,'src/sections/payment-booking-summary.js'),'utf8')));
  await writeFile(paymentPath,adaptCheckoutExtras(await readFile(paymentPath,'utf8')));
@@ -155,7 +158,7 @@ export async function buildSections(){
  await writeFile(bundlePath,bundle);
  let html=adaptLightThemeDocument(await readFile(path.join(dist,'index.html'),'utf8'));
  html=html.replace('<html lang="ru">','<html lang="ru" data-theme="light">');
- html=html.replace('<head>','<head><meta name="color-scheme" content="light only">');
+ html=html.replace('<head>','<head><script src="../copy/guest.js"></script><meta name="color-scheme" content="light only">');
  html=html.replace('./assets/app.js','./assets/app.js?v=checkin-style-1');
  html=html.replace('<head>','<head><script src="../maps/config.js"></script><script src="../maps/2gis.js"></script><script src="../scenarios/ideas-session.js"></script>');
  html=html.replace("script-src 'self'","script-src 'self' https://mapgl.2gis.com").replace("connect-src 'none'","connect-src 'self' https://*.2gis.com https://*.2gis.ru").replace("img-src 'self' data: blob:","img-src 'self' data: blob: https://*.2gis.com https://*.2gis.ru");

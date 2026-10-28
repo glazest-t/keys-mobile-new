@@ -139,7 +139,7 @@
   }});
  }
  const nightsLabel=n=>n+' '+(n%100>=11&&n%100<=14?'ночей':n%10===1?'ночь':n%10>=2&&n%10<=4?'ночи':'ночей');
- const partyLabel=()=>{const p=booking.party??{adults:booking.adults,childrenAges:[]};return [p.adults+' '+(p.adults===1?'взрослый':'взрослых'),p.childrenAges.length?p.childrenAges.length+' '+(p.childrenAges.length===1?'ребёнок':'детей'):null,p.pet?'с питомцем':null].filter(Boolean).join(' · ');};
+ const partyLabel=()=>{const p=booking.party??{adults:booking.adults,childrenAges:[]};return [p.adults+' '+(p.adults===1?'гость':'взрослых'),p.childrenAges.length?p.childrenAges.length+' '+(p.childrenAges.length===1?'ребёнок':p.childrenAges.length<5?'ребёнка':'детей'):null,p.pet?'с питомцем':null].filter(Boolean).join(' · ');};
  function updateBookingSummary(){
   if(booking.cancellation){screen.querySelector('.kpa-welcome-ribbon p').textContent='Бронь отменена';screen.querySelector('.kpa-arrival-countdown').textContent='Бронь отменена';screen.querySelector('.kpa-payment').innerHTML='<div class="kpa-total"><strong>К возврату '+money(booking.cancellation.refund)+'</strong></div><span>Возврат в обработке</span>';return;}
   const remaining=Math.max(0,Math.round((Date.parse(booking.arrival)-Date.parse(scenarioToday()))/86400000));

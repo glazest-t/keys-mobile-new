@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import {readFile,writeFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {rewriteJS} from './ux-copy-source.mjs';
+import {copyLiteral} from '../src/copy/tone-of-voice.mjs';
 const root=path.resolve(import.meta.dirname,'..');
 const read=p=>readFile(path.join(root,p),'utf8');
 const baseline=JSON.parse(await read('design/migration-baseline.json'));
@@ -17,7 +19,7 @@ assert.equal(current,expectedWithApprovedHomeEdits,'All original markup, content
 const scripts=s=>[...s.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]).filter(Boolean);
 const oldDist=await readFile(path.resolve(root,baseline.backup,'dist/index.html'),'utf8');
 const newDist=await read('dist/index.html');
-assert.deepEqual(scripts(newDist),scripts(oldDist).map(s=>s.replace('"Ассистент":"assistant"','"Чаты":"assistant"')),'Original inline application scripts must be preserved in the build');
+assert.deepEqual(scripts(newDist),scripts(oldDist).map(s=>rewriteJS(s.replace('"Ассистент":"assistant"','"Чаты":"assistant"'),copyLiteral)),'Original inline application scripts must be preserved apart from approved guest copy in parsed string literals');
 assert.equal((current.match(/<span>Чаты<\/span>/g)||[]).length,5);
 assert.ok(!/<button[^>]*class="[^"]*(?:k3|kp|kf|ktd|ksd)-tab[^>]*>[\s\S]*?<span>Профиль<\/span><\/button>/.test(current.replace(/<script[\s\S]*?<\/script>/g,'')),'Profile tab must remain removed');
 assert.match(newDist,/arbana\/tokens.css/);assert.match(newDist,/arbana\/theme.css/);assert.match(newDist,/arbana\/icons.js/);

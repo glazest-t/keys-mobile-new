@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { stampAssets } from "./scripts/stamp-assets.mjs";
 import { buildSections } from "./scripts/build-sections.mjs";
 import { buildArbanaTheme } from "./scripts/arbana-theme.mjs";
+import {buildUXCopy} from './scripts/build-ux-copy.mjs';
 
 const fragment = await readFile(new URL("./src/prototype.html", import.meta.url), "utf8");
 const document = `<!doctype html>
@@ -27,6 +28,7 @@ const document = `<!doctype html>
   <link rel="manifest" href="./manifest.webmanifest">
   <meta name="description" content="Интерактивный прототип мобильного приложения «Ключи» для путешественников.">
   <title>Ключи — интерактивный прототип</title>
+  <script src="./copy/guest.js"></script>
   <script src="./boot.js"></script>
   <script src="./scenarios/phone-mask.js"></script>
   <script src="./scenarios/demo-form-defaults.js"></script>
@@ -184,6 +186,7 @@ await cp(new URL("./src/boot.js", import.meta.url), new URL("./dist/boot.js", im
 await buildMaps();
 await buildSections();
 await cp(new URL("./src/brand/", import.meta.url), new URL("./dist/brand/", import.meta.url), { recursive: true });
+await buildUXCopy();
 await stampAssets(fileURLToPath(new URL("./dist/", import.meta.url)));
 
 await buildUIkit();

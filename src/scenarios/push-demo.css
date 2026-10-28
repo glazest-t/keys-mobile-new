@@ -65,7 +65,7 @@ button.keys-phone-app{cursor:pointer}
 #keysPushDemo .keys-push-phone.is-compact .keys-phone-app{gap:6px;font-size:10px}
 #keysPushDemo .keys-push-phone.is-compact .keys-phone-dock{padding:12px;bottom:24px}
 /* Two testable notification entry patterns share one inbox. */
-body[data-keys-notice-layout=chats] #keysUnifiedPrototype .keys-app-header .keys-app-bell{display:none!important}
+body[data-keys-notice-layout=chats]:not([data-keys-view=desktop]) #keysUnifiedPrototype .keys-app-header .keys-app-bell{display:none!important}
 body[data-keys-selected-scenario=notifications] #keysScenarioControls .keys-scenario-control:has(#keys-notice-layout-toggle){grid-column:1/-1;grid-row:3}
 body[data-keys-selected-scenario=notifications] #keysPushControls{grid-row:4}
 @media(max-width:760px){body[data-keys-selected-scenario=notifications] #keysScenarioControls .keys-scenario-control:has(#keys-notice-layout-toggle){grid-row:4}body[data-keys-selected-scenario=notifications] #keysPushControls{grid-row:5}}

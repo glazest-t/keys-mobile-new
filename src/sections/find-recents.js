@@ -40,14 +40,14 @@ function B4() {
    n.jsx('p',{className:'keys-find-history-caption',children:'Вы недавно искали'}),
    n.jsx('div',{className:'keys-find-history-track',children:searches.map(search=>{
     const adults=search.party.adults;
-    const adultLabel=`${adults} ${adults%10===1&&adults%100!==11?'взрослый':'взрослых'}`;
+    const adultLabel=`${adults} ${adults%10===1&&adults%100!==11?'гость':'взрослых'}`;
     return n.jsxs('button',{type:'button',className:'keys-find-history-card',onClick:()=>keysRepeatSearch(dispatch,search),
      'aria-label':`Повторить поиск: ${search.city}, ${DE(search.arrival,search.departure)}, ${adultLabel}`,
      children:[
       n.jsx(D,{name:'clock',className:'keys-find-history-clock'}),
       n.jsxs('span',{className:'keys-find-history-city',children:[n.jsx('strong',{children:search.city}),n.jsx(D,{name:'chevron',className:'size-4'})]}),
       n.jsx('span',{className:'keys-find-history-dates',children:DE(search.arrival,search.departure)}),
-      n.jsx('span',{className:'keys-find-history-guests',children:[n.jsx('span',{className:'keys-history-mobile-guests',children:`${adults} взр.`}),n.jsx('span',{className:'keys-history-desktop-guests',children:adultLabel})]})
+      n.jsx('span',{className:'keys-find-history-guests',children:[n.jsx('span',{className:'keys-history-mobile-guests',children:adultLabel}),n.jsx('span',{className:'keys-history-desktop-guests',children:adultLabel})]})
      ]},search.at);
    })})
   ]}),

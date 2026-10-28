@@ -5,8 +5,8 @@
  if(!scroll)return;
  const section=document.createElement('section');
  section.className='keys-trip-history';section.setAttribute('aria-label','История поездок');
- section.innerHTML=`<button type="button" class="keys-trip-history-card" aria-label="Ваши прошлые поездки — открыть историю">
-  <span class="keys-trip-history-copy"><strong>Ваши прошлые<br>поездки</strong><span class="keys-trip-history-link">Открыть историю <i data-lucide="chevron-right" aria-hidden="true"></i></span></span>
+ section.innerHTML=`<button type="button" class="keys-trip-history-card" aria-label="Прошлые и будущие поездки — открыть брони">
+  <span class="keys-trip-history-copy"><strong>Прошлые и<br>будущие поездки</strong><span class="keys-trip-history-link">Открыть брони <i data-lucide="chevron-right" aria-hidden="true"></i></span></span>
   <img class="keys-trip-history-art" src="./scenarios/assets/trip-history-album.png" width="165" height="120" alt="" decoding="async">
  </button>`;
  scroll.append(section);

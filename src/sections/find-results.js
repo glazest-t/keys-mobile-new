@@ -368,6 +368,23 @@ function keysNormalizeHotelFilters(filters,search){
  return [...new Set(next)];
 }
 function keysFilterSelected(filters,group,label){return filters.includes(keysHotelFilterValue(group,label))||!!keysFilterAliases[label]&&filters.includes(keysFilterAliases[label]);}
+// Carry guest preferences into the same filter values used by both layouts.
+// Remember the applied choices so opening/searching again does not restore a
+// filter the guest has deliberately removed. Guest counts and ages stay intact.
+function keysSyncSearchPartyFilters(state,action,next){
+ if(action.type!=='SEARCH_SUBMIT'&&!(action.type==='SEARCH_PATCH'&&action.patch?.party))return next;
+ if(action.type==='SEARCH_PATCH'&&!Bt(action.patch.party))return next;
+ const party=next.search.party,previous=state.search.keysPartyFilterSelection||{};
+ const selection={children:party.childrenAges.length>0,pet:!!party.pet,car:!!party.car};
+ let filters=[...next.search.filters];
+ for(const [key,groupId,label] of [['children','suitable','Можно с детьми'],['pet','suitable','Можно с питомцем'],['car','parking','Есть парковка']]){
+  if(selection[key]===previous[key]||!selection[key]&&!previous[key])continue;
+  const group=keysHotelFilterGroups.find(item=>item.id===groupId),value=keysHotelFilterValue(group,label);
+  filters=filters.filter(item=>item!==value&&item!==keysFilterAliases[label]);
+  if(selection[key])filters.push(value);
+ }
+ return {...next,search:{...next.search,filters,keysPartyFilterSelection:selection}};
+}
 function keysToggleHotelFilter(filters,group,label){
  const selected=keysFilterSelected(filters,group,label);
  const rest=filters.filter(v=>v!==keysHotelFilterValue(group,label)&&v!==keysFilterAliases[label]&&(group.id!=='stars'||!['От 4 звёзд','5 звёзд'].includes(v)));

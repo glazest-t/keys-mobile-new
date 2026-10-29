@@ -15,7 +15,7 @@ test('host stay stays Maidens, catalogue retains original 30 hotels and adds his
  assert.equal(s.chat.conversations.maidens.hotelId,'maidens');
 });
 test('search parameters and results survive Find → Chats → Find',()=>{
- let s=e.keysInitialState();s=run(s,{type:'SEARCH_PATCH',patch:{city:'Сочи',party:{adults:1,childrenAges:[7],pet:true,business:false},filters:['spa']}});s=run(s,{type:'SEARCH_SUBMIT',city:'Сочи'});s=run(s,{type:'NAV_TAB',tab:'chats'});s=run(s,{type:'NAV_TAB',tab:'find'});assert.equal(s.search.results,true);assert.deepEqual(s.search.filters,['spa']);assert.deepEqual(s.search.party.childrenAges,[7]);
+ let s=e.keysInitialState();s=run(s,{type:'SEARCH_PATCH',patch:{city:'Сочи',party:{adults:1,childrenAges:[7],pet:true,business:false},filters:['spa']}});s=run(s,{type:'SEARCH_SUBMIT',city:'Сочи'});s=run(s,{type:'NAV_TAB',tab:'chats'});s=run(s,{type:'NAV_TAB',tab:'find'});assert.equal(s.search.results,true);assert.deepEqual(s.search.filters,['spa','Возможности бронирования: Можно с детьми','Возможности бронирования: Можно с питомцем']);assert.deepEqual(s.search.party.childrenAges,[7]);
 });
 test('map → hotel → back returns to map',()=>{
  let s=e.keysInitialState();s=run(s,{type:'OPEN',screen:{type:'hotel-map'}});s=run(s,{type:'OPEN',screen:{type:'hotel',hotelId:'more'}});s=run(s,{type:'BACK'});assert.equal(s.navigation.screen.type,'hotel-map');
@@ -92,7 +92,7 @@ test('recent searches restore guests, car preference, filters and sorting withou
  let state=e.keysInitialState();
  e.keysRepeatSearch(action=>{state=run(state,action)},saved.searches[0]);
  assert.equal(state.search.city,'Сочи');assert.equal(state.search.departure,'2026-10-20');
- assert.deepEqual(state.search.party,search.party);assert.deepEqual(state.search.filters,search.filters);
+ assert.deepEqual(state.search.party,search.party);assert.deepEqual(state.search.filters,[...search.filters,'Возможности бронирования: Можно с детьми','Парковка: Есть парковка']);
  assert.equal(state.search.sort,'price');assert.equal(state.search.results,true);
  // Repeating a search moves it up without adding duplicate cards; different filters remain distinct.
  e.recordSearch(user,search,120);assert.equal(e.recentHistory(user).searches.length,1);

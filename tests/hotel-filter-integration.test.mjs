@@ -49,3 +49,46 @@ test('nightly price mode filters nightly rates and persists with the search draf
  assert.equal(next.search.keysPricePerNight,true);
  assert.deepEqual(next.search.filters,filters);
 });
+
+test('guest choices preselect matching hotel filters and parking affects results',()=>{
+ let state=e.keysInitialState();
+ const party={adults:2,childrenAges:[7],pet:true,car:true,business:true};
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{city:'Сочи',party,filters:['Общие удобства: Wi-Fi']}});
+ for(const value of ['Возможности бронирования: Можно с детьми','Возможности бронирования: Можно с питомцем','Парковка: Есть парковка','Общие удобства: Wi-Fi'])assert.ok(state.search.filters.includes(value),value);
+ assert.equal(state.search.filters.length,4);
+ state=e.reducer(state,{type:'SEARCH_SUBMIT',city:'Сочи'});
+ const matches=e.searchHotels(state.search);
+ assert.ok(matches.length>0);
+ assert.ok(matches.every(h=>h.family&&h.pets&&h.parking));
+ assert.deepEqual(state.search.party,party);
+});
+
+test('removing guest choices clears related filters and preserves unrelated ones',()=>{
+ let state=e.keysInitialState();
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{adults:2,childrenAges:[5],pet:true,car:true,business:false},filters:['С завтраком']}});
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{adults:2,childrenAges:[],pet:false,car:false,business:false}}});
+ assert.deepEqual(state.search.filters,['С завтраком']);
+});
+
+test('filter reset and manual edits are not overwritten by reopening search or changing ages',()=>{
+ let state=e.keysInitialState();
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{adults:2,childrenAges:[5],pet:true,car:true,business:false}}});
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{filters:[]}});
+ state=e.reducer(state,{type:'SEARCH_SUBMIT',city:'Сочи'});
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{...state.search.party,childrenAges:[6]}}});
+ assert.deepEqual(state.search.filters,[]);
+ assert.deepEqual(state.search.party.childrenAges,[6]);
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{...state.search.party,car:false}}});
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{...state.search.party,car:true}}});
+ assert.deepEqual(state.search.filters,['Парковка: Есть парковка']);
+});
+
+test('existing guest settings are reflected on first submit and invalid ages do not apply',()=>{
+ let state=e.keysInitialState();
+ state={...state,search:{...state.search,party:{adults:2,childrenAges:[],pet:true,car:true,business:false},filters:[]}};
+ state=e.reducer(state,{type:'SEARCH_SUBMIT',city:'Сочи'});
+ assert.deepEqual(state.search.filters,['Возможности бронирования: Можно с питомцем','Парковка: Есть парковка']);
+ const before=state.search;
+ state=e.reducer(state,{type:'SEARCH_PATCH',patch:{party:{...state.search.party,childrenAges:[-1]}}});
+ assert.deepEqual(state.search,before);
+});

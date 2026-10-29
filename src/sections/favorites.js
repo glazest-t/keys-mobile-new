@@ -103,7 +103,7 @@ function keysFavoritesReduce(state,action,next){
  if(removing&&next.keysFavoriteNotice?.hotelIds.some(id=>!after.includes(id)))next={...next,keysFavoriteNotice:null};
  return {...next,keysFavoriteGroups:updated,keysFavoritePending:pending.length?pending:null,keysFavoriteIntents:(next.keysFavoriteIntents||[]).filter(id=>!added.includes(id))};
 }
-function Pt(state,action){if(action.type==='KEYS_REBOOK')return keysRepeatBookingState(state,action);if(action.type.startsWith('KEYS_SWIPE_'))return keysSwipePreferencesReduce(state,action);return keysFavoritesReduce(state,action,action.type.startsWith('KEYS_FAVORITE_')?state:keysFavoritesBaseReducer(state,action));}
+function Pt(state,action){if(action.type==='KEYS_REBOOK')return keysRepeatBookingState(state,action);if(action.type.startsWith('KEYS_SWIPE_'))return keysSwipePreferencesReduce(state,action);return keysSyncSearchPartyFilters(state,action,keysFavoritesReduce(state,action,action.type.startsWith('KEYS_FAVORITE_')?state:keysFavoritesBaseReducer(state,action)));}
 function KeysFavoriteListForm({onClose}){
  const {state,dispatch}=J(),groups=keysFavoriteGroups(state),[name,setName]=E.useState('');
  const pending=!!state.keysFavoritePending?.length;

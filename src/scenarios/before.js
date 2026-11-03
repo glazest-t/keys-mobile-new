@@ -56,6 +56,7 @@
  const serviceCard=({action,icon,title,label})=>`<button type="button" class="kpa-service" ${action}><span class="kpa-service-icon" aria-hidden="true">${icon}</span><span class="kpa-service-copy"><strong>${title}</strong><span class="kpa-service-status">Не включён в бронь</span></span><span class="kpa-service-action"><span class="kpa-service-link">${label}</span>${svg('<path d="M12 5v14M5 12h14"/>')}</span></button>`;
  screen.querySelector('[data-early-slot]').outerHTML=serviceCard({action:'data-before="early"',icon:earlyIcon,title:'Ранний заезд',label:'Добавить'});
  screen.querySelector('[data-breakfast-slot]').outerHTML=serviceCard({action:'data-home-action="breakfast"',icon:coffeeIcon,title:'Завтрак',label:'Добавить'});
+ const originalPreparation=[...screen.querySelector('.kpa-preparation').childNodes];
  const breakfastButton=screen.querySelector('[data-home-action="breakfast"]');
  const syncBreakfast=()=>{
   if(window.KeysPrimaryBooking&&document.body.dataset.keysScenario==='booked')return;
@@ -170,6 +171,16 @@
  }
  function updateBookingSummary(){
   if(window.KeysPrimaryBooking&&document.body.dataset.keysScenario==='booked')return updatePrimaryBooking(window.KeysPrimaryBooking);
+  if(screen.dataset.primaryBooking){
+   delete screen.dataset.primaryBooking;
+   screen.querySelector('.kpa-hotel-heading h1').textContent='Maidens Hotel';
+   screen.querySelector('.kpa-hotel-heading>span').innerHTML=icons.pin+' Москва';
+   const photo=screen.querySelector('.kpa-hotel-photo');photo.src='./scenarios/maidens-hotel.jpg';photo.alt='Maidens Hotel';
+   const preparation=screen.querySelector('.kpa-preparation');preparation.replaceChildren(...originalPreparation);preparation.hidden=false;
+   screen.querySelector('#kpa-nearby').hidden=false;
+   screen.querySelector('.kpa-payment-status').classList.remove('is-partial');
+   syncBreakfast();
+  }
   if(booking.cancellation){screen.querySelector('.kpa-welcome-ribbon p').textContent='Бронь отменена';screen.querySelector('.kpa-arrival-countdown').textContent='Бронь отменена';screen.querySelector('.kpa-payment').innerHTML='<div class="kpa-total"><strong>К возврату '+money(booking.cancellation.refund)+'</strong></div><span>Возврат в обработке</span>';return;}
   const remaining=Math.max(0,Math.round((Date.parse(booking.arrival)-Date.parse(scenarioToday()))/86400000));
   screen.querySelector('.kpa-arrival-countdown').innerHTML=remaining===0?'Заезд сегодня':'<b>'+remaining+'</b> '+(remaining%100>=11&&remaining%100<=14?'дней':remaining%10===1?'день':remaining%10>=2&&remaining%10<=4?'дня':'дней')+' до заезда';

@@ -1,4 +1,19 @@
 // Prototype payments: no card details or banking requests are collected.
+// The settings preset uses the real checkout reducer and restores the preceding
+// runtime on exit. Re-selecting it starts a fresh 30% prepayment demonstration.
+function keysPartialDemoReduce(state,action){
+ if(!action.enabled)return state.keysPartialDemoSnapshot||state;
+ if(state.keysPartialDemoId&&!action.reset)return state;
+ const snapshot=state.keysPartialDemoSnapshot||state,now=Date.parse('2026-09-04T10:00:00Z');
+ let demo={...snapshot,tripContext:{...snapshot.tripContext,preset:'booked',today:'2026-09-04',hasBooking:true},keysCreatedBookings:{},keysExternalPayments:{},keysExternalPaymentNotice:null,keysBalancePayment:null,reservation:null,search:{...snapshot.search,city:'Москва',arrival:'2026-09-12',departure:'2026-09-19',party:{adults:1,childrenAges:[],pet:false,business:false}}};
+ const run=action=>{demo=Pt(demo,{now,...action});};
+ run({type:'HOTEL_OPEN',id:'maidens'});run({type:'RESERVATION_START'});
+ demo={...demo,reservation:{...demo.reservation,contact:{firstName:'Татьяна',lastName:'Глазырина',phone:'+7 (900) 123-45-67',email:'guest@example.test',citizenship:'Российская Федерация'},saveContact:false,extras:[],usePoints:false,paymentOutcomes:['success']}};
+ run({type:'RESERVATION_NEXT'});run({type:'RESERVATION_CONTACT',contact:{firstName:'Татьяна',lastName:'Глазырина',phone:'+7 (900) 123-45-67',email:'guest@example.test',citizenship:'Российская Федерация'}});run({type:'RESERVATION_METHOD',method:'card'});run({type:'KEYS_PAYMENT_PLAN',plan:'deposit30'});
+ run({type:'RESERVATION_PAY',draftId:demo.reservation.id});run({type:'MOCK_PROGRESS',now:now+600000});
+ const id='MD-120926-30',booking={...demo.booking,id},draft={...demo.reservation,bookedId:id};
+ return {...demo,booking,reservation:draft,keysCreatedBookings:{[id]:{booking,draft}},keysPartialDemoId:id,keysPartialDemoSnapshot:snapshot,keysBalanceAttempt:Math.max(state.keysBalanceAttempt||0,snapshot.keysBalanceAttempt||0),tripContext:{...demo.tripContext,preset:'booked',today:'2026-09-04',hasBooking:true},navigation:{tab:'find',screen:null,history:[]}};
+}
 const keysCardPaymentPlans=[{id:'full',label:'Оплата полностью'},{id:'deposit30',label:'Предоплата 30%'},{id:'first-night',label:'Оплата первой ночи'}];
 function keysPaymentSplit(draft){
  const total=YA(draft),plan=draft.paymentMethod==='card'?(draft.keysPaymentPlan||'full'):'full';

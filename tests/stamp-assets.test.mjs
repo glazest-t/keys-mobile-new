@@ -8,6 +8,7 @@ test('changing an imported name invalidates the child, importer and HTML entry U
  const dir=await mkdtemp(join(tmpdir(),'keys-assets-'));
  try{
   await mkdir(join(dir,'sections'));
+  await mkdir(join(dir,'payment'));await writeFile(join(dir,'payment/index.html'),'');
   for(const page of ['index.html','home-calendar.html','header-concepts.html','sections/index.html'])await writeFile(join(dir,page),page.includes('/')?'':`<script type="module" src="./auth.js?v=old"></script>`);
   await writeFile(join(dir,'auth.js'),"import {name} from './benefits.js'; console.log(name);");
   await writeFile(join(dir,'benefits.js'),"export const name='Первое имя';");
@@ -23,6 +24,7 @@ test('iframe content changes invalidate the iframe URL and host entry',async()=>
  const dir=await mkdtemp(join(tmpdir(),'keys-frame-assets-'));
  try{
   await mkdir(join(dir,'sections'));
+  await mkdir(join(dir,'payment'));await writeFile(join(dir,'payment/index.html'),'');
   for(const page of ['index.html','home-calendar.html','header-concepts.html'])await writeFile(join(dir,page),'<script src="./host.js?v=old"></script>');
   await writeFile(join(dir,'host.js'),"frame.src='./sections/index.html?v=old&loyalty=Silver';");
   await writeFile(join(dir,'sections/index.html'),'<script src="./find.js?v=old"></script>');

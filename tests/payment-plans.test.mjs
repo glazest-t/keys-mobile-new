@@ -66,3 +66,50 @@ test('paying a previous booking preserves a newer checkout draft',()=>{
  s=run(s,{type:'KEYS_BALANCE_START',bookingId:id});s=run(s,{type:'KEYS_BALANCE_RESULT',bookingId:id,attempt:s.keysBalancePayment.attempt});
  assert.equal(s.reservation,newDraft);assert.equal(s.keysCreatedBookings[id].booking.payment.status,'paid');assert.equal(e.keysBookingPaymentBalance(s.keysCreatedBookings[id].draft,s.keysCreatedBookings[id].booking),0);
 });
+
+test('partial-payment preset opens a confirmed Maidens booking and supports balance payment',()=>{
+ const original=e.keysInitialState();let s=run(original,{type:'KEYS_PARTIAL_DEMO',enabled:true});
+ assert.equal(s.booking.hotelId,'maidens');assert.equal(s.reservation.status,'confirmed');
+ assert.equal(s.booking.payment.status,'partial');assert.equal(s.booking.payment.amount,Math.round(e.checkoutTotal(s.reservation).total*.3));
+ const id=s.keysPartialDemoId;assert.equal(s.keysCreatedBookings[id].booking.id,id);
+ assert.equal(e.keysBookingDetailsModel(s.reservation,s.booking).paid,s.booking.payment.amount);
+ s=run(s,{type:'KEYS_BALANCE_START',bookingId:id});s=run(s,{type:'KEYS_BALANCE_RESULT',bookingId:id,attempt:s.keysBalancePayment.attempt});
+ assert.equal(s.booking.payment.status,'paid');assert.equal(s.booking.dueAtHotel,0);
+ assert.equal(run(s,{type:'KEYS_PARTIAL_DEMO',enabled:true}),s,'return from payment keeps paid status');
+ s=run(s,{type:'KEYS_PARTIAL_DEMO',enabled:true,reset:true});assert.equal(s.booking.payment.status,'partial');
+ assert.equal(run(s,{type:'KEYS_PARTIAL_DEMO',enabled:false}),original,'leaving restores the previous runtime');
+});
+test('partial-payment preset isolates existing reservations and ignores old payment callbacks after reset',()=>{
+ const original=confirm(prepare('first-night'));let s=run(original,{type:'KEYS_PARTIAL_DEMO',enabled:true});
+ s=run(s,{type:'KEYS_BALANCE_START',bookingId:s.keysPartialDemoId});const stale={type:'KEYS_BALANCE_RESULT',bookingId:s.keysPartialDemoId,attempt:s.keysBalancePayment.attempt};
+ s=run(s,{type:'KEYS_PARTIAL_DEMO',enabled:true,reset:true});const reset=s;
+ assert.equal(run(s,stale),reset);
+ s=run(s,{type:'KEYS_BALANCE_START',bookingId:s.keysPartialDemoId});const fresh=s;
+ assert.notEqual(s.keysBalancePayment.attempt,stale.attempt);assert.equal(run(s,stale),fresh);
+ assert.equal(run(s,{type:'KEYS_PARTIAL_DEMO',enabled:false}),original);
+});
+
+test('external payment validates its registered session and settles the exact booking once',()=>{
+ let s=confirm(prepare('deposit30'));const id=s.booking.id,amount=e.keysBookingPaymentBalance(s.reservation,s.booking),token='test-external-1';
+ const unregistered=run(s,{type:'KEYS_EXTERNAL_RESULT',token,bookingId:id,amount});assert.equal(unregistered,s);
+ s=run(s,{type:'KEYS_EXTERNAL_OPEN',token,bookingId:id,amount});assert.equal(s.keysExternalPayments[token].status,'ready');
+ s=run(s,{type:'KEYS_EXTERNAL_RESULT',token,bookingId:id,amount});assert.equal(s.keysExternalPayments[token].status,'paid');assert.equal(s.booking.payment.status,'paid');assert.equal(s.booking.dueAtHotel,0);assert.equal(s.keysExternalPaymentNotice.bookingId,id);
+ assert.equal(run(s,{type:'KEYS_EXTERNAL_RESULT',token,bookingId:id,amount}),s);
+});
+test('external payment rejects changed amount, expired sessions and cancelled bookings',()=>{
+ for(const reason of ['amount','expired','cancelled']){
+  let s=confirm(prepare('deposit30'));const id=s.booking.id,amount=e.keysBookingPaymentBalance(s.reservation,s.booking),paid=s.booking.payment.amount,token='test-'+reason;
+  s=run(s,{type:'KEYS_EXTERNAL_OPEN',token,bookingId:id,amount});
+  if(reason==='cancelled')s=run(s,{type:'KEYS_BOOKING_CANCELLED',bookingId:id,result:e.keysBookingCancellationQuote(s.reservation,s.booking,'2020-01-01')});
+  s=run(s,{type:'KEYS_EXTERNAL_RESULT',token,bookingId:id,amount:reason==='amount'?amount+1:amount,now:reason==='expired'?now+31*60*1000:now});
+  assert.equal(s.keysExternalPayments[token].status,'expired');assert.equal(s.booking.payment.amount,paid);assert.equal(s.keysExternalPaymentNotice,undefined);
+ }
+});
+test('multiple external tabs cannot settle a booking twice or settle a reset demo',()=>{
+ let s=run(e.keysInitialState(),{type:'KEYS_PARTIAL_DEMO',enabled:true});const id=s.keysPartialDemoId,amount=e.keysBookingPaymentBalance(s.reservation,s.booking);
+ for(const token of ['first','second'])s=run(s,{type:'KEYS_EXTERNAL_OPEN',token,bookingId:id,amount});
+ s=run(s,{type:'KEYS_EXTERNAL_RESULT',token:'first',bookingId:id,amount});
+ s=run(s,{type:'KEYS_EXTERNAL_RESULT',token:'second',bookingId:id,amount});assert.equal(s.keysExternalPayments.second.status,'expired');assert.equal(s.booking.payment.balancePayments.length,1);
+ s=run(s,{type:'KEYS_PARTIAL_DEMO',enabled:true,reset:true});const reset=s;
+ assert.equal(run(s,{type:'KEYS_EXTERNAL_RESULT',token:'first',bookingId:id,amount}),reset);assert.equal(s.booking.payment.status,'partial');
+});

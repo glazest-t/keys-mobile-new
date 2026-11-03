@@ -54,7 +54,7 @@ export async function buildSections(){
  ];
  for(const [from,to] of chatActions){if(!js.includes(from))throw Error('Chat notification action anchor missing');js=js.replace(from,to);}
 
- js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/payment-plans.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-times.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
+ js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/external-payment.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/payment-plans.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-times.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);
  js=adaptPaymentContact(js);

@@ -3,7 +3,7 @@ export function adaptCheckoutEngine(source,components){
  let js=source;
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Checkout anchor missing: '+a.slice(0,90));js=js.replace(a,b);};
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "KEYS_BOOKING_CANCELLED") return keysCancelCreatedBooking(e,t);');
- replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type==="KEYS_PAYMENT_PLAN"||t.type.startsWith("KEYS_BALANCE_"))return keysPaymentPlanReduce(e,t);');
+ replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type.startsWith("KEYS_EXTERNAL_"))return keysExternalPaymentReduce(e,t);\n if(t.type==="KEYS_PARTIAL_DEMO")return keysPartialDemoReduce(e,t);\n if(t.type==="KEYS_PAYMENT_PLAN"||t.type.startsWith("KEYS_BALANCE_"))return keysPaymentPlanReduce(e,t);');
  replace('function YA(e) {','function keysBaseCheckoutTotal(e) {');
  replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type==="KEYS_STAY_TIME")return keysSetStayTime(e,t);');
  replace('arrivalTime: "15:00", documentsSaved: false, issue: null, reviews: {} }, h = a.extras', 'arrivalTime: keysStayTimeQuote(a).checkIn, checkInTime:keysStayTimeQuote(a).checkIn,checkOutTime:keysStayTimeQuote(a).checkOut,keysStayTimeCharge:keysStayTimeQuote(a).total, documentsSaved: false, issue: null, reviews: {} }, h = a.extras');

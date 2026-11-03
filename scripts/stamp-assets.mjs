@@ -30,7 +30,7 @@ export async function stampAssets(root) {
   const version=hash(content);versions.set(path,version);return version;
  }
  // Stamp the iframe's dependencies before hashing its HTML in the host script.
- for (const page of ['sections/index.html','index.html','home-calendar.html','header-concepts.html']) {
+ for (const page of ['sections/index.html','index.html','home-calendar.html','header-concepts.html','payment/index.html']) {
   const path=resolve(root,page);
   let html=await readFile(path,'utf8');
   const refs=[...html.matchAll(/(?:src|href)="(\.\.?\/[^"?]+\.(?:js|css))(?:\?[^"#]*)?"/g)];

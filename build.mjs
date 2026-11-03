@@ -100,6 +100,7 @@ ${fragment}
 <script type="module" src="./home/door.js"></script>
 <link rel="stylesheet" href="./booking/booking.css?v=completed-details-clean-1">
 <link rel="stylesheet" href="./booking/details-view.css">
+<link rel="stylesheet" href="./booking/payment-notice.css">
 <script src="./booking/details-view.js"></script>
 <script src="./booking/documents-model.js"></script>
 <script src="./booking/booking.js?v=clean-prototype-copy-1"></script>
@@ -183,6 +184,7 @@ await cp(new URL("./src/scenarios/", import.meta.url), new URL("./dist/scenarios
 await cp(new URL("./src/profile/", import.meta.url), new URL("./dist/profile/", import.meta.url), { recursive: true });
 await cp(new URL("./src/arbana/service-cards.css", import.meta.url), new URL("./dist/arbana/service-cards.css", import.meta.url));
 await cp(new URL("./src/boot.js", import.meta.url), new URL("./dist/boot.js", import.meta.url));
+await cp(new URL("./src/payment/", import.meta.url), new URL("./dist/payment/", import.meta.url), { recursive: true });
 await buildMaps();
 await buildSections();
 await cp(new URL("./src/brand/", import.meta.url), new URL("./dist/brand/", import.meta.url), { recursive: true });

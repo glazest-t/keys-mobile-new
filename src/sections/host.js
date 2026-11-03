@@ -41,6 +41,18 @@
     });
   };
   const notificationDay=(scenario=document.body.dataset.keysScenario,day=document.body.dataset.keysStayDay)=>scenario==='after'?'after':scenario==='stay'?(day==='key-error'?'day-2':day??'day-2'):'day-1';
+  let partialDemoActive=false,primaryBeforePartial=null;
+  const syncPartialDemo=(reset=false)=>{
+    const enabled=document.body.dataset.keysSelectedScenario==='booked-partial';
+    if(enabled!==partialDemoActive){
+      if(enabled){primaryBeforePartial=window.KeysPrimaryBooking||null;window.KeysPrimaryBooking=null;}
+      else window.KeysPrimaryBooking=primaryBeforePartial;
+      partialDemoActive=enabled;
+      go('trips');
+      root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));
+    }
+    if(ready)frame.contentWindow.postMessage({source:'keys-host',partialPaymentDemo:enabled,resetPartialDemo:reset},location.protocol==='file:'?'*':location.origin);
+  };
   const send=()=>{if(ready&&pending){frame.contentWindow.postMessage({source:'keys-host',...pending,swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,guestMode:document.body.dataset.keysGuestSearch==='true',guestAuthorized:document.body.dataset.keysGuestAuthorized==='true',hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);pending=null;}};
   const show=(tab,hotelId,screen,discovery,bookingId)=>{
     cancelProfileMotion();
@@ -136,6 +148,21 @@
   window.addEventListener('message',event=>{
     if(event.source!==frame.contentWindow||event.data?.source!=='keys-arbana')return;
     if(event.origin!==location.origin&&location.protocol!=='file:')return;
+    if(event.data.type==='payment-open-error'){
+      const dialog=document.createElement('dialog');dialog.className='keys-payment-notice';
+      dialog.innerHTML='<h2>Не удалось открыть оплату</h2><p></p><form method="dialog"><button class="kh-primary">Понятно</button></form>';
+      dialog.querySelector('p').textContent=event.data.reason==='popup'?'Разрешите открытие новой вкладки для этого прототипа и нажмите «Оплатить полностью» ещё раз.':'Не удалось подготовить данные оплаты. Проверьте, доступно ли хранилище браузера, и попробуйте ещё раз.';
+      dialog.addEventListener('close',()=>dialog.remove());root.append(dialog);dialog.showModal();return;
+    }
+    if(event.data.type==='payment-success'){
+      const notice=event.data,record=window.KeysTripBookings?.find(b=>b.id===notice.bookingId);
+      if(!record||record.paymentStatus!=='paid')return;
+      window.KeysPrimaryBooking=record;root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));go('trips');
+      let dialog=root.querySelector('.keys-payment-notice');
+      if(!dialog){dialog=document.createElement('dialog');dialog.className='keys-payment-notice';dialog.setAttribute('aria-labelledby','keys-payment-notice-title');dialog.innerHTML='<h2 id="keys-payment-notice-title">Оплата прошла успешно</h2><p></p><form method="dialog"><button class="kh-primary">К поездке</button></form>';root.append(dialog);}
+      dialog.querySelector('p').textContent=new Intl.NumberFormat('ru-RU').format(notice.amount)+' ₽ · '+notice.hotel+'. Бронирование полностью оплачено.';
+      if(!dialog.open)dialog.showModal();return;
+    }
     if(event.data.type==='profile-settings'){window.KeysProfile?.open('notifications');return;}
     if(event.data.type==='ideas-draft')root.dispatchEvent(new CustomEvent('keys-ideas-draft-change'));
     if(event.data.type==='hotel-loyalty'&&event.data.missing===(document.body.dataset.keysHotelLoyaltyMissing==='true')){
@@ -176,20 +203,20 @@
       });
       root.dispatchEvent(new CustomEvent('keys-trip-bookings-change'));
     }
-    if(event.data.type==='reservation'){
+    if(event.data.type==='reservation'&&!!event.data.partialDemo===partialDemoActive){
       const b=event.data.booking,record=window.KeysTripBookings?.find(item=>item.id===b?.id);
       if(record){window.KeysPrimaryBooking=record;root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));}
     }
     if(event.data.type==='checkout-profile'){const c=event.data.contact;if(c&&typeof c.firstName==='string'){root.querySelectorAll('.keys-profile-name>strong,[data-open="travelerProfile"] strong').forEach(el=>el.textContent=[c.firstName,c.lastName].filter(Boolean).join(' '));root.querySelectorAll('.keys-profile-contacts dd').forEach(el=>el.textContent=c.phone);}}
-    if(event.data.type==='ready'){ready=true;send();sendNoticeLayout();frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
+    if(event.data.type==='ready'){ready=true;syncPartialDemo();send();sendNoticeLayout();frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
     if(event.data.type==='navigate'&&['trips','benefits','profile','stay-details','problem','feedback'].includes(event.data.target)){
       // Feedback is a temporary host screen; retain the notification entry point.
       if(event.data.target!=='feedback'){notificationOrigin=null;notificationOpened=false;}
       if(event.data.target==='feedback')feedbackTripOrigin=null;
       if(event.data.target==='feedback')root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('keys-feedback-context',{detail:{kind:event.data.feedbackKind??'first-night'}}));
-      if(event.data.target==='trips'&&event.data.scenario==='booked'){
+      if(event.data.target==='trips'&&['booked','booked-partial'].includes(event.data.scenario)){
         const primary=window.KeysTripBookings?.find(item=>item.id===event.data.bookingId);if(primary){window.KeysPrimaryBooking=primary;root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));}
-        window.KeysScenarios.select('booked',{preserveView:true});
+        window.KeysScenarios.select(event.data.scenario,{preserveView:true});
         root.querySelector('#keysHomeVariantThree .k3-scroll').scrollTop=0;
       }
       go(event.data.target);
@@ -428,6 +455,7 @@
   root.addEventListener('keys-scenario-change',event=>{
     cancelProfileMotion();
     sendNoticeLayout();
+    syncPartialDemo(event.detail.resetView);
     const day=notificationDay(event.detail.scenario,event.detail.stayDay);
     if(document.body.dataset.keysSelectedScenario==='search-swipe-first'&&event.detail.resetView)go('trips');
     if(!frame.hasAttribute('src'))frame.src='./sections/index.html?v=trip-search-20261015&loyalty='+encodeURIComponent(document.body.dataset.keysLoyalty||'Silver')+'&stayDay='+encodeURIComponent(day);
@@ -457,7 +485,7 @@
   root.addEventListener('keys-primary-booking-action',event=>{
     const b=window.KeysPrimaryBooking;if(!b)return;
     const action=event.detail?.action;
-    if(action==='pay-balance')show('find',null,'booking-payment',null,b.id);
+    if(action==='pay-balance')frame.contentWindow.KeysOpenBalancePayment?.(b.id);
     else if(action==='chat')show('chats',b.hotelId);
     else if(action==='hotel')show('find',b.hotelId,'hotel');
     else show('find',null,'created-booking',null,b.id);

@@ -4,7 +4,7 @@
 (() => {
  const app=document.getElementById('keysUnifiedPrototype');
  if(!app)return;
- const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-swipe-first','Брони еще нет, тиндер первый раз'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['stay','Гость живёт в отеле'],['after','Поездка завершена'],['notifications','Уведомления']];
+ const presets=[['onboarding','Онбординг'],['guest','Гость не авторизован'],['guest-returning','Гость не авторизован, но зарегистрирован'],['guest-invite','Отельер · по приглашению · Friendly Rate'],['search','Брони ещё нет'],['search-swipe-first','Брони еще нет, тиндер первый раз'],['search-gold','Брони ещё нет (лояльность Gold)'],['search-no-loyalty','Брони ещё нет (лояльность не найдена)'],['search-guest','Брони ещё нет (гость не авторизован) · десктоп'],['booked','Гость ещё не заехал'],['booked-partial','Гость ещё не заехал (Частичная оплата)'],['stay','Гость живёт в отеле'],['after','Поездка завершена'],['notifications','Уведомления']];
  const basePresets=presets.filter(([key])=>key!=='onboarding');
  // The only available appearance is the current base design (Orbit).
  let orbitEnabled=true;
@@ -85,7 +85,7 @@
   document.body.dataset.keysNoticeLayout=noticeLayout;
   document.body.dataset.keysPushType=pushType;
   document.body.dataset.keysOnboardingVariant=onboardingVariant;
-  const scenario=selected==='notifications'?window.KeysPushCatalog.get(pushType).scenario:['search-gold','search-guest','search-no-loyalty','search-swipe-first'].includes(selected)||(selected==='guest-invite'&&inviteEntered)?'search':selected;
+  const scenario=selected==='booked-partial'?'booked':selected==='notifications'?window.KeysPushCatalog.get(pushType).scenario:['search-gold','search-guest','search-no-loyalty','search-swipe-first'].includes(selected)||(selected==='guest-invite'&&inviteEntered)?'search':selected;
   document.body.dataset.keysSelectedScenario=selected;
   if(selected==='search-swipe-first'){if(resetView||!document.body.dataset.keysSwipeFirstRun)document.body.dataset.keysSwipeFirstRun=String(Date.now());}
   else delete document.body.dataset.keysSwipeFirstRun;
@@ -93,7 +93,7 @@
   document.body.dataset.keysGuestSearch=String(selected==='search-guest');
   document.body.dataset.keysLoyalty=selected==='search-gold'?'Gold':'Silver';
   document.body.dataset.keysScenario=scenario;document.body.dataset.keysStayDay=stayDay;
-  const implemented=selected==='notifications'||selected==='onboarding'||selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-swipe-first'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked';
+  const implemented=selected==='booked-partial'||selected==='notifications'||selected==='onboarding'||selected==='guest-returning'||selected==='guest-invite'||selected==='guest'||selected==='search'||selected==='search-no-loyalty'||selected==='search-swipe-first'||selected==='search-gold'||selected==='search-guest'||selected==='stay'||selected==='after'||selected==='booked';
   document.body.dataset.keysImplemented=String(implemented);
   app.inert=!implemented;empty.hidden=implemented;
   empty.setAttribute('aria-label',(selected==='stay'?label+' · '+dayLabel:label)+' — пустой сценарий');

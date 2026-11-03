@@ -49,7 +49,7 @@
       chatOrigin=[...root.querySelectorAll(':scope>.ku-section')].map(el=>[el,el.hidden]);chatOpened=false;
     }else if(tab!=='chats'){chatOrigin=null;chatOpened=false;}
     const entryReturn=section.hidden&&tab==='find'
-      ? (['saved','created-booking','hotel-loyalty-connect','hotel'].includes(screen)?{kind:'screen',screen}
+      ? (['saved','created-booking','booking-payment','hotel-loyalty-connect','hotel'].includes(screen)?{kind:'screen',screen}
         : discovery?.mode==='advice'?{kind:'screen',screen:'describe'}
         : discovery?.searchRequest&&discovery.hotelId?{kind:'screen',screen:'hotel'}
         : discovery&&(discovery.searchRequest||discovery.collection||discovery.city)?{kind:'results'}:null)
@@ -166,28 +166,19 @@
       const b=event.data;
       window.KeysBookingCancellation.open({...b,onComplete:result=>{
        frame.contentWindow.postMessage({source:'keys-host',cancelledBooking:{id:b.bookingId,result}},location.protocol==='file:'?'*':location.origin);
-       const card=root.querySelector('#keysNewReservation');if(card?.dataset.bookingId===b.bookingId){card.querySelector('.keys-new-booking-status').textContent='Отменена';card.querySelector('.keys-new-booking-heading strong').textContent='Бронирование';}
       }});
     }
     if(event.data.type==='trip-bookings'&&Array.isArray(event.data.bookings)){
       window.KeysTripBookings=event.data.bookings.filter(b=>b&&typeof b.id==='string'&&typeof b.hotel==='string').map(b=>{
         let photo='';try{const url=new URL(b.photo||'',frame.src);if(b.photo&&['http:','https:'].includes(url.protocol))photo=url.href;}catch{}
-        return {...b,photo};
+        let hotelPhoto='';try{const url=new URL(b.hotelPhoto||'',frame.src);if(b.hotelPhoto&&['http:','https:'].includes(url.protocol))hotelPhoto=url.href;}catch{}
+        return {...b,photo,hotelPhoto};
       });
       root.dispatchEvent(new CustomEvent('keys-trip-bookings-change'));
     }
     if(event.data.type==='reservation'){
-      const b=event.data.booking;if(!b||typeof b.hotel!=='string')return;
-      let card=root.querySelector('#keysNewReservation');
-      if(!card){card=document.createElement('button');card.type='button';card.id='keysNewReservation';card.className='keys-new-reservation';root.querySelector('#keysHomeVariantThree main').append(card);card.addEventListener('click',()=>show('find',null,'created-booking',null,card.dataset.bookingId));}
-      card.dataset.bookingId=b.id;card.setAttribute('aria-label','Детали брони '+b.id+' · '+b.hotel);
-      card.innerHTML='<span class="keys-new-booking-heading"><strong>Новая бронь</strong><span class="keys-new-booking-status"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Подтверждена</span></span><span class="keys-new-booking-body"><img alt=""><span class="keys-new-booking-copy"><strong></strong><span class="keys-new-booking-dates"></span><span class="keys-new-booking-guests"></span></span></span><span class="keys-new-booking-action">Детали брони<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></span>';
-      const date=value=>new Date(value+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.','');
-      card.querySelector('.keys-new-booking-copy strong').textContent=b.hotel;
-      card.querySelector('.keys-new-booking-dates').textContent=date(b.arrival)+' — '+date(b.departure);
-      card.querySelector('.keys-new-booking-guests').textContent=b.guests||'';
-      const photo=card.querySelector('img');if(b.photo){const url=new URL(b.photo,frame.src);if(['http:','https:'].includes(url.protocol))photo.src=url.href;else photo.hidden=true;}else photo.hidden=true;
-
+      const b=event.data.booking,record=window.KeysTripBookings?.find(item=>item.id===b?.id);
+      if(record){window.KeysPrimaryBooking=record;root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));}
     }
     if(event.data.type==='checkout-profile'){const c=event.data.contact;if(c&&typeof c.firstName==='string'){root.querySelectorAll('.keys-profile-name>strong,[data-open="travelerProfile"] strong').forEach(el=>el.textContent=[c.firstName,c.lastName].filter(Boolean).join(' '));root.querySelectorAll('.keys-profile-contacts dd').forEach(el=>el.textContent=c.phone);}}
     if(event.data.type==='ready'){ready=true;send();sendNoticeLayout();frame.contentWindow.postMessage({source:'keys-host',swipeFirstRun:document.body.dataset.keysSwipeFirstRun||null,hotelLoyaltyMissing:document.body.dataset.keysHotelLoyaltyMissing==='true',loyaltyTier:document.body.dataset.keysLoyalty,partnerApproved:document.body.dataset.keysPartnerApproved==='true',stayDay:notificationDay()},location.protocol==='file:'?'*':location.origin);}
@@ -197,6 +188,7 @@
       if(event.data.target==='feedback')feedbackTripOrigin=null;
       if(event.data.target==='feedback')root.querySelector('#keysFeedbackFlow')?.dispatchEvent(new CustomEvent('keys-feedback-context',{detail:{kind:event.data.feedbackKind??'first-night'}}));
       if(event.data.target==='trips'&&event.data.scenario==='booked'){
+        const primary=window.KeysTripBookings?.find(item=>item.id===event.data.bookingId);if(primary){window.KeysPrimaryBooking=primary;root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));}
         window.KeysScenarios.select('booked',{preserveView:true});
         root.querySelector('#keysHomeVariantThree .k3-scroll').scrollTop=0;
       }
@@ -461,6 +453,14 @@
     const origin=benefitsOrigin;benefitsOrigin=null;
     if(!origin){go('trips');return;}
     origin.pages.forEach(([el,hidden])=>el.hidden=hidden);origin.sections.forEach(([el,hidden])=>el.hidden=hidden);origin.focus?.focus({preventScroll:true});
+  });
+  root.addEventListener('keys-primary-booking-action',event=>{
+    const b=window.KeysPrimaryBooking;if(!b)return;
+    const action=event.detail?.action;
+    if(action==='pay-balance')show('find',null,'booking-payment',null,b.id);
+    else if(action==='chat')show('chats',b.hotelId);
+    else if(action==='hotel')show('find',b.hotelId,'hotel');
+    else show('find',null,'created-booking',null,b.id);
   });
   root.addEventListener('keys-open-hotel-chat',()=>show('chats','maidens'));
   root.addEventListener('keys-open-stay-details',()=>go('stay-details'));

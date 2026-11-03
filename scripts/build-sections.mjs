@@ -54,7 +54,7 @@ export async function buildSections(){
  ];
  for(const [from,to] of chatActions){if(!js.includes(from))throw Error('Chat notification action anchor missing');js=js.replace(from,to);}
 
- js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/checkout-times.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
+ js=adaptCheckoutEngine(js,await readFile(path.join(root,'src/sections/payment-plans.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-times.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/checkout-options.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/booking-desktop.js'),'utf8')+'\n'+await readFile(path.join(root,'src/sections/hotel-loyalty-connect.js'),'utf8'));
  js=adaptLightTheme(js);
  js=adapt2gis(js);
  js=adaptPaymentContact(js);
@@ -175,7 +175,7 @@ export async function buildSections(){
  await writeFile(path.join(dist,'images/maidens.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#edf2ff"/><text x="200" y="155" text-anchor="middle" font-family="Georgia" font-size="80" fill="#2c5deb">M</text><text x="200" y="208" text-anchor="middle" font-family="Arial" font-size="22" fill="#2c5deb">MAIDENS HOTEL</text></svg>');
  // Test exports use the actual integrated source, with the mount removed.
  let engine=js.replace('GC.createRoot(document.getElementById("root")).render(n.jsx(TX, {initialState:keysInitialState(),platform:"mobile"}));','');
- engine+='\nexport {keysBookingDetailsModel,keysCheckoutAdditions,keysStayTimePolicy,keysStayTimeOptions,keysStayTimeQuote,keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
+ engine+='\nexport {keysBookingPaymentBalance,keysBookingDetailsModel,keysCheckoutAdditions,keysStayTimePolicy,keysStayTimeOptions,keysStayTimeQuote,keysReturnsToHost,keysSameScreen,keysHotelDiscount,keysReservationDiscountQuote,ls as searchHotels,tx as hotelPrice,keysSetLoyalty,keysBookingCancellationQuote,keysFilterRoomOffers,keysRoomCriteriaEmpty,keysRoomCriteriaInvalid,DY as roomOffers,Sr as tariff,wr as rooms,keysPaymentMethodMatches,G0 as hydrateIdentity,keysPointsLimit,keysPointsUsed,YA as checkoutTotal,KeysIdeas,keysInitialState,keysMaidensAnswer,keysRouteToHost,Pt as reducer,Xg as initial,_n as hotels,Ie as hotel,VB as recordSearch,GB as recordHotel,Lx as recentHistory,qB as parseRecent,keysRepeatSearch};';
  engine+='\nexport {keysSwipeNeedsPreferences,keysSwipePreferences,keysSwipePreferenceOptions,keysRankSwipeHotels,keysRestoreSwipePreferences,keysFavoriteCollection,keysShowBottomNav,keysFivePointRating,keysRatingText,Zc as hotelReviews,qI as sortReviews,Lc as ratingLabel};';
  await writeFile(path.join(stage,'assets/keys-engine.js'),engine);
  await mkdir(path.join(root,'tmp'),{recursive:true});

@@ -58,6 +58,7 @@
  screen.querySelector('[data-breakfast-slot]').outerHTML=serviceCard({action:'data-home-action="breakfast"',icon:coffeeIcon,title:'Завтрак',label:'Добавить'});
  const breakfastButton=screen.querySelector('[data-home-action="breakfast"]');
  const syncBreakfast=()=>{
+  if(window.KeysPrimaryBooking&&document.body.dataset.keysScenario==='booked')return;
   const added=window.KeysHomeViews.isBreakfastAdded();
   breakfastButton.classList.toggle('is-added',added);
   breakfastButton.querySelector('.kpa-service-status').textContent=added?'Добавлен за доплату':'Не включён в бронь';
@@ -140,7 +141,35 @@
  }
  const nightsLabel=n=>n+' '+(n%100>=11&&n%100<=14?'ночей':n%10===1?'ночь':n%10>=2&&n%10<=4?'ночи':'ночей');
  const partyLabel=()=>{const p=booking.party??{adults:booking.adults,childrenAges:[]};return [p.adults+' '+(p.adults===1?'гость':'взрослых'),p.childrenAges.length?p.childrenAges.length+' '+(p.childrenAges.length===1?'ребёнок':p.childrenAges.length<5?'ребёнка':'детей'):null,p.pet?'с питомцем':null].filter(Boolean).join(' · ');};
+ function updatePrimaryBooking(primary){
+  const model=primary.model,paid=model.paid||0,total=primary.price,due=Math.max(0,total-paid),cancel=model.cancellation;
+  screen.dataset.primaryBooking=primary.id;
+  screen.querySelector('.kpa-hotel-heading h1').textContent=primary.hotel;
+  screen.querySelector('.kpa-hotel-heading>span').innerHTML=icons.pin+' '+escape(primary.city||'');
+  const photo=screen.querySelector('.kpa-hotel-photo');photo.src=primary.hotelPhoto||primary.photo;photo.alt=primary.hotel;
+  screen.querySelector('.kpa-welcome-ribbon p').textContent=cancel?'Бронирование отменено':'Готовимся к вашему приезду';
+  const nights=Math.max(1,Math.round((Date.parse(primary.departure)-Date.parse(primary.arrival))/86400000));
+  const days=Math.max(0,Math.round((Date.parse(primary.arrival)-Date.parse(scenarioToday()))/86400000));
+  const times=screen.querySelectorAll('.kpa-schedule-stop time');
+  for(const [i,day,time,prefix] of [[0,primary.arrival,model.checkIn,'с '],[1,primary.departure,model.checkOut,'до ']]){
+   times[i].dateTime=day+'T'+time;times[i].textContent=date(day);times[i].parentElement.querySelector('small').textContent=prefix+time;
+  }
+  screen.querySelector('.kpa-duration-count strong').textContent=nights;
+  screen.querySelector('.kpa-duration-count span').textContent=nightsLabel(nights).split(' ')[1];
+  screen.querySelector('.kpa-trip-schedule').setAttribute('aria-label','Проживание: '+date(primary.arrival)+' — '+date(primary.departure)+', '+nightsLabel(nights));
+  screen.querySelector('.kpa-payment').innerHTML='<div class="kpa-total"><strong>'+money(total)+'</strong></div><div class="kpa-payment-status'+(due>0&&paid>0&&!cancel?' is-partial':'')+'"><strong>'+(cancel?'Бронирование отменено':due>0?(paid>0?'Оплачено частично':'Оплата при заселении'):icons.check+' Оплачено полностью')+'</strong>'+(due>0&&paid>0&&!cancel?'<button type="button" class="kpa-pay-balance" data-before="pay-balance">Оплатить полностью</button>':'')+'</div>';
+  screen.querySelector('.kpa-reservation-control').innerHTML='Управление бронированием '+icons.arrow;
+  // These demo-only instructions and services belong to Maidens, not the selected hotel.
+  screen.querySelectorAll('[data-before="instruction"],[data-before="route"],.kpa-booking-buttons,#kpa-nearby').forEach(el=>el.hidden=true);
+  screen.querySelector('.kpa-actions').classList.remove('kpa-actions-three');
+  const services=(model.services||[]).filter(item=>item.state!=='pending');
+  const preparation=screen.querySelector('.kpa-preparation');preparation.hidden=!services.length;
+  preparation.innerHTML='<header class="kpa-preparation-heading"><h2 id="kpa-preparation-title">Услуги</h2></header><div class="kpa-primary-services">'+services.map(item=>'<p>'+escape(item.title)+'</p>').join('')+'</div>';
+  // The desktop header observes this value after all booking facts are updated.
+  screen.querySelector('.kpa-arrival-countdown').textContent=cancel?'Бронирование отменено':days===0?'Заезд сегодня':'Заезд '+date(primary.arrival);
+ }
  function updateBookingSummary(){
+  if(window.KeysPrimaryBooking&&document.body.dataset.keysScenario==='booked')return updatePrimaryBooking(window.KeysPrimaryBooking);
   if(booking.cancellation){screen.querySelector('.kpa-welcome-ribbon p').textContent='Бронь отменена';screen.querySelector('.kpa-arrival-countdown').textContent='Бронь отменена';screen.querySelector('.kpa-payment').innerHTML='<div class="kpa-total"><strong>К возврату '+money(booking.cancellation.refund)+'</strong></div><span>Возврат в обработке</span>';return;}
   const remaining=Math.max(0,Math.round((Date.parse(booking.arrival)-Date.parse(scenarioToday()))/86400000));
   screen.querySelector('.kpa-arrival-countdown').innerHTML=remaining===0?'Заезд сегодня':'<b>'+remaining+'</b> '+(remaining%100>=11&&remaining%100<=14?'дней':remaining%10===1?'день':remaining%10>=2&&remaining%10<=4?'дня':'дней')+' до заезда';
@@ -157,6 +186,7 @@
   screen.querySelector('.kpa-payment-status').innerHTML='<strong>'+icons.check+' Оплачено полностью</strong>';
  }
 
+ app.addEventListener('keys-primary-booking-change',updateBookingSummary);
  document.getElementById('keysUnifiedPrototype').addEventListener('keys-service-requests-change',updateBookingSummary);
  window.addEventListener('DOMContentLoaded',updateBookingSummary,{once:true});
 
@@ -211,6 +241,7 @@
  }
  home.addEventListener('click',async event=>{
   const button=event.target.closest('[data-before]');if(!button)return;event.preventDefault();event.stopPropagation();const action=button.dataset.before;
+  if(window.KeysPrimaryBooking&&document.body.dataset.keysScenario==='booked'&&['details','manage-options','manage','share','hotel','chat','pay-balance'].includes(action)){app.dispatchEvent(new CustomEvent('keys-primary-booking-action',{detail:{action}}));return;}
   if(screen.contains(button)||button.closest('.keys-app-header')){origin=button;detailsSession=action==='details';beforeHistory.length=0;currentBefore=null;}
   if(action==='manage-options'){
    if(booking.cancellation)return bookingDetails();

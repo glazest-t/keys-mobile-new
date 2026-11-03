@@ -39,7 +39,7 @@ export const completedMaidens={id:'maidens-2026',city:'Москва',hotel:'Maid
 export const tripStatusLabels={upcoming:'Предстоящая',active:'Сейчас в поездке',completed:'Завершена',cancelled:'Отменена'};
 export function collectTrips({scenario,host,created=[],today='2026-09-13'}={}){
  const items=[...trips];
- if(host&&['booked','stay','after'].includes(scenario))items.push({...completedMaidens,id:'maidens-current',arrival:host.arrival,departure:host.departure,nights:host.nights,guests:host.adults,room:host.room,price:host.total,points:scenario==='after'&&!host.cancellation?2240:0,model:host,source:'host',status:host.cancellation?'cancelled':scenario==='after'?'completed':scenario==='stay'?'active':'upcoming'});
+ if(host&&!host.runtimeId&&['booked','stay','after'].includes(scenario))items.push({...completedMaidens,id:'maidens-current',arrival:host.arrival,departure:host.departure,nights:host.nights,guests:host.adults,room:host.room,price:host.total,points:scenario==='after'&&!host.cancellation?2240:0,model:host,source:'host',status:host.cancellation?'cancelled':scenario==='after'?'completed':scenario==='stay'?'active':'upcoming'});
  for(const trip of created){
   if(!trip?.id||!trip.arrival||!trip.departure)continue;
   items.push({...trip,source:'created',status:trip.model?.cancellation?'cancelled':trip.departure<=today?'completed':trip.arrival<=today?'active':'upcoming'});

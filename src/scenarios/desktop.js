@@ -140,7 +140,7 @@
    searchOpen({searchRequest:searchContext,hotelId:event.data.hotelId});
   }
  });
- function syncBooking(){if(document.body.dataset.keysScenario!=='booked')return;hotel.querySelector('[data-kd-arrival]').textContent=screen.querySelector('.kpa-arrival-countdown').textContent.replace(/\s+/g,' ').trim();}
+ function syncBooking(){if(document.body.dataset.keysScenario!=='booked')return;const primary=window.KeysPrimaryBooking;hotel.querySelector('strong').textContent=primary?.hotel||'Maidens Hotel';hotel.querySelector('img').src=primary?.hotelPhoto||primary?.photo||'./scenarios/maidens-hotel.jpg';hotel.querySelector('[data-kd-arrival]').textContent=screen.querySelector('.kpa-arrival-countdown').textContent.replace(/\s+/g,' ').trim();}
  new MutationObserver(syncBooking).observe(screen.querySelector('.kpa-arrival-countdown'),{childList:true,subtree:true,characterData:true});syncBooking();
  const searchOpen=detail=>root.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail}));
  root.addEventListener('click',event=>{const button=event.target.closest('[data-desktop-action],[data-discovery-mode],[data-discovery-collection]');if(!button)return;if(['benefits','points-program'].includes(button.dataset.desktopAction)){if(button.dataset.desktopAction==='points-program'&&document.body.dataset.keysBenefitsPage==='points'&&document.body.dataset.keysDesktopSecondary==='benefits')root.querySelector('.keys-benefits-guide')?.scrollIntoView({behavior:'smooth',block:'start'});else root.dispatchEvent(new CustomEvent('keys-open-benefits',{detail:{page:button.dataset.desktopAction==='points-program'?'points':'overview'}}));}else searchOpen(button.dataset.discoveryCollection?{collection:button.dataset.discoveryCollection}:button.dataset.discoveryMode?{mode:button.dataset.discoveryMode}:{});});
@@ -187,14 +187,15 @@
   intro.hidden=scenario==='search';
   intro.querySelector('h1').textContent=scenario==='after'?'Ваша поездка завершена':'Ваша поездка';
   hotel.hidden=scenario==='search';
+  if(scenario!=='booked'){hotel.querySelector('strong').textContent='Maidens Hotel';hotel.querySelector('img').src='./scenarios/maidens-hotel.jpg';}
   delete hotel.dataset.after;
   if(scenario==='after'){delete hotel.dataset.before;delete hotel.dataset.info;hotel.dataset.after='stay';hotel.querySelector('[data-kd-arrival]').textContent='Поездка завершена';}
   else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до '+(window.KeysStayServices?.getRequests().late||'12:00'):'Проживает в отеле';}
   else{delete hotel.dataset.info;hotel.dataset.before='details';syncBooking();}
   discovery.querySelector('header p').textContent=scenario==='search'?'Найдите свой отель или выберите предложение со скидкой':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
-  actions.querySelector('[data-kd-route]').hidden=false;
-  actions.querySelector('[data-kd-instruction]').hidden=false;
-  actions.classList.add('has-instruction');
+  actions.querySelector('[data-kd-route]').hidden=scenario==='booked'&&!!window.KeysPrimaryBooking;
+  actions.querySelector('[data-kd-instruction]').hidden=scenario==='booked'&&!!window.KeysPrimaryBooking;
+  actions.classList.toggle('has-instruction',!(scenario==='booked'&&window.KeysPrimaryBooking));
   root.querySelectorAll('[data-desktop-points]').forEach(syncPoints);
   points.querySelector('strong').textContent=document.body.dataset.keysGuestSearch==='true'?'0':walletSource.querySelector('.keys-benefits-amount strong').textContent;
   delete hotel.dataset.before;delete hotel.dataset.info;delete hotel.dataset.after;
@@ -203,6 +204,7 @@
  modes.addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(!button||button.disabled)return;view=button.dataset.view;const url=new URL(location.href);url.searchParams.set('view',view);history.replaceState(history.state,'',url);render();});
  window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',event=>{if(event.detail?.resetView)view='mobile';render();});
  new MutationObserver(()=>root.querySelectorAll('[data-desktop-points]').forEach(syncPoints)).observe(document.body,{attributes:true,attributeFilter:['data-keys-guest-search','data-keys-guest-authorized']});
+ root.addEventListener('keys-primary-booking-change',render);
  root.addEventListener('keys-service-requests-change',render);
  window.addEventListener('DOMContentLoaded',render,{once:true});
  new MutationObserver(render).observe(home.closest('.ku-section'),{attributes:true,attributeFilter:['hidden']});render();

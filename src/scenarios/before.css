@@ -321,3 +321,10 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-reservation-control
 #keysUnifiedPrototype .kpa-share-layer.is-pending iframe{opacity:0;pointer-events:none}
 #keysUnifiedPrototype#keysUnifiedPrototype .kpa-share-layer.is-pending{box-shadow:none}
 @media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .kpa-share-layer iframe{transition:none}}
+
+/* Partial payment belongs to the primary blue booking card. */
+#keysUnifiedPrototype .kpa-payment:has(.is-partial){flex-wrap:wrap}
+#keysUnifiedPrototype .kpa-payment-status.is-partial{display:flex;flex-basis:100%;align-items:center;justify-content:space-between;gap:12px;text-align:left}
+#keysUnifiedPrototype .kpa-pay-balance{flex:none;min-height:40px;padding:8px 0;border:0;background:transparent;color:var(--color-on-brand);font:500 12px/18px var(--font-sans);text-decoration:underline;text-underline-offset:3px;white-space:nowrap;cursor:pointer}
+#keysUnifiedPrototype .kpa-pay-balance:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:4px}
+#keysUnifiedPrototype .kpa-primary-services{display:grid;gap:8px;font:400 14px/21px var(--font-sans)}

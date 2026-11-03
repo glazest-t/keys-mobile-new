@@ -1913,3 +1913,21 @@ html[data-desktop-account=true] #root .keys-notice-chevron{position:absolute;rig
 }
 html[data-desktop-account=true] #root#root [data-screen-type=notifications] .keys-desktop-screen-actions>.keys-notice-read-all{width:auto;height:40px;min-width:0;padding:8px 0;background:transparent;color:var(--color-brand);font:400 14px/20px var(--font-sans);white-space:nowrap}
 html[data-desktop-account=true] #root .keys-notice-timeline-item .keys-notice-dot{display:block;position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+
+/* Card prepayment options reuse the checkout's outlined selection pattern. */
+.keys-card-plans{border:0;padding:0;margin:18px 0 0;min-width:0;display:grid;gap:8px}
+.keys-card-plans legend{font-size:14px;font-weight:500;margin-bottom:12px}
+.keys-card-plan{display:flex;align-items:center;gap:10px;border:1px solid var(--color-line);border-radius:12px;padding:14px 12px;cursor:pointer;font-size:14px;line-height:20px}
+.keys-card-plan.is-selected{border-color:var(--color-brand);background:var(--color-soft)}
+.keys-card-plan input{width:18px;height:18px;flex:none;accent-color:var(--color-brand)}
+.keys-card-plan span{flex:1;min-width:0}.keys-card-plan strong{white-space:nowrap;font-weight:500}
+.keys-card-plans>p{margin:4px 0 0;color:var(--color-muted);font-size:12px;line-height:18px}
+.keys-payment-breakdown{margin-top:12px}
+.keys-acquiring{max-width:520px;margin:0 auto;width:100%}
+.keys-acquiring-card{border:1px solid var(--color-line);border-radius:20px;padding:24px 20px;display:grid;gap:20px;margin:16px 0}
+.keys-acquiring-card h2{font-size:24px;line-height:30px;font-weight:500;margin:0}
+.keys-acquiring-card p{margin:0;color:var(--color-muted);font-size:14px;line-height:21px}
+.keys-acquiring-icon{width:32px;height:32px;color:var(--color-brand)}
+.keys-acquiring-card dl{display:grid;gap:12px;margin:0}.keys-acquiring-card dl>div{display:flex;justify-content:space-between;gap:16px;font-size:14px}.keys-acquiring-card dd{margin:0;white-space:nowrap;font-weight:500}
+.keys-acquiring-demo{padding:16px;border-radius:12px;background:var(--color-soft)}.keys-acquiring-demo strong{display:block;margin-bottom:8px;font-size:14px}
+.keys-acquiring-outcome{display:grid;gap:8px;font-size:12px;color:var(--color-muted)}.keys-acquiring-outcome select{padding:10px;border:1px solid var(--color-line);border-radius:8px;background:white;color:inherit}

@@ -3,6 +3,7 @@ export function adaptCheckoutEngine(source,components){
  let js=source;
  const replace=(a,b)=>{if(!js.includes(a))throw Error('Checkout anchor missing: '+a.slice(0,90));js=js.replace(a,b);};
  replace('function Pt(e, t) {','function Pt(e, t) {\n  if(t.type === "KEYS_BOOKING_CANCELLED") return keysCancelCreatedBooking(e,t);');
+ replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type==="KEYS_PAYMENT_PLAN"||t.type.startsWith("KEYS_BALANCE_"))return keysPaymentPlanReduce(e,t);');
  replace('function YA(e) {','function keysBaseCheckoutTotal(e) {');
  replace('function Pt(e, t) {','function Pt(e, t) {\n if(t.type==="KEYS_STAY_TIME")return keysSetStayTime(e,t);');
  replace('arrivalTime: "15:00", documentsSaved: false, issue: null, reviews: {} }, h = a.extras', 'arrivalTime: keysStayTimeQuote(a).checkIn, checkInTime:keysStayTimeQuote(a).checkIn,checkOutTime:keysStayTimeQuote(a).checkOut,keysStayTimeCharge:keysStayTimeQuote(a).total, documentsSaved: false, issue: null, reviews: {} }, h = a.extras');
@@ -22,13 +23,13 @@ export function adaptCheckoutEngine(source,components){
  replace('orders: h, reservation:', 'keysHotelPoints:{...e.keysHotelPoints,[a.hotelId]:keysHotelPointsBalance(e,a.hotelId)-keysHotelPointsUsed(a)}, orders: h, reservation:');
  replace('l({ status: "processing", attempt: r.attempt + 1, nextUpdateAt: a + Ig })', 'r.paymentMethod === "arrival" ? KA(ZE(e,{...r,status:"processing",attempt:r.attempt+1,nextUpdateAt:a}),a) : l({ status: "processing", attempt: r.attempt + 1, nextUpdateAt: a + Ig })');
  replace('const r = a.paymentOutcomes[', 'const r = a.paymentMethod === "arrival" ? "success" : a.paymentOutcomes[');
- replace('method: a.paymentMethod, amount: c.total', 'method: a.paymentMethod, amount: a.paymentMethod === "arrival" ? 0 : c.total, status: a.paymentMethod === "arrival" ? "pending" : "paid"');
- replace('payment: u, paid: c.accommodation', 'payment: u, dueAtHotel: a.paymentMethod === "arrival" ? c.total : 0, paid: a.paymentMethod === "arrival" ? 0 : c.accommodation');
- replace('price: g.price, paid: true', 'price: g.price, paid: a.paymentMethod !== "arrival"');
- replace('g.price ? "Оплачен вместе с бронью"', 'g.price ? a.paymentMethod === "arrival" ? "Оплата при заселении" : "Оплачен вместе с бронью"');
- replace('". Оплачено " + Te(c.total)', '(a.paymentMethod === "arrival" ? ". Оплата при заселении: " : ". Оплачено ") + Te(c.total)');
+ replace('method: a.paymentMethod, amount: c.total', 'method: a.paymentMethod, amount: keysPaymentSplit(a).now, plan:keysPaymentSplit(a).plan, status: a.paymentMethod === "arrival" ? "pending" : keysPaymentSplit(a).remaining>0 ? "partial" : "paid"');
+ replace('payment: u, paid: c.accommodation', 'payment: u, dueAtHotel: keysPaymentSplit(a).remaining, paid: Math.min(c.accommodation,keysPaymentSplit(a).now)');
+ replace('price: g.price, paid: true', 'price: g.price, paid: keysPaymentSplit(a).remaining===0');
+ replace('g.price ? "Оплачен вместе с бронью"', 'g.price ? keysPaymentSplit(a).remaining>0 ? "Включён в остаток к оплате" : "Оплачен вместе с бронью"');
+ replace('". Оплачено " + Te(c.total)', '(a.paymentMethod === "arrival" ? ". Оплата при заселении: " + Te(c.total) : ". Оплачено " + Te(keysPaymentSplit(a).now))');
  // This step only stores the payment method, never bank card details.
- return js+'\n'+components+'\nexport {Dg as keysServiceName,keysStayTimeRows,keysAdditionalGuestComplete,KeysPaymentOptions,KeysPaymentPoints,KeysCheckoutLayout,KeysBookingConfirmation,KeysCancellationPolicy,KeysCancelledBooking,keysRequestBookingCancellation,KeysUnifiedBookingDetails};\n';
+ return js+'\n'+components+'\nexport {keysPaymentSplit,Dg as keysServiceName,keysStayTimeRows,keysAdditionalGuestComplete,KeysPaymentOptions,KeysPaymentPoints,KeysCheckoutLayout,KeysBookingConfirmation,KeysCancellationPolicy,KeysCancelledBooking,keysRequestBookingCancellation,KeysUnifiedBookingDetails};\n';
 }
 export async function adaptCheckoutPage(source){
  let js=(await transform(source,{charset:'utf8',minify:false})).code;
@@ -67,10 +68,11 @@ export function adaptCheckoutExtras(source){
  replace('!!l.discount && e.jsx(y', '!!s.usePoints && !!s.pointsAmount && e.jsx(y');
  replace('e.jsx(y,{label:"Налоги и сборы",value:"Включены"})', 's.usePoints&&s.hotelPointsAmount>0&&e.jsx(y,{label:"Баллы отеля",value:"−"+p(s.hotelPointsAmount),className:"text-success"}), e.jsx(y,{label:"Налоги и сборы",value:"Включены"})');
  replace('e.jsx(y,{label:"Налоги и сборы",value:"Включены"})', '...keysStayTimeRows(s,(label,value)=>e.jsx(y,{label,value},label)),e.jsx(y,{label:"Налоги и сборы",value:"Включены"})');
+ replace('children: p(O(s).total)', 'children: p(keysPaymentSplit(s).now)');
  const start=js.indexOf('function ae('),end=js.indexOf('function ne(',start);
  if(start<0||end<0)throw Error('Points control missing');
  js=js.slice(0,start)+'function ae({draft:s}){return e.jsx(KeysPaymentPoints,{draft:s});}\n'+js.slice(end);
- return 'import {KeysPaymentPoints,keysStayTimeRows} from "./index-C4VobzN0.js";\n'+js;
+ return 'import {KeysPaymentPoints,keysStayTimeRows,keysPaymentSplit} from "./index-C4VobzN0.js";\n'+js;
 }
 export function adaptDesktopCheckout(source){
  const old='e.jsx(Mn,{className:"mb-0 "+ic,value:t.paymentMethod,onChange:l=>a({type:"RESERVATION_METHOD",method:l})})';

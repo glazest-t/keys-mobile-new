@@ -18,6 +18,7 @@
   scroll.append(view);
   window.KeysHostBookingModel=()=>{
    const scenario=document.body.dataset.keysScenario,after=scenario==='after',stay=scenario==='stay';
+   if(scenario==='booked'&&window.KeysPrimaryBooking)return {...window.KeysPrimaryBooking.model,runtimeId:window.KeysPrimaryBooking.id};
    const b=window.KeysBeforeBooking?.()||{id:'MD-120926',arrival:'2026-09-12',departure:'2026-09-19',nights:7,total:56000,paid:56000,guest:'Татьяна Глазырина',room:'Премиум Кинг',adults:1};
    const services=after?[{title:'Сырники со сметаной',price:480}]:window.KeysActiveServices?.getOrders()||[];
    if(!after&&!b.cancellation&&window.KeysHomeViews?.isBreakfastAdded())services.push({title:'Завтрак · '+b.nights+' ночей',price:680*b.nights});

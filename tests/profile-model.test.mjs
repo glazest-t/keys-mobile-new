@@ -45,3 +45,10 @@ test('host and created reservations move into the correct status without duplica
  assert.equal(items.find(t=>t.id==='current').status,'active');assert.equal(items.find(t=>t.id==='done').status,'completed');assert.equal(items.find(t=>t.id==='cancel').status,'cancelled');
  assert.ok(trips.every(t=>t.photo));
 });
+
+test('created primary booking replaces the demo host entry in trip history',()=>{
+ const created=[{id:'new-primary',hotel:'Swissôtel Камелия',arrival:'2026-10-01',departure:'2026-10-05',model:{paid:8694}}];
+ const items=collectTrips({scenario:'booked',host:{runtimeId:'new-primary'},created});
+ assert.equal(items.filter(t=>t.id==='new-primary').length,1);
+ assert.equal(items.filter(t=>t.source==='host').length,0);
+});

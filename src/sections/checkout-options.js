@@ -36,6 +36,7 @@ function KeysPaymentOptions(){
    ]})
   ]}),
   n.jsx('p',{className:'keys-payment-description','aria-live':'polite',children:method==='arrival'?'Сейчас 0 ₽ · в отеле '+Te(YA(draft).total):selected?.detail||'Через приложение банка'}),
+  method==='card'&&n.jsx(KeysCardPaymentPlans,{draft}),
   desktop&&other&&n.jsx('div',{id:extraId,className:'keys-pay-methods keys-pay-extra-inline',children:extra.map(item=>option(item))}),
   !desktop&&other&&n.jsx(ct,{title:'Другие способы оплаты',onClose:()=>setOther(false),children:n.jsx('div',{className:'keys-pay-methods',children:extra.map(item=>option(item))})})
  ]});

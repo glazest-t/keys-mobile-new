@@ -101,7 +101,7 @@ function KeysBridge() {
       if(!['find','chats','favorites'].includes(tab)) return;
       dispatch({type:'NAV_TAB',tab});
       globalThis.keysHostEntry=event.data.entryReturn||null;
-      if(screen==='created-booking'&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
+      if(['created-booking','booking-payment'].includes(screen)&&typeof bookingId==='string')dispatch({type:'OPEN',screen:{type:screen,bookingId}});
       if(['booking','notifications','saved'].includes(screen)) dispatch({type:'OPEN',screen:{type:screen}});
       if(screen==='hotel-loyalty-connect'&&hotelId)dispatch({type:'OPEN',screen:{type:screen,hotelId}});
       else if(screen==='hotel'&&hotelId){if(discovery?.rebook)dispatch({type:'KEYS_REBOOK',hotelId,nights:discovery.nights,party:discovery.party});else dispatch({type:'HOTEL_OPEN',id:hotelId});}
@@ -134,8 +134,8 @@ function KeysBridge() {
     window.addEventListener('message',receive); keysPost('ready',{});
     return () => window.removeEventListener('message',receive);
   }, [dispatch]);
-  E.useEffect(()=>{keysPost('trip-bookings',{bookings:Object.values(state.keysCreatedBookings||{}).map(({draft,booking})=>{const model=keysBookingDetailsModel(draft,booking),hotel=Ie(draft.hotelId);return {id:booking.id,hotelId:hotel.id,hotel:hotel.name,city:hotel.city,arrival:draft.arrival,departure:draft.departure,room:draft.room.name,photo:booking.room?.photo?.src||draft.room.photo?.src,guests:Rt(draft.party),price:YA(draft).total,model};})});},[state.keysCreatedBookings]);
-  E.useEffect(()=>{if(state.reservation?.status==='confirmed'&&state.reservation.bookedId===state.booking.id){keysPost('reservation',{booking:{id:state.booking.id,hotel:eHotelName(state.booking.hotelId),arrival:state.booking.arrival,departure:state.booking.departure,room:state.booking.room.name,photo:state.booking.room.photo?.src,guests:Rt(state.booking.party)}});}},[state.reservation?.status,state.booking.id]);
+  E.useEffect(()=>{keysPost('trip-bookings',{bookings:Object.values(state.keysCreatedBookings||{}).map(({draft,booking})=>{const model=keysBookingDetailsModel(draft,booking),hotel=Ie(draft.hotelId);return {id:booking.id,hotelId:hotel.id,hotel:hotel.name,city:hotel.city,hotelPhoto:hotel.photos?.[0]?.src,paymentStatus:booking.payment?.status,arrival:draft.arrival,departure:draft.departure,room:draft.room.name,photo:booking.room?.photo?.src||draft.room.photo?.src,guests:Rt(draft.party),price:YA(draft).total,model};})});},[state.keysCreatedBookings]);
+  E.useEffect(()=>{const record=Object.values(state.keysCreatedBookings||{}).at(-1);if(!record)return;const b=record.booking;keysPost('reservation',{booking:{id:b.id,hotel:eHotelName(b.hotelId),arrival:b.arrival,departure:b.departure,room:b.room.name,photo:b.room.photo?.src,guests:Rt(b.party),paymentStatus:b.keysCancellation?'cancelled':b.payment?.status,due:b.dueAtHotel}});},[state.keysCreatedBookings]);
   E.useEffect(() => { keysPost('state',{tab:state.navigation.tab,screen:state.navigation.screen?.type ?? null,favorites:state.navigation.screen?.type==='saved'||(!state.navigation.screen&&state.navigation.tab==='favorites')?(state.navigation.screen?.collectionId?'collection':'overview'):'',results:!state.navigation.screen&&state.navigation.tab==='find'&&state.search.results&&state.search.intent==='known'}); },[state.navigation,state.search.results,state.search.intent]);
   E.useEffect(()=>{
     const page=document.querySelector('.keys-module-screen main');if(!page)return;
@@ -151,7 +151,7 @@ function keysShowBottomNav(state){
   const {screen,history=[]}=state.navigation;
   if(!screen)return true;
   if(['swipe','shared-swipe','hotel-preferences'].includes(screen.type))return false;
-  const bookingScreen=page=>page&&(['hotel','hotel-reviews','hotel-loyalty-connect','shopping-checkout','reservation-payment','reservation-success'].includes(page.type)||page.type==='hotel-map'&&page.selectedOnly);
+  const bookingScreen=page=>page&&(['hotel','hotel-reviews','hotel-loyalty-connect','shopping-checkout','reservation-payment','reservation-success','booking-payment'].includes(page.type)||page.type==='hotel-map'&&page.selectedOnly);
   return !bookingScreen(screen)&&!history.some(bookingScreen);
 }
 function PH({children}) {
@@ -170,7 +170,7 @@ function PH({children}) {
     new URLSearchParams(location.search).has('keysBookingChange')?n.jsx(KeysChangeBridge,{state,dispatch}):n.jsx(KeysBridge,{}),
     n.jsxs('div',{ref:scrollRef,className:'keys-module-scroll'+(conversation?' keys-conversation':'')+(full?' keys-fullscreen':''),children:[
       !screen&&!results&&n.jsx(CH,{}),
-      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='hotel-preferences'?n.jsx(KeysSwipePreferences,{editing:true}):screen?.type==='hotel-map'&&screen.collectionId?n.jsx(KeysFavoriteMap,{collectionId:screen.collectionId},screen.collectionId):screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
+      n.jsx('main',{className:F('animate-tab-content min-w-0 flex-1',conversation?'flex min-h-0 flex-col overflow-hidden':full?'relative min-h-0':'px-(--gutter)',!conversation&&!full&&(screen?'pt-4 pb-5':'pt-[25px] pb-3')),children:screen?.type==='booking-payment'?n.jsx(KeysBalancePayment,{bookingId:screen.bookingId}):screen?.type==='hotel-preferences'?n.jsx(KeysSwipePreferences,{editing:true}):screen?.type==='hotel-map'&&screen.collectionId?n.jsx(KeysFavoriteMap,{collectionId:screen.collectionId},screen.collectionId):screen?.type==='hotel-loyalty-connect'?n.jsx(KeysHotelLoyaltyBanner,{hotelId:screen.hotelId,standalone:true}):screen?.type==='created-booking'?n.jsx(KeysCreatedBookingDetails,{bookingId:screen.bookingId}):state.keysShareSession&&screen?.type==='keys-trip-share'?n.jsx(KeysTripShare,{onClose:()=>keysPost('change-close',{})}):state.keysPublicTrip?n.jsx(KeysPublicTrip,{}):favorites?n.jsx(KeysFavorites,{}):children},state.navigation.tab)
     ]}),
     keysShowBottomNav(state)&&n.jsx(AH,{}),n.jsx(OH,{}),n.jsx(KeysFavoriteStorage,{}),n.jsx(KeysSwipePreferencesStorage,{})
   ]});

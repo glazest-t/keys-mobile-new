@@ -65,6 +65,7 @@ function KeysCheckoutPriceDetails({draft,label='Итого за поездку',
    items.length>0&&n.jsxs('section',{'aria-label':'Услуги',children:[n.jsx('h3',{children:'Услуги'}),n.jsx('dl',{children:items.map(item=>row(item.name+(['early','late'].includes(item.id)?' · '+item.detail.toLocaleLowerCase('ru-RU'):''),item.price?Te(item.price):'Бесплатно'))})]}),
    (points>0||hotelPoints>0)&&n.jsxs('section',{'aria-label':'Списанные баллы',children:[n.jsx('h3',{children:'Списанные баллы'}),n.jsxs('dl',{children:[points>0&&row('Баллы Ключей','−'+Te(points)),hotelPoints>0&&row('Баллы отеля','−'+Te(hotelPoints))]})]}),
    n.jsx('dl',{className:'keys-price-breakdown-total',children:row('Итого',Te(total.total))}),
+   draft.keysCheckoutStep==='payment'&&draft.paymentMethod==='card'&&keysPaymentSplit(draft).remaining>0&&n.jsxs('dl',{children:[row('К оплате сейчас',Te(keysPaymentSplit(draft).now)),row('Остаток',Te(keysPaymentSplit(draft).remaining))]}),
    payAtHotel&&n.jsxs('dl',{children:[row('К оплате сейчас',Te(0)),row('При заселении',Te(total.total))]}),
    n.jsx('p',{children:'Налоги и сборы включены'}),
    n.jsx(H,{onClick:()=>setOpen(false),children:'Понятно'})

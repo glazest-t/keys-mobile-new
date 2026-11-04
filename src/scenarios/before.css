@@ -331,3 +331,8 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kpa-reservation-control
 #keysUnifiedPrototype .kpa-pay-balance:active{background:#ffffff40}
 @media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .kpa-pay-balance{transition:none}}
 #keysUnifiedPrototype .kpa-primary-services{display:grid;gap:8px;font:400 14px/21px var(--font-sans)}
+
+/* Paid amount above the outstanding balance and its action. */
+#keysUnifiedPrototype .kpa-total.kpa-paid-amount{display:grid;gap:2px}
+#keysUnifiedPrototype .kpa-paid-amount>span{white-space:nowrap}
+#keysUnifiedPrototype .kpa-payment-remaining{font:400 12px/18px var(--font-sans);color:#ffffffd9;white-space:nowrap;font-variant-numeric:tabular-nums}

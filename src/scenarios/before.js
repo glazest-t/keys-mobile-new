@@ -158,7 +158,10 @@
   screen.querySelector('.kpa-duration-count strong').textContent=nights;
   screen.querySelector('.kpa-duration-count span').textContent=nightsLabel(nights).split(' ')[1];
   screen.querySelector('.kpa-trip-schedule').setAttribute('aria-label','Проживание: '+date(primary.arrival)+' — '+date(primary.departure)+', '+nightsLabel(nights));
-  screen.querySelector('.kpa-payment').innerHTML='<div class="kpa-total"><strong>'+money(total)+'</strong></div><div class="kpa-payment-status'+(due>0&&paid>0&&!cancel?' is-partial':'')+'"><strong>'+(cancel?'Бронирование отменено':due>0?(paid>0?'Оплачено частично':'Оплата при заселении'):icons.check+' Оплачено полностью')+'</strong>'+(due>0&&paid>0&&!cancel?'<button type="button" class="kpa-pay-balance" data-before="pay-balance">Оплатить полностью</button>':'')+'</div>';
+  const partial=due>0&&paid>0&&!cancel;
+  screen.querySelector('.kpa-payment').innerHTML=partial
+   ?'<div class="kpa-total kpa-paid-amount"><span>Оплачено</span><strong>'+money(paid)+'</strong></div><div class="kpa-payment-status is-partial"><span class="kpa-payment-remaining">К оплате '+money(due)+'</span><button type="button" class="kpa-pay-balance" data-before="pay-balance">Оплатить полностью</button></div>'
+   :'<div class="kpa-total"><strong>'+money(total)+'</strong></div><div class="kpa-payment-status"><strong>'+(cancel?'Бронирование отменено':due>0?'Оплата при заселении':icons.check+' Оплачено полностью')+'</strong></div>';
   screen.querySelector('.kpa-reservation-control').innerHTML='Управление бронированием '+icons.arrow;
   // These demo-only instructions and services belong to Maidens, not the selected hotel.
   screen.querySelectorAll('[data-before="instruction"],[data-before="route"],.kpa-booking-buttons,#kpa-nearby').forEach(el=>el.hidden=true);

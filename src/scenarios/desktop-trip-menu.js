@@ -12,6 +12,13 @@
  const row=(action,label,name)=>`<button type="button" class="kd-trip-menu-row" data-trip-menu-action="${action}">${icon(name)}<span>${label}</span>${icon('arrow')}</button>`;
  function render(){
   const state=scenario(),after=state==='after',stay=state==='stay';
+  const imported=state==='booked'&&window.KeysPrimaryBooking?.source==='voucher'?window.KeysImportedBooking:null;
+  if(imported){
+   const date=value=>new Date(value+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
+   panel.innerHTML=`<header><h2 id="kd-trip-menu-title">Ваша поездка</h2><button type="button" data-trip-menu-close aria-label="Закрыть окно поездки">${icon('close')}</button></header><button type="button" class="kd-trip-menu-hotel" data-trip-menu-action="details"><img src="${esc(imported.photo)}" alt=""><span><strong>${esc(imported.hotel)}</strong><small>${esc(imported.city)} · ${date(imported.arrival)} — ${date(imported.departure)}</small><span class="kd-trip-menu-status">${icon('check')}Бронь подтверждена</span></span>${icon('arrow')}</button><nav aria-label="Действия с поездкой">${row('details','Детали брони','file')}${row('history','Мои брони','history')}</nav>`;
+   return;
+  }
+
   const status=state==='booked'&&window.KeysBeforeCancellation?.getStatus()?'Бронь отменена':after?'Поездка завершена':stay?(document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до '+(window.KeysStayServices?.getRequests().late||'12:00'):'Проживание'):home.querySelector('.kpa-arrival-countdown').textContent.trim();
   const dates=state==='booked'?home.querySelector('.kpa-trip-schedule').getAttribute('aria-label').replace('Проживание: ',''):'12–19 сентября · 7 ночей';
   const orders=window.KeysActiveServices?.getOrders()||[];
@@ -31,6 +38,7 @@
   const action=button.dataset.tripMenuAction,state=scenario();close();trigger.focus({preventScroll:true});
   const click=selector=>home.querySelector(selector)?.click();
   if(action==='cancel')window.KeysBeforeCancellation.open(trigger);
+  if(action==='details'&&state==='booked'&&window.KeysPrimaryBooking?.source==='voucher'&&window.KeysImportedBooking){window.KeysProfile?.open('trip',window.KeysImportedBooking.id,{from:'trips'});return;}
   if(action==='details'){if(state==='booked')click('.kpa-actions [data-before="details"]');else app.dispatchEvent(new CustomEvent('keys-open-stay-details'));}
   if(action==='key')click('.kh-open-door');
   if(action==='services')click(state==='booked'?'.kpa-services-all':'.kh-home>.kh-quick-actions [data-info="services"]');
@@ -41,6 +49,7 @@
   if(action==='history')window.KeysProfile?.open('history',null,{from:'trips'});
  });
  app.addEventListener('keys-scenario-change',close);
+ app.addEventListener('keys-imported-booking-change',close);
  new MutationObserver(close).observe(document.body,{attributes:true,attributeFilter:['data-keys-view','data-keys-desktop-home']});
  window.addEventListener('resize',()=>{if(panel.matches(':popover-open'))position();});
  window.addEventListener('scroll',close,{passive:true});

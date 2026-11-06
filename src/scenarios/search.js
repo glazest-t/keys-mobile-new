@@ -13,7 +13,7 @@
    <button type="button" class="kh-primary" data-empty-action="find">${svg('<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>')}<span>Найти отель</span></button>
   </article>
   <section class="kse-benefits kse-benefits-compact" aria-labelledby="keys-double-benefits-title">
-   <img class="kse-benefits-orbit" src="./scenarios/assets/benefits-compact-orbit.png" alt="" width="76" height="76" decoding="async">
+   <img class="kse-benefits-orbit" src="./scenarios/assets/benefits-loyalty-discount.png" alt="" width="96" height="96" decoding="async">
    <div class="kse-benefits-copy"><h2 id="keys-double-benefits-title">Двойная выгода</h2><p>Привилегии отеля + баллы «Ключей»</p></div>
    <button type="button" class="kse-benefits-open" data-empty-action="benefits" aria-label="Двойная выгода — все преимущества">${arrow}</button>
   </section>`;

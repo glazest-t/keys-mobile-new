@@ -511,3 +511,23 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-before-links>button>
 #keysUnifiedPrototype .kd-deal-chevron{position:absolute;right:12px;top:12px;width:16px;height:16px;color:var(--color-muted)}
 #keysUnifiedPrototype .kd-deal-chevron svg{display:block;width:100%;height:100%}
 #keysUnifiedPrototype .kd-discovery-features>button:focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
+
+/* Replace the booked hotel slot with voucher import in the empty desktop state. */
+#keysUnifiedPrototype .kd-header-add-booking{display:none}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-header-add-booking:not([hidden]){display:flex!important;align-items:center;gap:10px;flex:0 1 auto;min-width:0;min-height:48px;box-sizing:border-box;padding:6px 12px 6px 8px;border:1px solid var(--color-brand-line);border-radius:14px;background:var(--color-card);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kd-header-add-icon{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:10px;background:var(--color-brand-tint);color:var(--color-brand)}
+#keysUnifiedPrototype .kd-header-add-icon svg{width:20px;height:20px}
+#keysUnifiedPrototype .kd-header-add-copy{display:grid;gap:2px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .kd-header-add-copy strong{font:500 14px/20px var(--font-sans);color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kd-header-add-copy small{font:400 12px/16px var(--font-sans);color:var(--color-muted);white-space:normal}
+#keysUnifiedPrototype .kd-header-add-booking[hidden],body:not([data-keys-view="desktop"]) #keysUnifiedPrototype .kd-header-add-booking{display:none!important}
+#keysUnifiedPrototype .kd-header-add-booking:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+@media(hover:hover){#keysUnifiedPrototype .kd-header-add-booking:hover{background:var(--color-brand-tint)}}
+@media(max-width:799px){body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-header-add-booking:not([hidden]){order:4;flex:1}}
+/* Keep voucher import with the benefits controls on the right of the masthead. */
+body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-header-add-booking:not([hidden]){margin-left:auto}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-header-add-booking:not([hidden])~.kd-header-points{margin-left:0}
+
+body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-header-hotel[data-imported-booking]{margin-left:auto}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-header-hotel[data-imported-booking]~.kd-header-points{margin-left:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-app-header .kd-header-hotel[hidden]{display:none!important}

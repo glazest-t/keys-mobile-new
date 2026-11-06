@@ -161,6 +161,7 @@ ${fragment}
 <link rel="stylesheet" href="./arbana/sheet-motion.css">
 <script type="module" src="./profile/profile.js"></script>
 <link rel="stylesheet" href="./scenarios/trip-history.css">
+<link rel="stylesheet" href="./scenarios/deals-banner.css">
 <script src="./scenarios/trip-history.js"></script>
 <link rel="stylesheet" href="./scenarios/push-demo.css">
 <script src="./scenarios/push-demo.js"></script>

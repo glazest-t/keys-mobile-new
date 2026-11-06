@@ -75,8 +75,8 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-
 #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits>.kse-card-action{border-top:0;font:500 14px/21px var(--font-sans)!important}
 
 /* Selected compact benefits row; the whole surface opens the existing benefits tab. */
-#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-compact{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr) 20px;align-items:center;gap:16px;width:100%;min-height:100px;margin-top:12px;padding:12px 0;border:0;border-radius:0;background:var(--color-card);text-align:left;cursor:pointer}
-#keysUnifiedPrototype .kse-benefits-orbit{display:block;width:76px;height:76px;object-fit:contain}
+#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-compact{position:relative;display:grid;grid-template-columns:96px minmax(0,1fr) 20px;align-items:center;gap:16px;width:100%;min-height:100px;margin-top:12px;padding:12px 0;border:0;border-radius:0;background:var(--color-card);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kse-benefits-orbit{display:block;width:96px;height:96px;object-fit:contain}
 #keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-copy h2{margin:0 0 6px;font:500 18px/24px var(--font-sans)!important;letter-spacing:0!important;color:var(--color-ink)}
 #keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-copy p{margin:0;font:400 14px/21px var(--font-sans)!important;color:var(--color-muted)}
 #keysUnifiedPrototype .kse-benefits-open{display:grid;place-items:center;align-self:stretch;padding:0;border:0;border-radius:0;background:transparent;color:var(--color-brand);cursor:pointer}
@@ -85,4 +85,4 @@ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kse-empty-bookings .kh-
 #keysUnifiedPrototype .kse-benefits-open:focus-visible{outline:0}
 #keysUnifiedPrototype .kse-benefits-compact:has(.kse-benefits-open:focus-visible){outline:2px solid var(--color-brand);outline-offset:4px;border-radius:4px}
 @media(hover:hover){#keysUnifiedPrototype .kse-benefits-compact:hover .kse-benefits-copy h2{color:var(--color-brand)}}
-@media(max-width:359px){#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-compact{grid-template-columns:56px minmax(0,1fr) 16px;gap:12px}#keysUnifiedPrototype .kse-benefits-orbit{width:56px;height:56px}}
+@media(max-width:359px){#keysUnifiedPrototype#keysUnifiedPrototype .kse-benefits-compact{grid-template-columns:76px minmax(0,1fr) 16px;gap:12px}#keysUnifiedPrototype .kse-benefits-orbit{width:76px;height:76px}}

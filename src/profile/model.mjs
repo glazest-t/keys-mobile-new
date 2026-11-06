@@ -1,6 +1,6 @@
 export const STORE_VERSION=1;
 export const fullName=p=>[p.firstName,p.lastName].filter(Boolean).join(' ');
-export const initialState=()=>({version:STORE_VERSION,language:'ru',travelers:[{id:'primary',primary:true,firstName:'Татьяна',lastName:'Глазырина',middleName:'Викторовна',birthDate:'',citizenship:'Россия',email:'',phone:'+7 (900) 123-45-67'}],notifications:{push:true,email:false,sms:false,bookings:true,messages:true,services:true,benefits:true,offers:false,quiet:false,quietFrom:'22:00',quietTo:'08:00'},security:{biometric:false,pin:false,otherDevices:[{id:'phone',name:'Safari · iPhone',location:'Москва',last:'12 сентября, 09:10'}]},privacy:{personalization:true,analytics:false},reviews:{},tickets:[],deletionRequested:false});
+export const initialState=()=>({version:STORE_VERSION,language:'ru',travelers:[{id:'primary',primary:true,firstName:'Татьяна',lastName:'Глазырина',middleName:'Викторовна',birthDate:'',citizenship:'Россия',email:'',phone:'+7 (900) 123-45-67'}],notifications:{push:true,email:false,sms:false,bookings:true,messages:true,services:true,benefits:true,offers:false,quiet:false,quietFrom:'22:00',quietTo:'08:00'},security:{biometric:false,pin:false,otherDevices:[{id:'phone',name:'Safari · iPhone',location:'Москва',last:'12 сентября, 09:10'}]},privacy:{personalization:true,analytics:false},reviews:{},tickets:[],deletionRequested:false,importedBooking:false});
 export function hydrate(raw){
  const base=initialState();
  if(!raw||raw.version!==STORE_VERSION)return base;
@@ -12,6 +12,7 @@ export function hydrate(raw){
  if(Array.isArray(raw.security?.otherDevices))base.security.otherDevices=raw.security.otherDevices.filter(d=>d&&typeof d.id==='string'&&typeof d.name==='string');
  if(raw.reviews&&typeof raw.reviews==='object')base.reviews=raw.reviews;
  if(Array.isArray(raw.tickets))base.tickets=raw.tickets.filter(t=>t&&typeof t.id==='string'&&typeof t.message==='string');
+ base.importedBooking=raw.importedBooking===true;
  base.deletionRequested=raw.deletionRequested===true;return base;
 }
 export function validateTraveler(p,today=new Date().toISOString().slice(0,10)){

@@ -49,7 +49,10 @@
 
  const hotel=document.createElement('button');hotel.type='button';hotel.className='kd-header-hotel kd-web-only';hotel.dataset.before='details';hotel.innerHTML=`<img src="./scenarios/maidens-hotel.jpg" alt=""><span><strong>Maidens Hotel</strong><small data-kd-arrival>Заезд сегодня</small></span>${icon('arrow')}`;
  const points=document.createElement('button');points.type='button';points.className='kd-header-points kd-web-only';points.dataset.desktopAction='benefits';points.setAttribute('aria-label','Ваши баллы Ключей');points.innerHTML=`${icon('gift')}<strong data-kd-points>2 400</strong>`;
- header.querySelector('.keys-app-actions').before(hotel,points);
+ const addBooking=document.createElement('button');addBooking.type='button';addBooking.className='kd-header-add-booking kd-web-only';addBooking.hidden=true;
+ addBooking.innerHTML=`<span class="kd-header-add-icon">${svg('<path d="M12 5v14M5 12h14"/>')}</span><span class="kd-header-add-copy"><strong>У меня есть бронь</strong><small>Добавьте её по номеру и коду из ваучера</small></span>`;
+ addBooking.addEventListener('click',()=>window.KeysProfile?.open('add-booking'));
+ header.querySelector('.keys-app-actions').before(addBooking,hotel,points);
  const profile=header.querySelector('.keys-app-profile');const identity=document.createElement('span');identity.className='kd-profile-name kd-web-only';identity.textContent='Татьяна';profile.querySelector('svg').before(identity);profile.setAttribute('aria-label','Профиль Татьяны');
  const about=document.createElement('button');about.type='button';about.className='kd-about-hotel kd-web-only';about.dataset.before='hotel';about.innerHTML=`Об отеле ${icon('arrow')}`;screen.querySelector('.kpa-hotel-visual').append(about);
  const action=(id,title,copy,ico,extra='')=>`<button type="button" data-before="${id}" ${extra}>${icon(ico)}<span><strong>${title}</strong><small>${copy}</small></span>${icon('arrow')}</button>`;
@@ -69,7 +72,7 @@
  window.KeysDesktopPoints={create:createPoints,sync:syncPoints};
  const benefits=document.createElement('div');benefits.className='kd-wallet kd-web-only';const wallet=createPoints();benefits.append(wallet);side.prepend(benefits);wallet.id='kd-loyalty';wallet.tabIndex=-1;
  const discovery=document.createElement('section');discovery.className='kd-discovery kd-web-only';discovery.setAttribute('aria-labelledby','kd-discovery-title');
- discovery.innerHTML=`<header><div><h2 id="kd-discovery-title">Подборки для новых впечатлений</h2><p>Пока ждёте эту поездку — найдите следующую</p></div><button type="button" class="kd-text-link" data-desktop-action="search">Перейти к поиску ${icon('arrow')}</button></header><div class="kd-discovery-features"><button type="button" class="kd-deals-pick" data-discovery-collection="deals" aria-label="Горячие скидки — от 10%"><span class="kd-deal-copy"><span class="kd-deal-eyebrow">Горячие скидки</span><span class="kd-deal-title">Больше отдыха.<br>Меньше затрат.</span><span class="kd-deal-saving">Отели со скидкой от 10%</span></span><span class="kd-deal-photos" aria-hidden="true"><span class="kd-deal-postcard"><img src="./scenarios/next-trip.jpg" alt="" loading="lazy"></span><span class="kd-deal-postcard"><img src="./home/nearby/nearby-cafe-generated.jpg" alt="" loading="lazy"></span></span><span class="kd-deal-chevron">${icon('arrow')}</span></button></div>`;
+ discovery.innerHTML=`<header><div><h2 id="kd-discovery-title">Найдите отель для следующей поездки</h2><p>Пока ждёте эту поездку — найдите следующую</p></div><button type="button" class="kd-text-link" data-desktop-action="search">Перейти к поиску ${icon('arrow')}</button></header><div class="kd-discovery-features"><button type="button" class="kd-deals-pick" data-discovery-collection="deals" aria-label="Горячие скидки — от 10%"><span class="kd-deal-copy"><span class="kd-deal-eyebrow">Горячие скидки</span><span class="kd-deal-title">Больше отдыха.<br>Меньше затрат.</span><span class="kd-deal-saving">Отели со скидкой от 10%</span></span><span class="kd-deal-photos" aria-hidden="true"><span class="kd-deal-postcard"><img src="./scenarios/next-trip.jpg" alt="" loading="lazy"></span><span class="kd-deal-postcard"><img src="./home/nearby/nearby-cafe-generated.jpg" alt="" loading="lazy"></span></span><span class="kd-deal-chevron">${icon('arrow')}</span></button></div>`;
  screen.after(discovery);
  // Mount the existing in-stay blocks; their handlers and service state stay shared.
  const stay=home.querySelector('.kh-home'),stayCard=stay.querySelector('.kh-stay-card');
@@ -186,12 +189,16 @@
   }
   intro.hidden=scenario==='search';
   intro.querySelector('h1').textContent=scenario==='after'?'Ваша поездка завершена':'Ваша поездка';
+  const imported=scenario==='booked'&&window.KeysPrimaryBooking?.source==='voucher'?window.KeysImportedBooking:null;
   hotel.hidden=scenario==='search';
+  addBooking.hidden=!(desktop&&scenario==='search');
+  if(imported)hotel.dataset.importedBooking=imported.id;else delete hotel.dataset.importedBooking;
   if(scenario!=='booked'){hotel.querySelector('strong').textContent='Maidens Hotel';hotel.querySelector('img').src='./scenarios/maidens-hotel.jpg';}
   delete hotel.dataset.after;
   if(scenario==='after'){delete hotel.dataset.before;delete hotel.dataset.info;hotel.dataset.after='stay';hotel.querySelector('[data-kd-arrival]').textContent='Поездка завершена';}
   else if(inStay){delete hotel.dataset.before;hotel.dataset.info='stay';hotel.querySelector('[data-kd-arrival]').textContent=document.body.dataset.keysStayDay==='checkout'?'Выезд сегодня до '+(window.KeysStayServices?.getRequests().late||'12:00'):'Проживает в отеле';}
   else{delete hotel.dataset.info;hotel.dataset.before='details';syncBooking();}
+  if(imported){hotel.querySelector('strong').textContent=imported.hotel;hotel.querySelector('img').src=imported.photo;hotel.querySelector('[data-kd-arrival]').textContent=new Date(imported.arrival+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+' — '+new Date(imported.departure+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'});}
   discovery.querySelector('header p').textContent=scenario==='search'?'Найдите свой отель или выберите предложение со скидкой':scenario==='after'||inStay?'Вдохновение для следующей поездки':'Пока ждёте эту поездку — найдите следующую';
   actions.querySelector('[data-kd-route]').hidden=scenario==='booked'&&!!window.KeysPrimaryBooking;
   actions.querySelector('[data-kd-instruction]').hidden=scenario==='booked'&&!!window.KeysPrimaryBooking;
@@ -205,6 +212,7 @@
  window.addEventListener('popstate',()=>{view=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'mobile';render();});root.addEventListener('keys-scenario-change',event=>{if(event.detail?.resetView)view='mobile';render();});
  new MutationObserver(()=>root.querySelectorAll('[data-desktop-points]').forEach(syncPoints)).observe(document.body,{attributes:true,attributeFilter:['data-keys-guest-search','data-keys-guest-authorized']});
  root.addEventListener('keys-primary-booking-change',render);
+ root.addEventListener('keys-imported-booking-change',render);
  root.addEventListener('keys-service-requests-change',render);
  window.addEventListener('DOMContentLoaded',render,{once:true});
  new MutationObserver(render).observe(home.closest('.ku-section'),{attributes:true,attributeFilter:['hidden']});render();

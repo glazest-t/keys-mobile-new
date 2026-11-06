@@ -1,0 +1,41 @@
+/* November: search reuses the approved Trips promotion. Layout alone varies. */
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal,.is-search-grid .kd-deals-pick){
+ position:relative;isolation:isolate;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
+ width:100%;height:250px;min-height:250px;gap:0;padding:20px;border:0;border-radius:24px;overflow:hidden;
+ background:var(--color-brand);color:#fff;text-align:left;cursor:pointer;transition:box-shadow .2s ease;
+}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-copy,.is-search-grid .kd-deal-copy){position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:0;width:100%;height:100%;min-width:0}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-eyebrow,.is-search-grid .kd-deal-eyebrow){display:block;margin:0;color:#fff;font:500 22px/28px var(--font-sans);letter-spacing:-.2px}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-copy strong,.is-search-grid .kd-deal-title){display:block;max-width:240px;margin:10px 0 0;color:#ffffffd9;font:400 14px/20px var(--font-sans);letter-spacing:0}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-saving,.is-search-grid .kd-deal-saving){position:relative;z-index:2;display:inline-flex;align-items:center;gap:6px;flex:none;box-sizing:border-box;min-height:40px;margin-top:auto;padding:10px 14px;border:0;border-radius:12px;background:#fff;color:var(--color-brand);font:500 14px/20px var(--font-sans);white-space:nowrap}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-saving,.is-search-grid .kd-deal-saving)::after{content:'';width:16px;height:16px;flex:none;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' d='M5 12h14m-6-6 6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-photos,.is-search-grid .kd-deal-photos){position:absolute;z-index:0;display:block;right:-14px;bottom:-12px;width:210px;height:170px;pointer-events:none}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-postcard,.is-search-grid .kd-deal-postcard){position:absolute;display:block;top:0;left:0;width:130px;height:164px;border:4px solid #fff;border-radius:16px;overflow:hidden;background:var(--color-soft);box-shadow:0 8px 24px #142b7333;transform:rotate(-7deg)}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-postcard+.keys-find-deal-postcard,.is-search-grid .kd-deal-postcard+.kd-deal-postcard){left:auto;right:0;top:24px;transform:rotate(7deg)}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-postcard img,.is-search-grid .kd-deal-postcard img){display:block;width:100%;height:100%;object-fit:cover}
+:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal-chevron,.is-search-grid .kd-deal-chevron){display:none}
+:is(#root,#keysUnifiedPrototype) :is(.keys-find-deal,.kd-deals-pick):focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
+/* A wider banner keeps the same hierarchy, with photography beside the copy. */
+html[data-desktop-account=true] #root#root#root .keys-find-deal,
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-deals-pick{height:240px;min-height:240px;padding:24px}
+html[data-desktop-account=true] #root#root#root .keys-find-deal-photos,
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-deal-photos{width:280px;height:224px;right:10px;bottom:-14px}
+html[data-desktop-account=true] #root#root#root .keys-find-deal-postcard,
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-deal-postcard{width:174px;height:212px;border-width:5px;border-radius:18px}
+@media(max-width:1050px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-deals-pick{height:280px;min-height:280px;padding:20px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-deal-photos{width:210px;height:170px;right:-14px;bottom:-12px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .is-search-grid .kd-deal-postcard{width:130px;height:164px;border-width:4px;border-radius:16px}
+}
+@media(max-width:599px){
+ html[data-desktop-account=true] #root#root#root .keys-find-deal{height:250px;min-height:250px;padding:20px}
+ html[data-desktop-account=true] #root#root#root .keys-find-deal-photos{width:210px;height:170px;right:-14px;bottom:-12px}
+ html[data-desktop-account=true] #root#root#root .keys-find-deal-postcard{width:130px;height:164px;border-width:4px;border-radius:16px}
+}
+@media(hover:hover){:is(#root#root#root,#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype) :is(.keys-find-deal,.is-search-grid .kd-deals-pick):hover{box-shadow:0 8px 28px #20396b24}}
+@media(prefers-reduced-motion:reduce){:is(#root,#keysUnifiedPrototype) :is(.keys-find-deal,.is-search-grid .kd-deals-pick){transition:none}}
+/* The full-width Find banner has room for larger photography. */
+@media(min-width:800px){
+ html[data-desktop-account=true] #root#root#root .keys-find-deal-photos{width:410px;max-width:48%;height:254px;right:20px;bottom:-24px}
+ html[data-desktop-account=true] #root#root#root .keys-find-deal-postcard{width:64%;height:244px}
+}

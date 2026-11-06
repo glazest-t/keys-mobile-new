@@ -15,3 +15,48 @@ body[data-keys-desktop-home="true"] #keysUnifiedPrototype .keys-trip-history{max
 
 /* The empty Trips page uses spacing alone to separate its three sections. */
 body:not([data-keys-desktop-home="true"]) #keysUnifiedPrototype .kse-home:not([hidden]) + .keys-trip-history{margin-top:24px;padding-top:0}
+
+/* November desktop: a distinct promotional row with large photography. */
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid){display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch;margin-top:32px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>.kd-discovery-features{display:contents}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>.keys-trip-history{min-width:0;max-width:none;margin:0;padding:0}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>header,
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(.kd-deals-pick,.keys-trip-history-card){position:relative;isolation:isolate;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:16px;min-width:0;height:320px;min-height:320px;margin:0;padding:24px;border:0;border-radius:24px;color:var(--color-ink);text-align:left;overflow:hidden;transition:box-shadow .2s ease}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>header{background:linear-gradient(180deg,#222b44 0%,#222b44e8 33%,#222b4430 72%,#222b4470 100%),url('./next-trip.jpg') center 65%/cover no-repeat}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deals-pick{background:var(--color-brand)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .keys-trip-history-card{background:var(--color-brand-tint)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(h2,.kd-deal-eyebrow,.keys-trip-history-copy>strong){display:block;position:relative;z-index:1;max-width:290px;margin:0;font:500 22px/28px var(--font-sans)!important;letter-spacing:-.2px!important;color:var(--color-ink)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(h2,.kd-deal-eyebrow){color:#fff!important}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(header p,.kd-deal-title){display:block;position:relative;z-index:1;max-width:240px;margin:10px 0 0;font:400 14px/20px var(--font-sans)!important;letter-spacing:0!important;color:#ffffffd9}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(.kd-deal-copy,.keys-trip-history-copy){display:flex;flex-direction:column;align-items:flex-start;gap:0;height:100%;width:100%;position:relative;z-index:1}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(.kd-text-link,.kd-deal-saving,.keys-trip-history-link){display:inline-flex;align-items:center;gap:6px;position:relative;z-index:2;flex:none;box-sizing:border-box;margin-top:auto;padding:10px 14px;min-height:40px;border:0;border-radius:12px;background:#fff;color:var(--color-brand);font:500 14px/20px var(--font-sans);white-space:nowrap;text-decoration:none}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-text-link{position:static}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-text-link::after{content:'';position:absolute;inset:0;z-index:3}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>header:has(:focus-visible){outline:2px solid var(--color-brand);outline-offset:4px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-saving{padding-right:32px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-photos{position:absolute;right:-12px;bottom:-10px;width:250px;height:210px;z-index:0}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-postcard{width:154px;height:198px;border-width:5px;border-radius:18px;box-shadow:0 8px 24px #142b7333}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-postcard+.kd-deal-postcard{top:30px}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-chevron{z-index:2;top:auto;right:auto;left:147px;bottom:36px;width:16px;height:16px;color:var(--color-brand)}
+body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .keys-trip-history-art{width:100%;height:240px;top:auto;right:0;bottom:0;object-fit:cover;object-position:center;z-index:0;mask-image:linear-gradient(transparent,black 22%)}
+@media(hover:hover){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>header:hover,
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(.kd-deals-pick,.keys-trip-history-card):hover{box-shadow:0 8px 28px #20396b24}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .keys-trip-history-card:hover .keys-trip-history-link{text-decoration:none}
+}
+@media(max-width:999px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid){gap:12px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>header,
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(.kd-deals-pick,.keys-trip-history-card){padding:20px;height:340px;min-height:340px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(h2,.kd-deal-eyebrow,.keys-trip-history-copy>strong){font-size:20px!important;line-height:26px!important}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-photos{width:210px;height:190px;right:-20px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-postcard{width:134px;height:178px}
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) .kd-deal-chevron{left:143px;bottom:32px}
+}
+@media(max-width:699px){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid){grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid)>header,
+ body[data-keys-desktop-home=true] #keysUnifiedPrototype .kd-discovery:not(.is-search-grid) :is(.kd-deals-pick,.keys-trip-history-card){transition:none}
+}

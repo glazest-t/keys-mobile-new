@@ -20,11 +20,42 @@ function setup(){
  const select=(name,label,values,value)=>`<div class="kpf-field"><label for="kpf-${name}">${label}</label><select id="kpf-${name}" name="${name}">${values.map(([v,t])=>`<option value="${v}"${v===value?' selected':''}>${t}</option>`).join('')}</select></div>`;
  const toggle=(group,key,title,sub)=>`<label class="kpf-switch-row"><span><strong>${title}</strong><small>${sub}</small></span><input type="checkbox" role="switch" data-setting="${group}.${key}" aria-label="${title}"${state[group][key]?' checked':''}><span class="kpf-switch" aria-hidden="true"></span></label>`;
  const info=(title,text,name='shield')=>`<div class="kpf-info">${icon(name)}<div><strong>${title}</strong><p>${text}</p></div></div>`;
- const allTrips=()=>collectTrips({scenario:document.body.dataset.keysScenario,host:window.KeysHostBookingModel?.(),created:window.KeysTripBookings||[],today:document.body.dataset.keysScenario==='after'?'2026-09-20':document.body.dataset.keysScenario==='booked'?'2026-09-12':'2026-09-13'});
+ const allTrips=()=>[...collectTrips({scenario:document.body.dataset.keysScenario,host:window.KeysHostBookingModel?.(),created:window.KeysTripBookings||[],today:document.body.dataset.keysScenario==='after'?'2026-09-20':document.body.dataset.keysScenario==='booked'?'2026-09-12':'2026-09-13'}),...(state.importedBooking?[importedBooking()]:[])];
+ const importedBooking=()=>({id:'voucher-KL-20418',hotel:'Maidens Hotel',hotelId:'maidens',city:'Москва',arrival:'2026-12-12',departure:'2026-12-15',nights:3,guests:2,room:'Премиум с большой кроватью',price:28980,points:0,tariff:'Гибкий тариф',status:'upcoming',source:'voucher',photo:'./scenarios/maidens-hotel.jpg'});
  const tripById=id=>allTrips().find(t=>t.id===id);
  let state=initialState(),storageKey='',route=null,dirty=false,returnFocus=null,returnSection=null,toastTimer,lastScenario=scenarioStamp(),filter={query:'',status:'all'},helpQuery='',helpCategory='Все';
  const page=document.createElement('section');page.className='kpf';page.hidden=true;page.setAttribute('aria-label','Раздел профиля');phone.append(page);
  const dialog=document.createElement('dialog');dialog.className='kpf-dialog';phone.append(dialog);
+ const importPopup=document.createElement('dialog');importPopup.className='kpf kpf-booking-import kpf-import-popup';importPopup.setAttribute('aria-labelledby','kpf-import-popup-title');root.append(importPopup);
+ let importStep='form',importFocus=null;
+ const importForm=()=>`<form id="kpf-add-booking-form" class="kpf-import-form" data-form="add-booking" novalidate><p class="kpf-import-intro">Номер брони и код указаны в ваучере, который вы получили после бронирования.</p><div class="kpf-fields">${field('bookingNumber','Номер брони','','text','required autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="40" placeholder="Например, KL-20418"')}${field('voucherCode','Код из ваучера','','text','required autocomplete="off" spellcheck="false" maxlength="40" placeholder="Введите код"')}</div><button type="submit" class="kpf-primary">Найти бронь</button></form><details class="kpf-import-demo"><summary>Пример для прототипа</summary><p>Номер <strong>KL-20418</strong>, код <strong>1234</strong></p></details>`;
+ const importFound=()=>`<section class="kpf-import-form"><h2>Maidens Hotel</h2><dl class="kpf-details"><div><dt>Номер брони</dt><dd>KL-20418</dd></div><div><dt>Даты</dt><dd>12–15 декабря 2026</dd></div><div><dt>Гости</dt><dd>2 взрослых</dd></div><div><dt>Номер</dt><dd>Премиум с большой кроватью</dd></div></dl>${primaryButton(state.importedBooking?'Открыть бронь':'Добавить в мои брони','data-action="confirm-booking-import"')}</section>`;
+ function renderImport(){
+  const found=importStep==='found',title=found?(state.importedBooking?'Бронь добавлена':'Бронь найдена'):'Добавить бронь';
+  importPopup.innerHTML=`<header class="kpf-import-popup-header">${found&&!state.importedBooking?`<button type="button" class="kpf-back" data-import-back aria-label="Назад">${icon('back')}</button>`:''}<h2 id="kpf-import-popup-title" tabindex="-1">${title}</h2><button type="button" class="kpf-import-close" data-import-close aria-label="Закрыть">${icon('close')}</button></header><div class="kpf-import-popup-body">${found?importFound():importForm()}</div>`;
+  importPopup.querySelector('h2').focus({preventScroll:true});
+ }
+ function openImport(){readState();importFocus=document.activeElement;importStep='form';renderImport();if(!importPopup.open)importPopup.showModal();importPopup.querySelector('h2').focus({preventScroll:true});}
+ function closeImport(){if(importPopup.open)importPopup.close();}
+ importPopup.addEventListener('close',()=>{importPopup.innerHTML='';importFocus?.isConnected&&importFocus.focus({preventScroll:true});});
+ importPopup.addEventListener('click',event=>{
+  if(event.target===importPopup){const r=importPopup.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeImport();return;}
+  if(event.target.closest('[data-import-close]'))return closeImport();
+  if(event.target.closest('[data-import-back]')){importStep='form';renderImport();return;}
+  if(event.target.closest('[data-action="confirm-booking-import"]')){
+   persist({...state,importedBooking:true},'');closeImport();dirty=false;if(route)close();
+   const url=new URL(location.href);url.hash='';history.replaceState({...history.state,keysProfileDepth:0},'',url);
+   activateImportedBooking();window.KeysScenarios.select('booked',{preserveView:true});
+   root.dispatchEvent(new CustomEvent('keys-profile-action',{detail:{action:'trip'}}));
+  }
+ });
+ importPopup.addEventListener('submit',event=>{
+  event.preventDefault();const form=event.target,values=Object.fromEntries(new FormData(form)),errors={};
+  if(!values.bookingNumber.trim())errors.bookingNumber='Введите номер брони';if(!values.voucherCode.trim())errors.voucherCode='Введите код из ваучера';
+  if(Object.keys(errors).length)return formErrors(form,errors);
+  if(values.bookingNumber.trim().toUpperCase()!=='KL-20418'||values.voucherCode.trim()!=='1234')return formErrors(form,{voucherCode:'Бронь не найдена. Проверьте номер и код из ваучера.'});
+  importStep='found';renderImport();
+ });
  const toast=document.createElement('p');toast.className='kpf-toast';toast.setAttribute('role','status');toast.hidden=true;phone.append(toast);
  function notify(message){clearTimeout(toastTimer);toast.textContent=message;toast.hidden=false;toastTimer=setTimeout(()=>toast.hidden=true,4200);}
  function readState(){
@@ -39,8 +70,26 @@ function setup(){
   state=next;let saved=true;try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{saved=false;}
   refreshRoot();if(message)notify(saved?message:'Изменения действуют до перезагрузки: хранилище браузера недоступно.');return saved;
  }
+ function activateImportedBooking(){
+  const trip=importedBooking();window.KeysPrimaryBooking={...trip,model:tripBookingModel(trip)};
+  root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));
+ }
+ function syncImportedScenario(){
+  if(document.body.dataset.keysSelectedScenario==='booked'&&state.importedBooking){
+   if(!window.KeysPrimaryBooking||window.KeysPrimaryBooking.source==='voucher')activateImportedBooking();
+  }else if(window.KeysPrimaryBooking?.source==='voucher'){window.KeysPrimaryBooking=null;root.dispatchEvent(new CustomEvent('keys-primary-booking-change'));}
+ }
  function refreshRoot(){
+  window.KeysImportedBooking=state.importedBooking?importedBooking():null;
+  root.dispatchEvent(new CustomEvent('keys-imported-booking-change'));
   const primary=state.travelers.find(p=>p.primary);if(!primary)return;
+  const tripsEntry=phone.querySelector('[data-open="allTrips"]');
+  if(tripsEntry&&!phone.querySelector('[data-kpf-page="add-booking"]')){
+   const add=document.createElement('button');add.type='button';add.className='kf-row';add.dataset.kpfPage='add-booking';
+   add.innerHTML=`<span class="kf-icon blue">${icon('bookingDocument')}</span><span><strong>Добавить бронь</strong><small>Уже забронировали отель? Добавьте бронь по номеру и коду из ваучера.</small></span><b class="kf-chevron">${icon('chevron')}</b>`;
+   tripsEntry.after(add);
+  }
+
   for(const [key,label] of Object.entries({notifications:'Брони, сообщения и услуги',security:'Вход и активные устройства',dataManagement:'Приватность и удаление аккаунта',language:state.language==='en'?'English':'Русский'})){const caption=phone.querySelector('[data-open="'+key+'"] small');if(caption)caption.textContent=label;}
   const cardEl=phone.querySelector('[data-open="travelerProfile"]')?.closest('.kf-card');
   if(cardEl){const original=cardEl.querySelector('[data-open="travelerProfile"]');original.querySelector('strong').textContent=fullName(primary);cardEl.querySelectorAll('[data-kpf-traveler]').forEach(el=>el.remove());
@@ -57,6 +106,7 @@ function setup(){
  const encodeRoute=r=>r?'#profile/'+r.name+(r.id?'/'+encodeURIComponent(r.id):''):'';
  function parseRoute(){const parts=location.hash.slice(1).split('/');return parts[0]==='profile'&&parts[1]?{name:parts[1],id:parts[2]?decodeURIComponent(parts[2]):null}:null;}
  function navigate(name,id=null,{replace=false,from=null}={}){
+  if(name==='add-booking')return guard(openImport);
   guard(()=>{readState();if(!route){returnFocus=document.activeElement;returnSection=from;}route={name,id};const url=new URL(location.href);url.hash=encodeRoute(route);const depth=(history.state?.keysProfileDepth||0)+(replace?0:1);history[replace?'replaceState':'pushState']({...history.state,keysProfileDepth:depth,keysProfileReturn:returnSection},'',url);root.dispatchEvent(new CustomEvent('keys-open-profile'));render();});
  }
  function close(){route=null;dirty=false;phone.classList.remove('kpf-open');page.hidden=true;phone.querySelector(':scope>.kf-scroll').inert=false;phone.querySelector('.keys-profile-header').inert=false;returnFocus?.isConnected&&returnFocus.focus({preventScroll:true});}
@@ -66,7 +116,7 @@ function setup(){
  }
  function back(){guard(()=>{if(history.state?.keysProfileDepth>0)history.back();else{const parent={traveler:'travelers',edit:'travelers',trip:'history',review:'history',article:'help',contact:'help',ticket:'help',devices:'security',pin:'security',delete:'data'}[route.name];if(parent)navigate(parent,null,{replace:true});else{const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url);close();returnToEntry();}}});}
  function shell(title,body,{footer='',right='',wide=false}={}){
-  page.classList.remove('kpf-booking-details');
+  page.classList.remove('kpf-booking-details','kpf-booking-import');
   page.innerHTML=`<header class="kpf-header"><button type="button" class="kpf-back" data-action="back" aria-label="Назад">${icon('back')}</button><h1 tabindex="-1">${title}</h1>${right}</header><main class="kpf-content${wide?' kpf-wide':''}">${body}</main>${footer?`<footer class="kpf-footer">${footer}</footer>`:''}`;
   page.hidden=false;phone.classList.add('kpf-open');phone.querySelector(':scope>.kf-scroll').inert=true;phone.querySelector('.keys-profile-header').inert=true;page.querySelector('h1').focus({preventScroll:true});page.querySelector('.kpf-content').scrollTop=0;
   if(document.body.dataset.keysView==='desktop')window.scrollTo({top:0,behavior:'instant'});
@@ -110,7 +160,7 @@ function setup(){
   }else if(name==='trip'){
    const t=tripById(id);if(!t)return navigate('history',null,{replace:true});
    const model=tripBookingModel(t);
-   shell('Детали брони',`${window.KeysBookingDetails.render(model)}${card(row('bookingDocument','Документы поездки','Посмотреть и сохранить','data-action="trip-documents"')+(t.status==='completed'?row('star',state.reviews[t.id]?'Ваш отзыв':'Оценить проживание',state.reviews[t.id]?`${state.reviews[t.id].rating} из 5 · изменить отзыв`:'Поделитесь впечатлениями об отеле','data-action="review-trip"'):''))}`,{footer:primaryButton(['upcoming','active'].includes(t.status)?'Перейти к брони':'Забронировать ещё раз',['upcoming','active'].includes(t.status)?'data-action="manage-trip"':'data-action="rebook"')});
+   shell('Детали брони',`${window.KeysBookingDetails.render(model)}${card(row('bookingDocument','Документы поездки','Посмотреть и сохранить','data-action="trip-documents"')+(t.status==='completed'?row('star',state.reviews[t.id]?'Ваш отзыв':'Оценить проживание',state.reviews[t.id]?`${state.reviews[t.id].rating} из 5 · изменить отзыв`:'Поделитесь впечатлениями об отеле','data-action="review-trip"'):''))}`,{footer:primaryButton(t.source==='voucher'?'Мои брони':['upcoming','active'].includes(t.status)?'Перейти к брони':'Забронировать ещё раз',['upcoming','active'].includes(t.status)?'data-action="manage-trip"':'data-action="rebook"')});
    page.classList.add('kpf-booking-details');
   }else if(name==='review'){
    const t=tripById(id),r=state.reviews[id]||{};if(!t)return navigate('history',null,{replace:true});shell('Отзыв о проживании',`<p class="kpf-lead">${esc(t.hotel)} · ${t.city}</p><form id="kpf-review-form" data-form="review"><fieldset class="kpf-rating"><legend>Как прошла поездка?</legend>${[1,2,3,4,5].map(v=>`<label><input type="radio" name="rating" value="${v}"${r.rating===v?' checked':''} required aria-label="${v} из 5"><span>${icon('star')}<b>${v}</b></span></label>`).join('')}</fieldset><div class="kpf-field"><label for="kpf-review-text">Ваши впечатления · необязательно</label><textarea id="kpf-review-text" name="text" maxlength="1500" rows="6" placeholder="Что понравилось? Что можно улучшить?">${esc(r.text||'')}</textarea></div><p class="kpf-note">Отзыв сохранится в прототипе и не будет опубликован на сайте отеля.</p></form>`,{footer:'<button type="submit" form="kpf-review-form" class="kpf-primary">Сохранить отзыв</button>'});
@@ -178,7 +228,7 @@ function setup(){
    case 'remove-traveler':{const p=state.travelers.find(x=>x.id===route.id);return ask('Удалить путешественника?',`${esc(fullName(p))} исчезнет из сохранённых гостей. Уже оформленные брони не изменятся.`,'Удалить',()=>{persist(removeTraveler(state,p.id),'Путешественник удалён');navigate('travelers',null,{replace:true});},true);}
    case 'review-trip':return navigate('review',route.id);
    case 'trip-documents':return window.KeysTripDocuments.open(target,tripBookingModel(t));
-   case 'manage-trip':return external('booking',{bookingId:t.source==='created'?t.id:null});
+   case 'manage-trip':if(t.source==='voucher')return navigate('history',null,{replace:true});return external('booking',{bookingId:t.source==='created'?t.id:null});
    case 'rebook':return root.dispatchEvent(new CustomEvent('keys-profile-action',{detail:{action:'rebook',hotelId:t.hotelId,nights:t.nights||3,party:{adults:parseInt(t.guests,10)||1,childrenAges:[],pet:false,business:false}}}));
    case 'hotel-chat':return external('hotel-chat');
    case 'security-help':return navigate('article','key-security');
@@ -214,6 +264,10 @@ function setup(){
  root.addEventListener('keys-scenario-change',()=>{if(scenarioStamp()===lastScenario)return;lastScenario=scenarioStamp();if(route){close();const url=new URL(location.href);url.hash='';history.replaceState({...history.state,keysProfileDepth:0},'',url);}});
  articles.push({id:'key-security',category:'Аккаунт',title:'Что делать, если вы не узнаёте вход?',text:'Откройте список устройств и завершите незнакомые сеансы. Не сообщайте коды из SMS другим людям. Если вы потеряли доступ к телефону или заметили действия, которых не совершали, обратитесь в поддержку Ключей.',action:'devices'});
  root.addEventListener('keys-trip-bookings-change',()=>{if(route?.name==='history')updateHistory();});
- readState();const initial=parseRoute();if(initial){route=initial;returnSection=history.state?.keysProfileReturn||null;root.dispatchEvent(new CustomEvent('keys-open-profile'));render();}
+ root.addEventListener('keys-scenario-change',closeImport);
+ root.addEventListener('keys-scenario-change',syncImportedScenario);
+ root.addEventListener('keys-primary-booking-action',event=>{if(window.KeysPrimaryBooking?.source==='voucher'&&['details','manage-options','manage','share'].includes(event.detail?.action)){event.stopImmediatePropagation();navigate('trip','voucher-KL-20418',{from:'trips'});}},true);
+ readState();syncImportedScenario();let initial=parseRoute();if(['add-booking','booking-found'].includes(initial?.name)){const url=new URL(location.href);url.hash='';history.replaceState({...history.state,keysProfileDepth:0},'',url);initial=null;openImport();}
+ if(initial){route=initial;returnSection=history.state?.keysProfileReturn||null;root.dispatchEvent(new CustomEvent('keys-open-profile'));render();}
  window.KeysProfile={open:(name='travelers',id,options)=>navigate(name,id,options)};
 }

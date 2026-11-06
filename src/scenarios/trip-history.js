@@ -15,10 +15,13 @@
  const sync=()=>{
   const scenario=document.body.dataset.keysScenario;
   section.hidden=!['search','booked','stay','after'].includes(scenario)||document.body.dataset.keysGuestSearch==='true'&&document.body.dataset.keysGuestAuthorized!=='true';
-  // A newly confirmed booking is appended by the host; history stays below it.
-  if(scroll.lastElementChild!==section)scroll.append(section);
+  // Desktop trip dashboards share one row; mobile keeps its existing history entry.
+  const discovery=scroll.querySelector('.kd-discovery');
+  const inDesktopRow=document.body.dataset.keysView==='desktop'&&['booked','stay','after'].includes(scenario)&&discovery;
+  if(inDesktopRow){if(section.parentElement!==discovery)discovery.append(section);}
+  else if(scroll.lastElementChild!==section)scroll.append(section);
  };
  new MutationObserver(sync).observe(scroll,{childList:true});
- new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['data-keys-scenario','data-keys-guest-search','data-keys-guest-authorized']});
+ new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['data-keys-scenario','data-keys-view','data-keys-guest-search','data-keys-guest-authorized']});
  app.addEventListener('keys-scenario-change',sync);sync();
 })();

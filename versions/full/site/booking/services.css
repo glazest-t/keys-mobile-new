@@ -1,0 +1,104 @@
+/* Hotel catalog: standard type roles, white surfaces and compact photographic cards. */
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-page{background:var(--color-card)!important;font-family:var(--font-sans)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-page .ksd-detail-scroll{padding:8px 16px 116px;background:var(--color-card);scroll-padding-bottom:100px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-page .ksd-detail-head{display:flex;align-items:center;gap:12px;margin:0 0 20px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-page .ksd-detail-title small{display:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-page h1{margin:0;font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-catalog{display:grid;gap:24px}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-page h2{margin:0 0 12px!important;font:500 17px/24px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-catalog button{font-family:var(--font-sans);color:var(--color-ink);cursor:pointer;text-align:left;box-shadow:none;transition:background .18s}
+#keysUnifiedPrototype #keysStayDetails .ksvc-photo{position:relative;display:flex;flex-direction:column;align-items:stretch;min-width:0;padding:0 0 12px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);overflow:hidden}
+#keysUnifiedPrototype #keysStayDetails .ksvc-photo img{display:block;width:100%;height:108px;object-fit:cover;object-position:50% 66%;margin-bottom:12px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-photo .ksvc-copy{padding:0 12px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-photo .ksvc-trailing{display:none}
+#keysUnifiedPrototype #keysStayDetails .ksvc-copy{display:grid;gap:4px;min-width:0;flex:1}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-catalog strong{display:block;margin:0;font:500 14px/21px var(--font-sans)!important;letter-spacing:0!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-catalog small:not(.kpa-service-status){display:block;margin:0;font:400 12px/18px var(--font-sans)!important;letter-spacing:0!important;color:var(--color-muted)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-list{padding:0 16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-essentials{margin-top:12px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-row{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:14px 0;border:0;border-radius:0;background:transparent}
+#keysUnifiedPrototype #keysStayDetails .ksvc-row+.ksvc-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-row .ksd-flow-icon{display:grid;place-items:center;width:24px;height:24px;min-width:24px;margin:0;padding:0;border-radius:0;background:transparent!important;color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-row .ksd-flow-icon svg{width:22px;height:22px;stroke-width:1.65}
+#keysUnifiedPrototype #keysStayDetails .ksvc-trailing{display:flex;align-items:center;gap:8px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-trailing>svg{width:14px;height:14px}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-trailing .ksd-flow-value{font:500 14px/21px var(--font-sans)!important;white-space:nowrap;color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-catalog button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+@media(hover:hover){#keysUnifiedPrototype #keysStayDetails .ksvc-catalog button:not(.ksvc-stay-service):hover{background:var(--color-soft)}}
+#keysUnifiedPrototype #keysStayDetails .ksvc-page :is(.ksd-active-service,.ksd-services-bill){margin:0 0 16px;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);box-shadow:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-page :is(.ksd-active-service,.ksd-services-bill) strong{font:500 14px/21px var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-page :is(.ksd-active-service,.ksd-services-bill) small{font:400 12px/18px var(--font-sans)!important}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype #keysStayDetails .ksvc-catalog button{transition:none}}
+
+/* Shared service-detail components, including basket and request states. */
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary{background:var(--color-card)!important;font-family:var(--font-sans);color:var(--color-ink)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-detail-scroll{padding:8px 16px 116px;background:var(--color-card);scroll-padding-bottom:100px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-detail-head{display:flex;align-items:center;gap:12px;margin:0 0 20px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-detail-title small{display:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary h1{margin:0;font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(h2,h3){margin:24px 0 12px;font:500 17px/24px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(button,p,label,input,textarea){font:400 14px/21px var(--font-sans);letter-spacing:0}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(strong,b,.ksd-flow-value,.ksd-menu-price){font:500 14px/21px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(small,.ksd-now-state){font:400 12px/18px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary small{display:block;margin-top:4px;color:var(--color-muted)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-restaurant{display:block;width:100%;height:150px;object-fit:cover;object-position:center 58%;border-radius:20px;margin-bottom:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-note{margin:0 0 16px;padding:0;background:transparent;color:var(--color-muted);font:400 12px/18px var(--font-sans)!important;border:0;border-radius:0}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(.ksd-flow-card,.ksd-other-card){padding:0 16px;border:1px solid var(--color-line)!important;border-radius:20px!important;background:var(--color-card)!important;box-shadow:none!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:84px;padding:16px 0;border-color:var(--color-line)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-row>span{min-width:0}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-row>span:last-child:has(.ksd-add-item){display:grid;gap:8px;justify-items:end}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-icon{display:grid;place-items:center;width:24px;height:24px;min-width:24px;padding:0;margin:0;background:transparent!important;border-radius:0;color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-icon svg{width:22px;height:22px;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-add-item{display:grid;place-items:center;width:44px;height:44px;min-width:44px;border:0;border-radius:14px;background:var(--color-soft);color:var(--color-brand);font:400 22px/1 var(--font-sans)!important;box-shadow:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-flow-primary{width:100%;min-height:48px;height:auto;padding:12px 16px;border:0;border-radius:14px;margin-top:16px;background:var(--color-brand);color:var(--color-on-brand,#fff);font:500 14px/21px var(--font-sans)!important;box-shadow:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-menu-tabs{display:flex;gap:8px;margin:0 -16px 16px 0;padding:0 16px 0 0;overflow-x:auto;scrollbar-width:none;background:transparent}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-menu-tab{flex:none;min-height:42px;height:auto;padding:10px 14px;border:0;border-radius:12px;box-shadow:none;background:var(--color-mist);color:var(--color-muted);font:500 14px/21px var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-menu-tab.active{background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-color:var(--color-line)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-controls{display:flex;align-items:center;gap:4px;flex:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-controls button{height:44px;width:44px;border:0;border-radius:12px;background:var(--color-soft);color:var(--color-brand);font:400 20px/1 var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-controls b{min-width:20px;text-align:center}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-status{display:flex;align-items:center;gap:12px;margin:16px 0;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);box-shadow:none}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-status>div{flex:1;min-width:0}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-request-status button{min-height:44px;border:0;border-radius:12px;padding:8px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-lead{font:400 14px/21px var(--font-sans)!important;color:var(--color-muted);margin:0 0 20px}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-card{padding:0;border:0!important;border-radius:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(.ksd-other-label,.ksd-other-photo-label){display:block;margin:20px 0 8px;font:500 14px/21px var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-label:first-child{margin-top:0}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-text{display:block;width:100%;min-height:132px;margin:0;padding:14px;border:1px solid var(--color-line);border-radius:14px;resize:vertical;background:var(--color-card);color:var(--color-ink);font:400 16px/24px var(--font-sans)!important;box-sizing:border-box}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-photo-add{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;height:auto;padding:12px 16px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-brand);font:500 14px/21px var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-photo-add svg{height:22px;width:22px;stroke-width:1.65}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-time-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:72px;padding:16px 0;margin-top:16px;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-secondary .ksd-other-time-value{font:500 14px/21px var(--font-sans)!important;color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary :is(button,textarea):focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+#keysUnifiedPrototype #keysStayDetails:has(.ksvc-secondary) .ksd-time-option{min-height:48px;padding:12px 16px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-card);color:var(--color-ink)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-secondary [hidden]{display:none!important}
+
+#keysUnifiedPrototype #keysStayDetails .ksvc-row[hidden]{display:none!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-row[hidden]+.ksvc-row{border-top:0}
+
+/* The same service row and action classes as Trips; no catalogue-specific variant. */
+#keysUnifiedPrototype #keysStayDetails .ksvc-stay-service[hidden]{display:none!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-stay-service[hidden]+.ksvc-stay-service::before{display:none}
+#keysUnifiedPrototype #keysStayDetails .ksvc-stay-service .kpa-service-status{margin:0;font-weight:var(--font-weight-normal)}
+@media(max-width:359px){#keysUnifiedPrototype #keysStayDetails .ksvc-list:has(.ksvc-stay-service){padding-inline:12px}}
+
+/* Current account follows the white cards and typography of Trips. */
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-page .ksvc-bill-summary>small{margin:0;color:var(--color-ink);font:500 var(--text-14)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-page .ksvc-bill-summary>strong{color:var(--color-ink);font:var(--ui-font-title)!important;font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-page .ksvc-bill-summary>p{grid-column:1/-1;margin:0;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-items{padding:0 16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;padding:16px 0}
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row+.ksvc-bill-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row .ksd-flow-icon{display:grid;place-items:center;min-width:32px;width:32px;height:32px;margin:0;border:0;border-radius:10px;background:var(--color-soft)!important;color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row .ksd-flow-icon svg{width:20px;height:20px;stroke-width:1.65}
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-copy{display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-copy>strong{margin:0;font:500 var(--text-14)/var(--leading-normal) var(--font-sans)!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-copy>small{flex-basis:100%;margin:0;font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row>.ksd-flow-value{margin:0;font:500 var(--text-14)/var(--leading-normal) var(--font-sans)!important;color:var(--color-ink)!important;white-space:nowrap;font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-paid{display:inline-flex;align-items:center;gap:3px;color:var(--color-success);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-bill-paid svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-note{margin:12px 0 0;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+@media(max-width:359px){#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row{grid-template-columns:28px minmax(0,1fr) auto;gap:8px}#keysUnifiedPrototype #keysStayDetails .ksvc-bill-items{padding-inline:12px}#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-bill-row .ksd-flow-icon{width:28px;height:28px;min-width:28px}}

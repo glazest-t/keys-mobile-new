@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="color-scheme" content="light"><title>Оплата бронирования — Ключи</title>
+ <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="./fonts.css?v=739be91ad940"><link rel="stylesheet" href="./payment.css?v=856f41ce24e5">
+ <script src="./payment.js?v=91a0c80e7a41" defer></script>
+</head>
+<body>
+ <header class="payment-header">
+  <img class="keys-logo" src="../brand/orbit/logo/keys-logo-horizontal.svg" width="118" height="28" alt="Ключи">
+  <div class="header-tools"><span data-copy="demo">Тестовый платёж</span><label class="language"><img src="./assets/language-flag.png" width="24" height="19" alt=""><select aria-label="Язык / Language" id="language"><option value="ru">RU</option><option value="en">EN</option></select></label></div>
+ </header>
+ <main class="payment-main">
+  <img class="payment-illustration" src="./assets/payment-process.svg" width="100" height="94" alt="">
+  <h1 id="payment-title">Готовим оплату…</h1>
+  <p id="hotel-name" class="hotel-name"></p>
+  <form id="payment-form" hidden>
+   <table class="order-table"><thead><tr><th data-copy="service">Название</th><th data-copy="quantity">Количество</th><th data-copy="price">Цена, руб</th><th data-copy="sum">Сумма, руб</th></tr></thead><tbody><tr><td data-copy="accommodation">Оплата за проживание</td><td>1</td><td data-amount></td><td data-amount></td></tr></tbody></table>
+   <section class="order-amount" aria-label="К оплате"><span data-copy="amount">На сумму</span><div class="amount-line"><strong data-amount></strong><button type="button" id="currency" aria-expanded="false" aria-controls="currency-info"><span>RUB<img src="./assets/currency-line.svg" alt="" width="45" height="1"></span><img src="./assets/arrow-down.svg" alt="" width="24" height="24"></button></div><p id="currency-info" hidden data-copy="currency">Российский рубль (RUB)</p></section>
+   <dl class="order-dates"><div><dt data-copy="dates">Даты предоставления услуги</dt><dd id="stay-dates"></dd></div><div><dt data-copy="deadline">Срок оплаты</dt><dd id="payment-deadline"></dd></div></dl>
+   <fieldset class="methods"><legend data-copy="method">Способ оплаты</legend><div class="method-options"><label><input type="radio" name="method" value="card" checked><span class="radio-mark"></span><span data-copy="card">Карта банка РФ или СБП</span></label><label><input type="radio" name="method" value="digital"><span class="radio-mark"></span><span data-copy="digital">Цифровыми рублями</span></label></div></fieldset>
+   <div class="email-field"><label for="payment-email" data-copy="email">Электронная почта</label><input id="payment-email" type="email" value="guest@example.test" autocomplete="off" required maxlength="254"></div>
+   <p id="payment-error" role="alert" hidden></p>
+   <button class="pay-button" type="submit" id="pay-button" data-copy="pay">Оплатить</button>
+  </form>
+  <section id="payment-result" class="payment-result" hidden aria-live="polite"><h2 id="result-title"></h2><p id="result-description"></p><button class="pay-button" id="return-button" type="button" data-copy="return">Вернуться в «Ключи»</button></section>
+  <div class="payment-footnote"><p data-copy="disclaimer">Демонстрация оплаты. Деньги не списываются<br>После оплаты статус бронирования обновится в «Ключах»</p><button type="button" class="rules-link" id="open-rules" data-copy="rules">Правила оплаты услуг TravelLine</button></div>
+ </main>
+ <footer>© TravelLine Company. 2008—2026</footer>
+ <details class="demo-controls"><summary data-copy="demoSettings">Настройки демо-оплаты</summary><label><span data-copy="demoResult">Результат оплаты</span><select id="demo-result"><option value="success" data-copy="success">Успешно</option><option value="declined" data-copy="declined">Отказ банка</option></select></label></details>
+ <dialog id="rules-dialog"><h2 data-copy="rules">Правила оплаты услуг TravelLine</h2><p data-copy="rulesText">Это демонстрационный экран прототипа «Ключи». Банковские данные не запрашиваются, деньги не списываются. Оплата изменяет только тестовый статус бронирования в открытой вкладке приложения</p><form method="dialog"><button class="pay-button" data-copy="close">Закрыть</button></form></dialog>
+</body></html>

@@ -1,0 +1,7 @@
+{
+  "tool": "image_gen (built-in)",
+  "prompts": [
+    "Use case: photorealistic-natural. Asset type: landscape food photo for a mobile hotel breakfast gallery. Generate one appetizing editorial photograph of a beautiful breakfast on a light stone restaurant table: golden syrniki with fresh raspberries and blueberries, a little sour cream, flaky croissant, soft scrambled eggs on sourdough, cappuccino and freshly squeezed orange juice. Tasteful white ceramic plates, crisp linen napkin, warm morning daylight, natural food textures and realistic portions. Close three-quarter angle, landscape 3:2 composition, main food centered and clear when cropped to a mobile card. Sophisticated welcoming hotel restaurant atmosphere softly blurred behind. No people, text, logos, collage or watermark.",
+    "Use case: photorealistic-natural. Asset type: landscape image for a hotel breakfast buffet gallery. Generate one realistic editorial photograph of an elegant hotel breakfast buffet: freshly baked croissants and bread in neat baskets, fresh berries and cut fruit, small glass yogurt parfaits, ceramic serving dishes, warm wood and pale stone surfaces. Beautiful abundant but tidy food arrangement, airy stylish restaurant with pale neutral furniture, natural morning window light, inviting and appetizing. Landscape 3:2 composition from guest eye level, food counter in foreground, realistic textures, no people, logos, text, collage or watermark."
+  ]
+}

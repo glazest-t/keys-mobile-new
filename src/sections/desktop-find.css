@@ -961,3 +961,10 @@ html[data-desktop-account=true] #root .keys-find-desktop-swipe:focus-visible{out
  html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-history-card{font-size:12px;padding-left:12px;gap:6px}
  html[data-desktop-account=true] #root [data-find-layout=landing] :is(.keys-find-history-dates,.keys-find-history-guests){font-size:12px}
 }
+
+/* November: the deal banner occupies the space freed by photo discovery. */
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-collections{grid-column:1/-1}
+html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal{height:180px;grid-template-columns:minmax(0,1fr) 200px;gap:24px}
+@media(max-width:799px){
+ html[data-desktop-account=true] #root [data-find-layout=landing] .keys-find-deal{grid-template-columns:minmax(0,1fr) 130px;gap:12px}
+}

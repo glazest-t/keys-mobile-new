@@ -1,0 +1,83 @@
+/* Variant 2 is deliberately isolated: Variant 1 retains its approved styling. */
+#keysOnboardingPrototype[data-variant="2"] .kon-visual{border-radius:32px;background:#eef2ff}
+#keysOnboardingPrototype[data-variant="2"] [data-theme="benefits"] .kon-visual{background:#edf6f0}
+#keysOnboardingPrototype[data-variant="2"] [data-theme="match"] .kon-visual{background:#f1edfc}
+#keysOnboardingPrototype[data-variant="2"] .kon-eyebrow{display:inline-block;padding:4px 10px;margin-bottom:10px;border-radius:20px;background:#edf2ff;font-size:11px;line-height:16px;color:#3556ac}
+#keysOnboardingPrototype[data-variant="2"] [data-theme="benefits"] .kon-eyebrow{background:#e8f5ed;color:#24704d}
+#keysOnboardingPrototype[data-variant="2"] [data-theme="match"] .kon-eyebrow{background:#f0ebfa;color:#74529a}
+#keysOnboardingPrototype[data-variant="2"] .kon-copy p{margin-top:12px}
+#keysOnboardingPrototype .kon2-orbits{position:absolute;inset:0;overflow:hidden}
+#keysOnboardingPrototype .kon2-orbits i{position:absolute;left:50%;top:172px;width:150px;height:150px;border:1px solid #b9c9f1;border-radius:50%;translate:-50% -50%}
+#keysOnboardingPrototype .kon2-orbits i:nth-child(2){width:250px;height:250px}
+#keysOnboardingPrototype .kon2-orbits i:nth-child(3){width:356px;height:356px}
+#keysOnboardingPrototype .kon2-destination{position:absolute;top:27px;width:140px;height:156px;padding:5px 5px 0;border-radius:20px;background:#fff;box-shadow:0 10px 22px #24427412}
+#keysOnboardingPrototype .kon2-destination>img{display:block;width:100%;height:115px;object-fit:cover;border-radius:15px}
+#keysOnboardingPrototype .kon2-destination>span{display:flex;justify-content:center;align-items:center;gap:4px;height:34px;font-size:12px;font-weight:500;color:#34405b}
+#keysOnboardingPrototype .kon2-destination svg{width:13px;height:13px}
+#keysOnboardingPrototype .kon2-city{left:12px;rotate:-9deg}
+#keysOnboardingPrototype .kon2-sea{right:12px;top:43px;rotate:8deg}
+#keysOnboardingPrototype .kon2-hub{position:absolute;left:116px;top:151px;width:88px;height:88px;display:grid;place-items:center;background:#3a66f0;border:6px solid #eef2ff;border-radius:30px;box-shadow:0 8px 22px #355ed42a}
+#keysOnboardingPrototype .kon2-hub>img{width:46px;height:46px;filter:brightness(0) invert(1)}
+#keysOnboardingPrototype .kon2-hub-caption{position:absolute;top:245px;left:0;right:0;text-align:center;font-size:13px;font-weight:500;color:#405580}
+#keysOnboardingPrototype .kon2-dock{position:absolute;left:14px;right:14px;bottom:15px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:#fff;padding:12px 8px;border-radius:22px;box-shadow:0 10px 25px #304e7510}
+#keysOnboardingPrototype .kon2-dock>div{display:flex;flex-direction:column;align-items:center;gap:7px}
+#keysOnboardingPrototype .kon2-dock>div>span{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:#eef2ff;color:#3a66f0}
+#keysOnboardingPrototype .kon2-dock strong{font-size:10px;line-height:14px;font-weight:500}
+#keysOnboardingPrototype .kon2-direct{position:absolute;top:18px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:6px;color:#287151;font-size:12px;font-weight:500}
+#keysOnboardingPrototype .kon2-direct svg{width:16px;height:16px}
+#keysOnboardingPrototype .kon2-saving-card{position:absolute;top:60px;width:140px;height:155px;padding:13px;border-radius:22px;display:flex;flex-direction:column;gap:7px}
+#keysOnboardingPrototype .kon2-hotel-saving{left:13px;background:#fff1d8;color:#795319;rotate:-4deg}
+#keysOnboardingPrototype .kon2-keys-saving{right:13px;background:#3a66f0;color:#fff;rotate:4deg}
+#keysOnboardingPrototype .kon2-card-symbol{height:23px;display:flex;align-items:center}
+#keysOnboardingPrototype .kon2-card-symbol>img{width:23px;height:23px;filter:brightness(0) invert(1)}
+#keysOnboardingPrototype .kon2-saving-card>span:not(.kon2-card-symbol){font-size:11px;line-height:15px}
+#keysOnboardingPrototype .kon2-saving-card>strong{font-size:32px;line-height:36px;letter-spacing:-1px;white-space:nowrap}
+#keysOnboardingPrototype .kon2-saving-card>strong>small{font-size:22px}
+#keysOnboardingPrototype .kon2-saving-card .kon2-tier{margin-top:auto;font-size:10px!important}
+#keysOnboardingPrototype .kon2-plus{position:absolute;top:125px;left:143px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#304662;font:500 25px/1 var(--font-sans);box-shadow:0 2px 8px #294d3c16}
+#keysOnboardingPrototype .kon2-receipt{position:absolute;left:22px;right:22px;top:222px;padding:13px 16px 0;border-radius:22px;background:white;box-shadow:0 10px 24px #294d3c0c}
+#keysOnboardingPrototype .kon2-price{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:3px 12px}
+#keysOnboardingPrototype .kon2-price>span{font-size:11px;color:#677583}
+#keysOnboardingPrototype .kon2-price>s{grid-column:2;font-size:12px;color:#738079}
+#keysOnboardingPrototype .kon2-price>strong{grid-column:1/-1;font-size:33px;line-height:38px;letter-spacing:-1px;color:#173e30}
+#keysOnboardingPrototype .kon2-price small{font-size:25px}
+#keysOnboardingPrototype .kon2-saved{display:flex;align-items:center;gap:5px;margin-top:9px;padding:9px 0;border-top:1px dashed #d7e6dd;color:#22734f;font-size:11px}
+#keysOnboardingPrototype .kon2-saved svg{width:14px;height:14px}
+#keysOnboardingPrototype .kon2-saved strong{margin-left:auto;font-size:14px}
+/* Preferences, likes and views feed a personal shortlist. */
+#keysOnboardingPrototype .kon-scene .kon2-connections{position:absolute;inset:0;width:320px;height:360px;fill:none;stroke:#b5a2d2;stroke-width:2;stroke-linecap:round;stroke-dasharray:3 5}
+#keysOnboardingPrototype .kon2-request{position:absolute;left:17px;right:17px;top:16px;display:flex;align-items:center;gap:12px;padding:15px 18px;border-radius:24px;background:#fff;box-shadow:0 8px 24px #573f8110}
+#keysOnboardingPrototype .kon2-request>span{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:#f1edfc;color:#78529c;flex:none}
+#keysOnboardingPrototype .kon2-request>div{display:flex;flex-direction:column;gap:5px}
+#keysOnboardingPrototype .kon2-request small{font-size:10px;line-height:14px;color:#79718c}
+#keysOnboardingPrototype .kon2-request strong{font-size:18px;line-height:22px;letter-spacing:-.3px}
+#keysOnboardingPrototype .kon2-signal{position:absolute;top:122px;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 10px;border-radius:18px;background:#fff;font-size:10px;line-height:16px;color:#715389}
+#keysOnboardingPrototype .kon2-signal svg{width:14px;height:14px}
+#keysOnboardingPrototype .kon2-signal-likes{left:18px;color:#a8376a}
+#keysOnboardingPrototype .kon2-signal-likes svg{fill:#f5c5d7}
+#keysOnboardingPrototype .kon2-signal-views{right:18px}
+#keysOnboardingPrototype .kon2-personal-core{position:absolute;left:134px;top:112px;display:grid;place-items:center;width:52px;height:52px;border-radius:18px;background:#3a66f0;box-shadow:0 0 0 7px #e4def5}
+#keysOnboardingPrototype .kon2-personal-core img{width:30px;height:30px;filter:brightness(0) invert(1)}
+#keysOnboardingPrototype .kon2-shortlist-label{position:absolute;top:186px;left:0;right:0;text-align:center;font-size:12px;line-height:17px;font-weight:500;color:#6a4a91}
+#keysOnboardingPrototype .kon2-shortlist{position:absolute;left:14px;right:14px;top:209px;padding:7px 12px;border-radius:24px;background:#fff;box-shadow:0 12px 30px #5038750d}
+#keysOnboardingPrototype .kon2-shortlist-item{display:flex;align-items:center;gap:10px;padding:9px 0}
+#keysOnboardingPrototype .kon2-shortlist-item+.kon2-shortlist-item{border-top:1px solid #f1edf6}
+#keysOnboardingPrototype .kon2-shortlist-item>img{width:61px;height:48px;flex:none;object-fit:cover;border-radius:12px}
+#keysOnboardingPrototype .kon2-shortlist-item>div{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+#keysOnboardingPrototype .kon2-shortlist-item strong{font-size:13px;line-height:17px}
+#keysOnboardingPrototype .kon2-shortlist-item>div>span{display:flex;align-items:center;gap:3px;font-size:9px;line-height:14px;color:#39785c;white-space:nowrap}
+#keysOnboardingPrototype .kon2-shortlist-item>div svg{width:11px;height:11px}
+#keysOnboardingPrototype .kon2-shortlist-heart{color:#9a89ac;flex:none}
+#keysOnboardingPrototype .kon2-shortlist-heart svg{width:16px;height:16px}
+@media(prefers-reduced-motion:no-preference){
+ #keysOnboardingPrototype .is-current .kon2-hub>img{animation:kon2-orbit 12s linear infinite}
+ #keysOnboardingPrototype .is-current .kon2-connections{animation:kon2-connect 4s linear infinite}
+ #keysOnboardingPrototype .is-current .kon2-personal-core img{animation:kon2-orbit 12s linear infinite}
+}
+@keyframes kon2-orbit{to{transform:rotate(360deg)}}
+@keyframes kon2-connect{to{stroke-dashoffset:-32}}
+@container(max-height:700px){
+ #keysOnboardingPrototype[data-variant="2"] .kon-copy{padding-top:14px}
+ #keysOnboardingPrototype[data-variant="2"] .kon-eyebrow{margin-bottom:6px;padding:2px 8px}
+ #keysOnboardingPrototype[data-variant="2"] .kon-copy p{margin-top:8px}
+}

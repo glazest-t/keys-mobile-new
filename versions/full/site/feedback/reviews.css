@@ -1,0 +1,30 @@
+/* The completed-trip actions share one row; feedback itself uses the common flow. */
+#keysUnifiedPrototype .ka-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+#keysUnifiedPrototype .ka-actions button{justify-content:start;gap:8px;padding:12px 6px}
+/* Quiet form sections, without nested cards. */
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-card{border:0!important;border-radius:0!important;padding:0!important;background:transparent!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo{display:flex;align-items:center;gap:12px;border:0!important;background:var(--color-soft)!important;padding:12px!important;height:auto!important;min-height:64px!important;color:var(--color-brand)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo>svg{width:22px;height:22px;flex:none}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo:disabled{opacity:.5}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private{margin-top:20px;padding-top:12px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private[hidden]{display:none!important}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private summary{display:flex;align-items:center;gap:8px;min-height:44px;list-style:none;cursor:pointer;font-size:var(--text-14);font-weight:500;color:var(--color-brand)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private summary::-webkit-details-marker{display:none}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private summary svg{width:20px;height:20px;flex:none}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-expand{margin-left:auto;font-size:20px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private[open] .kfb-expand{transform:rotate(45deg)}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private label{display:block;font-size:var(--text-12);line-height:1.5;color:var(--color-muted);margin:8px 0}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-private textarea{height:104px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photos:not(:empty){margin-top:12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo-preview{position:relative;aspect-ratio:1;min-width:0}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo-preview img{display:block;width:100%;height:100%;object-fit:cover;border-radius:12px}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-photo-preview button{position:absolute;right:0;top:0;width:44px;height:44px;border:0;border-radius:0 12px 0 12px;background:#0009;color:#fff;font-size:24px;cursor:pointer}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-upload-status,#keysUnifiedPrototype #keysFeedbackFlow .kfb-local-note{font:400 var(--text-12)/1.5 var(--font-sans)!important;color:var(--color-muted)!important;margin:12px 0 0}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-upload-status:empty{display:none}
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-local-note{margin-top:20px}
+#keysUnifiedPrototype #keysFeedbackFlow summary:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+/* Hotel context is omitted from both steps. */
+#keysUnifiedPrototype #keysFeedbackFlow [hidden]{display:none!important}
+
+#keysUnifiedPrototype #keysFeedbackFlow .kfb-detail-help{margin:0 0 14px;font:400 var(--text-14)/1.5 var(--font-sans)!important;color:var(--color-muted)}

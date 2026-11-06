@@ -1,0 +1,21 @@
+{
+  "mode": "Built-in image_gen",
+  "images": [
+    {
+      "asset": "room-food-syrniki.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: photograph for a hotel room-service food gallery. Subject: Three golden Russian syrniki cottage-cheese pancakes with a generous small ramekin of sour cream, a few fresh raspberries and blueberries, on a beautiful white ceramic plate. Appetizing professional editorial food photography, realistic portions and textures, inviting warm natural window light, tasteful light stone restaurant table, neutral linen napkin, soft elegant restaurant blur in the background. Close three-quarter view, landscape 3:2 image, main dish centered and fully visible with breathing room for a mobile crop. Cohesive premium but friendly hotel menu aesthetic. One photograph, no collage, no text, no logos, no watermark, no people."
+    },
+    {
+      "asset": "room-food-oatmeal.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: photograph for a hotel room-service food gallery. Subject: A beautiful bowl of creamy oatmeal porridge with sliced banana, a few fresh berries and a delicate drizzle of honey. Oat texture visibly natural and delicious. Appetizing professional editorial food photography, realistic portions and textures, inviting warm natural window light, tasteful light stone restaurant table, neutral linen napkin, soft elegant restaurant blur in the background. Close three-quarter view, landscape 3:2 image, main dish centered and fully visible with breathing room for a mobile crop. Cohesive premium but friendly hotel menu aesthetic. One photograph, no collage, no text, no logos, no watermark, no people."
+    },
+    {
+      "asset": "room-food-salmon.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: photograph for a hotel room-service food gallery. Subject: A succulent roasted salmon fillet with grilled seasonal vegetables: broccoli, zucchini, carrots and cherry tomatoes, a lemon wedge and a little herb sauce, beautifully arranged on a white ceramic dinner plate. Appetizing professional editorial food photography, realistic portions and textures, inviting warm natural window light, tasteful light stone restaurant table, neutral linen napkin, soft elegant restaurant blur in the background. Close three-quarter view, landscape 3:2 image, main dish centered and fully visible with breathing room for a mobile crop. Cohesive premium but friendly hotel menu aesthetic. One photograph, no collage, no text, no logos, no watermark, no people."
+    },
+    {
+      "asset": "room-food-medovik.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: photograph for a hotel room-service food gallery. Subject: A beautiful slice of traditional Russian Medovik honey layer cake, visible many thin honey sponge layers and cream, golden fine crumb coating, beside a white cup of cappuccino with delicate latte art. Appetizing professional editorial food photography, realistic portions and textures, inviting warm natural window light, tasteful light stone restaurant table, neutral linen napkin, soft elegant restaurant blur in the background. Close three-quarter view, landscape 3:2 image, main dish centered and fully visible with breathing room for a mobile crop. Cohesive premium but friendly hotel menu aesthetic. One photograph, no collage, no text, no logos, no watermark, no people."
+    }
+  ]
+}

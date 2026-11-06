@@ -1,0 +1,15 @@
+{
+  "generator": "Built-in image_gen",
+  "purpose": "Keys mobile login: one key for all hotels",
+  "layers": [
+    {
+      "file": "hotels.png",
+      "prompt": "Use case: stylized-concept. Generate a premium editorial 3D illustration BACKGROUND LAYER for the Russian hotel travel app Keys, to sit above a phone login form. Canvas landscape 3:2. Three beautifully minimal miniature hotel buildings grouped as a welcoming little destination, a slender modern hotel at center rear, a low boutique hotel left, a rounded arch-door hotel right. Architectural volumes only, a few windows and clearly visible arch doorways, no text or signs. Soft sophisticated ceramic/clay and subtle frosted-glass accents, smooth gently rounded edges, pale periwinkle, porcelain white, limited cobalt #3E5BE3 accents, light #F0F4FF. Calm contemporary premium mobile illustration, NOT childish toy town, NOT game scenery. Orthographic 3/4 front camera, shadows very soft, white seamless background #FFFFFF fading completely white at edges. Buildings fill central 80% of canvas width and middle 70% height, all fully visible. Leave space at lower center foreground where a SEPARATE key layer will be added later. No key in this background layer. No people, no typography, no UI, no words, no logos, no border, no framing, no decorative clutter. The idea is one key grants access to all hotels."
+    },
+    {
+      "file": "key.png",
+      "prompt": "Use case: stylized-concept. Generate a single sculptural modern hotel KEY, isolated on genuinely transparent background, for a premium mobile travel app illustration. Square canvas. One clear iconic physical key with rounded circular bow with circular hole, long straight shaft and two blunt square teeth at the end. Key oriented diagonally, bow at upper left, shaft running toward lower right, shown 3/4 with beautiful visible thick edges. Main material satin cobalt blue #3E5BE3, subtle lavender edge light, gentle smooth ceramic gloss, refined high-end 3D editorial render, no metal gold. Entire key is visible with 12% transparent margins. No keychain, no ring, no lettering, no buildings, no other objects, no background, no ground shadow. Smooth dimensional silhouette, readable at 120px, not childish. This asset will float in front of porcelain and pale-periwinkle miniature hotel buildings in a white-background Keys mobile login screen. Genuinely transparent alpha PNG."
+    }
+  ],
+  "motion": "CSS layered float: key 6s, hotel group 7s. Pause button, pause during phone input, prefers-reduced-motion disables animation."
+}

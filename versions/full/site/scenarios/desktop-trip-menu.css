@@ -1,0 +1,35 @@
+/* Header trip overview. Non-modal popover with native light-dismiss and Escape. */
+#keysUnifiedPrototype .kd-trip-menu{box-sizing:border-box;position:fixed;inset:auto;margin:0;padding:16px;background:var(--color-card);color:var(--color-ink);border:1px solid var(--color-line);border-radius:20px;box-shadow:0 12px 48px #1c28411f;overflow:auto;font:var(--ui-font-body);font-family:var(--font-sans)}
+#keysUnifiedPrototype .kd-trip-menu:not(:popover-open){display:none!important}
+#keysUnifiedPrototype .kd-trip-menu:popover-open{display:block}
+#keysUnifiedPrototype .kd-trip-menu *{box-sizing:border-box}
+#keysUnifiedPrototype .kd-trip-menu svg{width:20px;height:20px;flex:none}
+#keysUnifiedPrototype .kd-trip-menu>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 8px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kd-trip-menu h2{font:var(--ui-font-section)!important;letter-spacing:0!important;margin:0}
+#keysUnifiedPrototype .kd-trip-menu [data-trip-menu-close]{display:grid;place-items:center;width:36px;height:36px;padding:8px;border:0;border-radius:10px;background:transparent;color:var(--color-muted);cursor:pointer}
+#keysUnifiedPrototype .kd-trip-menu-hotel{display:flex;align-items:center;gap:12px;width:100%;padding:8px 0 16px;border:0;background:transparent;text-align:left;color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .kd-trip-menu-hotel>img{width:60px;height:64px;border-radius:12px;object-fit:cover;flex:none}
+#keysUnifiedPrototype .kd-trip-menu-hotel>span{display:grid;gap:4px;flex:1;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-trip-menu-hotel strong,.kd-trip-menu-row,.kd-trip-menu-orders strong){font:var(--ui-font-label)!important;letter-spacing:0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype :is(.kd-trip-menu small,.kd-trip-menu-status,.kd-trip-menu-label,.kd-trip-menu-order-status,.kd-history-trip small){font:var(--ui-font-caption)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .kd-trip-menu small,#keysUnifiedPrototype .kd-history-trip small{color:var(--color-muted)}
+#keysUnifiedPrototype .kd-trip-menu-status{display:flex;align-items:center;gap:4px;color:var(--color-success)}
+#keysUnifiedPrototype .kd-trip-menu-status svg{width:14px;height:14px}
+#keysUnifiedPrototype .kd-trip-menu-hotel>svg,#keysUnifiedPrototype .kd-trip-menu-row>svg:last-child,#keysUnifiedPrototype .kd-trip-menu-orders button>svg:last-child{width:14px;height:14px;color:var(--color-muted)}
+#keysUnifiedPrototype .kd-trip-menu-primary{margin:0 0 12px}
+#keysUnifiedPrototype .kd-trip-menu-orders{margin:4px 0 8px;padding-top:12px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .kd-trip-menu-label{color:var(--color-muted);margin-bottom:4px}
+#keysUnifiedPrototype .kd-trip-menu-orders button{display:flex;align-items:flex-start;gap:12px;width:100%;padding:10px 0;background:transparent;border:0;border-radius:10px;text-align:left;color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .kd-trip-menu-orders button>span{display:grid;gap:3px;flex:1}
+#keysUnifiedPrototype .kd-trip-menu-orders button>svg:first-child{color:var(--color-brand);margin-top:1px}
+#keysUnifiedPrototype .kd-trip-menu-order-status{color:var(--color-success)}
+#keysUnifiedPrototype .kd-trip-menu-order-status.is-pending{color:var(--color-muted)}
+#keysUnifiedPrototype .kd-trip-menu nav{border-top:1px solid var(--color-line);padding-top:8px}
+#keysUnifiedPrototype .kd-trip-menu-row{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:10px 8px;border:0;border-radius:12px;background:transparent;color:var(--color-ink);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .kd-trip-menu-row>span{flex:1}
+#keysUnifiedPrototype .kd-trip-menu-row>svg:first-child{color:var(--color-brand)}
+#keysUnifiedPrototype .kd-trip-menu button:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+#keysUnifiedPrototype .kd-header-hotel[aria-expanded="true"]{border-color:var(--color-brand)}
+#keysUnifiedPrototype .kd-header-hotel[aria-expanded="true"]>svg{transform:rotate(180deg)}
+@media(hover:hover){#keysUnifiedPrototype .kd-trip-menu :is(.kd-trip-menu-row,.kd-trip-menu-hotel,.kd-trip-menu-orders button,[data-trip-menu-close]):hover{background:var(--color-soft)}}
+@media(prefers-reduced-motion:no-preference){#keysUnifiedPrototype .kd-trip-menu:popover-open{animation:kd-trip-menu-in .16s ease-out}@keyframes kd-trip-menu-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}}

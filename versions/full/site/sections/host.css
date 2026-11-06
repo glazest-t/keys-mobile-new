@@ -1,0 +1,388 @@
+#keysUnifiedPrototype>[data-unified-section="arbana-sections"]{display:flex;justify-content:center;padding:6px 0 22px}
+#keysSectionsFrame{box-sizing:border-box;display:block;width:390px;height:844px;max-width:100%;border:1px solid var(--color-line);border-radius:30px;box-shadow:0 16px 60px #1c284112;background:var(--color-card)}
+@media(max-width:520px){#keysUnifiedPrototype>[data-unified-section="arbana-sections"]{padding:0}#keysSectionsFrame{height:100dvh;border:0;border-radius:0;box-shadow:none}}
+
+
+/* Profile is a secondary page; its origin is retained by the host navigation. */
+body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-nav{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-scroll{height:calc(100% - 72px)!important;padding:8px 16px 24px!important;overflow:auto;overscroll-behavior:contain}
+body:not([data-keys-view="desktop"]) #keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"]>.kf-scroll{padding-bottom:calc(var(--keys-bottom-clearance) + 16px)!important}
+#keysUnifiedPrototype .keys-profile-header{height:72px;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--color-card)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-header h1{margin:0;font:500 var(--text-20)/1.3 var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-profile-back{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--color-fill);color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .keys-profile-back svg{width:20px;height:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile{background:var(--color-card)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile-avatar{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:50%;background:var(--color-soft);color:var(--color-brand);font:500 var(--text-14)/1 var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile strong{display:block;font:500 var(--text-14)/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile small{display:block;margin-top:4px;font:400 var(--text-12)/1.5 var(--font-sans)!important;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-section{margin:24px 0 8px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-section h2{margin:0;font:500 var(--text-14)/1.5 var(--font-sans)!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-card:not(.kf-profile){padding:0 16px!important;border-radius:20px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row{box-sizing:border-box;display:grid;grid-template-columns:24px minmax(0,1fr) 16px;align-items:center;gap:12px;min-height:72px;padding:12px 0!important;border:0;border-radius:0;background:transparent;box-shadow:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row+.kf-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row strong{display:block;margin:0;font:500 var(--text-14)/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-row small{display:block;margin-top:4px;font:400 var(--text-12)/1.5 var(--font-sans)!important;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-icon{display:grid;place-items:center;width:24px;height:24px;background:transparent!important;border-radius:0;color:var(--color-brand)!important}
+#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-chevron{font-size:20px;font-weight:400;color:var(--color-muted)}
+/* Keep the page frame still while profile content moves inside it. */
+#keysUnifiedPrototype .kf-phone[data-screen="profile"][data-profile-motion]>.keys-profile-header,
+#keysUnifiedPrototype .kf-phone[data-screen="profile"][data-profile-motion]>.kf-scroll{will-change:transform,opacity}
+#keysUnifiedPrototype .keys-profile-back:disabled{opacity:1;cursor:default}
+
+/* Identity → membership → grouped settings: one clear reading order. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile{display:block;margin:0 0 16px;padding:8px 16px!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+#keysUnifiedPrototype .keys-profile-person{display:flex;align-items:center;gap:12px;margin:0}
+#keysUnifiedPrototype .keys-profile-photo{position:relative;display:grid;place-items:center;flex:none;width:64px;height:64px;padding:0;border:0;border-radius:50%;background:var(--color-soft);color:var(--color-brand);font:500 var(--text-20)/1 var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-profile-photo>img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+#keysUnifiedPrototype .keys-profile-photo [hidden]{display:none!important}
+#keysUnifiedPrototype .keys-profile-camera{position:absolute;right:-2px;bottom:-2px;display:grid;place-items:center;width:24px;height:24px;box-sizing:border-box;border:2px solid var(--color-card);border-radius:50%;background:var(--color-brand);color:white}
+#keysUnifiedPrototype .keys-profile-camera svg{width:14px;height:14px}
+#keysUnifiedPrototype .keys-profile-photo:disabled{opacity:.6;cursor:wait}
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="profile"] .kf-profile .keys-profile-name strong{font:500 var(--text-20)/1.3 var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-profile-name{min-width:0;flex:1}
+#keysUnifiedPrototype .keys-profile-contacts{display:grid;gap:4px;margin:4px 0 0;font:400 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-profile-contacts>div{display:block}
+#keysUnifiedPrototype .keys-profile-contacts dt{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#keysUnifiedPrototype .keys-profile-contacts dd{margin:0;color:var(--color-muted);overflow-wrap:anywhere}
+#keysUnifiedPrototype .keys-profile-photo-status{margin:12px 0;color:var(--color-muted);font:400 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-loyalty{display:block;width:100%;box-sizing:border-box;margin:0;padding:16px;border:1px solid var(--color-brand-line);border-radius:20px;background:var(--color-soft);color:var(--color-ink);font:400 var(--text-12)/1.5 var(--font-sans);text-align:left;cursor:pointer;box-shadow:none}
+#keysUnifiedPrototype .keys-profile-loyalty-top{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:var(--text-14);font-weight:500}
+#keysUnifiedPrototype .keys-profile-tier{padding:3px 10px;border-radius:999px;background:var(--color-card);color:var(--color-brand);font:500 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-profile-balance{display:flex;align-items:baseline;gap:8px;margin:12px 0 16px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-balance strong{font:500 var(--text-20)/1.3 var(--font-sans)!important;font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype .keys-profile-balance>span{font-size:var(--text-14)}
+#keysUnifiedPrototype .keys-profile-balance svg{align-self:center;width:18px;height:18px;margin-left:auto;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .keys-profile-progress{display:block;height:4px;overflow:hidden;border-radius:4px;background:var(--color-brand-line)}
+#keysUnifiedPrototype .keys-profile-progress i{display:block;width:72%;height:100%;border-radius:inherit;background:var(--color-brand)}
+#keysUnifiedPrototype .keys-profile-progress-copy{display:flex;justify-content:space-between;gap:8px;margin-top:8px;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-profile-progress-copy>span:last-child{color:var(--color-ink)}
+#keysUnifiedPrototype :is(.keys-profile-photo,.keys-profile-loyalty):focus-visible{outline:2px solid var(--color-brand);outline-offset:4px}
+@media(prefers-reduced-motion:no-preference){#keysUnifiedPrototype :is(.keys-profile-photo,.keys-profile-loyalty){transition:transform .16s ease}#keysUnifiedPrototype :is(.keys-profile-photo,.keys-profile-loyalty):active{transform:scale(.98)}}
+
+/* Personal documents stay separate from trip receipts and vouchers. */
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-passport-page{padding:12px 16px 24px}
+#keysUnifiedPrototype .keys-passport-page .kh-detail-header{min-height:48px;gap:12px;margin:0 0 24px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-passport-page h2{margin:0;font:500 var(--text-20)/1.3 var(--font-sans)!important}
+#keysUnifiedPrototype .keys-passport-intro{margin:0 0 24px;color:var(--color-muted);font:400 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-passport-card{padding:16px;border:1px solid var(--color-line);border-radius:20px}
+#keysUnifiedPrototype .keys-passport-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-passport-heading h3{margin:0;font:500 var(--text-14)/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype .keys-passport-heading>span{padding:3px 8px;border-radius:8px;background:var(--color-soft);color:var(--color-brand);font:500 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-passport-card>p{margin:8px 0 0;color:var(--color-muted);font:400 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-passport-card .keys-passport-hint{margin-top:20px;font-size:var(--text-14)}
+#keysUnifiedPrototype .keys-passport-preview{margin-top:16px;overflow:hidden;border-radius:12px;background:var(--color-fill)}
+#keysUnifiedPrototype .keys-passport-preview img{display:block;width:100%;max-height:200px;object-fit:contain}
+#keysUnifiedPrototype .keys-passport-preview span{display:block;padding:12px;overflow-wrap:anywhere;font:400 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-passport-page .kh-primary{font:500 var(--text-14)/1.5 var(--font-sans)!important}
+#keysUnifiedPrototype .keys-passport-formats{text-align:center}
+#keysUnifiedPrototype .keys-passport-remove{display:block;width:100%;min-height:44px;margin:12px 0 0;border:0;background:transparent;color:var(--color-muted);font:500 var(--text-14)/1.5 var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-passport-message{font:400 var(--text-14)/1.5 var(--font-sans);color:var(--color-ink)}
+#keysUnifiedPrototype .keys-passport-page [hidden]{display:none!important}
+
+/* Loyalty: a travel wallet, membership and short expandable guides. */
+#keysUnifiedPrototype#keysUnifiedPrototype .kf-phone[data-screen="benefits"]>.kf-scroll{padding:0 16px 112px!important}
+#keysUnifiedPrototype .keys-benefits{display:grid;gap:16px;padding-top:20px;color:var(--color-ink);font:400 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits h1{margin:0;font:500 var(--text-28)/1.2 var(--font-sans)!important;letter-spacing:-.5px!important}
+#keysUnifiedPrototype .keys-benefits-intro>p{margin:8px 0 4px;color:var(--color-muted);font-size:var(--text-12)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits h2{margin:0;font:500 var(--text-20)/1.3 var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-benefits-wallet{position:relative;isolation:isolate;overflow:hidden;padding:20px;border-radius:24px;background:var(--color-brand);color:var(--color-on-brand)}
+#keysUnifiedPrototype .keys-benefits-wallet:before{content:"";position:absolute;z-index:-1;width:220px;height:220px;right:-90px;top:-85px;border:1px solid #ffffff24;border-radius:50%;box-shadow:0 0 0 28px #ffffff06,0 0 0 56px #ffffff05;pointer-events:none}
+#keysUnifiedPrototype .keys-benefits-amount{display:flex;align-items:baseline;gap:8px;margin-top:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-amount strong{font:500 var(--text-28)/1.2 var(--font-sans)!important;font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype .keys-benefits-amount>span{font-size:var(--text-12)}
+#keysUnifiedPrototype .keys-benefits-progress-label{display:flex;justify-content:space-between;gap:12px;margin-top:24px;font-size:var(--text-12)}
+#keysUnifiedPrototype .keys-benefits-progress-label strong{font-weight:500}
+#keysUnifiedPrototype .keys-benefits-progress-label>span{color:#ffffffe0}
+#keysUnifiedPrototype .keys-benefits-progress{height:4px;margin:8px 0 12px;background:#ffffff33;border-radius:4px;overflow:hidden}
+#keysUnifiedPrototype .keys-benefits-progress>i{display:block;width:72%;height:100%;border-radius:inherit;background:var(--color-on-brand)}
+#keysUnifiedPrototype .keys-benefits details{margin:0;border:0}
+#keysUnifiedPrototype .keys-benefits summary{display:flex;align-items:center;gap:12px;min-height:48px;list-style:none;cursor:pointer;font:500 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits summary::-webkit-details-marker{display:none}
+#keysUnifiedPrototype .keys-benefits summary>svg{width:16px;height:16px;flex:none;margin-left:auto;color:var(--color-muted);transition:transform .18s ease}
+#keysUnifiedPrototype .keys-benefits details[open]>summary>svg{transform:rotate(90deg)}
+#keysUnifiedPrototype .keys-benefits-level-details{border-top:1px solid #ffffff33!important;margin-bottom:-12px!important}
+#keysUnifiedPrototype .keys-benefits-level-details>summary{color:var(--color-on-brand)}
+#keysUnifiedPrototype .keys-benefits-guide{padding:16px 16px 0;border:1px solid var(--color-line);border-radius:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-guide>h2{font-size:var(--text-14)!important;margin-bottom:8px}
+#keysUnifiedPrototype .keys-benefits-guide>details+details{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-benefits-guide summary{min-height:76px;padding:12px 0;box-sizing:border-box}
+#keysUnifiedPrototype .keys-benefits-guide-icon{display:grid;place-items:center;width:24px;height:24px;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .keys-benefits-guide-icon svg{width:22px;height:22px}
+#keysUnifiedPrototype .keys-benefits-guide-copy{display:grid;gap:4px;min-width:0}
+#keysUnifiedPrototype .keys-benefits-guide-copy strong{font-weight:500}
+#keysUnifiedPrototype .keys-benefits-guide-copy>span{font:400 var(--text-12)/1.5 var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits-reveal{padding:0 0 16px;font:400 var(--text-12)/1.5 var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits-reveal p{margin:0}
+#keysUnifiedPrototype .keys-benefits-reveal>p:last-child:not(:first-child){margin-top:12px}
+#keysUnifiedPrototype .keys-benefits-reveal ul{margin:0;padding-left:16px}
+#keysUnifiedPrototype .keys-benefits-reveal li+li{margin-top:12px}
+#keysUnifiedPrototype .keys-benefits-example{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;color:var(--color-ink)}
+#keysUnifiedPrototype .keys-benefits-example strong{color:var(--color-brand);font-weight:500}
+#keysUnifiedPrototype .keys-benefits-reveal .keys-benefits-perks{list-style:none;padding:0}
+#keysUnifiedPrototype .keys-benefits-perks li{display:grid;gap:4px}
+#keysUnifiedPrototype .keys-benefits-perks strong{color:var(--color-ink);font:500 var(--text-14)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-terms{padding:0 16px}
+#keysUnifiedPrototype .keys-benefits-terms summary{font-size:var(--text-12);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits :is(button,summary):focus-visible{outline:2px solid var(--color-brand);outline-offset:3px;border-radius:8px}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .keys-benefits summary>svg{transition:none}}
+
+#keysUnifiedPrototype .keys-benefits-membership{display:flex;align-items:center;justify-content:space-between;gap:12px;font:400 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-tier-badge{padding:4px 10px;border:1px solid #ffffff33;border-radius:999px;background:#ffffff14;white-space:nowrap;font-weight:500}
+#keysUnifiedPrototype .keys-benefits-conversion{margin:4px 0 0;color:#ffffffe0;font-size:var(--text-12)}
+#keysUnifiedPrototype .keys-benefits-wallet .keys-benefits-reveal{color:#ffffffe0}
+#keysUnifiedPrototype .keys-benefits-wallet :is(summary>svg,.keys-benefits-perks strong){color:var(--color-on-brand)}
+#keysUnifiedPrototype .keys-benefits-wallet summary:focus-visible{outline-color:var(--color-on-brand)}
+
+/* Trip accruals use the same compact rows as the rest of Benefits. */
+#keysUnifiedPrototype .keys-benefits-history{padding:16px 16px 0;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-history>h2{font:500 var(--text-14)/1.5 var(--font-sans)!important;margin-bottom:4px}
+#keysUnifiedPrototype .keys-points-entry>summary{min-height:76px;padding:12px 0;box-sizing:border-box;gap:12px}
+#keysUnifiedPrototype .keys-points-trip{display:grid;gap:4px;flex:1;min-width:0}
+#keysUnifiedPrototype .keys-points-trip strong{font-weight:500}
+#keysUnifiedPrototype .keys-points-trip>span{font:400 var(--text-12)/1.5 var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-points-credit{display:grid;gap:4px;flex:none;text-align:right}
+#keysUnifiedPrototype .keys-points-credit strong{color:var(--color-success);font:500 var(--text-14)/1.5 var(--font-sans);font-variant-numeric:tabular-nums}
+#keysUnifiedPrototype .keys-points-credit>span{color:var(--color-muted);font:400 var(--text-12)/1.5 var(--font-sans)}
+#keysUnifiedPrototype .keys-points-entry>summary>svg{margin-left:0}
+#keysUnifiedPrototype .keys-points-facts{display:grid;gap:12px;margin:0;padding-top:12px;border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-points-facts>div{display:grid;grid-template-columns:80px minmax(0,1fr);gap:12px;align-items:baseline}
+#keysUnifiedPrototype .keys-points-facts dd{margin:0;color:var(--color-ink);text-align:right}
+#keysUnifiedPrototype .keys-points-empty{margin:8px 0 16px;font:400 var(--text-12)/1.5 var(--font-sans);color:var(--color-muted)}
+/* Cool membership badge matches the application's compact labels. */
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-profile-loyalty[data-tier=Gold] .keys-profile-tier,
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-tier-badge{background:#eef3ff;color:#183f9e;border:0;border-radius:8px;padding:4px 8px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-membership{font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-amount{margin-top:20px;gap:8px}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-amount>span,
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-conversion{font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-level-details{margin-top:16px}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-perks{font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-wallet[data-tier=Gold] .keys-benefits-perks strong{font:500 14px/20px var(--font-sans)}
+
+/* App points and each hotel's membership are independent programmes. */
+#keysUnifiedPrototype .keys-benefits-keys-group{display:flex;flex-direction:column;gap:16px;min-width:0}
+#keysUnifiedPrototype .keys-benefits-wallet-caption{margin:16px 0 0;font:400 12px/18px var(--font-sans);color:inherit}
+#keysUnifiedPrototype .keys-benefits-hotels{display:grid;gap:12px;min-width:0;margin-top:12px}
+#keysUnifiedPrototype .keys-benefits-hotels-heading p{margin:8px 0 4px;font:400 14px/20px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-hotel-membership{padding:16px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card);color:var(--color-ink)}
+#keysUnifiedPrototype .keys-hotel-membership-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-hotel-membership h3{margin:0;font:500 16px/22px var(--font-sans)!important;letter-spacing:0}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-tier-badge{flex:none;background:#eef3ff;color:#183f9e;border:0;border-radius:8px;padding:4px 8px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-program-type{margin:4px 0 16px;color:var(--color-muted);font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-program-value{margin:0 0 8px;font:500 16px/24px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-program-value>span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-level-details{border-top:0!important;margin:0!important}
+#keysUnifiedPrototype .keys-hotel-membership summary{color:var(--color-brand);min-height:44px}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress-label{margin-top:16px;color:var(--color-ink)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress-label>span{color:var(--color-muted)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress{background:var(--color-line)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-progress>i{background:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-perks strong{color:var(--color-ink);font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-reveal{padding-bottom:4px;font:400 12px/18px var(--font-sans)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:'intro intro' 'keys hotels';gap:24px;align-items:start}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-keys-group{grid-area:keys}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-benefits-hotels{grid-area:hotels;margin:0;gap:16px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype .keys-hotel-membership{padding:24px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-hotel-membership .keys-benefits-level-details .keys-benefits-perks strong{color:var(--color-ink)}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-intro{padding:0;margin:0}
+@media(max-width:760px){body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{grid-template-columns:minmax(0,1fr);grid-template-areas:'intro' 'keys' 'hotels'}}
+#keysUnifiedPrototype .keys-benefits-points-more>summary{padding:0 4px;color:var(--color-brand)}
+#keysUnifiedPrototype .keys-benefits-points-more[open]>:not(summary){margin-top:12px}
+body[data-keys-desktop-secondary="benefits"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{row-gap:0}
+
+/* Scalable hotel memberships: one list, primary benefit first, details on demand. */
+#keysUnifiedPrototype .keys-benefits-hotels{gap:12px}
+#keysUnifiedPrototype .keys-loyalty-search{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;background:var(--color-soft);border:1px solid transparent;border-radius:12px}
+#keysUnifiedPrototype .keys-loyalty-search>svg{width:18px;height:18px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-search>input{width:100%;min-width:0;padding:11px 0;border:0;outline:none;background:transparent;color:var(--color-ink);font:400 14px/20px var(--font-sans);box-shadow:none}
+#keysUnifiedPrototype .keys-loyalty-search>input::placeholder{color:var(--color-muted);opacity:1}
+#keysUnifiedPrototype .keys-loyalty-search:focus-within{border-color:var(--color-brand)}
+#keysUnifiedPrototype .keys-loyalty-filters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+#keysUnifiedPrototype .keys-loyalty-filters>button{flex:none;min-height:36px;padding:7px 14px;border:1px solid var(--color-line);border-radius:999px;background:var(--color-card);color:var(--color-ink);font:500 12px/18px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-loyalty-filters>button[aria-pressed=true]{background:var(--color-soft);color:var(--color-brand);border-color:var(--color-brand)}
+#keysUnifiedPrototype .keys-loyalty-list{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .keys-loyalty-list[hidden]{display:none}
+#keysUnifiedPrototype .keys-benefits .keys-loyalty-item{margin:0;padding:0 16px;border-radius:0}
+#keysUnifiedPrototype .keys-loyalty-item+.keys-loyalty-item{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-loyalty-item>summary{display:flex;align-items:flex-start;gap:12px;min-height:112px;padding:18px 0;color:var(--color-ink)}
+#keysUnifiedPrototype .keys-loyalty-hotel-icon{flex:none;display:flex;padding-top:2px;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-hotel-icon>svg{width:24px;height:24px}
+#keysUnifiedPrototype .keys-loyalty-item-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+#keysUnifiedPrototype .keys-loyalty-name{font:500 14px/20px var(--font-sans);overflow-wrap:anywhere}
+#keysUnifiedPrototype .keys-loyalty-city{font:400 12px/18px var(--font-sans);color:var(--color-muted);margin-top:2px}
+#keysUnifiedPrototype .keys-loyalty-value{font:500 14px/20px var(--font-sans);color:var(--color-ink);margin-top:10px}
+#keysUnifiedPrototype .keys-loyalty-value>span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-item-end{align-self:stretch;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:12px;flex:none}
+#keysUnifiedPrototype .keys-loyalty-item-end>svg{width:16px;height:16px;margin-top:auto;color:var(--color-muted);transition:transform .18s ease}
+#keysUnifiedPrototype .keys-loyalty-tier{padding:3px 8px;border-radius:8px;background:var(--color-soft);color:#183f9e;font:500 11px/16px var(--font-sans)}
+#keysUnifiedPrototype .keys-loyalty-item[open] .keys-loyalty-item-end>svg{transform:rotate(90deg)}
+#keysUnifiedPrototype .keys-loyalty-item-details{padding:0 0 18px 36px;font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-loyalty-item-details>p{margin:0 0 12px;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-loyalty-item-details>ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+#keysUnifiedPrototype .keys-loyalty-item-details li{display:flex;align-items:flex-start;gap:8px}
+#keysUnifiedPrototype .keys-loyalty-item-details li>svg{width:16px;height:16px;margin-top:1px;flex:none;color:#226747}
+#keysUnifiedPrototype .keys-loyalty-item-details .keys-loyalty-next-tier{margin:16px 0 0}
+#keysUnifiedPrototype .keys-loyalty-more{width:100%;min-height:44px;padding:10px 16px;border:0;border-radius:12px;background:var(--color-soft);color:var(--color-brand);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-loyalty-more[hidden],#keysUnifiedPrototype .keys-loyalty-empty[hidden]{display:none}
+#keysUnifiedPrototype .keys-loyalty-empty{margin:0;padding:24px 16px;text-align:center;color:var(--color-muted);font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-loyalty-live{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .keys-loyalty-item-end>svg{transition:none}}
+@media(hover:hover){#keysUnifiedPrototype .keys-loyalty-item>summary:hover .keys-loyalty-name{color:var(--color-brand)}}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-loyalty-search>input{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:11px 0!important;min-height:0!important;font:400 14px/20px var(--font-sans)!important}
+
+/* Benefits overview leads to separate app-points and hotel-programme pages. */
+#keysUnifiedPrototype .keys-benefits>[hidden],#keysUnifiedPrototype .keys-benefits-hotels-heading[hidden]{display:none!important}
+#keysUnifiedPrototype .keys-benefits-overview{display:grid;border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .keys-benefits-entry{display:flex;flex-direction:column;gap:16px;padding:20px;border:0;background:transparent;text-align:left;color:var(--color-ink);cursor:pointer;border-radius:0}
+#keysUnifiedPrototype .keys-benefits-entry+.keys-benefits-entry{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-benefits-entry-top{display:flex;align-items:center;justify-content:space-between;gap:16px;font:500 14px/20px var(--font-sans);width:100%}
+#keysUnifiedPrototype .keys-benefits-entry-top>svg{width:18px;height:18px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-entry>strong{font:500 28px/34px var(--font-sans)!important;letter-spacing:-.5px}
+#keysUnifiedPrototype .keys-benefits-entry>strong>span{font:400 14px/20px var(--font-sans);letter-spacing:0;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits-entry-note{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-benefits-entry:focus-visible{outline-offset:-3px}
+#keysUnifiedPrototype .keys-benefits-subheader{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+#keysUnifiedPrototype .keys-benefits-subheader>button{display:grid;place-items:center;width:40px;height:40px;flex:none;padding:0;border:0;border-radius:12px;background:var(--color-soft);color:var(--color-ink);cursor:pointer}
+#keysUnifiedPrototype .keys-benefits-subheader>button>svg{width:20px;height:20px}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-subheader>h1{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important;outline:none}
+#keysUnifiedPrototype .keys-benefits[data-page=hotels] .keys-benefits-hotels{margin:0}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits{display:block;padding-bottom:32px}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-subheader{display:none}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-overview{grid-template-columns:1fr 1fr}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-entry{padding:24px;gap:20px}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-entry+.keys-benefits-entry{border-top:0;border-left:1px solid var(--color-line)}
+body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-subpage{max-width:760px;margin:0 auto}
+@media(hover:hover){#keysUnifiedPrototype .keys-benefits-entry:hover{background:var(--color-soft)}}
+@media(max-width:760px){body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-overview{grid-template-columns:1fr}body[data-keys-desktop-secondary=benefits] #keysUnifiedPrototype .keys-benefits-entry+.keys-benefits-entry{border-left:0;border-top:1px solid var(--color-line)}}
+
+#keysUnifiedPrototype .keys-benefits-entry-label{display:flex;align-items:center;gap:10px;min-width:0}
+#keysUnifiedPrototype .keys-benefits-entry-label>svg{width:22px;height:22px;flex:none;color:var(--color-brand)}
+
+/* Benefits: one app-points balance, independent hotel memberships. */
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-overview{display:grid;gap:24px;border:0;border-radius:0;background:transparent;overflow:visible}
+#keysUnifiedPrototype .keys-points-overview{position:relative;overflow:hidden;isolation:isolate;border-radius:20px;padding:20px;background:var(--color-brand);color:#fff;gap:8px}
+#keysUnifiedPrototype .keys-points-overview::after{content:"";position:absolute;z-index:-1;right:-50px;top:10px;width:160px;height:160px;border:22px solid #ffffff14;border-radius:50%;pointer-events:none}
+#keysUnifiedPrototype .keys-points-overview .keys-benefits-entry-top{margin-bottom:12px}
+#keysUnifiedPrototype .keys-points-overview .keys-benefits-entry-label>svg{color:#fff}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-points-overview>strong{font:500 36px/42px var(--font-sans)!important;color:#fff;letter-spacing:-.7px!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-points-overview>strong>span{display:block;font:400 13px/20px var(--font-sans);letter-spacing:0;color:#fff}
+#keysUnifiedPrototype .keys-points-overview .keys-benefits-entry-note{color:#fff;font:400 13px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-points-overview-link{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;margin-top:12px;padding:10px 12px;border-radius:12px;background:#ffffff20;font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-points-overview-link svg{width:18px;height:18px;flex:none}
+#keysUnifiedPrototype .keys-points-overview:hover{background:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-preview{min-width:0}
+#keysUnifiedPrototype .keys-program-preview>header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:4px}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-preview h2,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-section>h2{font:500 17px/24px var(--font-sans)!important;letter-spacing:0!important;margin:0!important}
+#keysUnifiedPrototype .keys-program-preview>header>button{display:flex;align-items:center;gap:4px;min-height:44px;padding:0;border:0;background:transparent;color:var(--color-brand);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-program-preview>header>button svg{width:16px;height:16px}
+#keysUnifiedPrototype .keys-program-preview>p{font:400 12px/18px var(--font-sans);color:var(--color-muted);margin:0 0 16px}
+#keysUnifiedPrototype .keys-program-preview-list{border:1px solid var(--color-line);border-radius:20px;overflow:hidden;background:var(--color-card)}
+#keysUnifiedPrototype .keys-program-preview-list:empty{display:none}
+#keysUnifiedPrototype .keys-program-row{display:flex;align-items:center;gap:12px;width:100%;min-height:100px;padding:16px;border:0;border-radius:0;background:var(--color-card);color:var(--color-ink);text-align:left;cursor:pointer}
+#keysUnifiedPrototype .keys-program-row+.keys-program-row{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype .keys-program-symbol{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:10px;color:var(--color-brand);background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-symbol svg{width:20px;height:20px}
+#keysUnifiedPrototype .keys-program-copy{display:grid;gap:4px;min-width:0;flex:1}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-copy>strong{font:500 14px/20px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-program-copy>span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-benefit{display:grid;gap:2px;flex:none;max-width:84px;padding:6px 8px;border-radius:8px;color:#126749;background:#e8f6ef;font:500 14px/20px var(--font-sans);text-align:center}
+#keysUnifiedPrototype .keys-program-benefit small{font:400 11px/16px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-row>svg{width:16px;height:16px;flex:none;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-row:hover{background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-row:focus-visible{outline:2px solid var(--color-brand);outline-offset:-3px}
+#keysUnifiedPrototype .keys-program-none{padding:20px;border:1px solid var(--color-line);border-radius:16px}
+#keysUnifiedPrototype .keys-program-detail{display:grid;gap:24px;margin:16px 0 0}
+#keysUnifiedPrototype .keys-program-hero{overflow:hidden;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype .keys-program-photo{display:block;width:100%;height:144px;object-fit:cover}
+#keysUnifiedPrototype .keys-program-cover{display:grid;place-items:center;height:104px;background:linear-gradient(125deg,var(--color-soft),#e8f4f1);color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-cover svg{width:40px;height:40px}
+#keysUnifiedPrototype .keys-program-identity{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 16px 0}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-identity h2{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important;margin:0!important}
+#keysUnifiedPrototype .keys-program-identity p{margin:4px 0 0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-identity .keys-loyalty-tier{flex:none;padding:6px 10px;font:500 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-stats{display:flex;justify-content:space-between;gap:16px;padding:16px;margin:16px;border-radius:12px;background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-stats>div{display:grid;gap:4px}
+#keysUnifiedPrototype .keys-program-stats>div+div{text-align:right}
+#keysUnifiedPrototype .keys-program-stats span{font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-stats strong{font:500 20px/26px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-program-stats>div:first-child strong{color:var(--color-ink)}
+#keysUnifiedPrototype .keys-program-progress{padding:0 16px 20px}
+#keysUnifiedPrototype .keys-program-progress progress{display:block;appearance:none;border:0;border-radius:6px;overflow:hidden;width:100%;height:6px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-progress progress::-webkit-progress-bar{background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-progress progress::-webkit-progress-value{background:var(--color-brand);border-radius:6px}
+#keysUnifiedPrototype .keys-program-progress progress::-moz-progress-bar{background:var(--color-brand);border-radius:6px}
+#keysUnifiedPrototype .keys-program-progress>div{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-notice{display:flex;align-items:flex-start;gap:10px;margin:0;padding:16px;border-radius:16px;background:var(--color-soft);font:400 13px/20px var(--font-sans);color:var(--color-ink)}
+#keysUnifiedPrototype .keys-program-notice svg{width:20px;height:20px;flex:none;color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-section{display:grid;gap:12px}
+#keysUnifiedPrototype .keys-program-perks{list-style:none;margin:0;padding:16px;display:grid;gap:14px;border:1px solid var(--color-line);border-radius:20px}
+#keysUnifiedPrototype .keys-program-perks li{display:flex;gap:10px;font:400 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-perks svg{width:18px;height:18px;flex:none;color:#126749}
+#keysUnifiedPrototype .keys-program-levels{display:grid;gap:12px;min-width:0}
+#keysUnifiedPrototype .keys-program-level{min-width:0;border:1px solid var(--color-line);border-radius:16px;background:var(--color-card);overflow-wrap:anywhere}
+#keysUnifiedPrototype .keys-program-level.is-current{border-color:var(--color-brand)}
+#keysUnifiedPrototype .keys-program-level>summary{display:grid;grid-template-columns:36px minmax(0,1fr) 18px;align-items:start;gap:10px;padding:16px;list-style:none;cursor:pointer;border-radius:15px;font:400 13px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-level>summary::-webkit-details-marker{display:none}
+#keysUnifiedPrototype .keys-program-level.is-current>summary{background:var(--color-soft)}
+#keysUnifiedPrototype .keys-program-level[open]>summary{border-radius:15px 15px 0 0}
+#keysUnifiedPrototype .keys-program-level>summary:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+#keysUnifiedPrototype .keys-program-level>summary>svg{width:18px;height:18px;margin-top:1px;color:var(--color-muted);transition:transform .16s}
+#keysUnifiedPrototype .keys-program-level[open]>summary>svg{transform:rotate(90deg)}
+#keysUnifiedPrototype .keys-program-level-letter{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--color-soft);font-weight:500;color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-level.is-current .keys-program-level-letter{background:var(--color-brand);color:#fff}
+#keysUnifiedPrototype .keys-program-level-heading{display:grid;gap:6px;min-width:0}
+#keysUnifiedPrototype .keys-program-level-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-level strong{font:500 14px/20px var(--font-sans)!important;letter-spacing:0!important}
+#keysUnifiedPrototype .keys-program-level-current{padding:2px 7px;border-radius:6px;background:var(--color-card);color:var(--color-brand);font:500 11px/16px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-level-qualification{color:var(--color-muted);font:400 12px/18px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-level-benefit{color:var(--color-ink)}
+#keysUnifiedPrototype .keys-program-level-body{display:grid;gap:16px;min-width:0;padding:16px;border-top:1px solid var(--color-line);font:400 14px/21px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-level-body p{margin:0;white-space:pre-line;font:400 13px/20px var(--font-sans);color:var(--color-muted);overflow-wrap:anywhere}
+#keysUnifiedPrototype .keys-program-level-body>ul{display:grid;gap:16px;list-style:none;margin:0;padding:0}
+#keysUnifiedPrototype .keys-program-level-body li{display:flex;align-items:flex-start;gap:10px;min-width:0}
+#keysUnifiedPrototype .keys-program-level-body li>svg{flex:none;width:18px;height:18px;margin-top:1px;color:#126749}
+#keysUnifiedPrototype .keys-program-level-body li>div{display:grid;gap:4px;min-width:0;flex:1}
+#keysUnifiedPrototype .keys-program-level-conditions{display:grid;gap:6px;padding:14px;border-radius:12px;background:var(--color-surface,var(--color-soft))}
+#keysUnifiedPrototype .keys-program-stats>div{min-width:0;overflow-wrap:anywhere;flex:1}
+#keysUnifiedPrototype .keys-program-identity>div{min-width:0;overflow-wrap:anywhere}
+#keysUnifiedPrototype .keys-program-progress>div>span{min-width:0;overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype .keys-program-level>summary>svg{transition:none}}
+#keysUnifiedPrototype .keys-program-rules{border:1px solid var(--color-line);border-radius:16px;padding:0 16px}
+#keysUnifiedPrototype .keys-program-rules>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:52px;list-style:none;cursor:pointer;font:500 14px/20px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-rules>summary::-webkit-details-marker{display:none}
+#keysUnifiedPrototype .keys-program-rules>summary svg{width:18px;height:18px}
+#keysUnifiedPrototype .keys-program-rules[open]>summary svg{transform:rotate(90deg)}
+#keysUnifiedPrototype .keys-program-rules>p{font:400 13px/20px var(--font-sans);color:var(--color-muted);margin:0;padding-bottom:16px}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-benefits-overview{align-items:start}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-detail{max-width:760px;margin:0 auto}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-photo{height:220px}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-row{min-height:104px}
+#keysUnifiedPrototype .keys-program-preview [hidden]{display:none!important}
+body[data-keys-view=desktop] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-overview{align-items:start!important}
+body[data-keys-view=desktop] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-preview h2{font:500 20px/26px var(--font-sans)!important}
+/* A possible hotel membership, distinct from the Keys points balance. */
+#keysUnifiedPrototype .keys-benefits-connect{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:20px;margin-top:12px;border-radius:20px;background:linear-gradient(125deg,#3159da,#2442af);color:#fff}
+#keysUnifiedPrototype .keys-benefits-connect-badge{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:white;color:#2344bc;font:600 17px/24px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-connect-hotel{display:block;margin-bottom:5px;color:#e3eaff;font:400 12px/17px var(--font-sans)}
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .keys-benefits-connect h3{margin:0;color:#fff;font:500 16px/22px var(--font-sans)!important}
+#keysUnifiedPrototype .keys-benefits-connect>p{grid-column:1/-1;margin:0;color:#fff;font:400 13px/19px var(--font-sans)}
+#keysUnifiedPrototype .keys-benefits-connect>button{grid-column:1/-1;display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px;border:0;border-radius:14px;background:#fff;color:#2344bc;font:500 14px/20px var(--font-sans);text-align:center;cursor:pointer}
+#keysUnifiedPrototype .keys-benefits-connect>button:hover{background:#edf2ff}
+#keysUnifiedPrototype .keys-benefits-connect>button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* Hotel membership types share the same rows, detail cards and booking action. */
+#keysUnifiedPrototype .keys-program-network{display:grid;gap:16px;margin-top:16px}
+#keysUnifiedPrototype .keys-program-network-summary{display:flex;align-items:center;gap:12px;padding:20px;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype .keys-program-network-summary>div{flex:1;min-width:0}
+#keysUnifiedPrototype#keysUnifiedPrototype .keys-program-network-summary h2{margin:0;font:500 20px/26px var(--font-sans)}
+#keysUnifiedPrototype .keys-program-network-summary p{margin:4px 0 0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-network-summary>strong{font:500 20px/26px var(--font-sans);color:#126749}
+#keysUnifiedPrototype .keys-program-network-intro{margin:0;font:400 14px/20px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-progress>p{margin:8px 0 0;font:400 12px/18px var(--font-sans);color:var(--color-muted)}
+#keysUnifiedPrototype .keys-program-book{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;margin:0;padding:12px 20px;border:0;border-radius:14px;background:var(--color-brand);color:var(--color-on-brand,#fff);font:500 14px/20px var(--font-sans);cursor:pointer}
+#keysUnifiedPrototype .keys-program-book>svg{width:18px;height:18px}
+#keysUnifiedPrototype .keys-program-network[hidden]{display:none!important}
+body[data-keys-view=desktop] #keysUnifiedPrototype .keys-program-network{max-width:760px;margin:0 auto}
+
+#keysUnifiedPrototype .keys-program-copy>.keys-program-network-badge{justify-self:start;padding:2px 7px;border-radius:6px;background:var(--color-soft);color:var(--color-brand);font:500 11px/16px var(--font-sans)}

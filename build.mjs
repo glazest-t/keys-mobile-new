@@ -6,6 +6,7 @@ import { stampAssets } from "./scripts/stamp-assets.mjs";
 import { buildSections } from "./scripts/build-sections.mjs";
 import { buildArbanaTheme } from "./scripts/arbana-theme.mjs";
 import {buildUXCopy} from './scripts/build-ux-copy.mjs';
+import {buildVersions} from './scripts/build-versions.mjs';
 
 const fragment = await readFile(new URL("./src/prototype.html", import.meta.url), "utf8");
 const document = `<!doctype html>
@@ -192,5 +193,6 @@ await buildUXCopy();
 await stampAssets(fileURLToPath(new URL("./dist/", import.meta.url)));
 
 await buildUIkit();
+await buildVersions();
 
 console.log("GitHub Pages build created: dist/index.html");

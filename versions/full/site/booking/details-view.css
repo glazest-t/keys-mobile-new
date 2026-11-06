@@ -1,0 +1,85 @@
+/* Identical information hierarchy inside host pages and the reservation frame. */
+.kbd-view{display:grid;gap:16px;width:100%;min-width:0;font-family:var(--font-sans,'Golos Text',sans-serif);color:var(--color-ink,#171a22)}
+.kbd-view .kbd-card{min-width:0;padding:20px;border:1px solid var(--color-line,#e4e7ec);border-radius:20px;background:var(--color-card,#fff)}
+.kbd-view .kbd-card h2{margin:0 0 16px!important;font:var(--ui-font-section,500 17px/24px var(--font-sans,'Golos Text',sans-serif))!important;letter-spacing:0!important;color:var(--color-ink,#171a22)}
+.kbd-view .kbd-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;font:400 12px/18px var(--font-sans,'Golos Text',sans-serif);color:var(--color-muted,#737986)}
+.kbd-view .kbd-heading span{color:var(--color-brand,#4266e8)}
+.kbd-view dl{display:grid;gap:12px;margin:0}
+.kbd-view dl>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.kbd-view :is(dt,dd){margin:0!important;font:400 14px/21px var(--font-sans,'Golos Text',sans-serif)!important;overflow-wrap:anywhere}
+.kbd-view dt{color:var(--color-muted,#737986)}
+.kbd-view dd{text-align:right;color:var(--color-ink,#171a22)}
+.kbd-view .kbd-total{padding-top:16px;margin-top:4px;border-top:1px solid var(--color-line,#e4e7ec)}
+.kbd-view .kbd-total :is(dt,dd){font-weight:500!important;color:var(--color-ink,#171a22)}
+.kbd-view .kbd-note{margin:8px 0 0!important;font:400 13px/20px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#737986)}
+.kbd-view .kbd-dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px}
+.kbd-view .kbd-dates>div{display:grid;gap:4px;padding-right:12px}
+.kbd-view .kbd-dates>div+div{border-left:1px solid var(--color-line,#e4e7ec);padding-left:16px;padding-right:0}
+.kbd-view .kbd-dates :is(span,small){font:400 12px/18px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#737986)}
+.kbd-view .kbd-dates strong{font:500 14px/21px var(--font-sans,'Golos Text',sans-serif)!important}
+.keys-unified-details{width:100%;max-width:760px;margin:0 auto;padding-bottom:24px}
+.keys-unified-details .keys-success-actions{margin-top:16px}
+#keysUnifiedPrototype .kb-documents-section{display:block}
+
+.kb-unified-details{display:grid;gap:16px}
+
+.kbd-view .kbd-paid-label{display:inline-flex;align-items:center;width:fit-content;margin-top:12px;padding:4px 8px;border-radius:8px;background:var(--color-success-bg,#eaf6ef);color:var(--color-success,#23834a);font:var(--ui-font-caption-medium,500 12px/18px var(--font-sans));white-space:nowrap}
+
+/* Compact section headings; hotel identity and page title keep their hierarchy. */
+.kbd-view .kbd-card:is([aria-label="Номер и гости"],[aria-label="Тариф"],[aria-label="Общий счёт"]) h2{font:var(--ui-font-label,500 14px/21px var(--font-sans))!important}
+
+/* The pre-arrival hierarchy is shared by every booking entry, including history. */
+.kbd-view.kbd-view .kbd-card h2,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kbd-view .kbd-card h2{font:500 14px/21px var(--font-sans,'Golos Text',sans-serif)!important;margin:0 0 16px!important;letter-spacing:0!important}
+.kbd-view.kbd-view .kbd-card[aria-label="Проживание"] h2,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kbd-view .kbd-card[aria-label="Проживание"] h2{font:500 20px/26px var(--font-sans,'Golos Text',sans-serif)!important}
+.kbd-view.kbd-view .kbd-note,
+#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kbd-view .kbd-note{font:400 14px/21px var(--font-sans,'Golos Text',sans-serif)!important;margin:8px 0 0!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-head{margin:16px 0;gap:12px}
+#keysUnifiedPrototype .kb-unified-details{gap:12px}
+#keysUnifiedPrototype .kb-unified-details [hidden]{display:none!important}
+#keysUnifiedPrototype .kb-unified-details>.kh-primary{width:100%}
+#keysUnifiedPrototype .kpf-booking-details .kpf-content{gap:12px}
+body[data-keys-view="desktop"] #keysUnifiedPrototype .kpf-booking-details{max-width:520px}
+.keys-unified-details{max-width:520px}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype #keysStayDetails{position:fixed;z-index:150;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:520px;max-width:calc(100vw - 32px);height:calc(100dvh - 120px);max-height:820px;border:1px solid var(--color-line);border-radius:24px;background:var(--color-card);box-shadow:0 0 0 100vmax #1c284155,0 24px 80px #1c284126;overflow:hidden}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-phone{width:100%!important;max-width:none!important;height:100%!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksd-scroll{height:100%!important;padding:4px 16px 32px!important}
+body[data-keys-booking-dialog="true"] #keysStayDetails>.ksd-caption{display:none}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype #keysStayDetails{box-sizing:border-box;padding:0}
+body[data-keys-booking-dialog="true"] #keysUnifiedPrototype #keysStayDetails nav{display:none!important}
+#keysUnifiedPrototype#keysUnifiedPrototype .kpf-booking-details .kpf-header h1{font:var(--ui-font-title,500 24px/30px var(--font-sans))!important;letter-spacing:0!important}
+#keysUnifiedPrototype .kpf-booking-details .kbd-view{flex:none}
+
+/* Floating booking action: no white panel between the content and navigation. */
+#keysUnifiedPrototype .kpf-booking-details>.kpf-footer{background:transparent;border:0;box-shadow:none;pointer-events:none}
+#keysUnifiedPrototype .kpf-booking-details>.kpf-footer>button{pointer-events:auto}
+
+/* Earned points: compact brand reward using the original Orbit symbol. */
+.kbd-view .kbd-points{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:84px;padding:16px;box-sizing:border-box;border:0;border-radius:20px;background:var(--color-brand-tint,#eef2fe);color:var(--color-ink,#14171f)}
+.kbd-view .kbd-points-symbol{display:block;width:40px;height:40px;background:url('../brand/orbit/logo/keys-orbit-symbol-blue.svg') center/contain no-repeat}
+.kbd-view .kbd-points-copy{display:grid;gap:4px;min-width:0}
+.kbd-view .kbd-points-copy>strong{font:500 14px/20px var(--font-sans,'Golos Text',sans-serif)!important;letter-spacing:0}
+.kbd-view .kbd-points-copy>span{font:400 12px/18px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#6b7280)}
+.kbd-view .kbd-points-amount{font:500 22px/28px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-brand,#3a66f0);font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:0}
+@media(max-width:360px){.kbd-view .kbd-points{grid-template-columns:32px minmax(0,1fr) auto;gap:8px;padding:14px}.kbd-view .kbd-points-symbol{width:32px;height:32px}.kbd-view .kbd-points-amount{font-size:20px!important}}
+
+/* Hotel contact details remain directly below the name in every booking view. */
+.kbd-view .kbd-hotel-contacts{display:grid;gap:2px;margin-top:-10px}
+.kbd-view .kbd-hotel-contacts>p,.kbd-view .kbd-hotel-contacts>a{display:block;margin:0!important;font:400 13px/19px var(--font-sans,'Golos Text',sans-serif)!important;color:var(--color-muted,#737986);text-decoration:none;overflow-wrap:anywhere}
+.kbd-view .kbd-hotel-contacts>a{width:fit-content;max-width:100%;padding:2px 0;color:var(--color-brand,#4266e8)}
+.kbd-view .kbd-hotel-contacts>a:hover{text-decoration:underline}
+.kbd-view .kbd-hotel-contacts>a:focus-visible{outline:2px solid var(--color-brand,#4266e8);outline-offset:3px;border-radius:4px}
+
+/* Compact map chooser for platforms without a generic maps-app handler. */
+.kbd-map-dialog{box-sizing:border-box;width:calc(100% - 32px);max-width:380px;padding:24px;border:0;border-radius:24px;background:var(--color-card,#fff);color:var(--color-ink,#171a22);font:400 14px/21px var(--font-sans,'Golos Text',sans-serif);box-shadow:0 16px 64px #17234426}
+.kbd-map-dialog::backdrop{background:#18223866}
+.kbd-map-dialog h2{margin:0 0 8px;font:500 20px/26px var(--font-sans,'Golos Text',sans-serif)}
+.kbd-map-dialog p{margin:0 0 16px;color:var(--color-muted,#737986)}
+.kbd-map-options{display:grid;gap:8px}
+.kbd-map-options a,.kbd-map-dialog>button{display:block;box-sizing:border-box;width:100%;padding:12px 16px;border:1px solid var(--color-line,#e4e7ec);border-radius:12px;background:transparent;color:var(--color-brand,#4266e8);font:500 14px/21px var(--font-sans,'Golos Text',sans-serif);text-decoration:none;text-align:left;cursor:pointer}
+.kbd-map-dialog>button{margin-top:12px;text-align:center;background:var(--color-surface,#f4f5f7);color:var(--color-ink,#171a22);border-color:transparent}
+.kbd-map-options a:focus-visible,.kbd-map-dialog>button:focus-visible{outline:2px solid var(--color-brand,#4266e8);outline-offset:2px}
+@media(max-width:600px){.kbd-map-dialog{width:100%;max-width:none;margin:auto 0 0;border-radius:24px 24px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom));animation:kbd-map-enter .25s ease-out}}
+@keyframes kbd-map-enter{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.kbd-map-dialog{animation:none}}

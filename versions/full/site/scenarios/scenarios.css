@@ -1,0 +1,37 @@
+/* Arbana's compact pill and grouped popover, outside the application screen. */
+#keysScenarioControls{position:relative;z-index:100;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:8px;width:560px;max-width:100%;margin:0 auto 6px;font-family:var(--font-sans);color:var(--color-ink);box-sizing:border-box}
+#keysScenarioControls *{box-sizing:border-box}
+.keys-scenario-control{position:relative;min-width:0}
+.keys-scenario-toggle{display:flex;align-items:center;gap:8px;width:100%;height:36px;padding:0 10px 0 12px;border:1px solid var(--color-edge-2);border-radius:999px;background:var(--color-card);color:var(--color-ink);font:600 var(--text-12)/1.5 var(--font-sans);text-align:left;cursor:pointer;box-shadow:var(--shadow-chip,none);transition:border-color .15s}
+.keys-scenario-toggle:hover{border-color:var(--color-edge-hover)}
+.keys-scenario-toggle[aria-expanded="true"]{border-color:color-mix(in srgb,var(--color-brand) 40%,transparent)}
+.keys-scenario-label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#keysScenarioControls svg{width:16px;height:16px;flex:none;color:var(--color-muted)}
+.keys-scenario-toggle>svg:last-child{transition:transform .15s}
+.keys-scenario-toggle[aria-expanded="true"]>svg:last-child{transform:rotate(180deg)}
+.keys-scenario-list{position:absolute;z-index:1;top:calc(100% + 6px);left:0;right:0;padding:6px;border:1px solid var(--color-shade);border-radius:16px;background:var(--color-card);box-shadow:0 16px 40px #20385d1f;overflow:hidden}
+.keys-scenario-list[hidden],#keysScenarioEmpty[hidden]{display:none!important}
+.keys-scenario-group{padding:6px 10px 4px;font-size:var(--text-10);font-weight:600;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;color:var(--color-muted)}
+.keys-scenario-list [role="option"]{display:flex;align-items:center;gap:8px;min-height:36px;padding:8px 10px;border-radius:10px;font-size:var(--text-13);line-height:1.5;cursor:pointer;outline:none}
+.keys-scenario-list [role="option"]>span{flex:1}
+.keys-scenario-list [role="option"] svg{visibility:hidden;color:inherit}
+.keys-scenario-list [aria-selected="true"]{font-weight:600;color:var(--color-brand)}
+.keys-scenario-list [aria-selected="true"] svg{visibility:visible}
+.keys-scenario-list [role="option"]:is(:hover,:focus){background:var(--color-surface)}
+.keys-scenario-toggle:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+body[data-keys-implemented="false"]>#keysUnifiedPrototype{display:none!important}
+#keysScenarioEmpty{box-sizing:border-box;width:390px;max-width:100%;height:844px;margin:12px auto 22px;border:1px solid var(--color-line);border-radius:30px;background:var(--color-card);box-shadow:0 16px 60px #1c284112}
+@media(max-width:520px){
+ #keysScenarioControls{width:100%;height:76px;margin:0;padding:12px;gap:6px}
+ .keys-scenario-toggle{height:52px;padding:0 8px;gap:5px}
+ .keys-scenario-label{white-space:normal;font-size:12px;line-height:1.3}
+ .keys-scenario-toggle>svg:first-child{display:none}
+ .keys-scenario-list{min-width:220px;right:auto}
+ .keys-scenario-control:last-child .keys-scenario-list{left:auto;right:0}
+ .keys-scenario-list [role="option"]{min-height:44px}
+ #keysScenarioEmpty{width:100%;height:calc(100dvh - 76px);margin:0;border:0;border-radius:0;box-shadow:none}
+ body[data-keys-scenario] #keysUnifiedPrototype#keysUnifiedPrototype :is(.k3-phone,.kp-phone,.kf-phone,.ktd-phone,.kti-phone,.kdf-phone,.kfb-phone,.ksd-phone,#keysSectionsFrame){height:calc(100dvh - 76px)!important}
+}
+@media(prefers-reduced-motion:reduce){.keys-scenario-toggle,.keys-scenario-toggle>svg:last-child{transition:none}}
+
+.keys-scenario-toggle:disabled{cursor:default;color:var(--color-muted);background:var(--color-surface);border-color:var(--color-line);opacity:.65}

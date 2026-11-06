@@ -6,7 +6,7 @@ root = Path(__file__).resolve().parent.parent
 out = root / 'output' / 'keys-github-ready.zip'
 paths = ['.github', '.gitignore', '.nvmrc', 'README.md', 'PUBLISH.md',
          'package.json', 'package-lock.json', 'build.mjs', 'src', 'scripts',
-         'tests', 'design', 'vendor/arbana/README.md', 'vendor/arbana/package.json',
+         'tests', 'design', 'versions', 'vendor/arbana/README.md', 'vendor/arbana/package.json',
          'vendor/arbana/source', 'vendor/arbana/src', 'vendor/arbana/scripts',
          'vendor/arbana/tests']
 files = []

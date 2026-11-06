@@ -1,0 +1,191 @@
+@import url('./fonts.css');
+/* Orbit New — supplied 20 October art direction. Scoped to the third option. */
+:root[data-keys-brand="orbit-new"]{
+ --font-sans:'Onest',sans-serif;--default-font-family:'Onest',sans-serif;--on-display:'Unbounded',sans-serif;
+ --color-brand:#2f5bff;--color-brand-solid:#2f5bff;--color-brand-dark:#1e44db;--color-brand-hover:#1e44db;
+ --color-brand-tint:#eef0ff;--color-soft:#eef0ff;--color-soft-2:#eef0ff;--color-soft-3:#e4e8ff;--color-soft-4:#dfe3ff;
+ --color-brand-mist:#eef0ff;--color-brand-line:#c9d2ff;--color-brand-ring:#b9b2ff;
+ --color-ink:#101320;--color-muted:#5a6072;--color-meta:#5a6072;--color-hint:#8a90a2;
+ --color-card:#fff;--color-paper:#fff;--color-raise:#fff;--color-surface:#f4f5fb;--color-mist:#f4f5fb;--color-fill:#f4f5fb;--color-canvas:#f4f5fb;
+ --color-line:#e4e7ef;--color-header-line:#e4e7ef;--color-edge-1:#e4e7ef;--color-edge-2:#e4e7ef;
+ --color-success:#16865a;--color-success-2:#11734d;--color-success-bg:#bff0de;--color-night:#101320;
+ --radius-card:22px;--ui-card-radius:22px;--ui-control-radius:14px;--ui-field-radius:14px;--ui-control-height:52px;
+ --ui-card-padding:16px;--ui-section-gap:16px;--ui-display-size:26px;--ui-page-title-size:26px;--ui-card-title-size:20px;
+ --ui-font-display:500 26px/32px var(--on-display);--ui-font-title:500 24px/31px var(--on-display);--ui-font-section:500 20px/26px var(--font-sans);
+ --ui-font-body:400 15px/23px var(--font-sans);--ui-font-label:500 14px/20px var(--font-sans);--ui-font-caption:400 12px/17px var(--font-sans);
+ --kd-font-metric:500 54px/60px var(--on-display);
+}
+html[data-keys-brand="orbit-new"]{background:#e9ebf3!important}
+html[data-keys-brand="orbit-new"] body{font-family:var(--font-sans);color:#101320}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype#keysUnifiedPrototype,#root) :is(.k3-phone,.k3-scroll,.kf-phone,.kp-phone,.keys-module-screen,.keys-app-header,.kauth-phone,.kh-overlay,.ksd-phone,.ktd-phone){background-color:#f4f5fb!important}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(button,input,textarea,select){font-family:var(--font-sans)}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,#root#root) :is(h1,.keys-page-title,.keys-screen-title){font-family:var(--on-display)!important;font-weight:500!important;letter-spacing:-.7px!important;line-height:1.28!important}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(h2,h3){letter-spacing:-.3px}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype,#root#root) .keys-app-logo{background:url('./logo/keys-orbit-symbol-blue.svg') center/28px 28px no-repeat!important;min-width:44px!important;width:44px!important;height:44px!important;padding:0!important;color:transparent!important;font-size:0!important;border:0!important}
+html[data-keys-brand="orbit-new"] .keys-app-logo>*{visibility:hidden!important}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(.keys-app-bell,.keys-app-favorites){background:#fff!important;border:1px solid #e4e7ef!important;border-radius:50%!important}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-nav{background:rgba(255,255,255,.82)!important;border:1px solid #fff!important;border-radius:32px!important;backdrop-filter:blur(30px) saturate(1.8)!important;box-shadow:0 8px 24px #10132012!important;padding:6px!important}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype#keysUnifiedPrototype,.keys-module-screen) .keys-bottom-tab:is(.active,[aria-current="page"]){background:#eef0ff!important;color:#2f5bff!important;border-radius:24px!important}
+/* The current stay is a single blue pass, as in the supplied mobile layout. */
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-home{gap:12px;--home-radius:22px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-card{background:#2f5bff;color:#fff;padding:0;border-radius:28px;overflow:hidden;box-shadow:0 16px 32px #2f5bff24}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-heading{padding:18px 18px 12px;background:transparent;color:#fff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-heading h1{font:500 17px/24px var(--font-sans)!important;letter-spacing:0!important;color:#fff!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-live{color:#dfe6ff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-live i{background:#bff0de}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-stay-heading .kh-booking-link{color:#fff;font-size:12px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-stay-card>.kh-room-pass{background:transparent;border-radius:0;padding:8px 18px 18px;min-height:0;gap:18px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-stay-card .kh-room-pass:before{display:none}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-room-line>strong{font:500 54px/60px var(--on-display)!important;letter-spacing:-2.8px!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-stay-card .kh-pass-room{min-height:104px;margin-bottom:18px;position:relative}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-stay-card :is(.kh-pass-stay,.kh-pass-today){display:none!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-open-door{height:54px;border-radius:16px!important;color:#2f5bff!important;gap:10px;margin:0}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-open-door .kh-chevron{display:none}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-open-door>span:not(.kh-chevron){margin:0}
+.on-night{display:none}
+html[data-keys-brand="orbit-new"] .on-night{position:relative;display:block;width:104px;height:104px;flex:none}
+/* Ring geometry is taken from Прототип.dc.html, not an invented illustration. */
+.on-night-track{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#fff 0 103deg,#ffffff33 103deg 360deg);mask:radial-gradient(farthest-side,transparent calc(100% - 9px),#000 calc(100% - 9px))}
+.on-night-dot{position:absolute;inset:0;transform:rotate(103deg)}
+.on-night-dot:after{content:'';position:absolute;left:43px;top:-4.5px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px #2f5bff}
+.on-night-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#fff}
+.on-night-copy small{font:400 11px/15px var(--font-sans)!important;color:#dfe6ff!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .on-night-copy strong{font:500 28px/31px var(--on-display)!important;color:#fff}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] .on-night-copy strong{font-size:16px!important}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] .on-night-track{background:#fff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-quick-actions{background:transparent;box-shadow:none;padding:0;gap:8px;border-radius:0}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-quick-actions button{background:#fff;border:1px solid #e4e7ef;border-radius:22px;min-height:96px;padding:12px 4px;flex-direction:column}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-quick-actions button>span{width:44px;height:44px;border-radius:14px;background:#eef0ff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-daily{gap:0;border:1px solid #e4e7ef;border-radius:22px;overflow:hidden;background:#fff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-daily>button{border-radius:0;background:#fff;padding:14px 16px;min-height:74px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-account-row{order:2}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-daily>.kh-account-row{border-top:1px solid #eef0f4}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-round-icon{width:44px;height:44px;border-radius:14px;background:#eef0ff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-daily .kh-meal-row{grid-template-columns:44px minmax(0,1fr) auto}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-nearby-v2{background:linear-gradient(110deg,#fff,#eef0ff 55%,#dfe3ff);border:1px solid #e4e7ef;border-radius:22px}
+/* Reservation, services and completed-trip screens use the supplied surface hierarchy. */
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype :is(.kpa-reservation,.ka-trip-card,.ksc-checkout,.keys-benefits-wallet,.kd-points-card){border-radius:28px!important;overflow:hidden}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype :is(.kpa-preparation,.kpa-services,.kd-before-actions,.ksc-service-card,.kh-credentials,.ka-review-card){background:#fff;border-radius:22px;border-color:#e4e7ef}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-reservation-body{background:#fff!important;color:#101320!important;border-radius:0 0 28px 28px!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-reservation-body :is(strong,span,time,small){color:inherit}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-welcome-ribbon{background:#eef0ff;color:#2f5bff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-payment-status{background:#bff0de!important;color:#11734d!important;border-radius:12px}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(.keys-benefits-amount strong,.kd-points-balance strong){font-family:var(--on-display)!important;letter-spacing:-1.4px}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(.keys-benefits-wallet,.kd-points-card){background:linear-gradient(110deg,#fff 0%,#eef0ff 30%,#b9b2ff 75%,#8fd8ff 100%)!important;color:#101320!important}
+/* Embedded search, checkout, chat and profile keep their original state and routes. */
+html[data-keys-brand="orbit-new"] #root{--font-sans:'Onest',sans-serif;background:#f4f5fb}
+html[data-keys-brand="orbit-new"] #root :is(.keys-hotel-result,.ki-hotel-card,.keys-room-offer-card,.keys-checkout-panel,.keys-search-form,.keys-hotel-info-card){border-radius:22px!important;border-color:#e4e7ef!important;background:#fff}
+html[data-keys-brand="orbit-new"] #root :is(.keys-hotel-title-line h1,.keys-hotel-identity h1){font-size:28px!important}
+html[data-keys-brand="orbit-new"] #root :is(.keys-rate-price strong,.keys-result-price strong){font-family:var(--on-display)!important}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(input:not([type=checkbox]):not([type=radio]),textarea){border-color:#e4e7ef;border-radius:14px}
+html[data-keys-brand="orbit-new"] :is(#keysUnifiedPrototype,#root) :is(button,a,input,textarea,select):focus-visible{outline:3px solid #b9b2ff!important;outline-offset:3px}
+html[data-keys-brand="orbit-new"] #keysGuestPrototype[data-orbit-auth=true] .kauth-primary{background:#2f5bff;height:52px}
+html[data-keys-brand="orbit-new"] #keysGuestPrototype[data-orbit-auth=true] :is(h1,.keys-login-logo span,.keys-login-word){font-family:var(--on-display)!important}
+html[data-keys-brand="orbit-new"] .keys-login-logo img{content:url('./logo/keys-orbit-symbol-blue.svg')}
+html[data-keys-brand="orbit-new"] .keys-login-logo span{font-size:22px!important;letter-spacing:-1px}
+html[data-keys-brand="orbit-new"] #keysGuestPrototype[data-orbit-auth=true] .kauth-phone{background:#f4f5fb!important}
+/* Web composition: a broad pass, separate service cards, right-hand contextual column. */
+html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"]{background:#f4f5fb!important}
+html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] #keysUnifiedPrototype#keysUnifiedPrototype .keys-app-header{background:#f4f5fb!important}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kh-home>.kh-stay-card{grid-template-columns:1fr}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-stay-photo{display:none!important}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-card>.kh-room-pass{padding:12px 28px 28px}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-stay-heading{padding:24px 28px 8px}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-pass-room{min-height:120px}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home{grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:20px 24px}
+@media(max-width:799px){html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kh-home{display:flex}}
+@media(prefers-reduced-motion:reduce){html[data-keys-brand="orbit-new"] *{scroll-behavior:auto!important;transition-duration:0s!important}}
+/* Override legacy white-on-blue reservation labels after changing the card surface. */
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation-body :is(.kpa-schedule-stop time,.kpa-schedule-stop small,.kpa-schedule-stop>div>span,.kpa-reservation-control){color:#101320!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-payment-status :is(strong,span){color:#11734d!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-schedule-stops:before{background:#c9d2ff!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-reservation-control{border-color:#e4e7ef!important;background:#f4f5fb!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kpa-duration-count{background:#eef0ff!important;color:#2f5bff!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-duration-count :is(span,strong){color:#2f5bff!important}
+html[data-keys-brand="orbit-new"] #keysScenarioControls .keys-brand-control{min-width:200px;flex-shrink:0}
+html[data-keys-brand="orbit-new"] #keysScenarioControls .keys-brand-copy{min-width:0}
+html[data-keys-brand="orbit-new"] #keysOnboardingPrototype :is(.kon-phone,.kon-footer){background:#f4f5fb}
+html[data-keys-brand="orbit-new"] #keysOnboardingPrototype .kon-primary{background:#2f5bff;border-radius:14px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype #keysOnboardingPrototype .kon-copy h1{font:500 26px/32px var(--on-display)!important;letter-spacing:-.8px}
+html[data-keys-brand="orbit-new"] #keysOnboardingPrototype .kon-visual{background:linear-gradient(110deg,#fff,#eef0ff 30%,#b9b2ff 70%,#8fd8ff)}
+html[data-keys-brand="orbit-new"] #keysOnboardingPrototype .kon-wordmark{content:url('./logo/keys-wordmark.svg')}
+html[data-keys-brand="orbit-new"] img[src$="/collections/deals.svg"]{content:url('./deals.svg')}
+html[data-keys-brand="orbit-new"] img[src$="/collections/weekend.svg"]{content:url('./weekend.svg')}
+html[data-keys-brand="orbit-new"] img[src$="/collections/anywhere.svg"]{content:url('./anywhere.svg')}
+.on-desktop-nav{display:none}
+html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] #keysUnifiedPrototype .on-desktop-nav{display:flex;align-items:center;gap:4px;margin-right:auto;flex:1}
+html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] .on-desktop-nav button{border:0;background:transparent;border-radius:22px;padding:12px 16px;font:500 14px/20px var(--font-sans);color:#5a6072;min-height:44px;cursor:pointer}
+html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] .on-desktop-nav button[aria-current="page"]{background:#eef0ff;color:#2f5bff}
+html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header .kd-trip-search-toggle{display:none!important}
+@media(max-width:900px){html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] #keysUnifiedPrototype .on-desktop-nav{order:8;flex-basis:100%}html[data-keys-brand="orbit-new"] body[data-keys-view="desktop"] #keysUnifiedPrototype .keys-app-header{flex-wrap:wrap;height:auto;padding-block:12px!important}}
+@media(min-width:1000px){
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-home{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(300px,1fr);gap:20px 24px;align-items:start}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] .kpa-home>:is(.kd-booking-column,.kd-planning-column){display:contents!important}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation{grid-column:1;grid-row:1;position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr;gap:12px 24px;padding:24px;background:#fff;border:1px solid #e4e7ef}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-visual{display:contents}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-visual:after{display:none}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-photo{grid-column:1;grid-row:1/3;width:100%;height:100%;min-height:280px;border-radius:18px;object-fit:cover}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hotel-heading{position:static;grid-column:2;grid-row:1;color:#101320;align-self:start}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-heading h1{font:500 25px/32px var(--on-display)!important;color:#101320!important}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-body{grid-column:2;grid-row:2;margin:0;padding:0;min-height:0;display:flex;flex-direction:column;justify-content:space-between}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-welcome-ribbon{position:absolute;left:36px;top:36px;z-index:2;border-radius:12px;padding:8px 10px;max-width:calc(45% - 36px);background:#fffffff0;font-size:11px}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-hero-share{top:auto;bottom:36px;left:36px;right:auto}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-about-hotel{left:90px;bottom:36px;right:auto;top:auto}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-trip-schedule{margin:0;display:block}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stops{gap:10px}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-schedule-stop{padding:12px;background:#f4f5fb;border-radius:16px;align-items:flex-start;text-align:left}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype :is(.kpa-stop-dot,.kpa-schedule-stops:before,.kpa-duration-count){display:none!important}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-payment{margin-top:16px;padding:0;border:0;gap:8px;flex-wrap:wrap}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-reservation-control{margin-top:12px}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{grid-column:2;grid-row:1/3;padding:20px;margin:0}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services{display:flex;flex-direction:column;gap:0}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-services-all{position:static;margin:12px 0 0}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kd-before-actions{grid-column:1;grid-row:2;margin:0}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] .kpa-home .kd-wallet{grid-column:2;grid-row:3;margin:0}
+ html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] .kpa-home .kd-planning-column>:not(.kd-wallet){grid-column:1;grid-row:3}
+}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-daily .kh-round-icon{width:44px;height:44px;background:#eef0ff;border-radius:14px}
+html[data-keys-brand="orbit-new"] #keysScenarioControls#keysScenarioControls .keys-brand-control{width:200px!important;min-width:200px!important;flex:0 0 200px!important}
+html[data-keys-brand="orbit-new"] #keysScenarioControls#keysScenarioControls .keys-brand-toggle{width:200px!important}
+@media(min-width:1000px){
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-reservation{background:#fff!important}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-hotel-photo{position:static!important;inset:auto;width:100%!important;height:100%!important;min-height:280px;max-height:360px}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype#keysUnifiedPrototype .kpa-services-all{position:static!important;inset:auto!important}
+}
+/* Post-trip hero follows the supplied reward-first screen. */
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype .ka-reward{order:-1;padding:24px 18px 18px;border-radius:28px;background:radial-gradient(90% 80% at 30% 20%,#fff 0%,#eef0ff 40%,#dfe3ff 70%,#d6f1ff 100%)}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-reward-summary{display:flex;flex-direction:column;gap:12px;text-align:center}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-reward-badge{width:100%;height:auto;padding-top:148px;background:url('./logo/keys-orbit-symbol-blue.svg') center top/130px 130px no-repeat}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-reward-badge>.ka-orbit-art{display:none}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-reward-amount strong{font:500 32px/40px var(--on-display)!important;letter-spacing:-1.2px!important;color:#16865a}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-reward-status{justify-content:center}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-reward-actions{display:flex;flex-direction:column-reverse;margin-top:12px;gap:4px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-reward-search{width:100%;min-height:52px;border-radius:14px;font-size:15px}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-trip{order:2;background:#fff!important;color:#101320!important;box-shadow:none!important;border:1px solid #e4e7ef}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-trip .kh-stay-heading h1{color:#101320!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-trip .kh-room-pass{background:#eef0ff!important;color:#101320!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ka-trip-pass :is(strong,small,span){color:#101320!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-trip .kh-room-pass:before{display:none}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .ka-referral-card{order:3}
+@media(max-width:520px){
+ html[data-keys-brand="orbit-new"] #keysScenarioControls#keysScenarioControls .keys-brand-control{width:100%!important;min-width:0!important}
+ html[data-keys-brand="orbit-new"] #keysScenarioControls#keysScenarioControls .keys-brand-toggle{width:100%!important}
+ html[data-keys-brand="orbit-new"] #keysScenarioControls .keys-brand-copy>span:first-child{font-size:11px}
+}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype #keysGuestPrototype[data-orbit-auth=true] h1{font:500 24px/31px var(--on-display)!important;letter-spacing:-.7px!important}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .on-night-copy strong{font:500 16px/22px var(--on-display)!important}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] #keysUnifiedPrototype .kh-stay-card>.kh-room-pass{display:flex;flex-direction:column;gap:12px}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] #keysUnifiedPrototype .kh-pass-room{order:0;margin:0}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] #keysUnifiedPrototype .ksc-deadline{order:1;border:0;padding:12px;margin:0;background:#ffffff1f;border-radius:16px}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] #keysUnifiedPrototype .kh-open-door{order:2}
+html[data-keys-brand="orbit-new"] body[data-keys-stay-day="checkout"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .ksc-deadline strong{font:500 15px/22px var(--font-sans)!important}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-home .kh-booking-link{padding:0!important;background:transparent!important;box-shadow:none!important;border:0!important;color:#fff!important;font:400 12px/17px var(--font-sans)!important;min-height:44px}
+@media(min-width:1000px){
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] #keysUnifiedPrototype .kpa-preparation{grid-row:1}
+html[data-keys-brand="orbit-new"] body[data-keys-desktop-home="true"] .kpa-home .kd-wallet{grid-row:2/4;align-self:start}
+}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-home>.kh-stay-card{position:relative;isolation:isolate}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-home>.kh-stay-card:before{content:'';position:absolute;z-index:-1;right:-65px;top:-85px;width:270px;height:270px;background:url('./logo/keys-orbit-symbol-white.svg') center/contain no-repeat;opacity:.09;pointer-events:none}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype .kh-pass-room-id{position:relative}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-pass-room-line>span{position:absolute;left:110px;bottom:0;padding:0;background:transparent;font:400 12px/17px var(--font-sans)!important;white-space:nowrap;color:#dfe6ff}
+html[data-keys-brand="orbit-new"] #keysUnifiedPrototype#keysUnifiedPrototype#keysUnifiedPrototype .kh-daily .kh-round-icon{width:44px!important;min-width:44px!important;height:44px!important;background:#eef0ff!important;border-radius:14px!important}

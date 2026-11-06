@@ -1,0 +1,25 @@
+#keysUnifiedPrototype .kbg-gallery{position:relative;margin:0 0 20px;overflow:hidden;border-radius:20px;background:#17212c;isolation:isolate}
+#keysUnifiedPrototype .kbg-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;aspect-ratio:3/2}
+#keysUnifiedPrototype .kbg-track::-webkit-scrollbar{display:none}
+#keysUnifiedPrototype .kbg-slide{display:block;flex:0 0 100%;width:100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;margin:0;padding:0;border:0;border-radius:0;background:transparent;cursor:zoom-in}
+#keysUnifiedPrototype .kbg-slide img{display:block;width:100%;height:100%;object-fit:cover}
+#keysUnifiedPrototype .kbg-bottom{position:absolute;inset:auto 0 0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 12px 10px;background:linear-gradient(transparent,rgba(10,17,25,.68));color:white;pointer-events:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kbg-caption{font:400 12px/18px var(--font-sans);color:#fff}
+#keysUnifiedPrototype#keysUnifiedPrototype .kbg-counter{min-height:36px;padding:6px 10px;border:1px solid #ffffff40;border-radius:12px;background:#15202c80;color:#fff;font:500 12px/18px var(--font-sans);pointer-events:auto}
+#keysUnifiedPrototype#keysUnifiedPrototype :is(.kbg-prev,.kbg-next){position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:8px;border:0;border-radius:50%;background:#10203460;color:white;cursor:pointer;backdrop-filter:blur(6px)}
+#keysUnifiedPrototype .kbg-prev{left:8px}#keysUnifiedPrototype .kbg-next{right:8px}
+#keysUnifiedPrototype :is(.kbg-prev,.kbg-next):disabled{opacity:0;pointer-events:none}
+#keysUnifiedPrototype .kbg-gallery button:focus-visible,#keysUnifiedPrototype .kbg-track:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+#keysUnifiedPrototype .kbg-viewer{position:absolute;inset:0;z-index:100;display:flex;flex-direction:column;padding:12px 0 24px;border-radius:inherit;background:#111820;color:#fff;overflow:hidden}
+#keysUnifiedPrototype .kbg-viewer header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex:none}
+#keysUnifiedPrototype#keysUnifiedPrototype .kbg-viewer h2{margin:0;font:500 20px/26px var(--font-sans);color:white}
+#keysUnifiedPrototype#keysUnifiedPrototype .kbg-close{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:#ffffff14;color:white;cursor:pointer}
+#keysUnifiedPrototype .kbg-viewer svg{width:22px;height:22px}
+#keysUnifiedPrototype .kbg-large{flex:1;min-height:0;margin:16px 0 0;border-radius:0;background:transparent}
+#keysUnifiedPrototype .kbg-large .kbg-track{height:100%;aspect-ratio:auto}
+#keysUnifiedPrototype .kbg-large .kbg-slide{cursor:default}
+#keysUnifiedPrototype .kbg-large img{object-fit:contain}
+#keysUnifiedPrototype .kbg-large .kbg-counter{opacity:1}
+
+#keysUnifiedPrototype .kbg-gallery svg{width:22px;height:22px}
+#keysUnifiedPrototype .kbg-room-food{margin-bottom:16px}

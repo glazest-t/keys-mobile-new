@@ -1,0 +1,44 @@
+/* One compact card contains independent orders and their execution times. */
+#keysUnifiedPrototype #keysStayDetails .ksvc-active-orders{margin:0 0 24px;padding:16px 16px 0;border:1px solid var(--color-line);border-radius:20px;background:var(--color-card)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:0}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-active-orders .ksvc-orders-heading h2{margin:0!important;font:var(--ui-font-section)!important;color:var(--color-ink)}
+
+#keysUnifiedPrototype #keysStayDetails .ksvc-active-orders ul{padding:0;margin:0;list-style:none}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:start;gap:10px;padding:16px 0}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order:last-child{padding-bottom:16px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order+.ksvc-order{border-top:1px solid var(--color-line)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--color-soft);color:var(--color-brand)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order-icon svg{width:20px;height:20px}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order-body{min-width:0}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order-heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-active-orders .ksvc-order-heading h3{margin:0!important;font:500 var(--text-14)/var(--leading-normal) var(--font-sans)!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order-price{flex:none;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important;white-space:nowrap}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order-status{display:flex;align-items:center;gap:4px;margin-top:5px;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-order-status svg{width:14px;height:14px;flex:none}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order.is-approved .ksvc-order-status{color:var(--color-success)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order.is-progress .ksvc-order-status{color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order-time{margin:6px 0 0;color:var(--color-ink);font:500 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order.is-pending .ksvc-order-time{color:var(--color-muted);font-weight:400!important}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order-note{margin:3px 0 0;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important;overflow-wrap:anywhere}
+@media(max-width:359px){#keysUnifiedPrototype #keysStayDetails .ksvc-active-orders{padding:14px 12px 0}#keysUnifiedPrototype #keysStayDetails .ksvc-order{grid-template-columns:28px minmax(0,1fr);gap:8px}#keysUnifiedPrototype #keysStayDetails .ksvc-order-icon{width:28px;height:28px}}
+
+/* Collapsed summary and disclosure use the existing secondary links and Nearby switch. */
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-heading>div{min-width:0;flex:1}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-count{margin:5px 0 0;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-bill{display:grid;justify-items:end;gap:2px;flex:none;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--color-brand);cursor:pointer}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-bill>span{display:flex;align-items:center;gap:3px;font:var(--ui-font-section)!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-bill>small{font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important;color:var(--color-brand);margin:0}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-bill svg{width:14px;height:14px;color:var(--color-brand)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-next{display:flex;align-items:flex-start;gap:6px;margin:12px 0;color:var(--color-muted);font:400 var(--text-12)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-next>svg{width:14px;height:14px;flex:none;margin-top:2px}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-next strong{font:500 var(--text-12)/var(--leading-normal) var(--font-sans)!important;color:var(--color-ink)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;margin-top:12px;padding:10px 0;border:0;border-top:1px solid var(--color-line);border-radius:0;background:transparent;color:var(--color-brand);font:500 var(--text-12)/var(--leading-normal) var(--font-sans)!important;cursor:pointer}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-toggle svg{width:16px;height:16px;transition:transform .18s ease}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-toggle[aria-expanded=true] svg{transform:rotate(180deg)}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-details[hidden],#keysUnifiedPrototype #keysStayDetails .ksvc-orders-details [hidden]{display:none!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-orders-switch{margin:4px 0 0;background:var(--ui-segment-fill,var(--color-fill))}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-switch button{font:500 var(--text-14)/var(--leading-normal) var(--font-sans)!important;cursor:pointer}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-order.is-done .ksvc-order-status{color:var(--color-success)}
+#keysUnifiedPrototype#keysUnifiedPrototype #keysStayDetails .ksvc-orders-empty{padding:20px 0;margin:0;color:var(--color-muted);font:400 var(--text-14)/var(--leading-normal) var(--font-sans)!important}
+#keysUnifiedPrototype #keysStayDetails .ksvc-active-orders button:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#keysUnifiedPrototype #keysStayDetails .ksvc-orders-toggle svg{transition:none}}

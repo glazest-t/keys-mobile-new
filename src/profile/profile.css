@@ -233,3 +233,9 @@ body[data-keys-view="desktop"] #keysUnifiedPrototype .kpf.kpf-booking-import .kp
 @keyframes kpf-import-popup-in{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
 @media(max-width:599px){#keysUnifiedPrototype#keysUnifiedPrototype dialog.kpf.kpf-import-popup[open]{padding:20px;gap:20px}#keysUnifiedPrototype#keysUnifiedPrototype .kpf-import-popup-header h2{font-size:20px;line-height:26px}}
 @media(prefers-reduced-motion:reduce){#keysUnifiedPrototype#keysUnifiedPrototype dialog.kpf.kpf-import-popup[open]{animation:none}}
+
+/* Mobile voucher import follows the app's bottom-sheet pattern. */
+body[data-keys-view="mobile"] #keysUnifiedPrototype#keysUnifiedPrototype dialog.kpf.kpf-import-popup[open]{inset:auto 0 var(--import-sheet-bottom,0);margin:0 auto;width:var(--import-sheet-width,100vw);max-width:100vw;max-height:var(--import-sheet-height,calc(100dvh - 24px));padding:28px 20px max(20px,env(safe-area-inset-bottom));gap:20px;border-radius:24px 24px 0 0;box-shadow:0 -8px 40px #1c28411c;animation:keys-sheet-enter .36s cubic-bezier(.32,.72,0,1)}
+body[data-keys-view="mobile"] #keysUnifiedPrototype .kpf-import-popup::before{content:"";position:absolute;top:10px;left:calc(50% - 18px);width:36px;height:4px;border-radius:2px;background:var(--color-line)}
+body[data-keys-view="mobile"] #keysUnifiedPrototype#keysUnifiedPrototype .kpf-import-popup-header h2{font-size:20px;line-height:26px}
+@media(prefers-reduced-motion:reduce){body[data-keys-view="mobile"] #keysUnifiedPrototype#keysUnifiedPrototype dialog.kpf.kpf-import-popup[open]{animation:none}}

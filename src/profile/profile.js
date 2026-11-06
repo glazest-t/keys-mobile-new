@@ -35,7 +35,15 @@ function setup(){
   importPopup.innerHTML=`<header class="kpf-import-popup-header">${found&&!state.importedBooking?`<button type="button" class="kpf-back" data-import-back aria-label="Назад">${icon('back')}</button>`:''}<h2 id="kpf-import-popup-title" tabindex="-1">${title}</h2><button type="button" class="kpf-import-close" data-import-close aria-label="Закрыть">${icon('close')}</button></header><div class="kpf-import-popup-body">${found?importFound():importForm()}</div>`;
   importPopup.querySelector('h2').focus({preventScroll:true});
  }
- function openImport(){readState();importFocus=document.activeElement;importStep='form';renderImport();if(!importPopup.open)importPopup.showModal();importPopup.querySelector('h2').focus({preventScroll:true});}
+ function positionImport(){
+  const frame=importFocus?.closest('.k3-phone,.kf-phone'),rect=frame?.getBoundingClientRect();
+  const preview=innerWidth>520&&rect;
+  importPopup.style.setProperty('--import-sheet-bottom',preview?Math.max(0,innerHeight-rect.bottom)+'px':'0px');
+  importPopup.style.setProperty('--import-sheet-width',preview?rect.width+'px':'100vw');
+  importPopup.style.setProperty('--import-sheet-height',preview?Math.min(rect.height,innerHeight-24)+'px':'calc(100dvh - 24px)');
+ }
+ function openImport(){readState();importFocus=document.activeElement;importStep='form';renderImport();positionImport();if(!importPopup.open)importPopup.showModal();importPopup.querySelector('h2').focus({preventScroll:true});}
+ window.addEventListener('resize',()=>{if(importPopup.open)positionImport();});
  function closeImport(){if(importPopup.open)importPopup.close();}
  importPopup.addEventListener('close',()=>{importPopup.innerHTML='';importFocus?.isConnected&&importFocus.focus({preventScroll:true});});
  importPopup.addEventListener('click',event=>{

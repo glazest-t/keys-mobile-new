@@ -1,4 +1,4 @@
-/* No upcoming booking: a focused entry to the existing hotel search. */
+/* No upcoming booking: add an existing booking by its voucher. */
 (() => {
  const app=document.getElementById('keysUnifiedPrototype'),home=document.getElementById('keysHomeVariantThree');
  const scroll=home.querySelector('.k3-scroll');
@@ -9,8 +9,8 @@
   <header class="kse-heading"><span class="kse-welcome">Рады видеть вас, Татьяна <span aria-hidden="true">${svg('<path d="M12 3c0 6-3 9-9 9 6 0 9 3 9 9 0-6 3-9 9-9-6 0-9-3-9-9Z"/>')}</span></span></header>
   <article class="kse-empty-bookings" aria-labelledby="keys-empty-bookings-title">
    <img class="kse-empty-art" src="./scenarios/assets/empty-trips-orbit.png" width="240" height="180" alt="" decoding="async">
-   <div class="kse-empty-copy"><h1 id="keys-empty-bookings-title">Броней пока нет</h1><p>Они появятся здесь, когда вы забронируете отель.</p></div>
-   <button type="button" class="kh-primary" data-empty-action="find">${svg('<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>')}<span>Найти отель</span></button>
+   <div class="kse-empty-copy"><h1 id="keys-empty-bookings-title">Здесь будут ваши брони</h1><p>Забронируйте отель в «Ключах» или добавьте бронь по номеру и коду из ваучера.</p></div>
+   <button type="button" class="kh-primary" data-empty-action="add-booking">${svg('<path d="M12 5v14M5 12h14"/>')}<span>У меня есть бронь</span></button>
   </article>
   <section class="kse-benefits kse-benefits-compact" aria-labelledby="keys-double-benefits-title">
    <img class="kse-benefits-orbit" src="./scenarios/assets/benefits-loyalty-discount.png" alt="" width="96" height="96" decoding="async">
@@ -53,7 +53,7 @@
 
  screen.addEventListener('click',event=>{
   const button=event.target.closest('[data-empty-action]');if(!button)return;
-  if(button.dataset.emptyAction==='find')app.dispatchEvent(new CustomEvent('keys-open-hotel-search',{detail:{mode:'known'}}));
+  if(button.dataset.emptyAction==='add-booking')window.KeysProfile?.open('add-booking');
   if(button.dataset.emptyAction==='benefits')home.querySelector('nav [data-bottom-tab="bonuses"],nav [data-nav="benefits"]')?.click();
  });
  referralView.addEventListener('click',async event=>{
